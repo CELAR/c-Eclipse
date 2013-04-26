@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>c-Eclipse-app-submission</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <name>CELAR c-Eclipse application submission</name>
+  <description>CELAR c-Eclipse application submission</description>
+
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>eu.celar.cEclipse</groupId>
+    <artifactId>c-Eclipse-pom</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <modules>
+    <module>jar</module>
+    <module>deb</module>
+  </modules>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
