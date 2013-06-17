@@ -17,5 +17,7 @@ public class TestGitProject {
    */
   public static void main( final String[] args ) {
     System.out.println("Hello Git Project"); //$NON-NLS-1$
+    //new comment by dtrihinas
+    // new comment by loulloudesn
   }
 }
