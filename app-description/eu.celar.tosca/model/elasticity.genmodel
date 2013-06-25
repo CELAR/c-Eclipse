@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/eu.celar.tosca/src" modelPluginID="eu.celar.tosca"
+    modelName="ExtendedTosca" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Virtual"
+    complianceLevel="7.0" usedGenPackages="TOSCA-v1.0.genmodel#//tosca platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel#//namespace"
+    interfaceNamePattern="">
+  <foreignModel>NewXMLSchema.xsd</foreignModel>
+  <genPackages prefix="Tosca_Elasticity_Extensions" basePackage="eu.celar.tosca" resource="XML"
+      disposableProviderFactory="true" ecorePackage="extension.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//ApplicationComponentElasticityRequirementCategory">
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/MinimumResponseTime"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/MinimunCost"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/MaximumCost"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//DataHintCategory">
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//DataHintCategory/JSON"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//DataHintCategory/XML"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//GlobalElasticityRequirementCategory">
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//GlobalElasticityRequirementCategory/MinimumResponseTime"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//GlobalElasticityRequirementCategory/Bandwidth"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//GlobalElasticityRequirementCategory/MinimunCost"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//GlobalElasticityRequirementCategory/MaximumCost"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//LoadHintCategory">
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//LoadHintCategory/ReadHeavy"/>
+      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//LoadHintCategory/WriteHeavy"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="extension.ecore#//ApplicationComponentElasticityRequirementCategoryObject"/>
+    <genDataTypes ecoreDataType="extension.ecore#//DataHintCategoryObject"/>
+    <genDataTypes ecoreDataType="extension.ecore#//GlobalElasticityRequirementCategoryObject"/>
+    <genDataTypes ecoreDataType="extension.ecore#//LoadHintCategoryObject"/>
+    <genClasses ecoreClass="extension.ecore#//ApplicationComponentElasticityRequirementsType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//ApplicationComponentElasticityRequirementsType1/applicationComponentElasticityRequirements"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//DataHintsType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DataHintsType1/dataHints"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//GlobalElasticityRequirementsType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//GlobalElasticityRequirementsType1/globalElasticityRequirements"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//LoadHintsType1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//LoadHintsType1/loadHints"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TApplicationComponentElasticityRequirement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TApplicationComponentElasticityRequirement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TApplicationComponentElasticityRequirement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TBoundaryDefinitionsExtension">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/globalElasticityRequirements"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TDataHint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TDataHint/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TDataHint/value"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TGlobalElasticityRequirement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TGlobalElasticityRequirement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TGlobalElasticityRequirement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TLoadHint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/value"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentElasticityRequirements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentDataHints"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentLoadHints"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

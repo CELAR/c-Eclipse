@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/NewXMLSchema"
+	elementFormDefault="qualified" xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:etosca="http://www.example.org/NewXMLSchema">
+	<import schemaLocation="toscaXML.xsd" namespace="http://docs.oasis-open.org/tosca/ns/2011/12"></import>
+
+    <complexType name="TGlobalElasticityRequirement">
+    	<complexContent>
+    		<extension base="tosca:TExtensibleElements">
+    			<attribute name="Name" type="string"></attribute>
+    			<attribute name="Value" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="TApplicationComponentElasticityRequirement">
+    	<complexContent>
+    		<extension base="tosca:TExtensibleElements">
+    			<attribute name="Name" type="string"></attribute>
+    			<attribute name="Value" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+	<complexType name="TDataHint">
+    	<complexContent>
+    		<extension base="tosca:TExtensibleElements">
+    			<attribute name="Name" type="string"></attribute>
+    			<attribute name="Value" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="TLoadHint">
+    	<complexContent>
+    		<extension base="tosca:TExtensibleElements">
+    			<attribute name="Name" type="string"></attribute>
+    			<attribute name="Value" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="GlobalElasticityRequirementsType1">
+    	<sequence>
+    		<element name="globalElasticityRequirements" type="etosca:TGlobalElasticityRequirement" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TBoundaryDefinitionsExtension">
+    	<complexContent>
+    		<extension base="tosca:TBoundaryDefinitions">
+    			<sequence>
+    				<element name="globalElasticityRequirements" type="etosca:GlobalElasticityRequirementsType1" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <simpleType name="GlobalElasticityRequirementCategory">
+    	<restriction base="string">
+    		<enumeration value="Minimum Response Time"></enumeration>
+    		<enumeration value="Bandwidth"></enumeration>
+    		<enumeration value="Minimun Cost"></enumeration>
+    		<enumeration value="Maximum Cost"></enumeration>
+    	</restriction>
+    </simpleType>
+
+	<simpleType name="ApplicationComponentElasticityRequirementCategory">
+    	<restriction base="string">
+    		<enumeration value="Minimum Response Time"></enumeration>
+    		<enumeration value="Minimun Cost"></enumeration>
+    		<enumeration value="Maximum Cost"></enumeration>
+    	</restriction>
+    </simpleType>
+    
+    <simpleType name="DataHintCategory">
+    	<restriction base="string">
+    		<enumeration value="JSON"></enumeration>
+    		<enumeration value="XML"></enumeration>
+    	</restriction>
+    </simpleType>
+    
+    <simpleType name="LoadHintCategory">
+    	<restriction base="string">
+    		<enumeration value="Read Heavy"></enumeration>
+    		<enumeration value="Write Heavy"></enumeration>
+    	</restriction>
+    </simpleType>
+
+
+    <complexType
+    	name="TNodeTemplateExtension">
+    	<complexContent>
+    		<extension base="tosca:TNodeTemplate">
+    			<sequence>
+    				<element
+    					name="applicationComponentElasticityRequirements"
+    					type="etosca:ApplicationComponentElasticityRequirementsType1"
+    					maxOccurs="1" minOccurs="0">
+    				</element>
+    				<element name="applicationComponentDataHints"
+    					type="etosca:DataHintsType1" maxOccurs="1"
+    					minOccurs="0">
+    				</element>
+    				<element name="applicationComponentLoadHints" type="etosca:LoadHintsType1" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType
+    	name="ApplicationComponentElasticityRequirementsType1">
+    	<sequence>
+    		<element name="applicationComponentElasticityRequirements" type="etosca:TApplicationComponentElasticityRequirement" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <attributeGroup name="NewAttributeGroup"></attributeGroup>
+
+    <complexType name="DataHintsType1">
+    	<sequence>
+    		<element name="dataHints" type="etosca:TDataHint" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="LoadHintsType1">
+    	<sequence>
+    		<element name="loadHints" type="etosca:TLoadHint" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+
+
+</schema>

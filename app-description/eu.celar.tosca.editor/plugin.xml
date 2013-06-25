@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            description="Diagram Type for Tosca editor"
+            id="eu.celar.tosca.editor.DiagramTypeTOSCA"
+            name="Graphiti Tosca Diagram Type"
+            type="ToscaDiagram">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="eu.celar.tosca.editor.diagram.ToscaDiagramTypeProvider"
+            id="eu.celar.tosca.editor.diagram.ToscaTypeProvider"
+            name="Tosca Editor">
+         <diagramType
+               id="eu.celar.tosca.editor.DiagramTypeTOSCA">
+         </diagramType>
+          <imageProvider
+               id="eu.celar.tosca.editor.ImageProvider">
+         </imageProvider>
+      </diagramTypeProvider>
+   </extension>
+   
+      <extension
+         point="org.eclipse.graphiti.ui.imageProviders">
+      <imageProvider
+            class="eu.celar.tosca.editor.ImageProvider"
+            id="eu.celar.tosca.editor.ImageProvider">
+      </imageProvider>
+   </extension>
+<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+	    <propertyContributor contributorId="ToscaDiagram.PropertyContributor">
+	        <propertyCategory category="Graphiti">
+	        </propertyCategory>
+	    </propertyContributor>
+	</extension>
+	 
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+	    <propertyTabs contributorId="ToscaDiagram.PropertyContributor">
+	        <propertyTab label="Main" category="Graphiti" 
+	            id="graphiti.main.tab">
+	        </propertyTab>
+	        
+	        <!--
+	        Defines a property sheet tab for the Eclipse tabbed property sheet for EReferences.
+	        -->
+   <propertyTab
+         afterTab="graphiti.main.tab"
+         category="Graphiti"
+         id="graphiti.advanced.tab"
+         label="Advanced">
+   </propertyTab>
+   <propertyTab
+         category="Graphiti"
+         id="graphiti.connection.tab"
+         label="Connection">
+   </propertyTab>
+   <propertyTab
+         category="Graphiti"
+         id="graphiti.application.tab"
+         label="Application">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.application.tab"
+         category="Graphiti"
+         id="graphiti.application.advanced.tab"
+         label="Advanced">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.connection.tab"
+         category="Graphiti"
+         id="graphiti.connection.advanced.tab"
+         label="Advanced">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.application.advanced.tab"
+         category="Graphiti"
+         id="graphiti.data.load.tab"
+         label="Data/Load">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.advanced.tab"
+         category="Graphiti"
+         id="graphiti.component.data.load.tab"
+         label="Data/Load">
+   </propertyTab>
+	    </propertyTabs>
+	</extension>
+	 
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertySections">
+	    <propertySections contributorId="ToscaDiagram.PropertyContributor">
+	        <propertySection
+               class="eu.celar.tosca.editor.property.ApplicationComponentNameSection"
+               filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+               id="graphiti.main.tab.emfclass"
+               tab="graphiti.main.tab">
+	        </propertySection>
+	        
+	        <!--
+	        Defines a standard (table format) property sheet section using the table property sheet
+	        integration into the Eclipse tabbed property sheet for EReferences.
+	        -->
+		   <propertySection
+		         afterSection="graphiti.main.tab.emfclass"
+		         class="eu.celar.tosca.editor.property.ApplicationComponentImageSection"
+		         filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+		         id="graphiti.main.tab.emfclasssection2"
+		         tab="graphiti.main.tab">
+		   </propertySection>
+		   <propertySection
+		         afterSection="graphiti.main.tab.emfclasssection2"
+		         class="eu.celar.tosca.editor.property.ApplicationComponentInstancesSection"
+		         filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+		         id="graphiti.main.tab.emfclasssection3"
+		         tab="graphiti.main.tab">
+		   </propertySection>
+     <propertySection
+           afterSection="graphiti.advanced.tab.loadHints"
+           class="eu.celar.tosca.editor.property.ApplicationComponentDataHintsSection"
+           filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+           id="graphiti.advanced.tab.dataHints"
+           tab="graphiti.component.data.load.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationNameSection"
+           filter="eu.celar.tosca.editor.property.ApplicationFilter"
+           id="graphiti.application.tab.name"
+           tab="graphiti.application.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationComponentElasticityRequirementsSection"
+           filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+           id="graphiti.advanced.tab.elasticityRequirements"
+           tab="graphiti.advanced.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.RelationshipGeneralSection"
+           filter="eu.celar.tosca.editor.property.RelationshipFilter"
+           id="graphiti.connection.tab.Section1"
+           tab="graphiti.connection.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationDataHintsSection"
+           filter="eu.celar.tosca.editor.property.ApplicationFilter"
+           id="graphiti.application.advanced.tab.DataHints"
+           tab="graphiti.data.load.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationGlobalElasticityReqSection"
+           filter="eu.celar.tosca.editor.property.ApplicationFilter"
+           id="graphiti.application.advanced.tab.GlobalElasticityRequirements"
+           tab="graphiti.application.advanced.tab">
+     </propertySection>
+     <propertySection
+           afterSection="graphiti.connection.tab.Section1"
+           class="eu.celar.tosca.editor.property.RelationshipType"
+           filter="eu.celar.tosca.editor.property.RelationshipFilter"
+           id="graphiti.connection.tab.type"
+           tab="graphiti.connection.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ConnectionRequirements"
+           filter="eu.celar.tosca.editor.property.RelationshipFilter"
+           id="graphiti.connection.tab.ConnectionRequirements"
+           tab="graphiti.connection.requirements.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.NetworkConnection"
+           filter="eu.celar.tosca.editor.property.RelationshipFilter"
+           id="graphiti.connection.advanced.tab.NetworkConnection"
+           tab="graphiti.connection.advanced.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.CommunicationIntensity"
+           filter="eu.celar.tosca.editor.property.RelationshipFilter"
+           id="graphiti.connection.advanced.tab.CommunicationIntensity"
+           tab="graphiti.connection.advanced.tab">
+     </propertySection>
+			    </propertySections>
+	</extension>
+	
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="tosca"
+            id="eu.celar.tosca.editor.contenttype"
+            name="Tosca Diagram Editor File"
+            priority="normal">
+      </content-type>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="eu.celar.tosca.editor.ToscaDiagramEditor"
+            default="false"
+            extensions="tosca"
+            id="eu.celar.tosca.editor.toscaEditor"
+            matchingStrategy="eu.celar.tosca.editor.ToscaDiagramMatchingStrategy"
+            name="Tosca DiagramEditor">
+         <contentTypeBinding
+               contentTypeId="eu.celar.tosca.editor.contenttype">
+         </contentTypeBinding>
+      </editor>
+   </extension>
+   
+   <!--
+	Registers an Eclipse adapter factory to provide IPropertySource objects for the GraphitiConnectionEditPart
+	that gets selected in the DiagramEditor to provide a standard (table format) property sheet for EReference
+	objects.
+	-->
+	<extension
+       point="org.eclipse.core.runtime.adapters">
+		<factory
+			adaptableType="org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart"
+			class="eu.celar.tosca.editor.property.GraphitiEditPartToIPropertySourceAdapterFactory">
+			<adapter
+				type="org.eclipse.ui.views.properties.IPropertySource">
+			</adapter>
+		</factory>
+	</extension>
+
+
+</plugin>

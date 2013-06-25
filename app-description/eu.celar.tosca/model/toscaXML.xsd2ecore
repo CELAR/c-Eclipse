@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="tosca.ecore#/" outputs="toscaXML.xsd#/">
+  <nested inputs="tosca.ecore#/" outputs="toscaXML.xsd#/">
+    <nested inputs="tosca.ecore#//MaxInstancesTypeMember1" outputs="toscaXML.xsd#//MaxInstancesTypeMember1;XSDSimpleTypeDefinition">
+      <nested inputs="tosca.ecore#//MaxInstancesTypeMember1/unbounded" outputs="toscaXML.xsd#//MaxInstancesTypeMember1;XSDSimpleTypeDefinition/XSDEnumerationFacet"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TBoolean" outputs="toscaXML.xsd#//TBoolean;XSDSimpleTypeDefinition=1">
+      <nested inputs="tosca.ecore#//TBoolean/yes" outputs="toscaXML.xsd#//TBoolean;XSDSimpleTypeDefinition=1/XSDEnumerationFacet"/>
+      <nested inputs="tosca.ecore#//TBoolean/no" outputs="toscaXML.xsd#//TBoolean;XSDSimpleTypeDefinition=1/XSDEnumerationFacet=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//UpperBoundTypeMember1" outputs="toscaXML.xsd#//UpperBoundTypeMember1;XSDSimpleTypeDefinition=2">
+      <nested inputs="tosca.ecore#//UpperBoundTypeMember1/unbounded" outputs="toscaXML.xsd#//UpperBoundTypeMember1;XSDSimpleTypeDefinition=2/XSDEnumerationFacet"/>
+    </nested>
+    <nested inputs="tosca.ecore#//UpperBoundTypeMember11" outputs="toscaXML.xsd#//UpperBoundTypeMember11;XSDSimpleTypeDefinition=3">
+      <nested inputs="tosca.ecore#//UpperBoundTypeMember11/unbounded" outputs="toscaXML.xsd#//UpperBoundTypeMember11;XSDSimpleTypeDefinition=3/XSDEnumerationFacet"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ArtifactReferencesType" outputs="toscaXML.xsd#//ArtifactReferencesType;XSDComplexTypeDefinition">
+      <nested inputs="tosca.ecore#//ArtifactReferencesType/artifactReference" outputs="toscaXML.xsd#//ArtifactReferencesType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ArtifactReferencesType" outputs="toscaXML.xsd#//ArtifactReferencesType;XSDElementDeclaration"/>
+    <nested inputs="tosca.ecore#//CapabilitiesType" outputs="toscaXML.xsd#//CapabilitiesType;XSDComplexTypeDefinition=1">
+      <nested inputs="tosca.ecore#//CapabilitiesType/capability" outputs="toscaXML.xsd#//CapabilitiesType;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//CapabilitiesType" outputs="toscaXML.xsd#//CapabilitiesType;XSDElementDeclaration=1"/>
+    <nested inputs="tosca.ecore#//CapabilitiesType1" outputs="toscaXML.xsd#//CapabilitiesType1;XSDComplexTypeDefinition=2">
+      <nested inputs="tosca.ecore#//CapabilitiesType1/capability" outputs="toscaXML.xsd#//CapabilitiesType1;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//CapabilitiesType1" outputs="toscaXML.xsd#//CapabilitiesType1;XSDElementDeclaration=2"/>
+    <nested inputs="tosca.ecore#//CapabilityDefinitionsType" outputs="toscaXML.xsd#//CapabilityDefinitionsType;XSDComplexTypeDefinition=3">
+      <nested inputs="tosca.ecore#//CapabilityDefinitionsType/capabilityDefinition"
+          outputs="toscaXML.xsd#//CapabilityDefinitionsType;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//CapabilityDefinitionsType" outputs="toscaXML.xsd#//CapabilityDefinitionsType;XSDElementDeclaration=3"/>
+    <nested inputs="tosca.ecore#//ConstraintsType" outputs="toscaXML.xsd#//ConstraintsType;XSDComplexTypeDefinition=4">
+      <nested inputs="tosca.ecore#//ConstraintsType/constraint" outputs="toscaXML.xsd#//ConstraintsType;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ConstraintsType" outputs="toscaXML.xsd#//ConstraintsType;XSDElementDeclaration=4"/>
+    <nested inputs="tosca.ecore#//ConstraintsType1" outputs="toscaXML.xsd#//ConstraintsType1;XSDComplexTypeDefinition=5">
+      <nested inputs="tosca.ecore#//ConstraintsType1/constraint" outputs="toscaXML.xsd#//ConstraintsType1;XSDComplexTypeDefinition=5/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ConstraintsType1" outputs="toscaXML.xsd#//ConstraintsType1;XSDElementDeclaration=5"/>
+    <nested inputs="tosca.ecore#//DefinitionsType" outputs="toscaXML.xsd#//DefinitionsType;XSDComplexTypeDefinition=6"/>
+    <nested inputs="tosca.ecore#//DefinitionsType" outputs="toscaXML.xsd#//DefinitionsType;XSDElementDeclaration=6"/>
+    <nested inputs="tosca.ecore#//DerivedFromType" outputs="toscaXML.xsd#//DerivedFromType;XSDComplexTypeDefinition=7">
+      <nested inputs="tosca.ecore#//DerivedFromType/relationshipTypeImplementationRef"
+          outputs="toscaXML.xsd#//DerivedFromType;XSDComplexTypeDefinition=7/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//DerivedFromType" outputs="toscaXML.xsd#//DerivedFromType;XSDElementDeclaration=7"/>
+    <nested inputs="tosca.ecore#//DerivedFromType1" outputs="toscaXML.xsd#//DerivedFromType1;XSDComplexTypeDefinition=8">
+      <nested inputs="tosca.ecore#//DerivedFromType1/nodeTypeImplementationRef" outputs="toscaXML.xsd#//DerivedFromType1;XSDComplexTypeDefinition=8/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//DerivedFromType1" outputs="toscaXML.xsd#//DerivedFromType1;XSDElementDeclaration=8"/>
+    <nested inputs="tosca.ecore#//DerivedFromType2" outputs="toscaXML.xsd#//DerivedFromType2;XSDComplexTypeDefinition=9">
+      <nested inputs="tosca.ecore#//DerivedFromType2/typeRef" outputs="toscaXML.xsd#//DerivedFromType2;XSDComplexTypeDefinition=9/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//DerivedFromType2" outputs="toscaXML.xsd#//DerivedFromType2;XSDElementDeclaration=9"/>
+    <nested inputs="tosca.ecore#//DocumentRoot" outputs="toscaXML.xsd#//DocumentRoot;XSDComplexTypeDefinition=10"/>
+    <nested inputs="tosca.ecore#//DocumentRoot" outputs="toscaXML.xsd#//DocumentRoot;XSDElementDeclaration=10"/>
+    <nested inputs="tosca.ecore#//ExcludeType" outputs="toscaXML.xsd#//ExcludeType;XSDComplexTypeDefinition=11">
+      <nested inputs="tosca.ecore#//ExcludeType/pattern" outputs="toscaXML.xsd#//ExcludeType;XSDComplexTypeDefinition=11/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ExcludeType" outputs="toscaXML.xsd#//ExcludeType;XSDElementDeclaration=11"/>
+    <nested inputs="tosca.ecore#//ExtensionsType" outputs="toscaXML.xsd#//ExtensionsType;XSDComplexTypeDefinition=12">
+      <nested inputs="tosca.ecore#//ExtensionsType/extension" outputs="toscaXML.xsd#//ExtensionsType;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ExtensionsType" outputs="toscaXML.xsd#//ExtensionsType;XSDElementDeclaration=12"/>
+    <nested inputs="tosca.ecore#//ImplementationArtifactType" outputs="toscaXML.xsd#//ImplementationArtifactType;XSDComplexTypeDefinition=13"/>
+    <nested inputs="tosca.ecore#//ImplementationArtifactType" outputs="toscaXML.xsd#//ImplementationArtifactType;XSDElementDeclaration=13"/>
+    <nested inputs="tosca.ecore#//IncludeType" outputs="toscaXML.xsd#//IncludeType;XSDComplexTypeDefinition=14">
+      <nested inputs="tosca.ecore#//IncludeType/pattern" outputs="toscaXML.xsd#//IncludeType;XSDComplexTypeDefinition=14/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//IncludeType" outputs="toscaXML.xsd#//IncludeType;XSDElementDeclaration=14"/>
+    <nested inputs="tosca.ecore#//InputParametersType" outputs="toscaXML.xsd#//InputParametersType;XSDComplexTypeDefinition=15">
+      <nested inputs="tosca.ecore#//InputParametersType/inputParameter" outputs="toscaXML.xsd#//InputParametersType;XSDComplexTypeDefinition=15/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//InputParametersType" outputs="toscaXML.xsd#//InputParametersType;XSDElementDeclaration=15"/>
+    <nested inputs="tosca.ecore#//InputParametersType1" outputs="toscaXML.xsd#//InputParametersType1;XSDComplexTypeDefinition=16">
+      <nested inputs="tosca.ecore#//InputParametersType1/inputParameter" outputs="toscaXML.xsd#//InputParametersType1;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//InputParametersType1" outputs="toscaXML.xsd#//InputParametersType1;XSDElementDeclaration=16"/>
+    <nested inputs="tosca.ecore#//InstanceStateType" outputs="toscaXML.xsd#//InstanceStateType;XSDComplexTypeDefinition=17">
+      <nested inputs="tosca.ecore#//InstanceStateType/state" outputs="toscaXML.xsd#//InstanceStateType;XSDComplexTypeDefinition=17/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//InstanceStateType" outputs="toscaXML.xsd#//InstanceStateType;XSDElementDeclaration=17"/>
+    <nested inputs="tosca.ecore#//InterfacesType" outputs="toscaXML.xsd#//InterfacesType;XSDComplexTypeDefinition=18">
+      <nested inputs="tosca.ecore#//InterfacesType/interface" outputs="toscaXML.xsd#//InterfacesType;XSDComplexTypeDefinition=18/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//InterfacesType" outputs="toscaXML.xsd#//InterfacesType;XSDElementDeclaration=18"/>
+    <nested inputs="tosca.ecore#//InterfacesType1" outputs="toscaXML.xsd#//InterfacesType1;XSDComplexTypeDefinition=19">
+      <nested inputs="tosca.ecore#//InterfacesType1/interface" outputs="toscaXML.xsd#//InterfacesType1;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//InterfacesType1" outputs="toscaXML.xsd#//InterfacesType1;XSDElementDeclaration=19"/>
+    <nested inputs="tosca.ecore#//NodeOperationType" outputs="toscaXML.xsd#//NodeOperationType;XSDComplexTypeDefinition=20">
+      <nested inputs="tosca.ecore#//NodeOperationType/interfaceName" outputs="toscaXML.xsd#//NodeOperationType;XSDComplexTypeDefinition=20/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//NodeOperationType/nodeRef" outputs="toscaXML.xsd#//NodeOperationType;XSDComplexTypeDefinition=20/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//NodeOperationType/operationName" outputs="toscaXML.xsd#//NodeOperationType;XSDComplexTypeDefinition=20/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//NodeOperationType" outputs="toscaXML.xsd#//NodeOperationType;XSDElementDeclaration=20"/>
+    <nested inputs="tosca.ecore#//NodeTypeReferenceType" outputs="toscaXML.xsd#//NodeTypeReferenceType;XSDComplexTypeDefinition=21">
+      <nested inputs="tosca.ecore#//NodeTypeReferenceType/typeRef" outputs="toscaXML.xsd#//NodeTypeReferenceType;XSDComplexTypeDefinition=21/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//NodeTypeReferenceType" outputs="toscaXML.xsd#//NodeTypeReferenceType;XSDElementDeclaration=21"/>
+    <nested inputs="tosca.ecore#//OutputParametersType" outputs="toscaXML.xsd#//OutputParametersType;XSDComplexTypeDefinition=22">
+      <nested inputs="tosca.ecore#//OutputParametersType/outputParameter" outputs="toscaXML.xsd#//OutputParametersType;XSDComplexTypeDefinition=22/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//OutputParametersType" outputs="toscaXML.xsd#//OutputParametersType;XSDElementDeclaration=22"/>
+    <nested inputs="tosca.ecore#//OutputParametersType1" outputs="toscaXML.xsd#//OutputParametersType1;XSDComplexTypeDefinition=23">
+      <nested inputs="tosca.ecore#//OutputParametersType1/outputParameter" outputs="toscaXML.xsd#//OutputParametersType1;XSDComplexTypeDefinition=23/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//OutputParametersType1" outputs="toscaXML.xsd#//OutputParametersType1;XSDElementDeclaration=23"/>
+    <nested inputs="tosca.ecore#//PlanModelReferenceType" outputs="toscaXML.xsd#//PlanModelReferenceType;XSDComplexTypeDefinition=24">
+      <nested inputs="tosca.ecore#//PlanModelReferenceType/reference" outputs="toscaXML.xsd#//PlanModelReferenceType;XSDComplexTypeDefinition=24/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PlanModelReferenceType" outputs="toscaXML.xsd#//PlanModelReferenceType;XSDElementDeclaration=24"/>
+    <nested inputs="tosca.ecore#//PlanModelType" outputs="toscaXML.xsd#//PlanModelType;XSDComplexTypeDefinition=25"/>
+    <nested inputs="tosca.ecore#//PlanModelType" outputs="toscaXML.xsd#//PlanModelType;XSDElementDeclaration=25"/>
+    <nested inputs="tosca.ecore#//PlanType" outputs="toscaXML.xsd#//PlanType;XSDComplexTypeDefinition=26">
+      <nested inputs="tosca.ecore#//PlanType/planRef" outputs="toscaXML.xsd#//PlanType;XSDComplexTypeDefinition=26/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PlanType" outputs="toscaXML.xsd#//PlanType;XSDElementDeclaration=26"/>
+    <nested inputs="tosca.ecore#//PoliciesType" outputs="toscaXML.xsd#//PoliciesType;XSDComplexTypeDefinition=27">
+      <nested inputs="tosca.ecore#//PoliciesType/policy" outputs="toscaXML.xsd#//PoliciesType;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PoliciesType" outputs="toscaXML.xsd#//PoliciesType;XSDElementDeclaration=27"/>
+    <nested inputs="tosca.ecore#//PoliciesType1" outputs="toscaXML.xsd#//PoliciesType1;XSDComplexTypeDefinition=28">
+      <nested inputs="tosca.ecore#//PoliciesType1/policy" outputs="toscaXML.xsd#//PoliciesType1;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PoliciesType1" outputs="toscaXML.xsd#//PoliciesType1;XSDElementDeclaration=28"/>
+    <nested inputs="tosca.ecore#//PropertiesDefinitionType" outputs="toscaXML.xsd#//PropertiesDefinitionType;XSDComplexTypeDefinition=29">
+      <nested inputs="tosca.ecore#//PropertiesDefinitionType/element" outputs="toscaXML.xsd#//PropertiesDefinitionType;XSDComplexTypeDefinition=29/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//PropertiesDefinitionType/type" outputs="toscaXML.xsd#//PropertiesDefinitionType;XSDComplexTypeDefinition=29/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PropertiesDefinitionType" outputs="toscaXML.xsd#//PropertiesDefinitionType;XSDElementDeclaration=29"/>
+    <nested inputs="tosca.ecore#//PropertiesType" outputs="toscaXML.xsd#//PropertiesType;XSDComplexTypeDefinition=30"/>
+    <nested inputs="tosca.ecore#//PropertiesType" outputs="toscaXML.xsd#//PropertiesType;XSDElementDeclaration=30"/>
+    <nested inputs="tosca.ecore#//PropertiesType1" outputs="toscaXML.xsd#//PropertiesType1;XSDComplexTypeDefinition=31">
+      <nested inputs="tosca.ecore#//PropertiesType1/propertyMappings" outputs="toscaXML.xsd#//PropertiesType1;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PropertiesType1" outputs="toscaXML.xsd#//PropertiesType1;XSDElementDeclaration=31"/>
+    <nested inputs="tosca.ecore#//PropertyConstraintsType" outputs="toscaXML.xsd#//PropertyConstraintsType;XSDComplexTypeDefinition=32">
+      <nested inputs="tosca.ecore#//PropertyConstraintsType/propertyConstraint" outputs="toscaXML.xsd#//PropertyConstraintsType;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PropertyConstraintsType" outputs="toscaXML.xsd#//PropertyConstraintsType;XSDElementDeclaration=32"/>
+    <nested inputs="tosca.ecore#//PropertyConstraintsType1" outputs="toscaXML.xsd#//PropertyConstraintsType1;XSDComplexTypeDefinition=33">
+      <nested inputs="tosca.ecore#//PropertyConstraintsType1/propertyConstraint" outputs="toscaXML.xsd#//PropertyConstraintsType1;XSDComplexTypeDefinition=33/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PropertyConstraintsType1" outputs="toscaXML.xsd#//PropertyConstraintsType1;XSDElementDeclaration=33"/>
+    <nested inputs="tosca.ecore#//PropertyMappingsType" outputs="toscaXML.xsd#//PropertyMappingsType;XSDComplexTypeDefinition=34">
+      <nested inputs="tosca.ecore#//PropertyMappingsType/propertyMapping" outputs="toscaXML.xsd#//PropertyMappingsType;XSDComplexTypeDefinition=34/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//PropertyMappingsType" outputs="toscaXML.xsd#//PropertyMappingsType;XSDElementDeclaration=34"/>
+    <nested inputs="tosca.ecore#//RelationshipConstraintsType" outputs="toscaXML.xsd#//RelationshipConstraintsType;XSDComplexTypeDefinition=35">
+      <nested inputs="tosca.ecore#//RelationshipConstraintsType/relationshipConstraint"
+          outputs="toscaXML.xsd#//RelationshipConstraintsType;XSDComplexTypeDefinition=35/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RelationshipConstraintsType" outputs="toscaXML.xsd#//RelationshipConstraintsType;XSDElementDeclaration=35"/>
+    <nested inputs="tosca.ecore#//RelationshipConstraintType" outputs="toscaXML.xsd#//RelationshipConstraintType;XSDComplexTypeDefinition=36">
+      <nested inputs="tosca.ecore#//RelationshipConstraintType/constraintType" outputs="toscaXML.xsd#//RelationshipConstraintType;XSDComplexTypeDefinition=36/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RelationshipConstraintType" outputs="toscaXML.xsd#//RelationshipConstraintType;XSDElementDeclaration=36"/>
+    <nested inputs="tosca.ecore#//RelationshipOperationType" outputs="toscaXML.xsd#//RelationshipOperationType;XSDComplexTypeDefinition=37">
+      <nested inputs="tosca.ecore#//RelationshipOperationType/interfaceName" outputs="toscaXML.xsd#//RelationshipOperationType;XSDComplexTypeDefinition=37/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//RelationshipOperationType/operationName" outputs="toscaXML.xsd#//RelationshipOperationType;XSDComplexTypeDefinition=37/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//RelationshipOperationType/relationshipRef" outputs="toscaXML.xsd#//RelationshipOperationType;XSDComplexTypeDefinition=37/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RelationshipOperationType" outputs="toscaXML.xsd#//RelationshipOperationType;XSDElementDeclaration=37"/>
+    <nested inputs="tosca.ecore#//RequirementDefinitionsType" outputs="toscaXML.xsd#//RequirementDefinitionsType;XSDComplexTypeDefinition=38">
+      <nested inputs="tosca.ecore#//RequirementDefinitionsType/requirementDefinition"
+          outputs="toscaXML.xsd#//RequirementDefinitionsType;XSDComplexTypeDefinition=38/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RequirementDefinitionsType" outputs="toscaXML.xsd#//RequirementDefinitionsType;XSDElementDeclaration=38"/>
+    <nested inputs="tosca.ecore#//RequirementsType" outputs="toscaXML.xsd#//RequirementsType;XSDComplexTypeDefinition=39">
+      <nested inputs="tosca.ecore#//RequirementsType/requirement" outputs="toscaXML.xsd#//RequirementsType;XSDComplexTypeDefinition=39/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RequirementsType" outputs="toscaXML.xsd#//RequirementsType;XSDElementDeclaration=39"/>
+    <nested inputs="tosca.ecore#//RequirementsType1" outputs="toscaXML.xsd#//RequirementsType1;XSDComplexTypeDefinition=40">
+      <nested inputs="tosca.ecore#//RequirementsType1/requirement" outputs="toscaXML.xsd#//RequirementsType1;XSDComplexTypeDefinition=40/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//RequirementsType1" outputs="toscaXML.xsd#//RequirementsType1;XSDElementDeclaration=40"/>
+    <nested inputs="tosca.ecore#//SourceElementType" outputs="toscaXML.xsd#//SourceElementType;XSDComplexTypeDefinition=41">
+      <nested inputs="tosca.ecore#//SourceElementType/ref" outputs="toscaXML.xsd#//SourceElementType;XSDComplexTypeDefinition=41/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//SourceElementType" outputs="toscaXML.xsd#//SourceElementType;XSDElementDeclaration=41"/>
+    <nested inputs="tosca.ecore#//SourceInterfacesType" outputs="toscaXML.xsd#//SourceInterfacesType;XSDComplexTypeDefinition=42">
+      <nested inputs="tosca.ecore#//SourceInterfacesType/interface" outputs="toscaXML.xsd#//SourceInterfacesType;XSDComplexTypeDefinition=42/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//SourceInterfacesType" outputs="toscaXML.xsd#//SourceInterfacesType;XSDElementDeclaration=42"/>
+    <nested inputs="tosca.ecore#//TAppliesTo" outputs="toscaXML.xsd#//TAppliesTo;XSDComplexTypeDefinition=43">
+      <nested inputs="tosca.ecore#//TAppliesTo/nodeTypeReference" outputs="toscaXML.xsd#//TAppliesTo;XSDComplexTypeDefinition=43/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TAppliesTo" outputs="toscaXML.xsd#//TAppliesTo;XSDElementDeclaration=43"/>
+    <nested inputs="tosca.ecore#//TargetElementType" outputs="toscaXML.xsd#//TargetElementType;XSDComplexTypeDefinition=44">
+      <nested inputs="tosca.ecore#//TargetElementType/ref" outputs="toscaXML.xsd#//TargetElementType;XSDComplexTypeDefinition=44/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TargetElementType" outputs="toscaXML.xsd#//TargetElementType;XSDElementDeclaration=44"/>
+    <nested inputs="tosca.ecore#//TargetInterfacesType" outputs="toscaXML.xsd#//TargetInterfacesType;XSDComplexTypeDefinition=45">
+      <nested inputs="tosca.ecore#//TargetInterfacesType/interface" outputs="toscaXML.xsd#//TargetInterfacesType;XSDComplexTypeDefinition=45/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TargetInterfacesType" outputs="toscaXML.xsd#//TargetInterfacesType;XSDElementDeclaration=45"/>
+    <nested inputs="tosca.ecore#//TArtifactReference" outputs="toscaXML.xsd#//TArtifactReference;XSDComplexTypeDefinition=46">
+      <nested inputs="tosca.ecore#//TArtifactReference/reference" outputs="toscaXML.xsd#//TArtifactReference;XSDComplexTypeDefinition=46/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TArtifactReference" outputs="toscaXML.xsd#//TArtifactReference;XSDElementDeclaration=46"/>
+    <nested inputs="tosca.ecore#//TArtifactTemplate" outputs="toscaXML.xsd#//TArtifactTemplate;XSDComplexTypeDefinition=47">
+      <nested inputs="tosca.ecore#//TArtifactTemplate/name" outputs="toscaXML.xsd#//TArtifactTemplate;XSDComplexTypeDefinition=47/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TArtifactTemplate/artifactReferences" outputs="toscaXML.xsd#//TArtifactTemplate;XSDComplexTypeDefinition=47/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TArtifactTemplate" outputs="toscaXML.xsd#//TArtifactTemplate;XSDElementDeclaration=47"/>
+    <nested inputs="tosca.ecore#//TArtifactType" outputs="toscaXML.xsd#//TArtifactType;XSDComplexTypeDefinition=48"/>
+    <nested inputs="tosca.ecore#//TArtifactType" outputs="toscaXML.xsd#//TArtifactType;XSDElementDeclaration=48"/>
+    <nested inputs="tosca.ecore#//TBoundaryDefinitions" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49">
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/properties" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/propertyConstraints" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/requirements" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/capabilities" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/policies" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+      <nested inputs="tosca.ecore#//TBoundaryDefinitions/interfaces" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDComplexTypeDefinition=49/XSDParticle/XSDModelGroup/XSDParticle=5"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TBoundaryDefinitions" outputs="toscaXML.xsd#//TBoundaryDefinitions;XSDElementDeclaration=49"/>
+    <nested inputs="tosca.ecore#//TCapability" outputs="toscaXML.xsd#//TCapability;XSDComplexTypeDefinition=50">
+      <nested inputs="tosca.ecore#//TCapability/name" outputs="toscaXML.xsd#//TCapability;XSDComplexTypeDefinition=50/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TCapability" outputs="toscaXML.xsd#//TCapability;XSDElementDeclaration=50"/>
+    <nested inputs="tosca.ecore#//TCapabilityDefinition" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51">
+      <nested inputs="tosca.ecore#//TCapabilityDefinition/capabilityType" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TCapabilityDefinition/lowerBound" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TCapabilityDefinition/name" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TCapabilityDefinition/upperBound" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TCapabilityDefinition/constraints" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDComplexTypeDefinition=51/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TCapabilityDefinition" outputs="toscaXML.xsd#//TCapabilityDefinition;XSDElementDeclaration=51"/>
+    <nested inputs="tosca.ecore#//TCapabilityRef" outputs="toscaXML.xsd#//TCapabilityRef;XSDComplexTypeDefinition=52">
+      <nested inputs="tosca.ecore#//TCapabilityRef/name" outputs="toscaXML.xsd#//TCapabilityRef;XSDComplexTypeDefinition=52/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TCapabilityRef/ref" outputs="toscaXML.xsd#//TCapabilityRef;XSDComplexTypeDefinition=52/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TCapabilityRef" outputs="toscaXML.xsd#//TCapabilityRef;XSDElementDeclaration=52"/>
+    <nested inputs="tosca.ecore#//TCapabilityType" outputs="toscaXML.xsd#//TCapabilityType;XSDComplexTypeDefinition=53"/>
+    <nested inputs="tosca.ecore#//TCapabilityType" outputs="toscaXML.xsd#//TCapabilityType;XSDElementDeclaration=53"/>
+    <nested inputs="tosca.ecore#//TCondition" outputs="toscaXML.xsd#//TCondition;XSDComplexTypeDefinition=54">
+      <nested inputs="tosca.ecore#//TCondition/expressionLanguage" outputs="toscaXML.xsd#//TCondition;XSDComplexTypeDefinition=54/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TCondition" outputs="toscaXML.xsd#//TCondition;XSDElementDeclaration=54"/>
+    <nested inputs="tosca.ecore#//TConstraint" outputs="toscaXML.xsd#//TConstraint;XSDComplexTypeDefinition=55">
+      <nested inputs="tosca.ecore#//TConstraint/constraintType" outputs="toscaXML.xsd#//TConstraint;XSDComplexTypeDefinition=55/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TConstraint" outputs="toscaXML.xsd#//TConstraint;XSDElementDeclaration=55"/>
+    <nested inputs="tosca.ecore#//TDefinitions" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56">
+      <nested inputs="tosca.ecore#//TDefinitions/id" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TDefinitions/name" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TDefinitions/targetNamespace" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TDefinitions/extensions" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TDefinitions/import" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TDefinitions/types" outputs="toscaXML.xsd#//TDefinitions;XSDComplexTypeDefinition=56/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TDefinitions" outputs="toscaXML.xsd#//TDefinitions;XSDElementDeclaration=56"/>
+    <nested inputs="tosca.ecore#//TDeploymentArtifact" outputs="toscaXML.xsd#//TDeploymentArtifact;XSDComplexTypeDefinition=57">
+      <nested inputs="tosca.ecore#//TDeploymentArtifact/artifactRef" outputs="toscaXML.xsd#//TDeploymentArtifact;XSDComplexTypeDefinition=57/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TDeploymentArtifact/artifactType" outputs="toscaXML.xsd#//TDeploymentArtifact;XSDComplexTypeDefinition=57/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TDeploymentArtifact/name" outputs="toscaXML.xsd#//TDeploymentArtifact;XSDComplexTypeDefinition=57/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TDeploymentArtifact" outputs="toscaXML.xsd#//TDeploymentArtifact;XSDElementDeclaration=57"/>
+    <nested inputs="tosca.ecore#//TDeploymentArtifacts" outputs="toscaXML.xsd#//TDeploymentArtifacts;XSDComplexTypeDefinition=58">
+      <nested inputs="tosca.ecore#//TDeploymentArtifacts/deploymentArtifact" outputs="toscaXML.xsd#//TDeploymentArtifacts;XSDComplexTypeDefinition=58/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TDeploymentArtifacts" outputs="toscaXML.xsd#//TDeploymentArtifacts;XSDElementDeclaration=58"/>
+    <nested inputs="tosca.ecore#//TDocumentation" outputs="toscaXML.xsd#//TDocumentation;XSDComplexTypeDefinition=59">
+      <nested inputs="tosca.ecore#//TDocumentation/lang" outputs="toscaXML.xsd#//TDocumentation;XSDComplexTypeDefinition=59/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TDocumentation/source" outputs="toscaXML.xsd#//TDocumentation;XSDComplexTypeDefinition=59/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TDocumentation" outputs="toscaXML.xsd#//TDocumentation;XSDElementDeclaration=59"/>
+    <nested inputs="tosca.ecore#//TEntityTemplate" outputs="toscaXML.xsd#//TEntityTemplate;XSDComplexTypeDefinition=60">
+      <nested inputs="tosca.ecore#//TEntityTemplate/id" outputs="toscaXML.xsd#//TEntityTemplate;XSDComplexTypeDefinition=60/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TEntityTemplate/type" outputs="toscaXML.xsd#//TEntityTemplate;XSDComplexTypeDefinition=60/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TEntityTemplate/properties" outputs="toscaXML.xsd#//TEntityTemplate;XSDComplexTypeDefinition=60/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TEntityTemplate/propertyConstraints" outputs="toscaXML.xsd#//TEntityTemplate;XSDComplexTypeDefinition=60/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TEntityType" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61">
+      <nested inputs="tosca.ecore#//TEntityType/abstract" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TEntityType/final" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TEntityType/name" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TEntityType/targetNamespace" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TEntityType/tags" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TEntityType/derivedFrom" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TEntityType/propertiesDefinition" outputs="toscaXML.xsd#//TEntityType;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExportedInterface" outputs="toscaXML.xsd#//TExportedInterface;XSDComplexTypeDefinition=62">
+      <nested inputs="tosca.ecore#//TExportedInterface/name" outputs="toscaXML.xsd#//TExportedInterface;XSDComplexTypeDefinition=62/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TExportedInterface/operation" outputs="toscaXML.xsd#//TExportedInterface;XSDComplexTypeDefinition=62/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExportedInterface" outputs="toscaXML.xsd#//TExportedInterface;XSDElementDeclaration=60"/>
+    <nested inputs="tosca.ecore#//TExportedOperation" outputs="toscaXML.xsd#//TExportedOperation;XSDComplexTypeDefinition=63">
+      <nested inputs="tosca.ecore#//TExportedOperation/name" outputs="toscaXML.xsd#//TExportedOperation;XSDComplexTypeDefinition=63/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TExportedOperation/nodeOperation" outputs="toscaXML.xsd#//TExportedOperation;XSDComplexTypeDefinition=63/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TExportedOperation/relationshipOperation" outputs="toscaXML.xsd#//TExportedOperation;XSDComplexTypeDefinition=63/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TExportedOperation/plan" outputs="toscaXML.xsd#//TExportedOperation;XSDComplexTypeDefinition=63/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExportedOperation" outputs="toscaXML.xsd#//TExportedOperation;XSDElementDeclaration=61"/>
+    <nested inputs="tosca.ecore#//TExtensibleElements" outputs="toscaXML.xsd#//TExtensibleElements;XSDComplexTypeDefinition=64">
+      <nested inputs="tosca.ecore#//TExtensibleElements/documentation" outputs="toscaXML.xsd#//TExtensibleElements;XSDComplexTypeDefinition=64/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExtensibleElements" outputs="toscaXML.xsd#//TExtensibleElements;XSDElementDeclaration=62"/>
+    <nested inputs="tosca.ecore#//TExtension" outputs="toscaXML.xsd#//TExtension;XSDComplexTypeDefinition=65">
+      <nested inputs="tosca.ecore#//TExtension/mustUnderstand" outputs="toscaXML.xsd#//TExtension;XSDComplexTypeDefinition=65/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TExtension/namespace" outputs="toscaXML.xsd#//TExtension;XSDComplexTypeDefinition=65/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExtension" outputs="toscaXML.xsd#//TExtension;XSDElementDeclaration=63"/>
+    <nested inputs="tosca.ecore#//TExtensions" outputs="toscaXML.xsd#//TExtensions;XSDComplexTypeDefinition=66">
+      <nested inputs="tosca.ecore#//TExtensions/extension" outputs="toscaXML.xsd#//TExtensions;XSDComplexTypeDefinition=66/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TExtensions" outputs="toscaXML.xsd#//TExtensions;XSDElementDeclaration=64"/>
+    <nested inputs="tosca.ecore#//TImplementationArtifact" outputs="toscaXML.xsd#//TImplementationArtifact;XSDComplexTypeDefinition=67">
+      <nested inputs="tosca.ecore#//TImplementationArtifact/artifactRef" outputs="toscaXML.xsd#//TImplementationArtifact;XSDComplexTypeDefinition=67/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TImplementationArtifact/artifactType" outputs="toscaXML.xsd#//TImplementationArtifact;XSDComplexTypeDefinition=67/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TImplementationArtifact/interfaceName" outputs="toscaXML.xsd#//TImplementationArtifact;XSDComplexTypeDefinition=67/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TImplementationArtifact/operationName" outputs="toscaXML.xsd#//TImplementationArtifact;XSDComplexTypeDefinition=67/XSDAttributeUse=3"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TImplementationArtifact" outputs="toscaXML.xsd#//TImplementationArtifact;XSDElementDeclaration=65"/>
+    <nested inputs="tosca.ecore#//TImplementationArtifacts" outputs="toscaXML.xsd#//TImplementationArtifacts;XSDComplexTypeDefinition=68">
+      <nested inputs="tosca.ecore#//TImplementationArtifacts/implementationArtifact"
+          outputs="toscaXML.xsd#//TImplementationArtifacts;XSDComplexTypeDefinition=68/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TImplementationArtifacts" outputs="toscaXML.xsd#//TImplementationArtifacts;XSDElementDeclaration=66"/>
+    <nested inputs="tosca.ecore#//TImport" outputs="toscaXML.xsd#//TImport;XSDComplexTypeDefinition=69">
+      <nested inputs="tosca.ecore#//TImport/importType" outputs="toscaXML.xsd#//TImport;XSDComplexTypeDefinition=69/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TImport/location" outputs="toscaXML.xsd#//TImport;XSDComplexTypeDefinition=69/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TImport/namespace" outputs="toscaXML.xsd#//TImport;XSDComplexTypeDefinition=69/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TImport" outputs="toscaXML.xsd#//TImport;XSDElementDeclaration=67"/>
+    <nested inputs="tosca.ecore#//TInterface" outputs="toscaXML.xsd#//TInterface;XSDComplexTypeDefinition=70">
+      <nested inputs="tosca.ecore#//TInterface/name" outputs="toscaXML.xsd#//TInterface;XSDComplexTypeDefinition=70/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TInterface/operation" outputs="toscaXML.xsd#//TInterface;XSDComplexTypeDefinition=70/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TInterface" outputs="toscaXML.xsd#//TInterface;XSDElementDeclaration=68"/>
+    <nested inputs="tosca.ecore#//TNodeTemplate" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71">
+      <nested inputs="tosca.ecore#//TNodeTemplate/maxInstances" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/minInstances" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/name" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/requirements" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/capabilities" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/policies" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TNodeTemplate/deploymentArtifacts" outputs="toscaXML.xsd#//TNodeTemplate;XSDComplexTypeDefinition=71/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TNodeTemplate" outputs="toscaXML.xsd#//TNodeTemplate;XSDElementDeclaration=69"/>
+    <nested inputs="tosca.ecore#//TNodeType" outputs="toscaXML.xsd#//TNodeType;XSDComplexTypeDefinition=72">
+      <nested inputs="tosca.ecore#//TNodeType/requirementDefinitions" outputs="toscaXML.xsd#//TNodeType;XSDComplexTypeDefinition=72/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TNodeType/capabilityDefinitions" outputs="toscaXML.xsd#//TNodeType;XSDComplexTypeDefinition=72/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TNodeType/instanceStates" outputs="toscaXML.xsd#//TNodeType;XSDComplexTypeDefinition=72/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TNodeType/interfaces" outputs="toscaXML.xsd#//TNodeType;XSDComplexTypeDefinition=72/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TNodeType" outputs="toscaXML.xsd#//TNodeType;XSDElementDeclaration=70"/>
+    <nested inputs="tosca.ecore#//TNodeTypeImplementation" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73">
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/abstract" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/final" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/name" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/nodeType" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/targetNamespace" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDAttributeUse=4"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/tags" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/derivedFrom" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/requiredContainerFeatures"
+          outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/implementationArtifacts"
+          outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="tosca.ecore#//TNodeTypeImplementation/deploymentArtifacts" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TNodeTypeImplementation" outputs="toscaXML.xsd#//TNodeTypeImplementation;XSDElementDeclaration=71"/>
+    <nested inputs="tosca.ecore#//TOperation" outputs="toscaXML.xsd#//TOperation;XSDComplexTypeDefinition=74">
+      <nested inputs="tosca.ecore#//TOperation/name" outputs="toscaXML.xsd#//TOperation;XSDComplexTypeDefinition=74/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TOperation/inputParameters" outputs="toscaXML.xsd#//TOperation;XSDComplexTypeDefinition=74/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TOperation/outputParameters" outputs="toscaXML.xsd#//TOperation;XSDComplexTypeDefinition=74/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TOperation" outputs="toscaXML.xsd#//TOperation;XSDElementDeclaration=72"/>
+    <nested inputs="tosca.ecore#//TParameter" outputs="toscaXML.xsd#//TParameter;XSDComplexTypeDefinition=75">
+      <nested inputs="tosca.ecore#//TParameter/name" outputs="toscaXML.xsd#//TParameter;XSDComplexTypeDefinition=75/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TParameter/required" outputs="toscaXML.xsd#//TParameter;XSDComplexTypeDefinition=75/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TParameter/type" outputs="toscaXML.xsd#//TParameter;XSDComplexTypeDefinition=75/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TParameter" outputs="toscaXML.xsd#//TParameter;XSDElementDeclaration=73"/>
+    <nested inputs="tosca.ecore#//TPlan" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76">
+      <nested inputs="tosca.ecore#//TPlan/id" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TPlan/name" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TPlan/planLanguage" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TPlan/planType" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TPlan/precondition" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TPlan/inputParameters" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TPlan/outputParameters" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TPlan/planModel" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="tosca.ecore#//TPlan/planModelReference" outputs="toscaXML.xsd#//TPlan;XSDComplexTypeDefinition=76/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPlan" outputs="toscaXML.xsd#//TPlan;XSDElementDeclaration=74"/>
+    <nested inputs="tosca.ecore#//TPlans" outputs="toscaXML.xsd#//TPlans;XSDComplexTypeDefinition=77">
+      <nested inputs="tosca.ecore#//TPlans/targetNamespace" outputs="toscaXML.xsd#//TPlans;XSDComplexTypeDefinition=77/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TPlans/plan" outputs="toscaXML.xsd#//TPlans;XSDComplexTypeDefinition=77/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPlans" outputs="toscaXML.xsd#//TPlans;XSDElementDeclaration=75"/>
+    <nested inputs="tosca.ecore#//TPolicy" outputs="toscaXML.xsd#//TPolicy;XSDComplexTypeDefinition=78">
+      <nested inputs="tosca.ecore#//TPolicy/name" outputs="toscaXML.xsd#//TPolicy;XSDComplexTypeDefinition=78/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TPolicy/policyRef" outputs="toscaXML.xsd#//TPolicy;XSDComplexTypeDefinition=78/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TPolicy/policyType" outputs="toscaXML.xsd#//TPolicy;XSDComplexTypeDefinition=78/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPolicy" outputs="toscaXML.xsd#//TPolicy;XSDElementDeclaration=76"/>
+    <nested inputs="tosca.ecore#//TPolicyTemplate" outputs="toscaXML.xsd#//TPolicyTemplate;XSDComplexTypeDefinition=79">
+      <nested inputs="tosca.ecore#//TPolicyTemplate/name" outputs="toscaXML.xsd#//TPolicyTemplate;XSDComplexTypeDefinition=79/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPolicyTemplate" outputs="toscaXML.xsd#//TPolicyTemplate;XSDElementDeclaration=77"/>
+    <nested inputs="tosca.ecore#//TPolicyType" outputs="toscaXML.xsd#//TPolicyType;XSDComplexTypeDefinition=80">
+      <nested inputs="tosca.ecore#//TPolicyType/policyLanguage" outputs="toscaXML.xsd#//TPolicyType;XSDComplexTypeDefinition=80/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TPolicyType/appliesTo" outputs="toscaXML.xsd#//TPolicyType;XSDComplexTypeDefinition=80/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPolicyType" outputs="toscaXML.xsd#//TPolicyType;XSDElementDeclaration=78"/>
+    <nested inputs="tosca.ecore#//TPropertyConstraint" outputs="toscaXML.xsd#//TPropertyConstraint;XSDComplexTypeDefinition=81">
+      <nested inputs="tosca.ecore#//TPropertyConstraint/property" outputs="toscaXML.xsd#//TPropertyConstraint;XSDComplexTypeDefinition=81/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPropertyConstraint" outputs="toscaXML.xsd#//TPropertyConstraint;XSDElementDeclaration=79"/>
+    <nested inputs="tosca.ecore#//TPropertyMapping" outputs="toscaXML.xsd#//TPropertyMapping;XSDComplexTypeDefinition=82">
+      <nested inputs="tosca.ecore#//TPropertyMapping/serviceTemplatePropertyRef" outputs="toscaXML.xsd#//TPropertyMapping;XSDComplexTypeDefinition=82/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TPropertyMapping/targetObjectRef" outputs="toscaXML.xsd#//TPropertyMapping;XSDComplexTypeDefinition=82/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TPropertyMapping/targetPropertyRef" outputs="toscaXML.xsd#//TPropertyMapping;XSDComplexTypeDefinition=82/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TPropertyMapping" outputs="toscaXML.xsd#//TPropertyMapping;XSDElementDeclaration=80"/>
+    <nested inputs="tosca.ecore#//TRelationshipTemplate" outputs="toscaXML.xsd#//TRelationshipTemplate;XSDComplexTypeDefinition=83">
+      <nested inputs="tosca.ecore#//TRelationshipTemplate/name" outputs="toscaXML.xsd#//TRelationshipTemplate;XSDComplexTypeDefinition=83/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TRelationshipTemplate/sourceElement" outputs="toscaXML.xsd#//TRelationshipTemplate;XSDComplexTypeDefinition=83/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TRelationshipTemplate/targetElement" outputs="toscaXML.xsd#//TRelationshipTemplate;XSDComplexTypeDefinition=83/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TRelationshipTemplate/relationshipConstraints"
+          outputs="toscaXML.xsd#//TRelationshipTemplate;XSDComplexTypeDefinition=83/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRelationshipTemplate" outputs="toscaXML.xsd#//TRelationshipTemplate;XSDElementDeclaration=81"/>
+    <nested inputs="tosca.ecore#//TRelationshipType" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84">
+      <nested inputs="tosca.ecore#//TRelationshipType/instanceStates" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TRelationshipType/sourceInterfaces" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TRelationshipType/targetInterfaces" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TRelationshipType/validSource" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="tosca.ecore#//TRelationshipType/validTarget" outputs="toscaXML.xsd#//TRelationshipType;XSDComplexTypeDefinition=84/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRelationshipType" outputs="toscaXML.xsd#//TRelationshipType;XSDElementDeclaration=82"/>
+    <nested inputs="tosca.ecore#//TRelationshipTypeImplementation" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85">
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/abstract" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/final" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/name" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/relationshipType"
+          outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/targetNamespace"
+          outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDAttributeUse=4"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/tags" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/derivedFrom" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/requiredContainerFeatures"
+          outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TRelationshipTypeImplementation/implementationArtifacts"
+          outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDComplexTypeDefinition=85/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRelationshipTypeImplementation" outputs="toscaXML.xsd#//TRelationshipTypeImplementation;XSDElementDeclaration=83"/>
+    <nested inputs="tosca.ecore#//TRequiredContainerFeature" outputs="toscaXML.xsd#//TRequiredContainerFeature;XSDComplexTypeDefinition=86">
+      <nested inputs="tosca.ecore#//TRequiredContainerFeature/feature" outputs="toscaXML.xsd#//TRequiredContainerFeature;XSDComplexTypeDefinition=86/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequiredContainerFeature" outputs="toscaXML.xsd#//TRequiredContainerFeature;XSDElementDeclaration=84"/>
+    <nested inputs="tosca.ecore#//TRequiredContainerFeatures" outputs="toscaXML.xsd#//TRequiredContainerFeatures;XSDComplexTypeDefinition=87">
+      <nested inputs="tosca.ecore#//TRequiredContainerFeatures/requiredContainerFeature"
+          outputs="toscaXML.xsd#//TRequiredContainerFeatures;XSDComplexTypeDefinition=87/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequiredContainerFeatures" outputs="toscaXML.xsd#//TRequiredContainerFeatures;XSDElementDeclaration=85"/>
+    <nested inputs="tosca.ecore#//TRequirement" outputs="toscaXML.xsd#//TRequirement;XSDComplexTypeDefinition=88">
+      <nested inputs="tosca.ecore#//TRequirement/name" outputs="toscaXML.xsd#//TRequirement;XSDComplexTypeDefinition=88/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequirement" outputs="toscaXML.xsd#//TRequirement;XSDElementDeclaration=86"/>
+    <nested inputs="tosca.ecore#//TRequirementDefinition" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89">
+      <nested inputs="tosca.ecore#//TRequirementDefinition/lowerBound" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TRequirementDefinition/name" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TRequirementDefinition/requirementType" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TRequirementDefinition/upperBound" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TRequirementDefinition/constraints" outputs="toscaXML.xsd#//TRequirementDefinition;XSDComplexTypeDefinition=89/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequirementDefinition" outputs="toscaXML.xsd#//TRequirementDefinition;XSDElementDeclaration=87"/>
+    <nested inputs="tosca.ecore#//TRequirementRef" outputs="toscaXML.xsd#//TRequirementRef;XSDComplexTypeDefinition=90">
+      <nested inputs="tosca.ecore#//TRequirementRef/name" outputs="toscaXML.xsd#//TRequirementRef;XSDComplexTypeDefinition=90/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TRequirementRef/ref" outputs="toscaXML.xsd#//TRequirementRef;XSDComplexTypeDefinition=90/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequirementRef" outputs="toscaXML.xsd#//TRequirementRef;XSDElementDeclaration=88"/>
+    <nested inputs="tosca.ecore#//TRequirementType" outputs="toscaXML.xsd#//TRequirementType;XSDComplexTypeDefinition=91">
+      <nested inputs="tosca.ecore#//TRequirementType/requiredCapabilityType" outputs="toscaXML.xsd#//TRequirementType;XSDComplexTypeDefinition=91/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TRequirementType" outputs="toscaXML.xsd#//TRequirementType;XSDElementDeclaration=89"/>
+    <nested inputs="tosca.ecore#//TServiceTemplate" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92">
+      <nested inputs="tosca.ecore#//TServiceTemplate/id" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/name" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDAttributeUse=1"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/substitutableNodeType" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDAttributeUse=2"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/targetNamespace" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDAttributeUse=3"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/tags" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/boundaryDefinitions" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/topologyTemplate" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="tosca.ecore#//TServiceTemplate/plans" outputs="toscaXML.xsd#//TServiceTemplate;XSDComplexTypeDefinition=92/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TServiceTemplate" outputs="toscaXML.xsd#//TServiceTemplate;XSDElementDeclaration=90"/>
+    <nested inputs="tosca.ecore#//TTag" outputs="toscaXML.xsd#//TTag;XSDComplexTypeDefinition=93">
+      <nested inputs="tosca.ecore#//TTag/name" outputs="toscaXML.xsd#//TTag;XSDComplexTypeDefinition=93/XSDAttributeUse"/>
+      <nested inputs="tosca.ecore#//TTag/value" outputs="toscaXML.xsd#//TTag;XSDComplexTypeDefinition=93/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TTag" outputs="toscaXML.xsd#//TTag;XSDElementDeclaration=91"/>
+    <nested inputs="tosca.ecore#//TTags" outputs="toscaXML.xsd#//TTags;XSDComplexTypeDefinition=94">
+      <nested inputs="tosca.ecore#//TTags/tag" outputs="toscaXML.xsd#//TTags;XSDComplexTypeDefinition=94/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TTags" outputs="toscaXML.xsd#//TTags;XSDElementDeclaration=92"/>
+    <nested inputs="tosca.ecore#//TTopologyElementInstanceStates" outputs="toscaXML.xsd#//TTopologyElementInstanceStates;XSDComplexTypeDefinition=95">
+      <nested inputs="tosca.ecore#//TTopologyElementInstanceStates/instanceState"
+          outputs="toscaXML.xsd#//TTopologyElementInstanceStates;XSDComplexTypeDefinition=95/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="tosca.ecore#//TTopologyElementInstanceStates" outputs="toscaXML.xsd#//TTopologyElementInstanceStates;XSDElementDeclaration=93"/>
+    <nested inputs="tosca.ecore#//TTopologyTemplate" outputs="toscaXML.xsd#//TTopologyTemplate;XSDComplexTypeDefinition=96"/>
+    <nested inputs="tosca.ecore#//TTopologyTemplate" outputs="toscaXML.xsd#//TTopologyTemplate;XSDElementDeclaration=94"/>
+    <nested inputs="tosca.ecore#//TypesType" outputs="toscaXML.xsd#//TypesType;XSDComplexTypeDefinition=97"/>
+    <nested inputs="tosca.ecore#//TypesType" outputs="toscaXML.xsd#//TypesType;XSDElementDeclaration=95"/>
+    <nested inputs="tosca.ecore#//ValidSourceType" outputs="toscaXML.xsd#//ValidSourceType;XSDComplexTypeDefinition=98">
+      <nested inputs="tosca.ecore#//ValidSourceType/typeRef" outputs="toscaXML.xsd#//ValidSourceType;XSDComplexTypeDefinition=98/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ValidSourceType" outputs="toscaXML.xsd#//ValidSourceType;XSDElementDeclaration=96"/>
+    <nested inputs="tosca.ecore#//ValidTargetType" outputs="toscaXML.xsd#//ValidTargetType;XSDComplexTypeDefinition=99">
+      <nested inputs="tosca.ecore#//ValidTargetType/typeRef" outputs="toscaXML.xsd#//ValidTargetType;XSDComplexTypeDefinition=99/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="tosca.ecore#//ValidTargetType" outputs="toscaXML.xsd#//ValidTargetType;XSDElementDeclaration=97"/>
+  </nested>
+</xsd2ecore:XSD2EcoreMappingRoot>
