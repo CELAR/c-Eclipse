@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -56,7 +59,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
     // Application Component Input Parameters Section
     this.sectionInput = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionInput.setText( "Input Parameters" ); //$NON-NLS-1$
-    Composite client = toolkit.createComposite( sectionInput, SWT.WRAP );
+    Composite client = toolkit.createComposite( this.sectionInput, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
     GridLayout layout = new GridLayout();
@@ -134,11 +137,11 @@ public class ApplicationComponentParametersSection extends GFPropertySection
     toolkit.adapt( this.tableInputParameters, true, true );
     toolkit.adapt( this.addInput, true, true );
     toolkit.adapt( this.removeInput, true, true );
-    sectionInput.setClient( client );
+    this.sectionInput.setClient( client );
     // Application Component Output Parameters Section
     this.sectionOutput = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionOutput.setText( "Output Parameters" ); //$NON-NLS-1$
-    Composite clientRA = toolkit.createComposite( sectionOutput, SWT.WRAP );
+    Composite clientRA = toolkit.createComposite( this.sectionOutput, SWT.WRAP );
     Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
     Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
     GridLayout layoutRA;
@@ -216,7 +219,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
     toolkit.adapt( this.tableOutputParameters, true, true );
     toolkit.adapt( this.addOutput, true, true );
     toolkit.adapt( this.removeOutput, true, true );
-    sectionOutput.setClient( clientRA );
+    this.sectionOutput.setClient( clientRA );
   }
 
   // Add new Input Parameter to table

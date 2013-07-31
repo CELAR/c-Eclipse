@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -41,10 +44,12 @@ import eu.celar.tosca.editor.dialog.ElasticityRequirementsDialog;
 import eu.celar.tosca.editor.dialog.GlobalElasticityRequirement;
 import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementsType1;
 import eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement;
-import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
-// Application Component Properties - Elasticity Tab
+/** 
+ * Application Component Properties - Elasticity Tab
+ */
 public class ApplicationComponentElasticityRequirementsSection
   extends GFPropertySection implements ITabbedPropertyConstants
 {
@@ -72,8 +77,8 @@ public class ApplicationComponentElasticityRequirementsSection
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    section.setText( "Application Component Elasticity Requirements" ); //$NON-NLS-1$
-    Composite client = toolkit.createComposite( section, SWT.WRAP );
+    this.section.setText( "Application Component Elasticity Requirements" ); //$NON-NLS-1$
+    Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
     GridLayout layout = new GridLayout();
@@ -136,7 +141,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
@@ -150,12 +155,12 @@ public class ApplicationComponentElasticityRequirementsSection
     this.editButton.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
+      public void widgetSelected( final SelectionEvent e ) {
         editDataStagingEntry( getSelectedObject() );
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
@@ -169,12 +174,12 @@ public class ApplicationComponentElasticityRequirementsSection
     this.removeButton.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
+      public void widgetSelected( final SelectionEvent e ) {
         removeApplicationComponentElasticityRequirement( getSelectedObject() );
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
@@ -183,11 +188,11 @@ public class ApplicationComponentElasticityRequirementsSection
     toolkit.adapt( this.addButton, true, true );
     toolkit.adapt( this.editButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
-    section.setClient( client );
+    this.section.setClient( client );
     // Application Component Elasticity Actions Section
     this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionRA.setText( "Elasticity Actions" ); //$NON-NLS-1$
-    Composite clientRA = toolkit.createComposite( sectionRA, SWT.WRAP );
+    Composite clientRA = toolkit.createComposite( this.sectionRA, SWT.WRAP );
     Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
     Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
     GridLayout layoutRA;
@@ -237,12 +242,12 @@ public class ApplicationComponentElasticityRequirementsSection
     this.removeButtonRA.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
+      public void widgetSelected( final SelectionEvent e ) {
         removeApplicationComponentResizingAction( getSelectedResizingAction() );
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
@@ -253,7 +258,7 @@ public class ApplicationComponentElasticityRequirementsSection
     // Add section components to the toolkit
     toolkit.adapt( this.tableResizingActions, true, true );
     toolkit.adapt( this.removeButtonRA, true, true );
-    sectionRA.setClient( clientRA );
+    this.sectionRA.setClient( clientRA );
   }
 
   // Add or Edit Application Component Elasticity Requirement
@@ -262,10 +267,10 @@ public class ApplicationComponentElasticityRequirementsSection
     ElasticityRequirementsDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
-                                                 "Application Component" );
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
+                                                 "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add Application Component Elasticity Requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
@@ -283,6 +288,7 @@ public class ApplicationComponentElasticityRequirementsSection
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
+              @Override
               protected void doExecute() {
                 applicationComponentElasticityRequirementsList.getApplicationComponentElasticityRequirements()
                   .add( requirement );
@@ -296,11 +302,11 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } else {
       // Edit button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
                                                  selectedObject,
-                                                 "Application Component" );
+                                                 "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add the edited Application Component Elasticity Requirement to
           // TOSCA
@@ -319,6 +325,7 @@ public class ApplicationComponentElasticityRequirementsSection
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
+              @Override
               protected void doExecute() {
                 applicationComponentElasticityRequirementsList.getApplicationComponentElasticityRequirements()
                   .add( requirement );
@@ -330,6 +337,7 @@ public class ApplicationComponentElasticityRequirementsSection
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
+              @Override
               protected void doExecute() {
                 for( int i = 0; i < applicationComponentElasticityRequirementsList.getApplicationComponentElasticityRequirements()
                   .size(); i++ )
@@ -367,6 +375,7 @@ public class ApplicationComponentElasticityRequirementsSection
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
+        @Override
         protected void doExecute() {
           for( int i = 0; i < applicationComponentElasticityRequirementsList.getApplicationComponentElasticityRequirements()
             .size(); i++ )
@@ -403,7 +412,9 @@ public class ApplicationComponentElasticityRequirementsSection
     return result;
   }
 
-  // Get Application Component Elasticity Actions
+  /**
+   * Get Application Component Elasticity Actions
+   */
   public void getResizingActions() {
     // initiate global elasticity requirement list with requirements from
     // description wizard
@@ -419,7 +430,7 @@ public class ApplicationComponentElasticityRequirementsSection
       return;
     for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
     {
-      if( artifact.getArtifactType().toString().compareTo( "ResizingAction" ) == 0 )
+      if( artifact.getArtifactType().toString().compareTo( "ResizingAction" ) == 0 ) //$NON-NLS-1$
         this.appComponentResizingActions.add( artifact.getName() );
     }
   }
@@ -438,12 +449,13 @@ public class ApplicationComponentElasticityRequirementsSection
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
+        @Override
         protected void doExecute() {
           for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
           {
             if( artifact.getArtifactType()
               .toString()
-              .compareTo( "ResizingAction" ) == 0 )
+              .compareTo( "ResizingAction" ) == 0 ) //$NON-NLS-1$
               if( artifact.getName() == selectedObject ) {
                 deploymentArtifacts.getDeploymentArtifact().remove( artifact );
                 break;
@@ -455,7 +467,10 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableResizingActionsViewer.refresh();
   }
 
-  // Refresh Elasticity Tab
+  /*
+   *  Refresh Elasticity Tab(non-Javadoc)
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   */
   @Override
   public void refresh() {
     PictogramElement pe = getSelectedPictogramElement();

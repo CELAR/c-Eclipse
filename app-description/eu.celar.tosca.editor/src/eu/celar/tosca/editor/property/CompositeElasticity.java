@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -40,10 +43,13 @@ import eu.celar.tosca.editor.dialog.ElasticityRequirementsDialog;
 import eu.celar.tosca.editor.dialog.GlobalElasticityRequirement;
 import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementsType1;
 import eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement;
-import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
-// Composite Application Component Properties - Elasticity Tab
+/**
+ *  Composite Application Component Properties - Elasticity Tab
+ *
+ */
 public class CompositeElasticity extends GFPropertySection
   implements ITabbedPropertyConstants
 {
@@ -71,8 +77,8 @@ public class CompositeElasticity extends GFPropertySection
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Composite Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    section.setText( "Composite Component Elasticity Requirements" ); //$NON-NLS-1$
-    Composite client = toolkit.createComposite( section, SWT.WRAP );
+    this.section.setText( "Composite Component Elasticity Requirements" ); //$NON-NLS-1$
+    Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
     GridLayout layout = new GridLayout();
@@ -182,11 +188,11 @@ public class CompositeElasticity extends GFPropertySection
     toolkit.adapt( this.addButton, true, true );
     toolkit.adapt( this.editButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
-    section.setClient( client );
+    this.section.setClient( client );
     // Composite Application Component Elasticity Actions Section
     this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionRA.setText( "Elasticity Actions" ); //$NON-NLS-1$
-    Composite clientRA = toolkit.createComposite( sectionRA, SWT.WRAP );
+    Composite clientRA = toolkit.createComposite( this.sectionRA, SWT.WRAP );
     Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
     Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
     GridLayout layoutRA;
@@ -252,7 +258,7 @@ public class CompositeElasticity extends GFPropertySection
     // Add section components to the toolkit
     toolkit.adapt( this.tableResizingActions, true, true );
     toolkit.adapt( this.removeButtonRA, true, true );
-    sectionRA.setClient( clientRA );
+    this.sectionRA.setClient( clientRA );
   }
 
   // Add or Edit Composite Application Component Elasticity Requirement
@@ -261,10 +267,10 @@ public class CompositeElasticity extends GFPropertySection
     ElasticityRequirementsDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
-                                                 "Application Component" );
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
+                                                 "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add the new composite application component elasticity requirement
           // to TOSCA
@@ -297,11 +303,11 @@ public class CompositeElasticity extends GFPropertySection
       }
     } else {
       // Edit button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
                                                  selectedObject,
-                                                 "Application Component" );
+                                                 "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add the edited composite application component elasticity
           // requirement to TOSCA
@@ -424,7 +430,7 @@ public class CompositeElasticity extends GFPropertySection
           {
             if( artifact.getArtifactType()
               .toString()
-              .compareTo( "ResizingAction" ) == 0 )
+              .compareTo( "ResizingAction" ) == 0 ) //$NON-NLS-1$
               if( artifact.getName() == selectedObject ) {
                 deploymentArtifacts.getDeploymentArtifact().remove( artifact );
                 break;

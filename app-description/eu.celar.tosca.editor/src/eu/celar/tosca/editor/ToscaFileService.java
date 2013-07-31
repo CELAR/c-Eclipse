@@ -1,3 +1,10 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Nicholas Loulloudes - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor;
 
 import java.io.FileInputStream;
@@ -44,6 +51,10 @@ import org.eclipse.ui.part.FileEditorInput;
 import eu.celar.tosca.internal.ToscaUI;
 
 
+/**
+ * @author Nicholas Loulloudes
+ *
+ */
 public class ToscaFileService {
   
   public static IFile getTemporaryDiagramFile(IPath dataFilePath, IFolder diagramFileTempFolder) {

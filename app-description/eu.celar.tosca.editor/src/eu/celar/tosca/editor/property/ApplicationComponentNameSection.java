@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -31,7 +34,10 @@ import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 
-// Application Component Properties - Main Tab
+/**
+ *  Application Component Properties - Main Tab
+ *
+ */
 public class ApplicationComponentNameSection extends GFPropertySection
   implements ITabbedPropertyConstants, ModifyListener
 {
@@ -67,26 +73,26 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     valueLabel.setLayoutData( gd );
-    nameText = factory.createText( client, "" ); //$NON-NLS-1$
-    nameText.setEditable( true );
+    this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.nameText.setEditable( true );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
-    nameText.setLayoutData( gd );
+    this.nameText.setLayoutData( gd );
     CLabel imageLabel = factory.createCLabel( client, "VM Image:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     imageLabel.setLayoutData( gd );
-    imageText = factory.createText( client, "" ); //$NON-NLS-1$
-    imageText.setEditable( true );
+    this.imageText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.imageText.setEditable( true );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
-    imageText.setLayoutData( gd );
+    this.imageText.setLayoutData( gd );
     // VM Image Flavor
     CLabel vmImageLabel = factory.createCLabel( client, "VM Image Flavor:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -96,9 +102,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
     // Combo - VM Image Flavor
     this.cmbImageSize = new CCombo( client, SWT.BORDER );
     this.cmbImageSize.setEnabled( true );
-    this.cmbImageSize.add( "Small" );
-    this.cmbImageSize.add( "Medium" );
-    this.cmbImageSize.add( "Large" );
+    this.cmbImageSize.add( "Small" ); //$NON-NLS-1$
+    this.cmbImageSize.add( "Medium" ); //$NON-NLS-1$
+    this.cmbImageSize.add( "Large" ); //$NON-NLS-1$
     this.cmbImageSize.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -106,11 +112,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
     this.cmbImageSize.setLayoutData( gd );
     // Add section components to the toolkit
     toolkit.adapt( vmImageLabel, true, true );
-    toolkit.adapt( cmbImageSize, true, true );
+    toolkit.adapt( this.cmbImageSize, true, true );
     toolkit.adapt( valueLabel, true, true );
-    toolkit.adapt( nameText, true, true );
+    toolkit.adapt( this.nameText, true, true );
     toolkit.adapt( imageLabel, true, true );
-    toolkit.adapt( imageText, true, true );
+    toolkit.adapt( this.imageText, true, true );
     section.setClient( client );
     // Application Component Instances Section
     Section sectionInstances = toolkit.createSection( parent, Section.TITLE_BAR );
@@ -131,44 +137,46 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     minInstancesLabel.setLayoutData( gdInstances );
-    minInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
-    minInstancesText.setEditable( true );
+    this.minInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
+    this.minInstancesText.setEditable( true );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 140;
-    minInstancesText.setText( "1" );
-    minInstancesText.setLayoutData( gdInstances );
-    minInstancesText.addModifyListener( this );
+    this.minInstancesText.setText( "1" ); //$NON-NLS-1$
+    this.minInstancesText.setLayoutData( gdInstances );
+    this.minInstancesText.addModifyListener( this );
     CLabel maxInstancesLabel = factory.createCLabel( clientInstances, "Max:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     maxInstancesLabel.setLayoutData( gdInstances );
-    maxInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
-    maxInstancesText.setEditable( true );
+    this.maxInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
+    this.maxInstancesText.setEditable( true );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 140;
-    maxInstancesText.setText( "1" );
-    maxInstancesText.setLayoutData( gdInstances );
-    maxInstancesText.addModifyListener( this );
+    this.maxInstancesText.setText( "1" ); //$NON-NLS-1$
+    this.maxInstancesText.setLayoutData( gdInstances );
+    this.maxInstancesText.addModifyListener( this );
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
-    toolkit.adapt( nameText, true, true );
+    toolkit.adapt( this.nameText, true, true );
     toolkit.adapt( imageLabel, true, true );
-    toolkit.adapt( imageText, true, true );
+    toolkit.adapt( this.imageText, true, true );
     section.setClient( client );
     toolkit.adapt( minInstancesLabel, true, true );
     toolkit.adapt( maxInstancesLabel, true, true );
-    toolkit.adapt( minInstancesText, true, true );
-    toolkit.adapt( maxInstancesText, true, true );
+    toolkit.adapt( this.minInstancesText, true, true );
+    toolkit.adapt( this.maxInstancesText, true, true );
     sectionInstances.setClient( clientInstances );
   }
 
-  // Refresh values of max and min instances
+  /*
+   *  Refresh values of max and min instances
+   */
   void refreshInstances() {
     PictogramElement pe = getSelectedPictogramElement();
     if( pe != null ) {
@@ -178,13 +186,13 @@ public class ApplicationComponentNameSection extends GFPropertySection
         return;
       String minInstances = ( ( Integer )( ( TNodeTemplate )bo ).getMinInstances() ).toString();
       String maxInstances = ( ( ( TNodeTemplate )bo ).getMaxInstances() ).toString();
-      if( minInstances.compareTo( "1" ) == 0
-          && maxInstances.compareTo( "1" ) == 0 )
+      if( minInstances.compareTo( "1" ) == 0 //$NON-NLS-1$
+          && maxInstances.compareTo( "1" ) == 0 ) //$NON-NLS-1$
       {
         return;
       }
-      minInstancesText.setText( minInstances ); //$NON-NLS-1$
-      maxInstancesText.setText( maxInstances ); //$NON-NLS-1$
+      this.minInstancesText.setText( minInstances ); //$NON-NLS-1$
+      this.maxInstancesText.setText( maxInstances ); //$NON-NLS-1$
     }
   }
 
@@ -200,7 +208,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
         return;
       TNodeTemplate appComponent = ( TNodeTemplate )bo;
       String name = appComponent.getName();
-      nameText.setText( name == null
+      this.nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
       // set Image Artifact
       String imageName = null;
@@ -209,11 +217,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
         return;
       for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
       {
-        if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 )
+        if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 ) //$NON-NLS-1$
           imageName = artifact.getName();
         break;
       }
-      imageText.setText( imageName == null
+      this.imageText.setText( imageName == null
                                           ? "" : imageName ); //$NON-NLS-1$
     }
     refreshInstances();
@@ -222,7 +230,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
   // Updates Application name or number of instances according the triggered
   // listener
   @Override
-  public void modifyText( ModifyEvent e ) {
+  public void modifyText( final ModifyEvent e ) {
     PictogramElement pe = getSelectedPictogramElement();
     if( pe != null ) {
       final Object bo = Graphiti.getLinkService()
@@ -238,7 +246,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setName( nameText.getText() );
+              nodeTemplate.setName( ApplicationComponentNameSection.this.nameText.getText() );
             }
           } );
       }
@@ -249,7 +257,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setMinInstances( Integer.parseInt( minInstancesText.getText() ) );
+              nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
             }
           } );
       }
@@ -260,7 +268,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( maxInstancesText.getText() ) ) );
+              nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }
           } );
       }

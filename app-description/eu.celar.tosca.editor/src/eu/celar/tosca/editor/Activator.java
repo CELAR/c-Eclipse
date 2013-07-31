@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor;
 
@@ -13,7 +16,9 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
+	/**
+	 *  The plug-in ID
+	 */
 	public static final String PLUGIN_ID = "eu.celar.tosca.editor"; //$NON-NLS-1$
 
 	// The shared instance

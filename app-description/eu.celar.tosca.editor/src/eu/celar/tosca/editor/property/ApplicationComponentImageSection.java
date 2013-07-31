@@ -1,8 +1,12 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -27,19 +31,19 @@ public class ApplicationComponentImageSection extends GFPropertySection implemen
 		Composite composite = factory.createFlatFormComposite(parent);
 		FormData data;
 
-		nameText = factory.createText(composite, ""); //$NON-NLS-1$
-		nameText.setEditable(false);
+		this.nameText = factory.createText(composite, ""); //$NON-NLS-1$
+		this.nameText.setEditable(false);
 		data = new FormData();
     data.left = new FormAttachment( 0, STANDARD_LABEL_WIDTH + 60 );
     data.right = new FormAttachment( 40, 0 );
 		data.top = new FormAttachment(0, VSPACE);
-		nameText.setLayoutData(data);
+		this.nameText.setLayoutData(data);
 
 		CLabel valueLabel = factory.createCLabel(composite, "Image:"); //$NON-NLS-1$
 		data = new FormData();
 		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(nameText, -HSPACE);
-		data.top = new FormAttachment(nameText, 0, SWT.CENTER);
+		data.right = new FormAttachment(this.nameText, -HSPACE);
+		data.top = new FormAttachment(this.nameText, 0, SWT.CENTER);
 		valueLabel.setLayoutData(data);
 
 	}

@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Nicholas Loulloudes - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Nicholas Loulloudes - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor;
 
@@ -30,9 +33,8 @@ public class ToscaDiagramCreator {
    * @param dataFile
    * @param diagramFile
    * @param diagramEditor
-   * @param templateContent
    * @param openEditor
-   * @return
+   * @return The Tosca diagram editor input
    */
   public ToscaDiagramEditorInput createToscaDiagram( final IFile dataFile,
                                                      final IFile diagramFile,

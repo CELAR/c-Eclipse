@@ -1,3 +1,10 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -26,9 +33,9 @@ public class NetworkConnection extends GFPropertySection implements ITabbedPrope
     // Combo - RelationshipType
     this.cmbNetworkConnection = new CCombo( composite, SWT.BORDER );
     this.cmbNetworkConnection.setEnabled( true );
-    this.cmbNetworkConnection.add( "Master - Slave" );
-    this.cmbNetworkConnection.add( "Peer - Peer" );
-    this.cmbNetworkConnection.add( "Producer - Consumer" );
+    this.cmbNetworkConnection.add( "Master - Slave" ); //$NON-NLS-1$
+    this.cmbNetworkConnection.add( "Peer - Peer" ); //$NON-NLS-1$
+    this.cmbNetworkConnection.add( "Producer - Consumer" ); //$NON-NLS-1$
     this.cmbNetworkConnection.setEditable( false );
     data = new FormData();
     data.left = new FormAttachment( 0, STANDARD_LABEL_WIDTH + 60 );

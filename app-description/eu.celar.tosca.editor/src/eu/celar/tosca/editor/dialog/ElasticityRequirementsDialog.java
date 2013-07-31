@@ -1,7 +1,10 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
- ************************************************************/
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/ 
 package eu.celar.tosca.editor.dialog;
 
 import java.util.List;
@@ -22,7 +25,9 @@ import org.eclipse.swt.widgets.Text;
 import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory;
 import eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory;
 
-// Creates the dialog for adding/editing elasticity requirements
+/**
+ *  Creates the dialog for adding/editing elasticity requirements
+ */
 public class ElasticityRequirementsDialog extends Dialog {
 
   protected Text typeText;
@@ -58,7 +63,7 @@ public class ElasticityRequirementsDialog extends Dialog {
   @Override
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
-    shell.setText( "Global Elasticity Requirements" );
+    shell.setText( "Global Elasticity Requirements" ); //$NON-NLS-1$
     shell.setSize( 300, 170 );
   }
 
@@ -71,7 +76,7 @@ public class ElasticityRequirementsDialog extends Dialog {
     GridLayout gLayout = new GridLayout( 2, false );
     typeComposite.setLayout( gLayout );
     Label typeLabel = new Label( typeComposite, SWT.LEAD );
-    typeLabel.setText( "Type" );
+    typeLabel.setText( "Type" ); //$NON-NLS-1$
     GridData gd = new GridData( 50, 20 );
     typeLabel.setLayoutData( gd );
     // Combo - GlobalElasticityReq
@@ -79,12 +84,12 @@ public class ElasticityRequirementsDialog extends Dialog {
     this.cmbGlobalElasticityReq.setEnabled( true );
     gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
-    if( this.component.compareTo( "Application" ) == 0 ) {
+    if( this.component.compareTo( "Application" ) == 0 ) { //$NON-NLS-1$
       List<GlobalElasticityRequirementCategory> categories = GlobalElasticityRequirementCategory.VALUES;
       for( GlobalElasticityRequirementCategory tempCat : categories ) {
         this.cmbGlobalElasticityReq.add( tempCat.toString() );
       }
-    } else if( this.component.compareTo( "Application Component" ) == 0 ) {
+    } else if( this.component.compareTo( "Application Component" ) == 0 ) { //$NON-NLS-1$
       List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
       for( ApplicationComponentElasticityRequirementCategory tempCat : categories )
       {
@@ -95,37 +100,38 @@ public class ElasticityRequirementsDialog extends Dialog {
     gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );
     Label valueLabel = new Label( valueComposite, SWT.LEAD );
-    valueLabel.setText( "Value" );
+    valueLabel.setText( "Value" ); //$NON-NLS-1$
     gd = new GridData( 50, 20 );
     valueLabel.setLayoutData( gd );
     this.valueText = new Text( valueComposite, SWT.BORDER );
     gd = new GridData( 152, 20 );
     this.valueText.setLayoutData( gd );
     // metric unit label
-    unitLabel = new Label( valueComposite, SWT.NONE );
+    this.unitLabel = new Label( valueComposite, SWT.NONE );
     gd = new GridData( GridData.FILL_HORIZONTAL, 20 );
-    unitLabel.setLayoutData( gd );
+    this.unitLabel.setLayoutData( gd );
     this.cmbGlobalElasticityReq.setEditable( false );
     this.cmbGlobalElasticityReq.addModifyListener( new ModifyListener() {
 
+      @Override
       public void modifyText( final ModifyEvent e ) {
         ElasticityRequirementsDialog.this.newType = ElasticityRequirementsDialog.this.cmbGlobalElasticityReq.getText();
         // set metric unit
         String unit = null;
-        if( ElasticityRequirementsDialog.this.newType.compareTo( "Minimum Response Time" ) == 0 )
+        if( ElasticityRequirementsDialog.this.newType.compareTo( "Minimum Response Time" ) == 0 ) //$NON-NLS-1$
         {
-          unit = "  ( s )";
-        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Bandwidth" ) == 0 )
+          unit = "  ( s )"; //$NON-NLS-1$
+        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Bandwidth" ) == 0 ) //$NON-NLS-1$
         {
-          unit = "  ( MB/s )";
-        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Minimun Cost" ) == 0 )
+          unit = "  ( MB/s )"; //$NON-NLS-1$
+        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Minimun Cost" ) == 0 ) //$NON-NLS-1$
         {
-          unit = "  ( $ )";
-        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Maximum Cost" ) == 0 )
+          unit = "  ( $ )"; //$NON-NLS-1$
+        } else if( ElasticityRequirementsDialog.this.newType.compareTo( "Maximum Cost" ) == 0 ) //$NON-NLS-1$
         {
-          unit = "  ( $ )";
+          unit = "  ( $ )"; //$NON-NLS-1$
         } else {
-          unit = "";
+          unit = ""; //$NON-NLS-1$
         }
         ElasticityRequirementsDialog.this.unitLabel.setText( unit );
       }
@@ -136,22 +142,25 @@ public class ElasticityRequirementsDialog extends Dialog {
     }
     this.valueText.addModifyListener( new ModifyListener() {
 
+      @Override
       public void modifyText( final ModifyEvent e ) {
-        modifiedValue = true;
+        ElasticityRequirementsDialog.this.modifiedValue = true;
         ElasticityRequirementsDialog.this.newValue = ElasticityRequirementsDialog.this.valueText.getText();
       }
     } );
     return composite;
   }
 
-  public GlobalElasticityRequirement getDataStageInList() {
+  /**
+   * @return The Data Sta
+   */
+  public GlobalElasticityRequirement getElasticityRequirement() {
     return ElasticityRequirementsDialog.this.elasticityRequirement;
   }
 
-  @SuppressWarnings("boxing")
   @Override
   protected void okPressed() {
-    if( modifiedValue == false )
+    if( this.modifiedValue == false )
       this.newValue = this.elasticityRequirement.value;
     ElasticityRequirementsDialog.this.elasticityRequirement = new GlobalElasticityRequirement( this.newType,
                                                                                                this.newValue );

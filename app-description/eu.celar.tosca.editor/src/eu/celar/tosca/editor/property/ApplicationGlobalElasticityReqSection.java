@@ -65,8 +65,8 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    section.setText( "Application Elasticity Requirements" ); //$NON-NLS-1$
-    Composite client = toolkit.createComposite( section, SWT.WRAP );
+    this.section.setText( "Application Elasticity Requirements" ); //$NON-NLS-1$
+    Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
     GridLayout layout = new GridLayout();
@@ -176,7 +176,7 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     toolkit.adapt( this.addButton, true, true );
     toolkit.adapt( this.editButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
-    section.setClient( client );
+    this.section.setClient( client );
   }
 
   // Get the Application Elasticity Requirements given through Application
@@ -214,10 +214,10 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     ElasticityRequirementsDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
-                                                 "Application" );
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
+                                                 "Application" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add the new global elasticity requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
@@ -248,11 +248,11 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
       }
     } else {
       // Edit button is pressed
-      dialog = new ElasticityRequirementsDialog( section.getShell(),
+      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
                                                  selectedObject,
-                                                 "Application" );
+                                                 "Application" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        final GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
+        final GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
         if( newElasticityRequirement != null ) {
           // Add the edited global elasticity requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();

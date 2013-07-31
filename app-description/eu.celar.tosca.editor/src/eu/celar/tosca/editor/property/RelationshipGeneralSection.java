@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -56,13 +59,13 @@ public class RelationshipGeneralSection extends GFPropertySection
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     valueLabel.setLayoutData( gd );
     // Text - Relationship Type
-    nameText = factory.createText( client, "" ); //$NON-NLS-1$
-    nameText.setEditable( true );
+    this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.nameText.setEditable( true );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
-    nameText.setLayoutData( gd );
+    this.nameText.setLayoutData( gd );
     // Relationship Type
     CLabel relationshipTypeLabel = factory.createCLabel( client,
                                                          "Relationship Type:" ); //$NON-NLS-1$
@@ -74,9 +77,9 @@ public class RelationshipGeneralSection extends GFPropertySection
     // Combo - Relationship Type
     this.cmbRelationshipType = new CCombo( client, SWT.BORDER );
     this.cmbRelationshipType.setEnabled( true );
-    this.cmbRelationshipType.add( "Master - Slave" );
-    this.cmbRelationshipType.add( "Peer - Peer" );
-    this.cmbRelationshipType.add( "Producer - Consumer" );
+    this.cmbRelationshipType.add( "Master - Slave" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Peer - Peer" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Producer - Consumer" ); //$NON-NLS-1$
     this.cmbRelationshipType.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -84,9 +87,9 @@ public class RelationshipGeneralSection extends GFPropertySection
     this.cmbRelationshipType.setLayoutData( gd );
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
-    toolkit.adapt( nameText, true, true );
+    toolkit.adapt( this.nameText, true, true );
     toolkit.adapt( relationshipTypeLabel, true, true );
-    toolkit.adapt( cmbRelationshipType, true, true );
+    toolkit.adapt( this.cmbRelationshipType, true, true );
     section.setClient( client );
   }
 
@@ -100,7 +103,7 @@ public class RelationshipGeneralSection extends GFPropertySection
       if( bo == null )
         return;
       String name = ( ( TRelationshipTemplate )bo ).getName();
-      nameText.setText( name == null
+      this.nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
     }
   }

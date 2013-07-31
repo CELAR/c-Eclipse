@@ -1,3 +1,10 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import java.math.BigInteger;
@@ -45,15 +52,15 @@ public class ApplicationComponentInstancesSection extends GFPropertySection impl
         valueLabelInstances.setLayoutData(data);
         
         		
-        minInstancesText = factory.createText(composite, ""); //$NON-NLS-1$
-        minInstancesText.setEditable(true);
+        this.minInstancesText = factory.createText(composite, ""); //$NON-NLS-1$
+        this.minInstancesText.setEditable(true);
 		data = new FormData();
 		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH + 60);
 		data.right = new FormAttachment(20, 0);
 		data.top = new FormAttachment(valueLabelInstances, 0, SWT.BOTTOM);
-		minInstancesText.setLayoutData(data);
-		minInstancesText.setText( "1" );
-		minInstancesText.addModifyListener(this);
+		this.minInstancesText.setLayoutData(data);
+		this.minInstancesText.setText( "1" ); //$NON-NLS-1$
+		this.minInstancesText.addModifyListener(this);
 
 		CLabel valueLabel = factory.createCLabel(composite, "Min:"); //$NON-NLS-1$
 		data = new FormData();
@@ -65,20 +72,20 @@ public class ApplicationComponentInstancesSection extends GFPropertySection impl
 
 	    CLabel valueLabel2 = factory.createCLabel(composite, "Max:"); //$NON-NLS-1$
 	    data = new FormData();
-	    data.left = new FormAttachment(minInstancesText);
+	    data.left = new FormAttachment(this.minInstancesText);
 	    //data.right = new FormAttachment(nameText, 20);
 	    data.top = new FormAttachment(valueLabelInstances, 0, SWT.BOTTOM);
 	    valueLabel2.setLayoutData(data);
 	    
-	    maxInstancesText = factory.createText(composite, ""); //$NON-NLS-1$
-	    maxInstancesText.setEditable(true);
+	    this.maxInstancesText = factory.createText(composite, ""); //$NON-NLS-1$
+	    this.maxInstancesText.setEditable(true);
         data = new FormData();
         data.left = new FormAttachment(valueLabel2);
         data.right = new FormAttachment(40, 3);
         data.top = new FormAttachment(valueLabelInstances, 0, SWT.BOTTOM);
-        maxInstancesText.setLayoutData(data);
-        maxInstancesText.setText( "1" );
-        maxInstancesText.addModifyListener(this);
+        this.maxInstancesText.setLayoutData(data);
+        this.maxInstancesText.setText( "1" ); //$NON-NLS-1$
+        this.maxInstancesText.addModifyListener(this);
 	}
 
 	@Override
@@ -94,12 +101,12 @@ public class ApplicationComponentInstancesSection extends GFPropertySection impl
           String minInstances = ((Integer) ((TNodeTemplate) bo).getMinInstances()).toString();
           String maxInstances = (((TNodeTemplate) bo).getMaxInstances()).toString();
           
-          if (minInstances.compareTo( "1" )==0 && maxInstances.compareTo( "1" )==0){
+          if (minInstances.compareTo( "1" )==0 && maxInstances.compareTo( "1" )==0){ //$NON-NLS-1$ //$NON-NLS-2$
             return;
           }
           
-          minInstancesText.setText(minInstances); //$NON-NLS-1$
-          maxInstancesText.setText(maxInstances); //$NON-NLS-1$
+          this.minInstancesText.setText(minInstances);
+          this.maxInstancesText.setText(maxInstances); 
       }
 
 	}
@@ -119,7 +126,7 @@ public class ApplicationComponentInstancesSection extends GFPropertySection impl
 		   TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
 	        editingDomain.getCommandStack().execute( new RecordingCommand(editingDomain) {
 	         protected void doExecute(){
-	           nodeTemplate.setMinInstances(Integer.parseInt(minInstancesText.getText()));
+	           nodeTemplate.setMinInstances(Integer.parseInt(ApplicationComponentInstancesSection.this.minInstancesText.getText()));
 	           }
 	        });
 		   
@@ -129,7 +136,7 @@ public class ApplicationComponentInstancesSection extends GFPropertySection impl
 		   TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
            editingDomain.getCommandStack().execute( new RecordingCommand(editingDomain) {
             protected void doExecute(){
-              nodeTemplate.setMaxInstances((BigInteger) BigInteger.valueOf( Integer.parseInt(maxInstancesText.getText())));
+              nodeTemplate.setMaxInstances((BigInteger) BigInteger.valueOf( Integer.parseInt(ApplicationComponentInstancesSection.this.maxInstancesText.getText())));
               }
            });
 		   

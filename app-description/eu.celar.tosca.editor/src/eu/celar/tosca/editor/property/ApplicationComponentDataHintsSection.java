@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -16,7 +19,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-// Application Component Properties - Data/Load Tab
+/**
+ *  Application Component Properties - Data/Load Tab
+ */
 public class ApplicationComponentDataHintsSection extends GFPropertySection
   implements ITabbedPropertyConstants
 {
@@ -55,9 +60,9 @@ public class ApplicationComponentDataHintsSection extends GFPropertySection
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.tableDataHints.setLayoutData( gd );
     TableItem item = new TableItem( this.tableDataHints, SWT.NONE );
-    item.setText( "JSON" );
+    item.setText( "JSON" ); //$NON-NLS-1$
     item = new TableItem( this.tableDataHints, SWT.NONE );
-    item.setText( "XML" );
+    item.setText( "XML" ); //$NON-NLS-1$
     // Add section components to the toolkit
     toolkit.adapt( this.tableDataHints, true, true );
     section.setClient( client );
@@ -84,17 +89,20 @@ public class ApplicationComponentDataHintsSection extends GFPropertySection
     gdLH.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.tableLoadHints.setLayoutData( gdLH );
     item = new TableItem( this.tableLoadHints, SWT.NONE );
-    item.setText( "Read Only" );
+    item.setText( "Read Only" ); //$NON-NLS-1$
     item = new TableItem( this.tableLoadHints, SWT.NONE );
-    item.setText( "Write Only" );
+    item.setText( "Write Only" ); //$NON-NLS-1$
     item = new TableItem( this.tableLoadHints, SWT.NONE );
-    item.setText( "Read / Write" );
+    item.setText( "Read / Write" ); //$NON-NLS-1$
     // Add section components to the toolkit
     toolkit.adapt( this.tableLoadHints, true, true );
     sectionInstances.setClient( clientInstances );
   }
 
-  // Refresh Tab
+  /*
+   *  Refresh Tab(non-Javadoc)
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   */
   @Override
   public void refresh() {
   }

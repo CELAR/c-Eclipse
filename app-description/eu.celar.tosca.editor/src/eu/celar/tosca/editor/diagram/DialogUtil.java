@@ -1,3 +1,10 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
 import org.eclipse.graphiti.mm.algorithms.styles.Color;

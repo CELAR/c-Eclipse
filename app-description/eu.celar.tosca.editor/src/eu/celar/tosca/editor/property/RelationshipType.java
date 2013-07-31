@@ -1,3 +1,10 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -26,9 +33,9 @@ public class RelationshipType extends GFPropertySection implements ITabbedProper
     // Combo - RelationshipType
     this.cmbRelationshipType = new CCombo( composite, SWT.BORDER );
     this.cmbRelationshipType.setEnabled( true );
-    this.cmbRelationshipType.add( "Master - Slave" );
-    this.cmbRelationshipType.add( "Peer - Peer" );
-    this.cmbRelationshipType.add( "Producer - Consumer" );
+    this.cmbRelationshipType.add( "Master - Slave" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Peer - Peer" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Producer - Consumer" ); //$NON-NLS-1$
     this.cmbRelationshipType.setEditable( false );
     data = new FormData();
     data.left = new FormAttachment( 0, STANDARD_LABEL_WIDTH + 60 );

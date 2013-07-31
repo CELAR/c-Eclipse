@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -35,7 +38,7 @@ public class ElasticityRequirementsProvider {
     }
 
     @Override
-    public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+    public void inputChanged( final Viewer viewer, final Object oldInput, final Object newInput )
     {
       // TODO Auto-generated method stub
     }

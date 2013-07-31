@@ -1,13 +1,12 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium
+ * Copyright (C), 2013 CELAR Consortium 
  * http://www.celarcloud.eu
- *
+ * 
  * Contributors:
- *      Nicholas Loulloudes - initial API and implementation 
+ *      Nicholas Loulloudes - initial API and implementation
+ *      Stalo Sofokleous - editor implementation extension
  ************************************************************/
 package eu.celar.tosca.editor;
-
-import java.io.ObjectInputStream.GetField;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -35,7 +34,6 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.AreaContext;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;

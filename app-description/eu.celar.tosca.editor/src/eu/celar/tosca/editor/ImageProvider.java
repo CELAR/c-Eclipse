@@ -1,19 +1,31 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor;
 
 import org.eclipse.graphiti.ui.platform.AbstractImageProvider;
 
-// Provides icons for directed and bidirected relationships
+/**
+ * Provides icons for directed and bi-directed relationships
+ *
+ */
 public class ImageProvider extends AbstractImageProvider {
 
-  // The prefix for all identifiers of this image provider
+  /**
+   *  The prefix for all identifiers of this image provider
+   */
   protected static final String PREFIX = "eu.celar.tosca.editor."; //$NON-NLS-1$
-  // The image identifier for an EReference.
+  /**
+   *  The image identifier for an EReference.
+   */
   public static final String IMG_EREFERENCE = PREFIX + "ereference"; //$NON-NLS-1$
-  // The image identifier for an EReference.
+  /**
+   *  The image identifier for an EReference.
+   */
   public static final String IMG_EREFERENCE2 = PREFIX + "ereference2"; //$NON-NLS-1$
 
   @Override

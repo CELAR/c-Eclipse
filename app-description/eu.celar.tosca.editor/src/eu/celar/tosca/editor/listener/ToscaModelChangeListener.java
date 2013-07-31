@@ -23,7 +23,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.notification.INotificationService;
 import org.eclipse.graphiti.platform.IDiagramContainer;
-import org.eclipse.graphiti.platform.IDiagramEditor;
 import org.eclipse.swt.widgets.Display;
 
 

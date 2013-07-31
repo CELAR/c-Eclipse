@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -54,7 +57,7 @@ public class CommunicationIntensity extends GFPropertySection
     // Combo - Communication Intensity
     this.cmbCommunicationIntensity = new CCombo( client, SWT.BORDER );
     this.cmbCommunicationIntensity.setEnabled( true );
-    this.cmbCommunicationIntensity.add( "JSON" );
+    this.cmbCommunicationIntensity.add( "JSON" ); //$NON-NLS-1$
     this.cmbCommunicationIntensity.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -71,16 +74,16 @@ public class CommunicationIntensity extends GFPropertySection
     // Combo - Network Connection
     this.cmbNetworkConnection = new CCombo( client, SWT.BORDER );
     this.cmbNetworkConnection.setEnabled( true );
-    this.cmbNetworkConnection.add( "Write Heavy" );
+    this.cmbNetworkConnection.add( "Write Heavy" ); //$NON-NLS-1$
     this.cmbNetworkConnection.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
     this.cmbNetworkConnection.setLayoutData( gd );
     // Add section components to the toolkit
-    toolkit.adapt( cmbCommunicationIntensity );
+    toolkit.adapt( this.cmbCommunicationIntensity );
     toolkit.adapt( communicationIntensityLabel );
-    toolkit.adapt( cmbNetworkConnection );
+    toolkit.adapt( this.cmbNetworkConnection );
     toolkit.adapt( networkConnectionLabel );
     section.setClient( client );
   }

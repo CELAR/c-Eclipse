@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.URI;
 
 /**
  * @author Nicholas Loulloudes
- *
+ * Operations for handling the TOSCA model
  */
 public class ModelHandler {
   private static Map<URI, ToscaModelLayer> modelMap = new HashMap<URI, ToscaModelLayer>();

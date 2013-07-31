@@ -1,6 +1,10 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Nicholas Loulloudes - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Nicholas Loulloudes - initial API and implementation
+ *      Stalo Sofokleous - implementation extension
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
@@ -70,7 +74,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate
-               && ( ( TRelationshipTemplate )context.getNewObject() ).getName() == "Relation" )
+               && ( ( TRelationshipTemplate )context.getNewObject() ).getName() == "Relation" ) //$NON-NLS-1$
     {
       return new AddBidirectionalRelationFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate ) {

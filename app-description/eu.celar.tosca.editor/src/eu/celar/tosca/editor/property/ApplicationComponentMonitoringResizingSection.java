@@ -1,6 +1,9 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -38,7 +41,9 @@ import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
-// Application Component Properties - Monitoring Tab
+/**
+ *  Application Component Properties - Monitoring Tab
+ */
 public class ApplicationComponentMonitoringResizingSection
   extends GFPropertySection implements ITabbedPropertyConstants
 {
@@ -58,7 +63,7 @@ public class ApplicationComponentMonitoringResizingSection
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
     this.section.setText( "Monitoring Probes" ); //$NON-NLS-1$
-    Composite client = toolkit.createComposite( section, SWT.WRAP );
+    Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
     GridLayout layout = new GridLayout();
@@ -124,10 +129,12 @@ public class ApplicationComponentMonitoringResizingSection
     // Add section components to the toolkit
     toolkit.adapt( this.tableMonitoringProbes, true, true );
     toolkit.adapt( this.removeButton, true, true );
-    section.setClient( client );
+    this.section.setClient( client );
   }
 
-  // Get Application Component Monitoring Probes from TOSCA
+  /**
+   *  Get Application Component Monitoring Probes from TOSCA
+   */
   public void getMonitoringProbes() {
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
@@ -141,7 +148,7 @@ public class ApplicationComponentMonitoringResizingSection
       return;
     for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
     {
-      if( artifact.getArtifactType().toString().compareTo( "MonitoringProbe" ) == 0 )
+      if( artifact.getArtifactType().toString().compareTo( "MonitoringProbe" ) == 0 ) //$NON-NLS-1$
         this.appComponentMonitoringProbes.add( artifact.getName() );
     }
   }
@@ -166,7 +173,7 @@ public class ApplicationComponentMonitoringResizingSection
           {
             if( artifact.getArtifactType()
               .toString()
-              .compareTo( "MonitoringProbe" ) == 0 )
+              .compareTo( "MonitoringProbe" ) == 0 ) //$NON-NLS-1$
               if( artifact.getName() == selectedObject ) {
                 deploymentArtifacts.getDeploymentArtifact().remove( artifact );
                 break;
@@ -187,7 +194,10 @@ public class ApplicationComponentMonitoringResizingSection
     return result;
   }
 
-  // Refresh Tab
+  /*
+   *  Refresh Tab(non-Javadoc)
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   */
   @Override
   public void refresh() {
     // Refresh Monitoring Probes

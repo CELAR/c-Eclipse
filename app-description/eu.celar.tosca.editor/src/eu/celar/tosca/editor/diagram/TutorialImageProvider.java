@@ -19,10 +19,14 @@ import org.eclipse.graphiti.ui.platform.AbstractImageProvider;
 
 public class TutorialImageProvider extends AbstractImageProvider {
 
-	// The prefix for all identifiers of this image provider
+	/**
+	 *  The prefix for all identifiers of this image provider
+	 */
 	protected static final String PREFIX = "eu.celar.tosca.editor."; //$NON-NLS-1$
 
-	// The image identifier for an EReference.
+	/**
+	 *  The image identifier for an EReference.
+	 */
 	public static final String IMG_EREFERENCE = PREFIX + "ereference"; //$NON-NLS-1$
 
 	@Override
