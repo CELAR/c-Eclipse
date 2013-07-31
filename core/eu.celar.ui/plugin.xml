@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="CELAR"
+            id="eu.celar.ui">
+      </category>
+      <view
+            name="CELAR Project View"
+            icon="icons/sample.gif"
+            category="eu.celar.ui"
+            class="eu.celar.ui.views.CloudProjectView"
+            id="eu.celar.ui.views.CloudProjectView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               id="eu.celar.ui.views.CloudProjectView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   
+      <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="false"
+            class="eu.celar.ui.decorators.CloudProjectFolderDecorator"
+            id="eu.clear.ui.CloudProjectFolderDecorator"
+            label="Cloud Project Folder Decorator"
+            lightweight="true"
+            state="true">
+         <enablement>
+            <objectClass
+                  name="eu.celar.core.model.ICloudContainer">
+            </objectClass></enablement>
+      </decorator>
+   </extension>
+   
+      <extension
+         point="eu.celar.core.cloudProjectFolder">
+      <folder
+            elementClass="eu.celar.core.model.ICloudApplicationDescription"
+            id="eu.celar.core.projectfolder.appdescriptions"
+            label="Application Descriptions"
+            name="Application Description Folder"
+            preset="true">
+      </folder>
+      <folder
+            elementClass="eu.celar.core.model.ICloudVirtualMachineImage"
+            id="eu.celar.core.projectfolder.machineimages"
+            label="Virtual Machine Images"
+            name="Virtual Machine Images Folder"
+            preset="true">
+      </folder>
+      <folder
+            elementClass="eu.celar.core.model.ICloudScript"
+            id="eu.celar.core.projectfolder.scripts"
+            label="Scripts"
+            name="Scripts Folder"
+            preset="true">
+      </folder>
+      <folder
+            elementClass="eu.celar.core.model.ICloudApplicationSubmission"
+            id="eu.celar.core.projectfolder.applicationsubmissions"
+            label="Application Submissions"
+            name="Application Submissions Folder"
+            preset="true">
+      </folder>
+      <folder
+            elementClass="eu.celar.core.model.ICloudApplicationMonitorDescription"
+            id="eu.celar.core.projectfolder.monitoring"
+            label="Monitoring"
+            name="Monitoring Folder"
+            preset="true">
+      </folder>
+   </extension>
+      <extension
+            point="org.eclipse.ui.newWizards">
+         <wizard
+               canFinishEarly="false"
+               category="eu.celar.ui.newResourceCategory"
+               class="eu.celar.ui.wizards.NewCloudProjectWizard"
+               hasPages="true"
+               id="eu.celar.ui.wizards.cloudProjectWizard"
+               name="%wizard.cloudProject"
+               project="true">
+            <description>
+               %wizard.cloudProject.createProject
+            </description>
+         </wizard>
+         <category
+               id="eu.celar.ui.newResourceCategory"
+               name="%category.name">
+         </category>
+         <wizard
+               canFinishEarly="false"
+               category="eu.celar.ui.newResourceCategory"
+               class="eu.celar.ui.wizards.NewApplicationDescription"
+               hasPages="true"
+               id="eu.celar.ui.wizards.applicationDescriptionWizard"
+               name="%wizard.applicationDescription"
+               project="false">
+            <description>
+               %wizard.applicationDescription.createApplicationDescription
+            </description>
+         </wizard>
+      </extension>
+</plugin>

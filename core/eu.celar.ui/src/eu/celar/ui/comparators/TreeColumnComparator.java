@@ -1,0 +1,142 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium
+ * http://www.celarcloud.eu
+ *
+ * Contributors:
+ *      Nicholas Loulloudes - initial API and implementation 
+ ************************************************************/
+package eu.celar.ui.comparators;
+
+import org.eclipse.core.filesystem.IFileInfo;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+
+
+/**
+ * @author Nicholas Loulloudes
+ *
+ */
+public class TreeColumnComparator extends ViewerComparator {
+  
+  private TreeViewer treeViewer;
+  private Tree tree;
+  private ITableLabelProvider labelProvider;
+  private TreeColumn defaultSortColumn;
+  
+  /**
+   * Construct a <code>ViewerComparator</code> to use for a <code>TreeViewer</code>,
+   * with the given column as fallback sorting column. Remark that each TreeViewer
+   * needs a new instance of this TreeColumnComparator.
+   * 
+   * @param defaultSortColumn The sorting column used as fallback if elements compare equal.
+   */
+  public TreeColumnComparator( final TreeColumn defaultSortColumn ) {
+    this.defaultSortColumn = defaultSortColumn;
+  }
+  
+  @Override
+  public int category( final Object element ) {
+    int type = 0;
+    IResource res = null;
+
+    /*
+     * Analyze the element to be sorted to determine if it is a folder, file,
+     * project, etc.
+     */
+    if ( element instanceof IFileStore ) {
+      IFileInfo info = ( ( IFileStore ) element ).fetchInfo();
+      type = info.isDirectory() ? 0 : 1;
+    } else if ( element instanceof IAdaptable ) {
+      IAdaptable adaptable = ( IAdaptable )element;
+      res = ( IResource )adaptable.getAdapter( IResource.class );
+      if ( res != null ) {
+        /*
+         * The IResource types FILE, FOLDER, PROJECT, ROOT have non-zero values...
+         * and FILEs should come last in the (ascending) sorting, thus the '-' 
+         */
+        type = - res.getType();
+      }
+    }
+
+    // We return 0 if the element is not a IResource
+    return type;
+  }
+  
+  @Override
+  public int compare( final Viewer viewer, final Object element1, final Object element2 ) {
+    
+    /*
+     * The object's fields are set only once, at the first method call. The LabelProvider
+     * can change after the Viewer is set up, so we cannot do this in the constructor.
+     */
+    if ( this.labelProvider == null ) {
+      initialize( viewer );
+    }
+    
+    int cat1 = category( element1 );
+    int cat2 = category( element2 );
+    
+    int result = cat1 - cat2;
+    
+    // Elements of different type (file, folder,...) are not mixed in the sorting
+    if ( result == 0 ) {
+      int col;
+      // Sort the tree by the first column if there is no sorting defined
+      if ( this.tree.getSortColumn() == null ) {
+        col = 0;
+      } else {
+        col = this.tree.indexOf( this.tree.getSortColumn() );
+      }
+      
+      int order = ( this.tree.getSortDirection() == SWT.DOWN )
+                    ? SWT.DOWN
+                    : SWT.UP;
+      
+      String value1 = this.labelProvider.getColumnText( element1, col );
+      String value2 = this.labelProvider.getColumnText( element2, col );
+      
+      result = ( order == SWT.UP )
+                 ? value1.compareToIgnoreCase( value2 )
+                 : value2.compareToIgnoreCase( value1 );
+    }
+    
+    // If the elements compare equal, sort by ascending value of the preselected column
+    if ( result == 0 ) {
+      int sCol = this.tree.indexOf( this.defaultSortColumn );
+      String value1 = this.labelProvider.getColumnText( element1, sCol );
+      String value2 = this.labelProvider.getColumnText( element2, sCol );
+      result = value1.compareToIgnoreCase( value2 );
+    }
+    
+    return result;
+  }
+
+  /**
+   * Initialize the private fields according to the viewer.
+   * 
+   * @param viewer The viewer whose elements are to be sorted
+   */
+  private void initialize( final Viewer viewer ) {
+    
+    // This comparator is only for trees
+    assert viewer instanceof TreeViewer;
+    
+    this.treeViewer = ( TreeViewer ) viewer;
+    this.tree = this.treeViewer.getTree();
+    
+    IBaseLabelProvider lProvider = this.treeViewer.getLabelProvider();
+    if ( lProvider instanceof ITableLabelProvider ) {
+      this.labelProvider = ( ITableLabelProvider ) lProvider;
+    }
+  }
+
+}
