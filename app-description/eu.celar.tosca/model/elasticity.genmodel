@@ -30,6 +30,7 @@
     <genDataTypes ecoreDataType="extension.ecore#//DataHintCategoryObject"/>
     <genDataTypes ecoreDataType="extension.ecore#//GlobalElasticityRequirementCategoryObject"/>
     <genDataTypes ecoreDataType="extension.ecore#//LoadHintCategoryObject"/>
+    <genDataTypes ecoreDataType="extension.ecore#//TVirtualMachineImage"/>
     <genClasses ecoreClass="extension.ecore#//ApplicationComponentElasticityRequirementsType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//ApplicationComponentElasticityRequirementsType1/applicationComponentElasticityRequirements"/>
     </genClasses>
@@ -42,12 +43,16 @@
     <genClasses ecoreClass="extension.ecore#//LoadHintsType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//LoadHintsType1/loadHints"/>
     </genClasses>
+    <genClasses ecoreClass="extension.ecore#//MonitoringProbesType1">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//MonitoringProbesType1/monitoringProbes"/>
+    </genClasses>
     <genClasses ecoreClass="extension.ecore#//TApplicationComponentElasticityRequirement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TApplicationComponentElasticityRequirement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TApplicationComponentElasticityRequirement/value"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TBoundaryDefinitionsExtension">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/globalElasticityRequirements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/monitoringProbes"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TDataHint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TDataHint/name"/>
@@ -61,10 +66,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/value"/>
     </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TMonitoringProbe">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TMonitoringProbe/name"/>
+    </genClasses>
     <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentElasticityRequirements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentDataHints"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TNodeTemplateExtension/applicationComponentLoadHints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/applicationComponentMonitoringProbes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/applicationComponentResizingActions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/applicationComponentVMI"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

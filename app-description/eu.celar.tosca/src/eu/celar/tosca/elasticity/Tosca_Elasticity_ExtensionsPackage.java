@@ -331,6 +331,34 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int LOAD_HINTS_TYPE1_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl <em>Monitoring Probes Type1</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getMonitoringProbesType1()
+   * @generated
+   */
+  int MONITORING_PROBES_TYPE1 = 4;
+
+  /**
+   * The feature id for the '<em><b>Monitoring Probes</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MONITORING_PROBES_TYPE1__MONITORING_PROBES = 0;
+
+  /**
+   * The number of structural features of the '<em>Monitoring Probes Type1</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MONITORING_PROBES_TYPE1_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TApplicationComponentElasticityRequirementImpl <em>TApplication Component Elasticity Requirement</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -338,7 +366,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTApplicationComponentElasticityRequirement()
    * @generated
    */
-  int TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT = 4;
+  int TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT = 5;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -402,7 +430,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTBoundaryDefinitionsExtension()
    * @generated
    */
-  int TBOUNDARY_DEFINITIONS_EXTENSION = 5;
+  int TBOUNDARY_DEFINITIONS_EXTENSION = 6;
 
   /**
    * The feature id for the '<em><b>Properties</b></em>' containment reference.
@@ -468,13 +496,22 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS = ToscaPackage.TBOUNDARY_DEFINITIONS_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Monitoring Probes</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES = ToscaPackage.TBOUNDARY_DEFINITIONS_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>TBoundary Definitions Extension</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TBOUNDARY_DEFINITIONS_EXTENSION_FEATURE_COUNT = ToscaPackage.TBOUNDARY_DEFINITIONS_FEATURE_COUNT + 1;
+  int TBOUNDARY_DEFINITIONS_EXTENSION_FEATURE_COUNT = ToscaPackage.TBOUNDARY_DEFINITIONS_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TDataHintImpl <em>TData Hint</em>}' class.
@@ -484,7 +521,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTDataHint()
    * @generated
    */
-  int TDATA_HINT = 6;
+  int TDATA_HINT = 7;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -548,7 +585,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTGlobalElasticityRequirement()
    * @generated
    */
-  int TGLOBAL_ELASTICITY_REQUIREMENT = 7;
+  int TGLOBAL_ELASTICITY_REQUIREMENT = 8;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -612,7 +649,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTLoadHint()
    * @generated
    */
-  int TLOAD_HINT = 8;
+  int TLOAD_HINT = 9;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -676,7 +713,144 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTNodeTemplateExtension()
    * @generated
    */
-  int TNODE_TEMPLATE_EXTENSION = 9;
+  int TNODE_TEMPLATE_EXTENSION = 11;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategory()
+   * @generated
+   */
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 12;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.DataHintCategory <em>Data Hint Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.DataHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategory()
+   * @generated
+   */
+  int DATA_HINT_CATEGORY = 13;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory <em>Global Elasticity Requirement Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getGlobalElasticityRequirementCategory()
+   * @generated
+   */
+  int GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY = 14;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.LoadHintCategory <em>Load Hint Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.LoadHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategory()
+   * @generated
+   */
+  int LOAD_HINT_CATEGORY = 15;
+
+  /**
+   * The meta object id for the '<em>Application Component Elasticity Requirement Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategoryObject()
+   * @generated
+   */
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 16;
+
+  /**
+   * The meta object id for the '<em>Data Hint Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.DataHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategoryObject()
+   * @generated
+   */
+  int DATA_HINT_CATEGORY_OBJECT = 17;
+
+  /**
+   * The meta object id for the '<em>Global Elasticity Requirement Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getGlobalElasticityRequirementCategoryObject()
+   * @generated
+   */
+  int GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 18;
+
+
+  /**
+   * The meta object id for the '<em>Load Hint Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.LoadHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategoryObject()
+   * @generated
+   */
+  int LOAD_HINT_CATEGORY_OBJECT = 19;
+
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TMonitoringProbeImpl <em>TMonitoring Probe</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.impl.TMonitoringProbeImpl
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTMonitoringProbe()
+   * @generated
+   */
+  int TMONITORING_PROBE = 10;
+
+  /**
+   * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__DOCUMENTATION = ToscaPackage.TEXTENSIBLE_ELEMENTS__DOCUMENTATION;
+
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__ANY = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__ANY_ATTRIBUTE = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY_ATTRIBUTE;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__NAME = ToscaPackage.TEXTENSIBLE_ELEMENTS_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>TMonitoring Probe</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE_FEATURE_COUNT = ToscaPackage.TEXTENSIBLE_ELEMENTS_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -832,94 +1006,50 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Application Component Monitoring Probes</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_MONITORING_PROBES = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Application Component Resizing Actions</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_RESIZING_ACTIONS = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Application Component VMI</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_VMI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 5;
+
+  /**
    * The number of structural features of the '<em>TNode Template Extension</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
+  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 6;
 
   /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
+   * The meta object id for the '<em>TVirtual Machine Image</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategory()
+   * @see java.lang.String
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTVirtualMachineImage()
    * @generated
    */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 10;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.DataHintCategory <em>Data Hint Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.DataHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategory()
-   * @generated
-   */
-  int DATA_HINT_CATEGORY = 11;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory <em>Global Elasticity Requirement Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getGlobalElasticityRequirementCategory()
-   * @generated
-   */
-  int GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY = 12;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.LoadHintCategory <em>Load Hint Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.LoadHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategory()
-   * @generated
-   */
-  int LOAD_HINT_CATEGORY = 13;
-
-  /**
-   * The meta object id for the '<em>Application Component Elasticity Requirement Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategoryObject()
-   * @generated
-   */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 14;
-
-  /**
-   * The meta object id for the '<em>Data Hint Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.DataHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategoryObject()
-   * @generated
-   */
-  int DATA_HINT_CATEGORY_OBJECT = 15;
-
-  /**
-   * The meta object id for the '<em>Global Elasticity Requirement Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getGlobalElasticityRequirementCategoryObject()
-   * @generated
-   */
-  int GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 16;
-
-
-  /**
-   * The meta object id for the '<em>Load Hint Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.LoadHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategoryObject()
-   * @generated
-   */
-  int LOAD_HINT_CATEGORY_OBJECT = 17;
+  int TVIRTUAL_MACHINE_IMAGE = 20;
 
 
   /**
@@ -1007,6 +1137,27 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   EReference getLoadHintsType1_LoadHints();
 
   /**
+   * Returns the meta object for class '{@link eu.celar.tosca.elasticity.MonitoringProbesType1 <em>Monitoring Probes Type1</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Monitoring Probes Type1</em>'.
+   * @see eu.celar.tosca.elasticity.MonitoringProbesType1
+   * @generated
+   */
+  EClass getMonitoringProbesType1();
+
+  /**
+   * Returns the meta object for the attribute list '{@link eu.celar.tosca.elasticity.MonitoringProbesType1#getMonitoringProbes <em>Monitoring Probes</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Monitoring Probes</em>'.
+   * @see eu.celar.tosca.elasticity.MonitoringProbesType1#getMonitoringProbes()
+   * @see #getMonitoringProbesType1()
+   * @generated
+   */
+  EAttribute getMonitoringProbesType1_MonitoringProbes();
+
+  /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement <em>TApplication Component Elasticity Requirement</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1058,6 +1209,17 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EReference getTBoundaryDefinitionsExtension_GlobalElasticityRequirements();
+
+  /**
+   * Returns the meta object for the containment reference '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension#getMonitoringProbes <em>Monitoring Probes</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Monitoring Probes</em>'.
+   * @see eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension#getMonitoringProbes()
+   * @see #getTBoundaryDefinitionsExtension()
+   * @generated
+   */
+  EReference getTBoundaryDefinitionsExtension_MonitoringProbes();
 
   /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TDataHint <em>TData Hint</em>}'.
@@ -1199,6 +1361,39 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   EReference getTNodeTemplateExtension_ApplicationComponentLoadHints();
 
   /**
+   * Returns the meta object for the attribute list '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentMonitoringProbes <em>Application Component Monitoring Probes</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Application Component Monitoring Probes</em>'.
+   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentMonitoringProbes()
+   * @see #getTNodeTemplateExtension()
+   * @generated
+   */
+  EAttribute getTNodeTemplateExtension_ApplicationComponentMonitoringProbes();
+
+  /**
+   * Returns the meta object for the attribute list '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentResizingActions <em>Application Component Resizing Actions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Application Component Resizing Actions</em>'.
+   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentResizingActions()
+   * @see #getTNodeTemplateExtension()
+   * @generated
+   */
+  EAttribute getTNodeTemplateExtension_ApplicationComponentResizingActions();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentVMI <em>Application Component VMI</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Application Component VMI</em>'.
+   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentVMI()
+   * @see #getTNodeTemplateExtension()
+   * @generated
+   */
+  EAttribute getTNodeTemplateExtension_ApplicationComponentVMI();
+
+  /**
    * Returns the meta object for enum '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1285,6 +1480,39 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EDataType getLoadHintCategoryObject();
+
+  /**
+   * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TMonitoringProbe <em>TMonitoring Probe</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>TMonitoring Probe</em>'.
+   * @see eu.celar.tosca.elasticity.TMonitoringProbe
+   * @generated
+   */
+  EClass getTMonitoringProbe();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TMonitoringProbe#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see eu.celar.tosca.elasticity.TMonitoringProbe#getName()
+   * @see #getTMonitoringProbe()
+   * @generated
+   */
+  EAttribute getTMonitoringProbe_Name();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.String <em>TVirtual Machine Image</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>TVirtual Machine Image</em>'.
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='TVirtualMachineImage' baseType='http://www.eclipse.org/emf/2003/XMLType#string'"
+   * @generated
+   */
+  EDataType getTVirtualMachineImage();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -1382,6 +1610,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
     EReference LOAD_HINTS_TYPE1__LOAD_HINTS = eINSTANCE.getLoadHintsType1_LoadHints();
 
     /**
+     * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl <em>Monitoring Probes Type1</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getMonitoringProbesType1()
+     * @generated
+     */
+    EClass MONITORING_PROBES_TYPE1 = eINSTANCE.getMonitoringProbesType1();
+
+    /**
+     * The meta object literal for the '<em><b>Monitoring Probes</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MONITORING_PROBES_TYPE1__MONITORING_PROBES = eINSTANCE.getMonitoringProbesType1_MonitoringProbes();
+
+    /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TApplicationComponentElasticityRequirementImpl <em>TApplication Component Elasticity Requirement</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1424,6 +1670,14 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EReference TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS = eINSTANCE.getTBoundaryDefinitionsExtension_GlobalElasticityRequirements();
+
+    /**
+     * The meta object literal for the '<em><b>Monitoring Probes</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES = eINSTANCE.getTBoundaryDefinitionsExtension_MonitoringProbes();
 
     /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TDataHintImpl <em>TData Hint</em>}' class.
@@ -1538,6 +1792,30 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
     EReference TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentLoadHints();
 
     /**
+     * The meta object literal for the '<em><b>Application Component Monitoring Probes</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_MONITORING_PROBES = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentMonitoringProbes();
+
+    /**
+     * The meta object literal for the '<em><b>Application Component Resizing Actions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_RESIZING_ACTIONS = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentResizingActions();
+
+    /**
+     * The meta object literal for the '<em><b>Application Component VMI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_VMI = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentVMI();
+
+    /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1616,6 +1894,34 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EDataType LOAD_HINT_CATEGORY_OBJECT = eINSTANCE.getLoadHintCategoryObject();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TMonitoringProbeImpl <em>TMonitoring Probe</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.tosca.elasticity.impl.TMonitoringProbeImpl
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTMonitoringProbe()
+     * @generated
+     */
+    EClass TMONITORING_PROBE = eINSTANCE.getTMonitoringProbe();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TMONITORING_PROBE__NAME = eINSTANCE.getTMonitoringProbe_Name();
+
+    /**
+     * The meta object literal for the '<em>TVirtual Machine Image</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTVirtualMachineImage()
+     * @generated
+     */
+    EDataType TVIRTUAL_MACHINE_IMAGE = eINSTANCE.getTVirtualMachineImage();
 
   }
 

@@ -100,6 +100,11 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
         return createLoadHintsType1Adapter();
       }
       @Override
+      public Adapter caseMonitoringProbesType1(MonitoringProbesType1 object)
+      {
+        return createMonitoringProbesType1Adapter();
+      }
+      @Override
       public Adapter caseTApplicationComponentElasticityRequirement(TApplicationComponentElasticityRequirement object)
       {
         return createTApplicationComponentElasticityRequirementAdapter();
@@ -123,6 +128,11 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
       public Adapter caseTLoadHint(TLoadHint object)
       {
         return createTLoadHintAdapter();
+      }
+      @Override
+      public Adapter caseTMonitoringProbe(TMonitoringProbe object)
+      {
+        return createTMonitoringProbeAdapter();
       }
       @Override
       public Adapter caseTNodeTemplateExtension(TNodeTemplateExtension object)
@@ -232,6 +242,21 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.MonitoringProbesType1 <em>Monitoring Probes Type1</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.MonitoringProbesType1
+   * @generated
+   */
+  public Adapter createMonitoringProbesType1Adapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement <em>TApplication Component Elasticity Requirement</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -302,6 +327,21 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createTLoadHintAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TMonitoringProbe <em>TMonitoring Probe</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.TMonitoringProbe
+   * @generated
+   */
+  public Adapter createTMonitoringProbeAdapter()
   {
     return null;
   }

@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +33,7 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     try
     {
-      Tosca_Elasticity_ExtensionsFactory theTosca_Elasticity_ExtensionsFactory = (Tosca_Elasticity_ExtensionsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.org/NewXMLSchema"); 
+      Tosca_Elasticity_ExtensionsFactory theTosca_Elasticity_ExtensionsFactory = (Tosca_Elasticity_ExtensionsFactory)EPackage.Registry.INSTANCE.getEFactory(Tosca_Elasticity_ExtensionsPackage.eNS_URI);
       if (theTosca_Elasticity_ExtensionsFactory != null)
       {
         return theTosca_Elasticity_ExtensionsFactory;
@@ -69,11 +71,13 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINTS_TYPE1: return createDataHintsType1();
       case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENTS_TYPE1: return createGlobalElasticityRequirementsType1();
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1: return createLoadHintsType1();
+      case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1: return createMonitoringProbesType1();
       case Tosca_Elasticity_ExtensionsPackage.TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT: return createTApplicationComponentElasticityRequirement();
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION: return createTBoundaryDefinitionsExtension();
       case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT: return createTDataHint();
       case Tosca_Elasticity_ExtensionsPackage.TGLOBAL_ELASTICITY_REQUIREMENT: return createTGlobalElasticityRequirement();
       case Tosca_Elasticity_ExtensionsPackage.TLOAD_HINT: return createTLoadHint();
+      case Tosca_Elasticity_ExtensionsPackage.TMONITORING_PROBE: return createTMonitoringProbe();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION: return createTNodeTemplateExtension();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -106,6 +110,8 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
         return createGlobalElasticityRequirementCategoryObjectFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY_OBJECT:
         return createLoadHintCategoryObjectFromString(eDataType, initialValue);
+      case Tosca_Elasticity_ExtensionsPackage.TVIRTUAL_MACHINE_IMAGE:
+        return createTVirtualMachineImageFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -137,6 +143,8 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
         return convertGlobalElasticityRequirementCategoryObjectToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY_OBJECT:
         return convertLoadHintCategoryObjectToString(eDataType, instanceValue);
+      case Tosca_Elasticity_ExtensionsPackage.TVIRTUAL_MACHINE_IMAGE:
+        return convertTVirtualMachineImageToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -184,6 +192,17 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     LoadHintsType1Impl loadHintsType1 = new LoadHintsType1Impl();
     return loadHintsType1;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MonitoringProbesType1 createMonitoringProbesType1()
+  {
+    MonitoringProbesType1Impl monitoringProbesType1 = new MonitoringProbesType1Impl();
+    return monitoringProbesType1;
   }
 
   /**
@@ -239,6 +258,17 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     TLoadHintImpl tLoadHint = new TLoadHintImpl();
     return tLoadHint;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TMonitoringProbe createTMonitoringProbe()
+  {
+    TMonitoringProbeImpl tMonitoringProbe = new TMonitoringProbeImpl();
+    return tMonitoringProbe;
   }
 
   /**
@@ -418,6 +448,26 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   public String convertLoadHintCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
     return convertLoadHintCategoryToString(Tosca_Elasticity_ExtensionsPackage.Literals.LOAD_HINT_CATEGORY, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String createTVirtualMachineImageFromString(EDataType eDataType, String initialValue)
+  {
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertTVirtualMachineImageToString(EDataType eDataType, Object instanceValue)
+  {
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
   }
 
   /**

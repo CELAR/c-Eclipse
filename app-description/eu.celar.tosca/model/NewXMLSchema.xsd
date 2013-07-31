@@ -50,7 +50,11 @@
     	<complexContent>
     		<extension base="tosca:TBoundaryDefinitions">
     			<sequence>
-    				<element name="globalElasticityRequirements" type="etosca:GlobalElasticityRequirementsType1" maxOccurs="1" minOccurs="0"></element>
+    				<element name="globalElasticityRequirements"
+    					type="etosca:GlobalElasticityRequirementsType1" maxOccurs="1"
+    					minOccurs="0">
+    				</element>
+    				<element name="monitoringProbes" type="etosca:MonitoringProbesType1" maxOccurs="1" minOccurs="0"></element>
     			</sequence>
     		</extension>
     	</complexContent>
@@ -99,10 +103,20 @@
     					maxOccurs="1" minOccurs="0">
     				</element>
     				<element name="applicationComponentDataHints"
-    					type="etosca:DataHintsType1" maxOccurs="1"
+    					type="etosca:DataHintsType1" maxOccurs="1" minOccurs="0">
+    				</element>
+    				<element name="applicationComponentLoadHints"
+    					type="etosca:LoadHintsType1" maxOccurs="1" minOccurs="0">
+    				</element>
+    				<element name="applicationComponentMonitoringProbes"
+    					type="string" maxOccurs="unbounded"
     					minOccurs="0">
     				</element>
-    				<element name="applicationComponentLoadHints" type="etosca:LoadHintsType1" maxOccurs="1" minOccurs="0"></element>
+    				<element name="applicationComponentResizingActions"
+    					type="string" maxOccurs="unbounded"
+    					minOccurs="0">
+    				</element>
+    				<element name="applicationComponentVMI" type="etosca:TVirtualMachineImage" maxOccurs="1" minOccurs="0"></element>
     			</sequence>
     		</extension>
     	</complexContent>
@@ -131,4 +145,27 @@
 
 
 
+
+
+
+
+    <simpleType name="TVirtualMachineImage">
+    	<restriction base="string"></restriction>
+    </simpleType>
+
+    <complexType name="MonitoringProbesType1">
+    	<sequence>
+    		<element name="monitoringProbes" type="string" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="TMonitoringProbe">
+    	<complexContent>
+    		<extension base="tosca:TExtensibleElements">
+    			<attribute name="Name" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
 </schema>
