@@ -10,12 +10,14 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.tosca,
  eu.celar.tosca.core,
  eu.celar.tosca.elasticity,
+ eu.celar.tosca.elasticity.impl,
  eu.celar.tosca.elasticity.util,
  eu.celar.tosca.impl,
  eu.celar.tosca.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ eu.celar.tosca;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: eu.celar.core.model,
  eu.celar.core.model.impl,

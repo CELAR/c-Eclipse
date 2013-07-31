@@ -1,3 +1,7 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor;
 
 import org.eclipse.jface.resource.ImageDescriptor;

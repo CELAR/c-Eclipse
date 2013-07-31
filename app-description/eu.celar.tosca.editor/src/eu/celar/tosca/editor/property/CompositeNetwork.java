@@ -4,8 +4,6 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -13,22 +11,19 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-import eu.celar.tosca.TRelationshipTemplate;
-
-// Relationship Properties - Connection Tab
-public class RelationshipGeneralSection extends GFPropertySection
+// Application Component Properties - Network Tab
+public class CompositeNetwork extends GFPropertySection
   implements ITabbedPropertyConstants
 {
 
-  private Text nameText;
-  private CCombo cmbRelationshipType;
+  private CCombo cmbCommunicationIntensity;
+  private CCombo cmbNetworkConnection;
 
   @Override
   public void createControls( Composite parent,
@@ -38,7 +33,7 @@ public class RelationshipGeneralSection extends GFPropertySection
     TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     Section section = toolkit.createSection( parent, Section.TITLE_BAR );
-    section.setText( "Relationship Properties" ); //$NON-NLS-1$
+    section.setText( "Communication/Network Properties" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( section, SWT.WRAP );
     GridLayout layout = new GridLayout();
     layout.numColumns = 2;
@@ -48,60 +43,50 @@ public class RelationshipGeneralSection extends GFPropertySection
     layout.marginHeight = 2;
     client.setLayout( layout );
     GridData gd;
-    // Relationship Name
-    CLabel valueLabel = factory.createCLabel( client, "Name:" ); //$NON-NLS-1$
+    // Communication Intensity
+    CLabel communicationIntensityLabel = factory.createCLabel( client,
+                                                               "Communication Intensity:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
-    valueLabel.setLayoutData( gd );
-    // Text - Relationship Type
-    nameText = factory.createText( client, "" ); //$NON-NLS-1$
-    nameText.setEditable( true );
-    gd = new GridData();
+    communicationIntensityLabel.setLayoutData( gd );
+    // Combo - Communication Intensity
+    this.cmbCommunicationIntensity = new CCombo( client, SWT.BORDER );
+    this.cmbCommunicationIntensity.setEnabled( true );
+    this.cmbCommunicationIntensity.add( "Heavy" );
+    this.cmbCommunicationIntensity.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
-    nameText.setLayoutData( gd );
-    // Relationship Type
-    CLabel relationshipTypeLabel = factory.createCLabel( client,
-                                                         "Relationship Type:" ); //$NON-NLS-1$
+    this.cmbCommunicationIntensity.setLayoutData( gd );
+    // Network Connection
+    CLabel networkConnectionLabel = factory.createCLabel( client,
+                                                          "Network Connection:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
-    relationshipTypeLabel.setLayoutData( gd );
-    // Combo - Relationship Type
-    this.cmbRelationshipType = new CCombo( client, SWT.BORDER );
-    this.cmbRelationshipType.setEnabled( true );
-    this.cmbRelationshipType.add( "Master - Slave" );
-    this.cmbRelationshipType.add( "Peer - Peer" );
-    this.cmbRelationshipType.add( "Producer - Consumer" );
-    this.cmbRelationshipType.setEditable( false );
+    networkConnectionLabel.setLayoutData( gd );
+    // Combo - Network Connection
+    this.cmbNetworkConnection = new CCombo( client, SWT.BORDER );
+    this.cmbNetworkConnection.setEnabled( true );
+    this.cmbNetworkConnection.add( "1 GB" );
+    this.cmbNetworkConnection.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
-    this.cmbRelationshipType.setLayoutData( gd );
+    this.cmbNetworkConnection.setLayoutData( gd );
     // Add section components to the toolkit
-    toolkit.adapt( valueLabel, true, true );
-    toolkit.adapt( nameText, true, true );
-    toolkit.adapt( relationshipTypeLabel, true, true );
-    toolkit.adapt( cmbRelationshipType, true, true );
+    toolkit.adapt( cmbCommunicationIntensity );
+    toolkit.adapt( communicationIntensityLabel );
+    toolkit.adapt( cmbNetworkConnection );
+    toolkit.adapt( networkConnectionLabel );
     section.setClient( client );
   }
 
   // Refresh Tab
   @Override
   public void refresh() {
-    PictogramElement pe = getSelectedPictogramElement();
-    if( pe != null ) {
-      Object bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
-      if( bo == null )
-        return;
-      String name = ( ( TRelationshipTemplate )bo ).getName();
-      nameText.setText( name == null
-                                    ? "" : name ); //$NON-NLS-1$
-    }
   }
 }

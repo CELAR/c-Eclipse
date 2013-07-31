@@ -53,8 +53,8 @@
    <propertyTab
          afterTab="graphiti.main.tab"
          category="Graphiti"
-         id="graphiti.advanced.tab"
-         label="Advanced">
+         id="graphiti.component.elasticity.tab"
+         label="Elasticity">
    </propertyTab>
    <propertyTab
          category="Graphiti"
@@ -70,13 +70,13 @@
          afterTab="graphiti.application.tab"
          category="Graphiti"
          id="graphiti.application.advanced.tab"
-         label="Advanced">
+         label="Elasticity">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.connection.tab"
          category="Graphiti"
          id="graphiti.connection.advanced.tab"
-         label="Advanced">
+         label="Network">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.application.advanced.tab"
@@ -85,10 +85,51 @@
          label="Data/Load">
    </propertyTab>
    <propertyTab
-         afterTab="graphiti.advanced.tab"
+         afterTab="graphiti.component.elasticity.tab"
          category="Graphiti"
          id="graphiti.component.data.load.tab"
          label="Data/Load">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.component.data.load.tab"
+         category="Graphiti"
+         id="graphiti.component.monitoring.resizing.tab"
+         label="Monitoring">
+   </propertyTab>
+   <propertyTab
+         category="Graphiti"
+         id="graphiti.composite.elasticity"
+         label="Elasticity">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.composite.elasticity"
+         category="Graphiti"
+         id="graphiti.composite.data.load"
+         label="Data/Load">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.composite.data.load"
+         category="Graphiti"
+         id="graphiti.composite.monitoring"
+         label="Monitoring">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.component.data.load.tab"
+         category="Graphiti"
+         id="graphiti.component.parameters.tab"
+         label="Parameters">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.composite.data.load"
+         category="Graphiti"
+         id="graphiti.composite.network"
+         label="Network">
+   </propertyTab>
+   <propertyTab
+         afterTab="graphiti.data.load.tab"
+         category="Graphiti"
+         id="graphiti.application.monitoring"
+         label="Monitoring">
    </propertyTab>
 	    </propertyTabs>
 	</extension>
@@ -107,22 +148,7 @@
 	        Defines a standard (table format) property sheet section using the table property sheet
 	        integration into the Eclipse tabbed property sheet for EReferences.
 	        -->
-		   <propertySection
-		         afterSection="graphiti.main.tab.emfclass"
-		         class="eu.celar.tosca.editor.property.ApplicationComponentImageSection"
-		         filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
-		         id="graphiti.main.tab.emfclasssection2"
-		         tab="graphiti.main.tab">
-		   </propertySection>
-		   <propertySection
-		         afterSection="graphiti.main.tab.emfclasssection2"
-		         class="eu.celar.tosca.editor.property.ApplicationComponentInstancesSection"
-		         filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
-		         id="graphiti.main.tab.emfclasssection3"
-		         tab="graphiti.main.tab">
-		   </propertySection>
      <propertySection
-           afterSection="graphiti.advanced.tab.loadHints"
            class="eu.celar.tosca.editor.property.ApplicationComponentDataHintsSection"
            filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
            id="graphiti.advanced.tab.dataHints"
@@ -138,7 +164,7 @@
            class="eu.celar.tosca.editor.property.ApplicationComponentElasticityRequirementsSection"
            filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
            id="graphiti.advanced.tab.elasticityRequirements"
-           tab="graphiti.advanced.tab">
+           tab="graphiti.component.elasticity.tab">
      </propertySection>
      <propertySection
            class="eu.celar.tosca.editor.property.RelationshipGeneralSection"
@@ -159,29 +185,52 @@
            tab="graphiti.application.advanced.tab">
      </propertySection>
      <propertySection
-           afterSection="graphiti.connection.tab.Section1"
-           class="eu.celar.tosca.editor.property.RelationshipType"
-           filter="eu.celar.tosca.editor.property.RelationshipFilter"
-           id="graphiti.connection.tab.type"
-           tab="graphiti.connection.tab">
-     </propertySection>
-     <propertySection
-           class="eu.celar.tosca.editor.property.ConnectionRequirements"
-           filter="eu.celar.tosca.editor.property.RelationshipFilter"
-           id="graphiti.connection.tab.ConnectionRequirements"
-           tab="graphiti.connection.requirements.tab">
-     </propertySection>
-     <propertySection
-           class="eu.celar.tosca.editor.property.NetworkConnection"
-           filter="eu.celar.tosca.editor.property.RelationshipFilter"
-           id="graphiti.connection.advanced.tab.NetworkConnection"
-           tab="graphiti.connection.advanced.tab">
-     </propertySection>
-     <propertySection
            class="eu.celar.tosca.editor.property.CommunicationIntensity"
            filter="eu.celar.tosca.editor.property.RelationshipFilter"
            id="graphiti.connection.advanced.tab.CommunicationIntensity"
            tab="graphiti.connection.advanced.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationComponentMonitoringResizingSection"
+           filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+           id="graphiti.advanced.tab.monitoring.resizing"
+           tab="graphiti.component.monitoring.resizing.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.CompositeElasticity"
+           filter="eu.celar.tosca.editor.property.CompositeComponentFilter"
+           id="graphiti.composite.elasticity.section"
+           tab="graphiti.composite.elasticity">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.CompositeMonitoring"
+           filter="eu.celar.tosca.editor.property.CompositeComponentFilter"
+           id="graphiti.composite.monitoring.section"
+           tab="graphiti.composite.monitoring">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.CompositeDataLoad"
+           filter="eu.celar.tosca.editor.property.CompositeComponentFilter"
+           id="graphiti.composite.data.load.section"
+           tab="graphiti.composite.data.load">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationComponentParametersSection"
+           filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+           id="graphiti.application.component.Parameters"
+           tab="graphiti.component.parameters.tab">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.CompositeNetwork"
+           filter="eu.celar.tosca.editor.property.CompositeComponentFilter"
+           id="graphiti.composite.network.section"
+           tab="graphiti.composite.network">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationMonitoringSection"
+           filter="eu.celar.tosca.editor.property.ApplicationFilter"
+           id="graphiti.application.MonitoringSection"
+           tab="graphiti.application.monitoring">
      </propertySection>
 			    </propertySections>
 	</extension>

@@ -219,8 +219,9 @@ public class ToscaFileService {
 
         TransactionalEditingDomain editingDomain = null;
         ResourceSet resourceSet = null;
+       
 
-        if (diagramEditor == null || diagramEditor.getResourceSet() == null || diagramEditor.getEditingDomain() == null) {
+        if (diagramEditor == null /*|| diagramEditor.getEditingDomain().getResourceSet() == null*/ || diagramEditor.getEditDomain() == null) {
           // nothing found, create a new one
           resourceSet = new ResourceSetImpl();
 
@@ -233,7 +234,7 @@ public class ToscaFileService {
           }
         } else {
           editingDomain = diagramEditor.getEditingDomain();
-          resourceSet = diagramEditor.getResourceSet();
+          resourceSet = diagramEditor.getEditingDomain().getResourceSet();
         }
 
         // Create a resource for this file.

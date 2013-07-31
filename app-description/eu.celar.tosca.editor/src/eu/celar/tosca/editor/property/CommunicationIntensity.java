@@ -1,55 +1,92 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-public class CommunicationIntensity extends GFPropertySection implements ITabbedPropertyConstants {
+// Relationship Properties - Network Tab
+public class CommunicationIntensity extends GFPropertySection
+  implements ITabbedPropertyConstants
+{
 
   private CCombo cmbCommunicationIntensity;
+  private CCombo cmbNetworkConnection;
 
-    @Override
-    public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-        super.createControls(parent, tabbedPropertySheetPage);
-
-        TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-        Composite composite = factory.createFlatFormComposite(parent);
-
-    FormData data;
-    // Combo - RelationshipType
-    this.cmbCommunicationIntensity = new CCombo( composite, SWT.BORDER );
+  @Override
+  public void createControls( Composite parent,
+                              TabbedPropertySheetPage tabbedPropertySheetPage )
+  {
+    super.createControls( parent, tabbedPropertySheetPage );
+    TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+    FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
+    Section section = toolkit.createSection( parent, Section.TITLE_BAR );
+    section.setText( "Communication/Network Properties" ); //$NON-NLS-1$
+    Composite client = toolkit.createComposite( section, SWT.WRAP );
+    GridLayout layout = new GridLayout();
+    layout.numColumns = 2;
+    layout.marginTop = 15;
+    layout.verticalSpacing = 15;
+    layout.marginWidth = 2;
+    layout.marginHeight = 2;
+    client.setLayout( layout );
+    GridData gd;
+    // Communication Intensity
+    CLabel communicationIntensityLabel = factory.createCLabel( client,
+                                                               "Communication Intensity:" ); //$NON-NLS-1$
+    gd = new GridData();
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    // gd.widthHint=STANDARD_LABEL_WIDTH;
+    communicationIntensityLabel.setLayoutData( gd );
+    // Combo - Communication Intensity
+    this.cmbCommunicationIntensity = new CCombo( client, SWT.BORDER );
     this.cmbCommunicationIntensity.setEnabled( true );
-    this.cmbCommunicationIntensity.add( "Master - Slave" );
-    this.cmbCommunicationIntensity.add( "Peer - Peer" );
-    this.cmbCommunicationIntensity.add( "Producer - Consumer" );
+    this.cmbCommunicationIntensity.add( "JSON" );
     this.cmbCommunicationIntensity.setEditable( false );
-    data = new FormData();
-    data.left = new FormAttachment( 0, STANDARD_LABEL_WIDTH + 60 );
-    data.right = new FormAttachment( 40, 0 );
-    data.top = new FormAttachment( 0, VSPACE );
-    this.cmbCommunicationIntensity.setLayoutData( data );
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gd.widthHint = 140;
+    this.cmbCommunicationIntensity.setLayoutData( gd );
+    // Network Connection
+    CLabel networkConnectionLabel = factory.createCLabel( client,
+                                                          "Network Connection:" ); //$NON-NLS-1$
+    gd = new GridData();
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    // gd.widthHint=STANDARD_LABEL_WIDTH;
+    networkConnectionLabel.setLayoutData( gd );
+    // Combo - Network Connection
+    this.cmbNetworkConnection = new CCombo( client, SWT.BORDER );
+    this.cmbNetworkConnection.setEnabled( true );
+    this.cmbNetworkConnection.add( "Write Heavy" );
+    this.cmbNetworkConnection.setEditable( false );
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gd.widthHint = 140;
+    this.cmbNetworkConnection.setLayoutData( gd );
+    // Add section components to the toolkit
+    toolkit.adapt( cmbCommunicationIntensity );
+    toolkit.adapt( communicationIntensityLabel );
+    toolkit.adapt( cmbNetworkConnection );
+    toolkit.adapt( networkConnectionLabel );
+    section.setClient( client );
+  }
 
-    // RelationshipType Label
-    CLabel valueLabel = factory.createCLabel( composite,
-                                              "Communication Intensity:" ); //$NON-NLS-1$
-    data = new FormData();
-    data.left = new FormAttachment( 0, 0 );
-    data.right = new FormAttachment( this.cmbCommunicationIntensity, -HSPACE );
-    data.top = new FormAttachment( this.cmbCommunicationIntensity, 0, SWT.CENTER );
-    valueLabel.setLayoutData( data );
-
-    }
-
-    @Override
-    public void refresh() {
-
-    }
+  // Refresh Tab
+  @Override
+  public void refresh() {
+  }
 }
-

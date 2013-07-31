@@ -1,28 +1,19 @@
-/*******************************************************************************
- * <copyright>
- *
- * Copyright (c) 2005, 2012 SAP AG.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    SAP AG - initial API, implementation and documentation
- *    cbrand - Bug 377475 - Fix AbstractCustomFeature.execute and canExecute
- *
- * </copyright>
- *
- *******************************************************************************/
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Nicholas Loulloudes, Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import eu.celar.tosca.TNodeTemplate;
-import eu.celar.tosca.editor.diagram.DialogUtil;
 
 public class RenameApplicationComponentFeature extends AbstractCustomFeature {
 
@@ -57,6 +48,7 @@ public class RenameApplicationComponentFeature extends AbstractCustomFeature {
 		return ret;
 	}
 
+	// Open rename Application Component Name Dialog
 	@Override
   public void execute(final ICustomContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
@@ -65,8 +57,16 @@ public class RenameApplicationComponentFeature extends AbstractCustomFeature {
 			if (bo instanceof TNodeTemplate) {
 			  TNodeTemplate tNode = (TNodeTemplate) bo;
 				String currentName = tNode.getName();
-				// ask user for a new class name
-				String newName = DialogUtil.askString("Rename Application Component", getDescription(), currentName); //$NON-NLS-1$
+				// ask user for a new application component name
+						
+		        String newName = null;
+		        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		        InputDialog inputDialog = new InputDialog(shell, "Rename Application Component",  getDescription(), currentName, null);
+		        int newNameDialog = inputDialog.open();
+		        if (newNameDialog == Window.OK) {
+		          newName = inputDialog.getValue();
+		        }		
+				
 				if (newName != null && !newName.equals(currentName)) {
 					this.hasDoneChanges = true;
 					tNode.setName(newName);

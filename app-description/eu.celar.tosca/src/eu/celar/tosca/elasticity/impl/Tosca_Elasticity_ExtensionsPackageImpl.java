@@ -12,11 +12,13 @@ import eu.celar.tosca.elasticity.GlobalElasticityRequirementCategory;
 import eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1;
 import eu.celar.tosca.elasticity.LoadHintCategory;
 import eu.celar.tosca.elasticity.LoadHintsType1;
+import eu.celar.tosca.elasticity.MonitoringProbesType1;
 import eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.TDataHint;
 import eu.celar.tosca.elasticity.TGlobalElasticityRequirement;
 import eu.celar.tosca.elasticity.TLoadHint;
+import eu.celar.tosca.elasticity.TMonitoringProbe;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
@@ -73,6 +75,13 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass monitoringProbesType1EClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass tApplicationComponentElasticityRequirementEClass = null;
 
   /**
@@ -102,6 +111,13 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * @generated
    */
   private EClass tLoadHintEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass tMonitoringProbeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -165,6 +181,13 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * @generated
    */
   private EDataType loadHintCategoryObjectEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType tVirtualMachineImageEDataType = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -318,6 +341,26 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getMonitoringProbesType1()
+  {
+    return monitoringProbesType1EClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getMonitoringProbesType1_MonitoringProbes()
+  {
+    return (EAttribute)monitoringProbesType1EClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getTApplicationComponentElasticityRequirement()
   {
     return tApplicationComponentElasticityRequirementEClass;
@@ -361,6 +404,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
   public EReference getTBoundaryDefinitionsExtension_GlobalElasticityRequirements()
   {
     return (EReference)tBoundaryDefinitionsExtensionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getTBoundaryDefinitionsExtension_MonitoringProbes()
+  {
+    return (EReference)tBoundaryDefinitionsExtensionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -458,6 +511,26 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getTMonitoringProbe()
+  {
+    return tMonitoringProbeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTMonitoringProbe_Name()
+  {
+    return (EAttribute)tMonitoringProbeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getTNodeTemplateExtension()
   {
     return tNodeTemplateExtensionEClass;
@@ -491,6 +564,36 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
   public EReference getTNodeTemplateExtension_ApplicationComponentLoadHints()
   {
     return (EReference)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTNodeTemplateExtension_ApplicationComponentMonitoringProbes()
+  {
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTNodeTemplateExtension_ApplicationComponentResizingActions()
+  {
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTNodeTemplateExtension_ApplicationComponentVMI()
+  {
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -578,6 +681,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EDataType getTVirtualMachineImage()
+  {
+    return tVirtualMachineImageEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Tosca_Elasticity_ExtensionsFactory getTosca_Elasticity_ExtensionsFactory()
   {
     return (Tosca_Elasticity_ExtensionsFactory)getEFactoryInstance();
@@ -615,12 +728,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     loadHintsType1EClass = createEClass(LOAD_HINTS_TYPE1);
     createEReference(loadHintsType1EClass, LOAD_HINTS_TYPE1__LOAD_HINTS);
 
+    monitoringProbesType1EClass = createEClass(MONITORING_PROBES_TYPE1);
+    createEAttribute(monitoringProbesType1EClass, MONITORING_PROBES_TYPE1__MONITORING_PROBES);
+
     tApplicationComponentElasticityRequirementEClass = createEClass(TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT);
     createEAttribute(tApplicationComponentElasticityRequirementEClass, TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT__NAME);
     createEAttribute(tApplicationComponentElasticityRequirementEClass, TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT__VALUE);
 
     tBoundaryDefinitionsExtensionEClass = createEClass(TBOUNDARY_DEFINITIONS_EXTENSION);
     createEReference(tBoundaryDefinitionsExtensionEClass, TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS);
+    createEReference(tBoundaryDefinitionsExtensionEClass, TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
 
     tDataHintEClass = createEClass(TDATA_HINT);
     createEAttribute(tDataHintEClass, TDATA_HINT__NAME);
@@ -634,10 +751,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     createEAttribute(tLoadHintEClass, TLOAD_HINT__NAME);
     createEAttribute(tLoadHintEClass, TLOAD_HINT__VALUE);
 
+    tMonitoringProbeEClass = createEClass(TMONITORING_PROBE);
+    createEAttribute(tMonitoringProbeEClass, TMONITORING_PROBE__NAME);
+
     tNodeTemplateExtensionEClass = createEClass(TNODE_TEMPLATE_EXTENSION);
     createEReference(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_ELASTICITY_REQUIREMENTS);
     createEReference(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_DATA_HINTS);
     createEReference(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS);
+    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_MONITORING_PROBES);
+    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_RESIZING_ACTIONS);
+    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_VMI);
 
     // Create enums
     applicationComponentElasticityRequirementCategoryEEnum = createEEnum(APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY);
@@ -650,6 +773,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     dataHintCategoryObjectEDataType = createEDataType(DATA_HINT_CATEGORY_OBJECT);
     globalElasticityRequirementCategoryObjectEDataType = createEDataType(GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT);
     loadHintCategoryObjectEDataType = createEDataType(LOAD_HINT_CATEGORY_OBJECT);
+    tVirtualMachineImageEDataType = createEDataType(TVIRTUAL_MACHINE_IMAGE);
   }
 
   /**
@@ -677,8 +801,8 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    ToscaPackage theToscaPackage = (ToscaPackage)EPackage.Registry.INSTANCE.getEPackage(ToscaPackage.eNS_URI);
     XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    ToscaPackage theToscaPackage = (ToscaPackage)EPackage.Registry.INSTANCE.getEPackage(ToscaPackage.eNS_URI);
 
     // Create type parameters
 
@@ -690,6 +814,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     tDataHintEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
     tGlobalElasticityRequirementEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
     tLoadHintEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
+    tMonitoringProbeEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
     tNodeTemplateExtensionEClass.getESuperTypes().add(theToscaPackage.getTNodeTemplate());
 
     // Initialize classes and features; add operations and parameters
@@ -705,12 +830,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEClass(loadHintsType1EClass, LoadHintsType1.class, "LoadHintsType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getLoadHintsType1_LoadHints(), this.getTLoadHint(), null, "loadHints", null, 1, -1, LoadHintsType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(monitoringProbesType1EClass, MonitoringProbesType1.class, "MonitoringProbesType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getMonitoringProbesType1_MonitoringProbes(), theXMLTypePackage.getString(), "monitoringProbes", null, 1, -1, MonitoringProbesType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(tApplicationComponentElasticityRequirementEClass, TApplicationComponentElasticityRequirement.class, "TApplicationComponentElasticityRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTApplicationComponentElasticityRequirement_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TApplicationComponentElasticityRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTApplicationComponentElasticityRequirement_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TApplicationComponentElasticityRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tBoundaryDefinitionsExtensionEClass, TBoundaryDefinitionsExtension.class, "TBoundaryDefinitionsExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTBoundaryDefinitionsExtension_GlobalElasticityRequirements(), this.getGlobalElasticityRequirementsType1(), null, "globalElasticityRequirements", null, 0, 1, TBoundaryDefinitionsExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTBoundaryDefinitionsExtension_MonitoringProbes(), this.getMonitoringProbesType1(), null, "monitoringProbes", null, 0, 1, TBoundaryDefinitionsExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tDataHintEClass, TDataHint.class, "TDataHint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTDataHint_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TDataHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -724,10 +853,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEAttribute(getTLoadHint_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TLoadHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTLoadHint_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TLoadHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(tMonitoringProbeEClass, TMonitoringProbe.class, "TMonitoringProbe", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getTMonitoringProbe_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TMonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(tNodeTemplateExtensionEClass, TNodeTemplateExtension.class, "TNodeTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTNodeTemplateExtension_ApplicationComponentElasticityRequirements(), this.getApplicationComponentElasticityRequirementsType1(), null, "applicationComponentElasticityRequirements", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getTNodeTemplateExtension_ApplicationComponentDataHints(), this.getDataHintsType1(), null, "applicationComponentDataHints", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getTNodeTemplateExtension_ApplicationComponentLoadHints(), this.getLoadHintsType1(), null, "applicationComponentLoadHints", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTNodeTemplateExtension_ApplicationComponentMonitoringProbes(), theXMLTypePackage.getString(), "applicationComponentMonitoringProbes", null, 0, -1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTNodeTemplateExtension_ApplicationComponentResizingActions(), theXMLTypePackage.getString(), "applicationComponentResizingActions", null, 0, -1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTNodeTemplateExtension_ApplicationComponentVMI(), this.getTVirtualMachineImage(), "applicationComponentVMI", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.class, "ApplicationComponentElasticityRequirementCategory");
@@ -754,6 +889,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEDataType(dataHintCategoryObjectEDataType, DataHintCategory.class, "DataHintCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(globalElasticityRequirementCategoryObjectEDataType, GlobalElasticityRequirementCategory.class, "GlobalElasticityRequirementCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(loadHintCategoryObjectEDataType, LoadHintCategory.class, "LoadHintCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(tVirtualMachineImageEDataType, String.class, "TVirtualMachineImage", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -901,6 +1037,23 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "namespace", "##targetNamespace"
        });		
     addAnnotation
+      (monitoringProbesType1EClass, 
+       source, 
+       new String[] 
+       {
+       "name", "MonitoringProbesType1",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getMonitoringProbesType1_MonitoringProbes(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "monitoringProbes",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
       (tApplicationComponentElasticityRequirementEClass, 
        source, 
        new String[] 
@@ -939,6 +1092,15 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "element",
        "name", "globalElasticityRequirements",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getTBoundaryDefinitionsExtension_MonitoringProbes(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "monitoringProbes",
        "namespace", "##targetNamespace"
        });		
     addAnnotation
@@ -1014,6 +1176,22 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "name", "Value"
        });		
     addAnnotation
+      (tMonitoringProbeEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "TMonitoringProbe",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getTMonitoringProbe_Name(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "Name"
+       });		
+    addAnnotation
       (tNodeTemplateExtensionEClass, 
        source, 
        new String[] 
@@ -1047,6 +1225,41 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "applicationComponentLoadHints",
        "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getTNodeTemplateExtension_ApplicationComponentMonitoringProbes(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "applicationComponentMonitoringProbes",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getTNodeTemplateExtension_ApplicationComponentResizingActions(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "applicationComponentResizingActions",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getTNodeTemplateExtension_ApplicationComponentVMI(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "applicationComponentVMI",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (tVirtualMachineImageEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "TVirtualMachineImage",
+       "baseType", "http://www.eclipse.org/emf/2003/XMLType#string"
        });
   }
 

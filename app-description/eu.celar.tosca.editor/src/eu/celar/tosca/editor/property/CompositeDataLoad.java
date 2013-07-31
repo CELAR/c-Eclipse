@@ -16,8 +16,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-// Application Properties - Data/Load Tab
-public class ApplicationDataHintsSection extends GFPropertySection
+// Composite Application Component Properties - Data/Load Tab
+public class CompositeDataLoad extends GFPropertySection
   implements ITabbedPropertyConstants
 {
 
@@ -33,7 +33,7 @@ public class ApplicationDataHintsSection extends GFPropertySection
     super.createControls( parent, tabbedPropertySheetPage );
     // TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
-    // Application Data Hints Section
+    // Composite Application Component Data Hints Section
     Section section = toolkit.createSection( parent, Section.TITLE_BAR );
     section.setText( "Data Hints" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( section, SWT.WRAP );
@@ -61,7 +61,7 @@ public class ApplicationDataHintsSection extends GFPropertySection
     // Add section components to the toolkit
     toolkit.adapt( this.tableDataHints, true, true );
     section.setClient( client );
-    // Application Load Hints Section
+    // Composite Application Component Load Hints Section
     Section sectionInstances = toolkit.createSection( parent, Section.TITLE_BAR );
     sectionInstances.setText( "Load Hints" ); //$NON-NLS-1$
     Composite clientInstances = toolkit.createComposite( sectionInstances,

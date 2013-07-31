@@ -1,9 +1,6 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium
- * http://www.celarcloud.eu
- *
- * Contributors:
- *      Nicholas Loulloudes - initial API and implementation 
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Nicholas Loulloudes - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
@@ -21,90 +18,59 @@ import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
 
-
-
-/**
- * @author Nicholas Loulloudes
- *
- */
 public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 
   private Object contextObject = null;
 
-  /**
-   * @param fp
-   */
-  public CreateSoftwareDependencyFeature( final IFeatureProvider fp )
-  {
-    super( fp, "Software Dependency", "Software Dependency"); //$NON-NLS-1$ //$NON-NLS-2$
+  public CreateSoftwareDependencyFeature( final IFeatureProvider fp ) {
+    // set name and description of the creation feature
+    super( fp, "Software Dependency", "Software Dependency" ); //$NON-NLS-1$ //$NON-NLS-2$
   }
-  
-  /**
-   * @param obj The Context Object
-   */
-  public void setContextObject (final Object obj)
-  {
+
+  public void setContextObject( final Object obj ) {
     this.contextObject = obj;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.graphiti.func.ICreate#canCreate(org.eclipse.graphiti.features.context.ICreateContext)
-   */
+  // Checks if user can create a software dependency object in the target
+  // business object
   @Override
   public boolean canCreate( final ICreateContext context ) {
-    return !(context.getTargetContainer() instanceof Diagram);
+    return !( context.getTargetContainer() instanceof Diagram );
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.graphiti.func.ICreate#create(org.eclipse.graphiti.features.context.ICreateContext)
-   */
+  // Creates the business object for the software dependency
   @Override
   public Object[] create( final ICreateContext context ) {
-    MessageConsole myConsole = findConsole("MyConsole");
-    MessageConsoleStream out = myConsole.newMessageStream();    
+    MessageConsole myConsole = findConsole( "MyConsole" );
+    MessageConsoleStream out = myConsole.newMessageStream();
     TNodeTemplate tNode = ToscaFactory.eINSTANCE.createTNodeTemplate();
-    
     if( this.contextObject != null ) {
       SoftwareDependency swd = ( SoftwareDependency )this.contextObject;
       out.println( "create Software Dependency: " + swd.getName() );
-      
-      
-      // Add model element to resource.
-      // We add the model element to the resource of the diagram for
-      // simplicity's sake. Normally, a customer would use its own
-      // model persistence layer for storing the business model separately.
       getDiagram().eResource().getContents().add( tNode );
-      // Use the following instead of the above line to store the model
-      // data in a seperate file parallel to the diagram file
-      // try {
-      // try {
-      // TutorialUtil.saveToModelFile(newClass, getDiagram());
-      // } catch (IOException e) {
-      // e.printStackTrace();
-      // }
-      // } catch (CoreException e) {
-      // e.printStackTrace();
-      // }
-      
       // do the add
       addGraphicalRepresentation( context, swd );
       // activate direct editing after object creation
       getFeatureProvider().getDirectEditingInfo().setActive( true );
       // return newly created business object(s)
     }
-    return new Object[] { tNode };
+    return new Object[]{
+      tNode
+    };
   }
-  
-  private MessageConsole findConsole(String name) {
+
+  private MessageConsole findConsole( String name ) {
     ConsolePlugin plugin = ConsolePlugin.getDefault();
     IConsoleManager conMan = plugin.getConsoleManager();
     IConsole[] existing = conMan.getConsoles();
-    for (int i = 0; i < existing.length; i++)
-       if (name.equals(existing[i].getName()))
-          return (MessageConsole) existing[i];
-    //no console found, so create a new one
-    MessageConsole myConsole = new MessageConsole(name, null);
-    conMan.addConsoles(new IConsole[]{myConsole});
+    for( int i = 0; i < existing.length; i++ )
+      if( name.equals( existing[ i ].getName() ) )
+        return ( MessageConsole )existing[ i ];
+    // no console found, so create a new one
+    MessageConsole myConsole = new MessageConsole( name, null );
+    conMan.addConsoles( new IConsole[]{
+      myConsole
+    } );
     return myConsole;
- }
+  }
 }

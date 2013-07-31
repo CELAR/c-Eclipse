@@ -7,6 +7,8 @@
  ************************************************************/
 package eu.celar.tosca.editor;
 
+import java.io.ObjectInputStream.GetField;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
@@ -33,6 +35,7 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.AreaContext;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -72,8 +75,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
     super ();
   }
   
-  
-  @Override
+    
   protected void registerBusinessObjectsListener() {
     this.toscaModelChangeListener = new ToscaModelChangeListener(this);
 
@@ -358,14 +360,35 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
             
-            for (TServiceTemplate tst : serviceTemplates) {              
+            
+            for (TServiceTemplate tst : serviceTemplates) { 
+              
               addContainerElement (tst, diagram);
               TTopologyTemplate topology = tst.getTopologyTemplate();
-//              for (TNodeTemplate tnt : topology.getNodeTemplate()) {
-//                ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-//                  .getPictogramElementForBusinessObject( tst );
-//                addContainerElement( tnt, containerShape );
-//              }
+              
+              
+              //TODO just for debugging purposes
+              if (serviceTemplates.size()!=1){
+                int j=0;
+                j++;
+                ContainerShape cs;
+                cs = (ContainerShape) getDiagramTypeProvider().getFeatureProvider().getPictogramElementForBusinessObject( tst );
+                if (cs==null)
+                  break;
+              
+              }
+              
+              if (topology == null)
+                break;
+                
+              
+                for (TNodeTemplate tnt : topology.getNodeTemplate()) {
+                  ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                    .getPictogramElementForBusinessObject( tst );                
+                  
+                  addContainerElement( tnt, containerShape );
+                }
+                
             }
           }
 //          if( model.getBpmnModel().getPools().size() > 0 ) {
@@ -399,7 +422,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
   {
         
     final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-    
+        
     AddContext context = new AddContext( new AreaContext(), element );
     IAddFeature addFeature = featureProvider.getAddFeature( context );
     context.setNewObject( element );    

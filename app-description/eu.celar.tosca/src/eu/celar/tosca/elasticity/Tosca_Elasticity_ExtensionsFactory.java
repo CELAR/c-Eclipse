@@ -59,6 +59,15 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   LoadHintsType1 createLoadHintsType1();
 
   /**
+   * Returns a new object of class '<em>Monitoring Probes Type1</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Monitoring Probes Type1</em>'.
+   * @generated
+   */
+  MonitoringProbesType1 createMonitoringProbesType1();
+
+  /**
    * Returns a new object of class '<em>TApplication Component Elasticity Requirement</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -102,6 +111,15 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   TLoadHint createTLoadHint();
+
+  /**
+   * Returns a new object of class '<em>TMonitoring Probe</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>TMonitoring Probe</em>'.
+   * @generated
+   */
+  TMonitoringProbe createTMonitoringProbe();
 
   /**
    * Returns a new object of class '<em>TNode Template Extension</em>'.

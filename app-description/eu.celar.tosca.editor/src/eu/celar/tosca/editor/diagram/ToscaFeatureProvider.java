@@ -1,29 +1,22 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium
- * http://www.celarcloud.eu
- *
- * Contributors:
- *      Nicholas Loulloudes - initial API and implementation 
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Nicholas Loulloudes - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
-import org.eclipse.graphiti.features.ICopyFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
-import org.eclipse.graphiti.features.IPasteFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.ICopyContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
-import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -41,6 +34,7 @@ import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.features.AddApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddBidirectionalRelationFeature;
+import eu.celar.tosca.editor.features.AddGroupFeature;
 import eu.celar.tosca.editor.features.AddMonitorProbeFeature;
 import eu.celar.tosca.editor.features.AddResizingActionFeature;
 import eu.celar.tosca.editor.features.AddServiceTemplateFeature;
@@ -64,29 +58,20 @@ import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
 import eu.celar.tosca.editor.features.UpdateApplicationComponentFeature;
 
-
-/**
- * @author Nicholas Loulloudes
- *
- */
 public class ToscaFeatureProvider extends DefaultFeatureProvider {
 
-  /**
-   * @param dtp The Diagram Type Provider
-   */
   public ToscaFeatureProvider( final IDiagramTypeProvider dtp ) {
     super( dtp );
   }
-  
-  /* (non-Javadoc)
-   * @see org.eclipse.graphiti.features.impl.AbstractFeatureProvider#getAddFeature(org.eclipse.graphiti.features.context.IAddContext)
-   */
+
+  // Returns the add feature for the context
   @Override
-  public IAddFeature getAddFeature (final IAddContext context) {
-    
+  public IAddFeature getAddFeature( final IAddContext context ) {
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
-    } else if( context.getNewObject() instanceof TRelationshipTemplate && ( ( TRelationshipTemplate )context.getNewObject() ).getName() == "Relation" ) {
+    } else if( context.getNewObject() instanceof TRelationshipTemplate
+               && ( ( TRelationshipTemplate )context.getNewObject() ).getName() == "Relation" )
+    {
       return new AddBidirectionalRelationFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
@@ -98,6 +83,11 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       return new AddMonitorProbeFeature( this );
     } else if( context.getNewObject() instanceof ResizingAction ) {
       return new AddResizingActionFeature( this );
+    } // its a substitutional Service Template
+    else if( context.getNewObject() instanceof TServiceTemplate
+             && ( ( TServiceTemplate )context.getNewObject() ).getName() == null )
+    {
+      return new AddGroupFeature( this );
     } else if( context.getNewObject() instanceof TServiceTemplate ) {
       return new AddServiceTemplateFeature( this );
     } else if( context.getNewObject() instanceof UserApplication ) {
@@ -105,9 +95,8 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     }
     return super.getAddFeature( context );
   }
-  
-  
-  
+
+  // Initializes all create features
   @Override
   public ICreateFeature[] getCreateFeatures() {
     return new ICreateFeature[]{
@@ -118,32 +107,36 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       new CreateServiceTemplateFeature( this ),
       new CreateResizeActionFeature( this ),
       new CreateUserApplicationFeature( this ),
-
+      new CreateGroupFeature( this )
     };
   }
-  
+
+  // Enables direct editing
   @Override
-  public IDirectEditingFeature getDirectEditingFeature(final IDirectEditingContext context) {
-      PictogramElement pe = context.getPictogramElement();
-      Object bo = getBusinessObjectForPictogramElement(pe);
-      if (bo instanceof TNodeTemplate) {
-          return new DirectEditApplicationComponentFeature(this);
-      } 
-      return super.getDirectEditingFeature(context);
+  public IDirectEditingFeature getDirectEditingFeature( final IDirectEditingContext context )
+  {
+    PictogramElement pe = context.getPictogramElement();
+    Object bo = getBusinessObjectForPictogramElement( pe );
+    if( bo instanceof TNodeTemplate ) {
+      return new DirectEditApplicationComponentFeature( this );
+    }
+    return super.getDirectEditingFeature( context );
   }
-  
+
+  // Returns layout features
   @Override
-  public ILayoutFeature getLayoutFeature(final ILayoutContext context) {
-      PictogramElement pictogramElement = context.getPictogramElement();
-      Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-      if (bo instanceof TNodeTemplate) {
-          return new LayoutApplicationComponentFeature(this);
-      }
-      return super.getLayoutFeature(context);
+  public ILayoutFeature getLayoutFeature( final ILayoutContext context ) {
+    PictogramElement pictogramElement = context.getPictogramElement();
+    Object bo = getBusinessObjectForPictogramElement( pictogramElement );
+    if( bo instanceof TNodeTemplate ) {
+      return new LayoutApplicationComponentFeature( this );
+    }
+    return super.getLayoutFeature( context );
   }
-  
+
+  // Enables update features
   @Override
-  public IUpdateFeature getUpdateFeature(final IUpdateContext context ) {
+  public IUpdateFeature getUpdateFeature( final IUpdateContext context ) {
     PictogramElement pictogramElement = context.getPictogramElement();
     if( pictogramElement instanceof ContainerShape ) {
       Object bo = getBusinessObjectForPictogramElement( pictogramElement );
@@ -153,39 +146,33 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     }
     return super.getUpdateFeature( context );
   }
-  
+
+  // Enables moving of figures
   @Override
-  public IMoveShapeFeature getMoveShapeFeature(final IMoveShapeContext context) {
-      Shape shape = context.getShape();
-      Object bo = getBusinessObjectForPictogramElement(shape);
-      if (bo instanceof TNodeTemplate) {
-          return new MoveApplicationComponentFeature(this);
-      }
-      return super.getMoveShapeFeature(context);
+  public IMoveShapeFeature getMoveShapeFeature( final IMoveShapeContext context )
+  {
+    Shape shape = context.getShape();
+    Object bo = getBusinessObjectForPictogramElement( shape );
+    if( bo instanceof TNodeTemplate ) {
+      return new MoveApplicationComponentFeature( this );
+    }
+    return super.getMoveShapeFeature( context );
   }
-  
+
+  // Feature for renaming application components
   @Override
   public ICustomFeature[] getCustomFeatures( ICustomContext context ) {
     return new ICustomFeature[]{
       new RenameApplicationComponentFeature( this ),
-      //new CreateGroupFeature( this )
-      
-//      new TutorialDrillDownEClassFeature( this ),
-//      new TutorialAssociateDiagramEClassFeature( this ),
-//      new TutorialCollapseDummyFeature( this ),
-//      new TutorialChangeColorEClassFeature( this )
     };
   }
-  
-  /**
-   * DEMO
-   */
+
+  // Initializes relationships' create features
   @Override
   public ICreateConnectionFeature[] getCreateConnectionFeatures() {
-  return new ICreateConnectionFeature[]{
-    new CreateDirectedRelationFeature( this ),
-    new CreateBidirectionalRelationFeature(this)
-  };
+    return new ICreateConnectionFeature[]{
+      new CreateDirectedRelationFeature( this ),
+      new CreateBidirectionalRelationFeature( this )
+    };
   }
-
 }

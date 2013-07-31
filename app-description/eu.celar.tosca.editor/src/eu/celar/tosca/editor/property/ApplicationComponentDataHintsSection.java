@@ -1,102 +1,101 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+// Application Component Properties - Data/Load Tab
 public class ApplicationComponentDataHintsSection extends GFPropertySection
   implements ITabbedPropertyConstants
 {
 
-  private CCombo cmbDataHint;
-  private CCombo cmbLoadHint;
+  Section sectionDH;
+  Section sectionLH;
+  private Table tableDataHints;
+  private Table tableLoadHints;
 
   @Override
   public void createControls( Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
-    TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-    
-    
-    FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-    Section section = toolkit.createSection(parent, Section.TITLE_BAR);
-    section.setText("Data/Load Properties"); //$NON-NLS-1$
-    Composite client = toolkit.createComposite(section, SWT.WRAP);
+    // TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+    FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
+    // Application Component Data Hints Section
+    Section section = toolkit.createSection( parent, Section.TITLE_BAR );
+    section.setText( "Data Hints" ); //$NON-NLS-1$
+    Composite client = toolkit.createComposite( section, SWT.WRAP );
     GridLayout layout = new GridLayout();
     layout.numColumns = 2;
     layout.marginTop = 15;
     layout.verticalSpacing = 15;
     layout.marginWidth = 2;
     layout.marginHeight = 2;
-    client.setLayout(layout);
-    
+    client.setLayout( layout );
     GridData gd;
-    
-    //Data Hints
-    
-    CLabel dataHintsLabel = factory.createCLabel(client, "Data Hints:"); //$NON-NLS-1$
-    gd = new GridData();
-    gd.horizontalAlignment=GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment=GridData.VERTICAL_ALIGN_CENTER;
-    //gd.widthHint=STANDARD_LABEL_WIDTH;
-    dataHintsLabel.setLayoutData( gd );
-    
-    // Combo - data Hints
-   
-    this.cmbDataHint = new CCombo( client, SWT.BORDER );
-    this.cmbDataHint.setEnabled( true );
-    this.cmbDataHint.add( "JSON" );
-    this.cmbDataHint.setEditable( false );
-    
-    gd.horizontalAlignment=GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment=GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint=140;
-    this.cmbDataHint.setLayoutData( gd );
-    
-    
-    //Load Hints
-    
-    CLabel loadHintsLabel = factory.createCLabel(client, "Load Hints:"); //$NON-NLS-1$
-    gd = new GridData();
-    gd.horizontalAlignment=GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment=GridData.VERTICAL_ALIGN_CENTER;
-    //gd.widthHint=STANDARD_LABEL_WIDTH;
-    loadHintsLabel.setLayoutData( gd );
-    
-    // Combo - load Hints
-   
-    this.cmbLoadHint = new CCombo( client, SWT.BORDER );
-    this.cmbLoadHint.setEnabled( true );
-    this.cmbLoadHint.add( "Write Heavy" );
-    this.cmbLoadHint.setEditable( false );
-    
-    gd.horizontalAlignment=GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment=GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint=140;
-    this.cmbLoadHint.setLayoutData( gd );
-    
-    toolkit.adapt(dataHintsLabel);
-    toolkit.adapt(cmbDataHint);
-    toolkit.adapt(loadHintsLabel);
-    toolkit.adapt(cmbLoadHint);
-    
-    section.setClient(client);
-
+    this.tableDataHints = new Table( client, SWT.BORDER
+                                             | SWT.VIRTUAL
+                                             | SWT.MULTI
+                                             | SWT.FULL_SELECTION
+                                             | SWT.CHECK );
+    gd = new GridData( 300, this.tableDataHints.getItemHeight() * 4 );
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+    this.tableDataHints.setLayoutData( gd );
+    TableItem item = new TableItem( this.tableDataHints, SWT.NONE );
+    item.setText( "JSON" );
+    item = new TableItem( this.tableDataHints, SWT.NONE );
+    item.setText( "XML" );
+    // Add section components to the toolkit
+    toolkit.adapt( this.tableDataHints, true, true );
+    section.setClient( client );
+    // Application Component Load Hints Section
+    Section sectionInstances = toolkit.createSection( parent, Section.TITLE_BAR );
+    sectionInstances.setText( "Load Hints" ); //$NON-NLS-1$
+    Composite clientInstances = toolkit.createComposite( sectionInstances,
+                                                         SWT.WRAP );
+    GridLayout layoutInstances = new GridLayout();
+    layoutInstances.numColumns = 2;
+    layoutInstances.marginTop = 15;
+    layoutInstances.verticalSpacing = 15;
+    layoutInstances.marginWidth = 2;
+    layoutInstances.marginHeight = 2;
+    clientInstances.setLayout( layoutInstances );
+    GridData gdLH;
+    this.tableLoadHints = new Table( clientInstances, SWT.BORDER
+                                                      | SWT.VIRTUAL
+                                                      | SWT.MULTI
+                                                      | SWT.FULL_SELECTION
+                                                      | SWT.CHECK );
+    gdLH = new GridData( 300, this.tableLoadHints.getItemHeight() * 4 );
+    gdLH.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gdLH.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+    this.tableLoadHints.setLayoutData( gdLH );
+    item = new TableItem( this.tableLoadHints, SWT.NONE );
+    item.setText( "Read Only" );
+    item = new TableItem( this.tableLoadHints, SWT.NONE );
+    item.setText( "Write Only" );
+    item = new TableItem( this.tableLoadHints, SWT.NONE );
+    item.setText( "Read / Write" );
+    // Add section components to the toolkit
+    toolkit.adapt( this.tableLoadHints, true, true );
+    sectionInstances.setClient( clientInstances );
   }
 
+  // Refresh Tab
   @Override
   public void refresh() {
-
   }
 }
-

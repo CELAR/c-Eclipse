@@ -11,16 +11,16 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 
 import eu.celar.tosca.TServiceTemplate;
 
-// Filters out all other object than composite TServiceTemplate (application)
-// for displaying properties
-public class ApplicationFilter extends AbstractPropertySectionFilter {
+// Filters out all other object than composite application component for
+// displaying properties
+public class CompositeComponentFilter extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept( PictogramElement pe ) {
     EObject bo = Graphiti.getLinkService()
       .getBusinessObjectForLinkedPictogramElement( pe );
     if( bo instanceof TServiceTemplate
-        && ( ( TServiceTemplate )bo ).getName() != null )
+        && ( ( TServiceTemplate )bo ).getName() == null )
     {
       return true;
     }

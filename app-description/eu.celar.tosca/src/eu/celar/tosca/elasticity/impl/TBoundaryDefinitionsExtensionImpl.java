@@ -3,6 +3,7 @@
 package eu.celar.tosca.elasticity.impl;
 
 import eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1;
+import eu.celar.tosca.elasticity.MonitoringProbesType1;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl#getGlobalElasticityRequirements <em>Global Elasticity Requirements</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl#getMonitoringProbes <em>Monitoring Probes</em>}</li>
  * </ul>
  * </p>
  *
@@ -121,6 +123,54 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
    * <!-- end-user-doc -->
    * @generated
    */
+  public MonitoringProbesType1 getMonitoringProbes()
+  {
+    return (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetMonitoringProbes(MonitoringProbesType1 newMonitoringProbes, NotificationChain msgs)
+  {
+    Object oldMonitoringProbes = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes);
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, oldMonitoringProbes == EVIRTUAL_NO_VALUE ? null : oldMonitoringProbes, newMonitoringProbes);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setMonitoringProbes(MonitoringProbesType1 newMonitoringProbes)
+  {
+    MonitoringProbesType1 monitoringProbes = (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
+    if (newMonitoringProbes != monitoringProbes)
+    {
+      NotificationChain msgs = null;
+      if (monitoringProbes != null)
+        msgs = ((InternalEObject)monitoringProbes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
+      if (newMonitoringProbes != null)
+        msgs = ((InternalEObject)newMonitoringProbes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
+      msgs = basicSetMonitoringProbes(newMonitoringProbes, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes, newMonitoringProbes));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -128,6 +178,8 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
     {
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS:
         return basicSetGlobalElasticityRequirements(null, msgs);
+      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+        return basicSetMonitoringProbes(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -144,6 +196,8 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
     {
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS:
         return getGlobalElasticityRequirements();
+      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+        return getMonitoringProbes();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -160,6 +214,9 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
     {
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS:
         setGlobalElasticityRequirements((GlobalElasticityRequirementsType1)newValue);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+        setMonitoringProbes((MonitoringProbesType1)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -178,6 +235,9 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS:
         setGlobalElasticityRequirements((GlobalElasticityRequirementsType1)null);
         return;
+      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+        setMonitoringProbes((MonitoringProbesType1)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -194,6 +254,8 @@ public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl 
     {
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS:
         return eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__GLOBAL_ELASTICITY_REQUIREMENTS) != null;
+      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+        return eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES) != null;
     }
     return super.eIsSet(featureID);
   }

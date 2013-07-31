@@ -1,3 +1,7 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -17,110 +21,89 @@ import eu.celar.tosca.TargetElementType;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ImageProvider;
 
+public class CreateDirectedRelationFeature
+  extends AbstractCreateConnectionFeature
+{
 
-public class CreateDirectedRelationFeature extends AbstractCreateConnectionFeature{
-
-  public CreateDirectedRelationFeature( IFeatureProvider fp)
-  {
+  public CreateDirectedRelationFeature( IFeatureProvider fp ) {
+    // set name and description of the creation feature
     super( fp, "", "Create Directional Relation" );
   }
 
+  // Checks if user can create relationship object in the target
+  // business object
   @Override
   public boolean canCreate( ICreateConnectionContext context ) {
     // return true if both anchors belong to a TNodeTemplate
     // and those TNodeTemplates are not identical
-    TNodeTemplate source = getTNodeTemplate(context.getSourceAnchor());
-    TNodeTemplate target = getTNodeTemplate(context.getTargetAnchor());
-    if (source != null && target != null && source != target) {
-        return true;
+    TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
+    TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
+    if( source != null && target != null && source != target ) {
+      return true;
     }
     return false;
   }
-  
-  /**
-   * Returns the TNodeTemplate belonging to the anchor, or null if not available.
-   */
-  private TNodeTemplate getTNodeTemplate(Anchor anchor) {
-      if (anchor != null) {
-          Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
-          if (obj instanceof TNodeTemplate) {
-              return (TNodeTemplate) obj;
-          }
+
+  // Returns the TNodeTemplate belonging to the anchor, or null if not available
+  private TNodeTemplate getTNodeTemplate( Anchor anchor ) {
+    if( anchor != null ) {
+      Object obj = getBusinessObjectForPictogramElement( anchor.getParent() );
+      if( obj instanceof TNodeTemplate ) {
+        return ( TNodeTemplate )obj;
       }
-      return null;
+    }
+    return null;
   }
 
+  // Creates the business object for the relationship
   @Override
   public Connection create( ICreateConnectionContext context ) {
     Connection newConnection = null;
-
     // get TNodeTemplates which should be connected
-    TNodeTemplate source = getTNodeTemplate(context.getSourceAnchor());
-    TNodeTemplate target = getTNodeTemplate(context.getTargetAnchor());
-
-    if (source != null && target != null) {
-        // create new business object
-        TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
-        newClass.setName( "Directed Relation" );
-        
-        SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
-        se.setRef( source.getId() );
-        newClass.setSourceElement( se );
-        
-        TargetElementType te = ToscaFactory.eINSTANCE.createTargetElementType();
-        te.setRef( target.getId() );
-        newClass.setTargetElement( te );
-               
-        getDiagram().eResource().getContents().add( newClass );
-                
-        //////////////////////////////////////////////////////////////////////
-       
-        
-        ContainerShape sourceContainer = (ContainerShape) context.getSourcePictogramElement();
-        
-        Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement(sourceContainer.getContainer());
-        
-        TServiceTemplate serviceTemplate = null;
-        
-        if( parentObject == null )
-          return null;
-      
-        if( parentObject instanceof TServiceTemplate ) {
-          serviceTemplate = ( TServiceTemplate )parentObject;
-        }
-        
-        TTopologyTemplate topology = null;
-        
-        topology = serviceTemplate.getTopologyTemplate();
-                        
-        topology.getRelationshipTemplate().add( newClass );
-        
-       
-        
-        //////////////////////////////////////////////////////////////////////
-        
-        // add connection for business object
-        AddConnectionContext addContext = new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
-        addContext.setNewObject(newClass);
-        newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
-    
+    TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
+    TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
+    if( source != null && target != null ) {
+      // create new business object
+      TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
+      newClass.setName( "Directed Relation" );
+      SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
+      se.setRef( source.getId() );
+      newClass.setSourceElement( se );
+      TargetElementType te = ToscaFactory.eINSTANCE.createTargetElementType();
+      te.setRef( target.getId() );
+      newClass.setTargetElement( te );
+      getDiagram().eResource().getContents().add( newClass );
+      ContainerShape sourceContainer = ( ContainerShape )context.getSourcePictogramElement();
+      Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( sourceContainer.getContainer() );
+      TServiceTemplate serviceTemplate = null;
+      if( parentObject == null )
+        return null;
+      if( parentObject instanceof TServiceTemplate ) {
+        serviceTemplate = ( TServiceTemplate )parentObject;
+      }
+      TTopologyTemplate topology = null;
+      topology = serviceTemplate.getTopologyTemplate();
+      topology.getRelationshipTemplate().add( newClass );
+      // add connection for business object
+      AddConnectionContext addContext = new AddConnectionContext( context.getSourceAnchor(),
+                                                                  context.getTargetAnchor() );
+      addContext.setNewObject( newClass );
+      newConnection = ( Connection )getFeatureProvider().addIfPossible( addContext );
     }
-
     return newConnection;
   }
 
   @Override
   public boolean canStartConnection( ICreateConnectionContext context ) {
     // return true if start anchor belongs to a TNodeTemplate
-    if (getTNodeTemplate(context.getSourceAnchor()) != null) {
-        return true;
+    if( getTNodeTemplate( context.getSourceAnchor() ) != null ) {
+      return true;
     }
     return false;
   }
-  
-  
+
   @Override
   public String getCreateImageId() {
-      return ImageProvider.IMG_EREFERENCE;
+    return ImageProvider.IMG_EREFERENCE;
   }
 }

@@ -105,6 +105,13 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1:
+      {
+        MonitoringProbesType1 monitoringProbesType1 = (MonitoringProbesType1)theEObject;
+        T result = caseMonitoringProbesType1(monitoringProbesType1);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case Tosca_Elasticity_ExtensionsPackage.TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT:
       {
         TApplicationComponentElasticityRequirement tApplicationComponentElasticityRequirement = (TApplicationComponentElasticityRequirement)theEObject;
@@ -142,6 +149,14 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         TLoadHint tLoadHint = (TLoadHint)theEObject;
         T result = caseTLoadHint(tLoadHint);
         if (result == null) result = caseTExtensibleElements(tLoadHint);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case Tosca_Elasticity_ExtensionsPackage.TMONITORING_PROBE:
+      {
+        TMonitoringProbe tMonitoringProbe = (TMonitoringProbe)theEObject;
+        T result = caseTMonitoringProbe(tMonitoringProbe);
+        if (result == null) result = caseTExtensibleElements(tMonitoringProbe);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -224,6 +239,22 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Monitoring Probes Type1</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Monitoring Probes Type1</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMonitoringProbesType1(MonitoringProbesType1 object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>TApplication Component Elasticity Requirement</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -299,6 +330,22 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseTLoadHint(TLoadHint object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>TMonitoring Probe</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>TMonitoring Probe</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTMonitoringProbe(TMonitoringProbe object)
   {
     return null;
   }
