@@ -15,16 +15,17 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
-import eu.celar.tosca.editor.dialog.GlobalElasticityRequirement;
+import eu.celar.tosca.TPolicy;
+
 
 // This class provides the content and label providers for table viewers related
 // to elasticity requirements
-public class ElasticityRequirementsProvider {
+public class ElasticityConstraintsProvider {
 
   GlobalElasticityRequirementsContentProvider ERContentProvider;
   GlobalElasticityRequirementsContentLabelProvider ERContentLabelProvider;
 
-  public ElasticityRequirementsProvider() {
+  public ElasticityConstraintsProvider() {
     this.ERContentProvider = new GlobalElasticityRequirementsContentProvider();
     this.ERContentLabelProvider = new GlobalElasticityRequirementsContentLabelProvider();
   }
@@ -45,9 +46,7 @@ public class ElasticityRequirementsProvider {
 
     @Override
     public Object[] getElements( Object inputElement ) {
-      GlobalElasticityRequirement[] elements = new GlobalElasticityRequirement[ 0 ];
-      elements = ( eu.celar.tosca.editor.dialog.GlobalElasticityRequirement[] )( ( List )inputElement ).toArray( new GlobalElasticityRequirement[ 0 ] );
-      return elements;
+      return ((List<TPolicy>) inputElement).toArray();
     }
   }
   class GlobalElasticityRequirementsContentLabelProvider extends LabelProvider
@@ -64,14 +63,11 @@ public class ElasticityRequirementsProvider {
     public String getColumnText( Object element, int columnIndex ) {
       String result = null;
       if( element != null ) {
-        GlobalElasticityRequirement var = ( GlobalElasticityRequirement )element;
+        TPolicy var = ( TPolicy )element;
         switch( columnIndex ) {
           case 0:
             // TODO type, value must not be public
-            result = var.type;
-          break;
-          case 1:
-            result = var.value;
+            result = var.getName();
           break;
         }
       }

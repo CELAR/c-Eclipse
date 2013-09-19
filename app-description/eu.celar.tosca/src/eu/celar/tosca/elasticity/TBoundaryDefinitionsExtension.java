@@ -12,7 +12,6 @@ import eu.celar.tosca.TBoundaryDefinitions;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension#getGlobalElasticityRequirements <em>Global Elasticity Requirements</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension#getMonitoringProbes <em>Monitoring Probes</em>}</li>
  * </ul>
  * </p>
@@ -23,33 +22,6 @@ import eu.celar.tosca.TBoundaryDefinitions;
  */
 public interface TBoundaryDefinitionsExtension extends TBoundaryDefinitions
 {
-  /**
-   * Returns the value of the '<em><b>Global Elasticity Requirements</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Global Elasticity Requirements</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Global Elasticity Requirements</em>' containment reference.
-   * @see #setGlobalElasticityRequirements(GlobalElasticityRequirementsType1)
-   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getTBoundaryDefinitionsExtension_GlobalElasticityRequirements()
-   * @model containment="true"
-   *        extendedMetaData="kind='element' name='globalElasticityRequirements' namespace='##targetNamespace'"
-   * @generated
-   */
-  GlobalElasticityRequirementsType1 getGlobalElasticityRequirements();
-
-  /**
-   * Sets the value of the '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension#getGlobalElasticityRequirements <em>Global Elasticity Requirements</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Global Elasticity Requirements</em>' containment reference.
-   * @see #getGlobalElasticityRequirements()
-   * @generated
-   */
-  void setGlobalElasticityRequirements(GlobalElasticityRequirementsType1 value);
-
   /**
    * Returns the value of the '<em><b>Monitoring Probes</b></em>' containment reference.
    * <!-- begin-user-doc -->

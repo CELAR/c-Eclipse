@@ -191,7 +191,7 @@
            tab="graphiti.connection.advanced.tab">
      </propertySection>
      <propertySection
-           class="eu.celar.tosca.editor.property.ApplicationComponentMonitoringResizingSection"
+           class="eu.celar.tosca.editor.property.ApplicationComponentMonitoringSection"
            filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
            id="graphiti.advanced.tab.monitoring.resizing"
            tab="graphiti.component.monitoring.resizing.tab">
@@ -277,4 +277,31 @@
 	</extension>
 
 
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated elasticity -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsModelWizardID"
+            name="%_UI_Tosca_Elasticity_ExtensionsModelWizard_label"
+            class="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/Tosca_Elasticity_ExtensionsModelFile.gif">
+         <description>%_UI_Tosca_Elasticity_ExtensionsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated elasticity -->
+      <editor
+            id="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsEditorID"
+            name="%_UI_Tosca_Elasticity_ExtensionsEditor_label"
+            icon="icons/full/obj16/Tosca_Elasticity_ExtensionsModelFile.gif"
+            extensions="tosca_elasticity_extensions"
+            class="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsEditor"
+            contributorClass="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsActionBarContributor">
+      </editor>
+   </extension>
 </plugin>

@@ -27,7 +27,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class TLoadHintImpl extends TExtensibleElementsImpl implements TLoadHint
+public class TLoadHintImpl extends 
+
+TExtensibleElementsImpl implements TLoadHint
 {
   /**
    * An array of objects representing the values of non-primitive features.

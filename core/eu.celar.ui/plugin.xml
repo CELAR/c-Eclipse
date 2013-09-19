@@ -60,25 +60,18 @@
             name="Application Description Folder"
             preset="true">
       </folder>
-      <folder
-            elementClass="eu.celar.core.model.ICloudVirtualMachineImage"
-            id="eu.celar.core.projectfolder.machineimages"
-            label="Virtual Machine Images"
-            name="Virtual Machine Images Folder"
+            <folder
+            elementClass="eu.celar.core.model.ICloudApplicationSubmission"
+            id="eu.celar.core.projectfolder.applicationsubmissions"
+            label="Application Submissions"
+            name="Application Submissions Folder"
             preset="true">
       </folder>
       <folder
             elementClass="eu.celar.core.model.ICloudScript"
             id="eu.celar.core.projectfolder.scripts"
-            label="Scripts"
-            name="Scripts Folder"
-            preset="true">
-      </folder>
-      <folder
-            elementClass="eu.celar.core.model.ICloudApplicationSubmission"
-            id="eu.celar.core.projectfolder.applicationsubmissions"
-            label="Application Submissions"
-            name="Application Submissions Folder"
+            label="Artifacts"
+            name="Artifacts Folder"
             preset="true">
       </folder>
       <folder
@@ -119,5 +112,57 @@
                %wizard.applicationDescription.createApplicationDescription
             </description>
          </wizard>
+         <wizard
+               canFinishEarly="false"
+               category="eu.celar.ui.newResourceCategory"
+               class="eu.celar.ui.wizards.NewSubmissionWizard"
+               id="eu.celar.ui.wizards.applicationSubmissionWizard"
+               name="%wizard.applicationSubmission"
+               project="false">
+            <description>
+               %wizard.applicationSubmission.submitApplicationDescription
+            </description>
+         </wizard>
+      </extension>
+      <extension
+            point="org.eclipse.ui.menus">
+         <menuContribution
+               allPopups="false"
+               locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command
+                  commandId="org.eclipse.ui.newWizard"
+                  label="%submitAction.name"
+                  style="push">
+               <parameter
+                     name="newWizardId"
+                     value="eu.celar.ui.wizards.applicationSubmissionWizard">
+               </parameter>
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="eu.celar.ui.toscaDefinition">
+                        </reference>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menuContribution>
+      </extension>
+      <extension
+            point="org.eclipse.core.expressions.definitions">
+         <definition
+               id="eu.celar.ui.toscaDefinition">
+            <adapt
+                  type="org.eclipse.core.resources.IResource">
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="tosca">
+               </test>
+            </adapt>
+         </definition>
       </extension>
 </plugin>

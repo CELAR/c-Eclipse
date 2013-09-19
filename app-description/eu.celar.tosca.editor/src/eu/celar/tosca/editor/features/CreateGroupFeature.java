@@ -4,6 +4,8 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -13,6 +15,8 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class CreateGroupFeature extends AbstractCreateFeature {
 
@@ -34,6 +38,20 @@ public class CreateGroupFeature extends AbstractCreateFeature {
   public Object[] create( ICreateContext context ) {
     // create substitutableNodeType
     TServiceTemplate tService = ToscaFactory.eINSTANCE.createTServiceTemplate();
+    
+    //set the Service Template as substitutable so that it can be composed into another Service Template
+    QName qname = new QName("substituteNode");
+    tService.setSubstitutableNodeType( qname );
+    
+    //Add substituted node type to parent Service Template
+    TServiceTemplate parentServiceTemplate = (TServiceTemplate) getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
+    
+    TNodeTemplateExtension newNodeTemplate = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
+    newNodeTemplate.setType( qname );
+    newNodeTemplate.setId( ( ( Integer )newNodeTemplate.hashCode() ).toString() );   
+    
+    parentServiceTemplate.getTopologyTemplate().getNodeTemplate().add( newNodeTemplate );  
+    
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     model.getDocumentRoot()
       .getDefinitions()

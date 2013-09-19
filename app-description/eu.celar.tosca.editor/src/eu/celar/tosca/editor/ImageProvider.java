@@ -27,11 +27,17 @@ public class ImageProvider extends AbstractImageProvider {
    *  The image identifier for an EReference.
    */
   public static final String IMG_EREFERENCE2 = PREFIX + "ereference2"; //$NON-NLS-1$
+  
+  /**
+   *  The image identifier for a Monitoring Probe.
+   */
+  public static final String IMG_MONITORING = PREFIX + "monitoring"; //$NON-NLS-1$
 
   @Override
   protected void addAvailableImages() {
     // register the path for each image identifier
     addImageFilePath( IMG_EREFERENCE, "icons/ereference.gif" ); //$NON-NLS-1$
     addImageFilePath( IMG_EREFERENCE2, "icons/ereference2.gif" ); //$NON-NLS-1$
+    addImageFilePath( IMG_MONITORING, "icons/monitoring.png" ); //$NON-NLS-1$
   }
 }

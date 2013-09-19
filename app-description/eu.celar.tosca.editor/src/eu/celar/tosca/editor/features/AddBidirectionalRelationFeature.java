@@ -53,18 +53,21 @@ public class AddBidirectionalRelationFeature extends AbstractAddFeature {
     polyline.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
     // create link and wire it
     link( connection, addedEReference );
-    // add dynamic text decorator for the reference name
-    ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator( connection,
-                                                                                   true,
-                                                                                   0.5,
-                                                                                   true );
-    Text text = gaService.createPlainText( textDecorator );
-    text.setStyle( StyleUtil.getStyleForTextDecorator( ( getDiagram() ) ) );
-    gaService.setLocation( text, 10, 0 );
-    // set reference name in the text decorator
-    TRelationshipTemplate eReference = ( TRelationshipTemplate )context.getNewObject();
-    text.setValue( eReference.getName() );
+    
+//    // add dynamic text decorator for the reference name
+//    ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator( connection,
+//                                                                                   true,
+//                                                                                   0.5,
+//                                                                                   true );
+//    Text text = gaService.createPlainText( textDecorator );
+//    text.setStyle( StyleUtil.getStyleForTextDecorator( ( getDiagram() ) ) );
+//    gaService.setLocation( text, 10, 0 );
+//    // set reference name in the text decorator
+//    TRelationshipTemplate eReference = ( TRelationshipTemplate )context.getNewObject();
+//    text.setValue( eReference.getName() );
+    
     // add static graphical decorators (composition and navigable)
+    
     ConnectionDecorator cd;
     cd = peCreateService.createConnectionDecorator( connection,
                                                     false,

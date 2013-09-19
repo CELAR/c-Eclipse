@@ -77,24 +77,10 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   {
     switch (classifierID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENTS_TYPE1:
-      {
-        ApplicationComponentElasticityRequirementsType1 applicationComponentElasticityRequirementsType1 = (ApplicationComponentElasticityRequirementsType1)theEObject;
-        T result = caseApplicationComponentElasticityRequirementsType1(applicationComponentElasticityRequirementsType1);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINTS_TYPE1:
       {
         DataHintsType1 dataHintsType1 = (DataHintsType1)theEObject;
         T result = caseDataHintsType1(dataHintsType1);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENTS_TYPE1:
-      {
-        GlobalElasticityRequirementsType1 globalElasticityRequirementsType1 = (GlobalElasticityRequirementsType1)theEObject;
-        T result = caseGlobalElasticityRequirementsType1(globalElasticityRequirementsType1);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -112,14 +98,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case Tosca_Elasticity_ExtensionsPackage.TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT:
-      {
-        TApplicationComponentElasticityRequirement tApplicationComponentElasticityRequirement = (TApplicationComponentElasticityRequirement)theEObject;
-        T result = caseTApplicationComponentElasticityRequirement(tApplicationComponentElasticityRequirement);
-        if (result == null) result = caseTExtensibleElements(tApplicationComponentElasticityRequirement);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION:
       {
         TBoundaryDefinitionsExtension tBoundaryDefinitionsExtension = (TBoundaryDefinitionsExtension)theEObject;
@@ -133,14 +111,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         TDataHint tDataHint = (TDataHint)theEObject;
         T result = caseTDataHint(tDataHint);
         if (result == null) result = caseTExtensibleElements(tDataHint);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case Tosca_Elasticity_ExtensionsPackage.TGLOBAL_ELASTICITY_REQUIREMENT:
-      {
-        TGlobalElasticityRequirement tGlobalElasticityRequirement = (TGlobalElasticityRequirement)theEObject;
-        T result = caseTGlobalElasticityRequirement(tGlobalElasticityRequirement);
-        if (result == null) result = caseTExtensibleElements(tGlobalElasticityRequirement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -175,22 +145,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Application Component Elasticity Requirements Type1</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Application Component Elasticity Requirements Type1</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseApplicationComponentElasticityRequirementsType1(ApplicationComponentElasticityRequirementsType1 object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Data Hints Type1</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -202,22 +156,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseDataHintsType1(DataHintsType1 object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Global Elasticity Requirements Type1</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Global Elasticity Requirements Type1</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseGlobalElasticityRequirementsType1(GlobalElasticityRequirementsType1 object)
   {
     return null;
   }
@@ -255,22 +193,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>TApplication Component Elasticity Requirement</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>TApplication Component Elasticity Requirement</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTApplicationComponentElasticityRequirement(TApplicationComponentElasticityRequirement object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>TBoundary Definitions Extension</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -298,22 +220,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseTDataHint(TDataHint object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>TGlobal Elasticity Requirement</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>TGlobal Elasticity Requirement</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTGlobalElasticityRequirement(TGlobalElasticityRequirement object)
   {
     return null;
   }
@@ -383,6 +289,22 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>TExtensible Elements</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>TExtensible Elements</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTExtensibleElements(TExtensibleElements object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>TEntity Template</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -410,22 +332,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseTNodeTemplate(TNodeTemplate object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>TExtensible Elements</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>TExtensible Elements</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTExtensibleElements(TExtensibleElements object)
   {
     return null;
   }

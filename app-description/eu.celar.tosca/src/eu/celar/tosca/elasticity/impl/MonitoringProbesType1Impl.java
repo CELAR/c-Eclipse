@@ -3,17 +3,22 @@
 package eu.celar.tosca.elasticity.impl;
 
 import eu.celar.tosca.elasticity.MonitoringProbesType1;
+import eu.celar.tosca.elasticity.TMonitoringProbe;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,14 +78,30 @@ public class MonitoringProbesType1Impl extends EObjectImpl implements Monitoring
    * @generated
    */
   @SuppressWarnings("unchecked")
-  public EList<String> getMonitoringProbes()
+  public EList<TMonitoringProbe> getMonitoringProbes()
   {
-    EList<String> monitoringProbes = (EList<String>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES);
+    EList<TMonitoringProbe> monitoringProbes = (EList<TMonitoringProbe>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES);
     if (monitoringProbes == null)
     {
-      eVirtualSet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES, monitoringProbes = new EDataTypeEList<String>(String.class, this, Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES));
+      eVirtualSet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES, monitoringProbes = new EObjectContainmentEList<TMonitoringProbe>(TMonitoringProbe.class, this, Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES));
     }
     return monitoringProbes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES:
+        return ((InternalEList<?>)getMonitoringProbes()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -112,7 +133,7 @@ public class MonitoringProbesType1Impl extends EObjectImpl implements Monitoring
     {
       case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES:
         getMonitoringProbes().clear();
-        getMonitoringProbes().addAll((Collection<? extends String>)newValue);
+        getMonitoringProbes().addAll((Collection<? extends TMonitoringProbe>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -147,7 +168,7 @@ public class MonitoringProbesType1Impl extends EObjectImpl implements Monitoring
     switch (featureID)
     {
       case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES:
-        EList<String> monitoringProbes = (EList<String>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES);
+        EList<TMonitoringProbe> monitoringProbes = (EList<TMonitoringProbe>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES);
         return monitoringProbes != null && !monitoringProbes.isEmpty();
     }
     return super.eIsSet(featureID);
@@ -208,23 +229,6 @@ public class MonitoringProbesType1Impl extends EObjectImpl implements Monitoring
       default :
         throw new IndexOutOfBoundsException();
     }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (monitoringProbes: ");
-    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1__MONITORING_PROBES));
-    result.append(')');
-    return result.toString();
   }
 
 } //MonitoringProbesType1Impl

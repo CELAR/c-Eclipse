@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -31,6 +33,8 @@ import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.impl.AbstractCloudContainer;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.PropertiesDefinitionType;
+import eu.celar.tosca.TPolicyType;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
@@ -180,6 +184,13 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
 
     // Finally- Add the Definition Type to the Document Root
     this.documentRoot.setDefinitions( this.definitionsType );
+    
+    
+//    TPolicyType syblConstraint = ToscaFactory.eINSTANCE.createTPolicyType();
+//    syblConstraint.setName( "SYBLConstraint" );
+//    PropertiesDefinitionType valueProperty = ToscaFactory.eINSTANCE.createPropertiesDefinitionType();
+//    valueProperty.setElement( new QName("value") );
+//    this.definitionsType.getPolicyType().add( syblConstraint );
   }
   
    public TServiceTemplate getServiceTemplate(){

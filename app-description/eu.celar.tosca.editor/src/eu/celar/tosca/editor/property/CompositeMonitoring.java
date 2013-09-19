@@ -10,6 +10,12 @@ package eu.celar.tosca.editor.property;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -30,6 +36,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
+import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TDeploymentArtifacts;
+import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 // Composite Application Component Properties - Monitoring Tab
 public class CompositeMonitoring extends GFPropertySection
@@ -122,12 +136,92 @@ public class CompositeMonitoring extends GFPropertySection
 
   // Get Composite Application Component Monitoring Probes from TOSCA
   public void getMonitoringProbes() {
+    PictogramElement pe = getSelectedPictogramElement();
+    Object bo = null;
+    if( pe != null ) {
+      bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+    }
+             
+    // Find the substitute TNodeTemplate
+    TServiceTemplate serviceTemplate = (TServiceTemplate) bo;
+    TNodeTemplate substituteNode = null;
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+      .getDefinitions()
+      .getServiceTemplate()
+      .get( 0 )
+      .getTopologyTemplate()
+      .getNodeTemplate()){
+       
+      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      {
+        substituteNode = tempNodeTemplate;
+        break;
+      }      
+    }
+              
+    TNodeTemplateExtension nodeTemplate = (TNodeTemplateExtension) substituteNode;
+    TDeploymentArtifacts deploymentArtifacts = nodeTemplate.getDeploymentArtifacts();
+    if( deploymentArtifacts == null )
+      return;
+    for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
+    {
+      if( artifact.getArtifactType().toString().compareTo( "MonitoringProbe" ) == 0 ) //$NON-NLS-1$
+        this.appComponentMonitoringProbes.add( artifact.getName() );
+    }
   }
 
   // Remove the selected Composite Application Component Monitoring Probes from
   // TOSCA
   void removeApplicationComponentMonitoringProbe( final String selectedObject )
   {
+    PictogramElement pe = getSelectedPictogramElement();
+    Object bo = null;
+    if( pe != null ) {
+      bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+    }
+             
+    // Find the substitute TNodeTemplate
+    TServiceTemplate serviceTemplate = (TServiceTemplate) bo;
+    TNodeTemplate substituteNode = null;
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+      .getDefinitions()
+      .getServiceTemplate()
+      .get( 0 )
+      .getTopologyTemplate()
+      .getNodeTemplate()){
+       
+      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      {
+        substituteNode = tempNodeTemplate;
+        break;
+      }      
+    }
+              
+    TNodeTemplateExtension nodeTemplate = (TNodeTemplateExtension) substituteNode;
+    final TDeploymentArtifacts deploymentArtifacts = nodeTemplate.getDeploymentArtifacts();
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        protected void doExecute() {
+          for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
+          {
+            if( artifact.getArtifactType()
+              .toString()
+              .compareTo( "MonitoringProbe" ) == 0 ) //$NON-NLS-1$
+              if( artifact.getName() == selectedObject ) {
+                deploymentArtifacts.getDeploymentArtifact().remove( artifact );
+                break;
+              }
+          }
+        }
+      } );
+    this.appComponentMonitoringProbes.remove( selectedObject );
+    this.tableMonitoringProbesViewer.refresh();  
   }
 
   // Return the selected Monitoring Probe
@@ -142,5 +236,16 @@ public class CompositeMonitoring extends GFPropertySection
   // Refresh Tab
   @Override
   public void refresh() {
+    // Refresh Monitoring Probes
+    this.appComponentMonitoringProbes.clear();
+    getMonitoringProbes();
+    PictogramElement pe = getSelectedPictogramElement();
+    if( pe != null ) {
+      TServiceTemplate bo = ( TServiceTemplate )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+      if( bo == null )
+        return;
+      this.tableMonitoringProbesViewer.refresh();
+    }
   }
 }

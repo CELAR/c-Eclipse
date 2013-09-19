@@ -67,6 +67,7 @@ public class ApplicationNameSection extends GFPropertySection
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
     nameText.setLayoutData( gd );
+    nameText.addModifyListener( this );
     // Optimization Policy
     CLabel optPolicyLabel = factory.createCLabel( client,
                                                   "Optimization Policy:" ); //$NON-NLS-1$
@@ -101,20 +102,24 @@ public class ApplicationNameSection extends GFPropertySection
     if( pe != null ) {
       Object bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
-      // the filter assured, that it is a EClass
+      
       if( bo == null )
         return;
+      
+      // Refresh Application name field
       String name = ( ( TServiceTemplate )bo ).getName();
       nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
-      String optPolicy = ( ( TServiceTemplate )bo ).getBoundaryDefinitions()
-        .getPolicies()
-        .getPolicy()
-        .get( 0 )
-        .getName();
-      //optPolicyText.setText(optPolicy == null ? "" : optPolicy); //$NON-NLS-1$
-      cmbOptimizationPolicy.setText( optPolicy == null
-                                                      ? "" : optPolicy ); //$NON-NLS-1$
+      
+//      // Refresh Optimization policy field
+//      String optPolicy = ( ( TServiceTemplate )bo ).getBoundaryDefinitions()
+//        .getPolicies()
+//        .getPolicy()
+//        .get( 0 )
+//        .getName();
+//      //optPolicyText.setText(optPolicy == null ? "" : optPolicy); //$NON-NLS-1$
+//      cmbOptimizationPolicy.setText( optPolicy == null
+//                                                      ? "" : optPolicy ); //$NON-NLS-1$
     }
   }
 
@@ -127,19 +132,34 @@ public class ApplicationNameSection extends GFPropertySection
         .getBusinessObjectForLinkedPictogramElement( pe );
       if( bo == null )
         return;
-      final String optPolicy = cmbOptimizationPolicy.getText();
-      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-      editingDomain.getCommandStack()
-        .execute( new RecordingCommand( editingDomain ) {
+      // Optimization policy modified
+      if( e.widget == this.cmbOptimizationPolicy ) {
+        final String optPolicy = cmbOptimizationPolicy.getText();
+        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+        editingDomain.getCommandStack()
+          .execute( new RecordingCommand( editingDomain ) {
 
-          protected void doExecute() {
-            bo.getBoundaryDefinitions()
-              .getPolicies()
-              .getPolicy()
-              .get( 0 )
-              .setName( optPolicy );
-          }
-        } );
+            protected void doExecute() {
+              bo.getBoundaryDefinitions()
+                .getPolicies()
+                .getPolicy()
+                .get( 0 )
+                .setName( optPolicy );
+            }
+          } );
+      }
+      // Application name modified
+      else if ( e.widget == this.nameText ){
+        final String name = this.nameText.getText();
+        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+        editingDomain.getCommandStack()
+          .execute( new RecordingCommand( editingDomain ) {
+
+            protected void doExecute() {
+              bo.setName( name );
+            }
+          } );
+      }
     }
   }
 }

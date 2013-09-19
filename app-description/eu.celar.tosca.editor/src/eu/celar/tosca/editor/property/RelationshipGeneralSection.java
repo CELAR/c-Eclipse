@@ -7,12 +7,19 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,7 +34,7 @@ import eu.celar.tosca.TRelationshipTemplate;
 
 // Relationship Properties - Connection Tab
 public class RelationshipGeneralSection extends GFPropertySection
-  implements ITabbedPropertyConstants
+  implements ITabbedPropertyConstants, ModifyListener
 {
 
   private Text nameText;
@@ -61,6 +68,7 @@ public class RelationshipGeneralSection extends GFPropertySection
     // Text - Relationship Type
     this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
     this.nameText.setEditable( true );
+    this.nameText.addModifyListener( this );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -77,10 +85,12 @@ public class RelationshipGeneralSection extends GFPropertySection
     // Combo - Relationship Type
     this.cmbRelationshipType = new CCombo( client, SWT.BORDER );
     this.cmbRelationshipType.setEnabled( true );
-    this.cmbRelationshipType.add( "Master - Slave" ); //$NON-NLS-1$
-    this.cmbRelationshipType.add( "Peer - Peer" ); //$NON-NLS-1$
-    this.cmbRelationshipType.add( "Producer - Consumer" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Master-Slave" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Peer-Peer" ); //$NON-NLS-1$
+    this.cmbRelationshipType.add( "Producer-Consumer" ); //$NON-NLS-1$
     this.cmbRelationshipType.setEditable( false );
+    this.cmbRelationshipType.addModifyListener( this );
+    
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 140;
@@ -103,8 +113,53 @@ public class RelationshipGeneralSection extends GFPropertySection
       if( bo == null )
         return;
       String name = ( ( TRelationshipTemplate )bo ).getName();
+      String type;
+      
+      if ( ( ( TRelationshipTemplate )bo ).getType() != null)
+        type = ( ( TRelationshipTemplate )bo ).getType().toString();
+      else type = null;
+      
+      if ( ( name.compareTo( "Relation" ) == 0 || name.compareTo( "Directed Relation" ) == 0 ) && type == null )
+        return;
+      
       this.nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
+      
+     
+      this.cmbRelationshipType.setText( type == null
+                                    ? "" : type ); //$NON-NLS-1$
     }
+  }
+
+  @Override
+  public void modifyText( ModifyEvent e ) {
+    PictogramElement pe = getSelectedPictogramElement();
+    if( pe != null ) {
+      final Object bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+
+      if( bo == null )
+        return;
+      final TRelationshipTemplate relationshipTemplate = ( TRelationshipTemplate )bo;
+      
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+      if (e.widget == this.nameText){
+        
+        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
+            protected void doExecute() {
+              relationshipTemplate.setName( RelationshipGeneralSection.this.nameText.getText() );
+            }
+          } );
+      }
+      else if ( e.widget == this.cmbRelationshipType){
+
+        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
+            protected void doExecute() {
+              relationshipTemplate.setType( new QName(RelationshipGeneralSection.this.cmbRelationshipType.getText()) );
+            }
+          } );
+      }
+    }
+    
   }
 }

@@ -80,12 +80,16 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
                                     0,
                                     StyleUtil.APP_COMPONENT_WIDTH,
                                     StyleUtil.APP_COMPONENT_HEIGHT );
+      
       if( addedClass.eResource() == null ) {
         getDiagram().eResource().getContents().add( addedClass );
-      }
+      } 
+      
+      
       // create link and wire it
       link( containerShape, addedClass );
     }
+    
     final Shape shapeSD = peCreateService.createShape( containerShape, false );
     shapeSD.setVisible( false );
     final Rectangle roundedRectangleSD = gaService.createPlainRectangle( shapeSD );

@@ -23,15 +23,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   Tosca_Elasticity_ExtensionsFactory eINSTANCE = eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>Application Component Elasticity Requirements Type1</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Application Component Elasticity Requirements Type1</em>'.
-   * @generated
-   */
-  ApplicationComponentElasticityRequirementsType1 createApplicationComponentElasticityRequirementsType1();
-
-  /**
    * Returns a new object of class '<em>Data Hints Type1</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -39,15 +30,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   DataHintsType1 createDataHintsType1();
-
-  /**
-   * Returns a new object of class '<em>Global Elasticity Requirements Type1</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Global Elasticity Requirements Type1</em>'.
-   * @generated
-   */
-  GlobalElasticityRequirementsType1 createGlobalElasticityRequirementsType1();
 
   /**
    * Returns a new object of class '<em>Load Hints Type1</em>'.
@@ -68,15 +50,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   MonitoringProbesType1 createMonitoringProbesType1();
 
   /**
-   * Returns a new object of class '<em>TApplication Component Elasticity Requirement</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>TApplication Component Elasticity Requirement</em>'.
-   * @generated
-   */
-  TApplicationComponentElasticityRequirement createTApplicationComponentElasticityRequirement();
-
-  /**
    * Returns a new object of class '<em>TBoundary Definitions Extension</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -93,15 +66,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   TDataHint createTDataHint();
-
-  /**
-   * Returns a new object of class '<em>TGlobal Elasticity Requirement</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>TGlobal Elasticity Requirement</em>'.
-   * @generated
-   */
-  TGlobalElasticityRequirement createTGlobalElasticityRequirement();
 
   /**
    * Returns a new object of class '<em>TLoad Hint</em>'.

@@ -6,6 +6,11 @@ package eu.celar.tosca.editor.features;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
@@ -15,10 +20,16 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 
 import eu.celar.infosystem.model.base.ResizingAction;
-import eu.celar.tosca.TDeploymentArtifact;
-import eu.celar.tosca.TDeploymentArtifacts;
+import eu.celar.tosca.PoliciesType;
+import eu.celar.tosca.PoliciesType1;
+
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TPolicy;
+import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 
 public class CreateResizeActionFeature extends AbstractCreateFeature {
 
@@ -38,7 +49,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
   @Override
   public boolean canCreate( final ICreateContext context ) {
     Object parentBo = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
-    if( parentBo instanceof TNodeTemplate ) {
+    if( parentBo instanceof TNodeTemplate || parentBo instanceof TServiceTemplate ) {
       return true;
     }
     return false;
@@ -51,31 +62,147 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     // MessageConsoleStream out = myConsole.newMessageStream();
     if( this.contextObject == null )
       return null;
+    
+    ResizingAction ra = ( ResizingAction )this.contextObject;
+    
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
-    TNodeTemplate tNode = null;
+
     if( parentObject == null )
       return null;
+    
+    TNodeTemplate tNode = null;
+    TServiceTemplate tService = null;
+    
+    // Application Component
     if( parentObject instanceof TNodeTemplate ) {
       tNode = ( TNodeTemplate )parentObject;
     }
-    ResizingAction ra = ( ResizingAction )this.contextObject;
-    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-    deploymentArtifact.setName( ra.getName() );
-    deploymentArtifact.setArtifactType( new QName( "ResizingAction" ) );
-    TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
-    if( deploymentArtifacts == null ) {
-      deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
+    
+    else if ( parentObject instanceof TServiceTemplate ){
+      tService = ( TServiceTemplate )parentObject;
+      if (tService.getName() == null){
+     // Composite Application Component
+     
+      // Find the substitute TNodeTemplate
+      TNodeTemplate substituteNode = null;
+      ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+      for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+        .getDefinitions()
+        .getServiceTemplate()
+        .get( 0 )
+        .getTopologyTemplate()
+        .getNodeTemplate()){
+           
+        if (tempNodeTemplate.getType() ==  tService.getSubstitutableNodeType() )
+        {
+          substituteNode = tempNodeTemplate;
+          break;
+        }
+                 
+      }
+                  
+      tNode = substituteNode;
+        
+      }
+      else{
+     // Application
+        
+        final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )parentObject ).getBoundaryDefinitions() );        
+        
+        
+        if ( boundaryDef.getPolicies() == null ){
+          
+          final PoliciesType1 boundaryPolicies = ToscaFactory.eINSTANCE.createPoliciesType1();
+          
+          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+          editingDomain.getCommandStack()
+            .execute( new RecordingCommand( editingDomain ) {
+
+              @Override
+              protected void doExecute() {
+                boundaryDef.setPolicies( boundaryPolicies );
+              }
+            } );
+          
+         
+        }
+        
+        PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+        
+        final EList<TPolicy> policy = nodePolicyList.getPolicy();
+        
+        final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+        
+        final String policyUniqueName = "G" + policy.size();
+        
+        newPolicy.setPolicyType( new QName("SYBLStrategy") );          
+        
+        newPolicy.setName( "S" + policyUniqueName + ": CONSTRAINT " + ra.getName() );
+
+        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+        editingDomain.getCommandStack()
+          .execute( new RecordingCommand( editingDomain ) {
+
+            @Override
+            protected void doExecute() {
+              policy.add( newPolicy );
+            }
+          } );
+        
+        return new Object[]{
+          newPolicy
+        };
+      }
+        
     }
-    // Add the new deployment artifact to the list
-    deploymentArtifacts.getDeploymentArtifact().add( deploymentArtifact );
-    tNode.setDeploymentArtifacts( deploymentArtifacts );
+
+    
+    final TNodeTemplate nodeTemplate = tNode;
+    
+    if ( nodeTemplate.getPolicies() == null ){
+      final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
+      
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+      editingDomain.getCommandStack()
+        .execute( new RecordingCommand( editingDomain ) {
+
+          @Override
+          protected void doExecute() {
+            nodeTemplate.setPolicies( nodePolicyList );
+          }
+        } );
+      
+     
+    }
+    
+    final EList<TPolicy> policy = nodeTemplate.getPolicies().getPolicy();
+    
+    final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+    
+    final String policyUniqueName = nodeTemplate.getId() + policy.size();
+    
+    newPolicy.setPolicyType( new QName("SYBLStrategy") );         
+    
+    newPolicy.setName( "S" + policyUniqueName + ": STRATEGY " + ra.getName() );
+    
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          policy.add( newPolicy );
+        }
+      } );
+    
+    
     // do the add
     addGraphicalRepresentation( context, ra );
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
     // return newly created business object(s)
     return new Object[]{
-      deploymentArtifact
+      newPolicy
     };
   }
 

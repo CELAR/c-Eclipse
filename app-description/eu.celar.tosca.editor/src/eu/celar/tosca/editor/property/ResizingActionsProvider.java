@@ -15,6 +15,8 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
+import eu.celar.tosca.TPolicy;
+
 // This class provides the content and label providers for table viewers related
 // to elasticity actions
 public class ResizingActionsProvider {
@@ -41,9 +43,7 @@ public class ResizingActionsProvider {
 
     @Override
     public Object[] getElements( Object inputElement ) {
-      String[] elements = new String[ 0 ];
-      elements = ( String[] )( ( List )inputElement ).toArray( new String[ 0 ] );
-      return elements;
+      return ((List<TPolicy>) inputElement).toArray();
     }
   }
   class ResizingActionsContentLabelProvider extends LabelProvider
@@ -60,11 +60,12 @@ public class ResizingActionsProvider {
     public String getColumnText( Object element, int columnIndex ) {
       String result = null;
       if( element != null ) {
-        String var = ( String )element;
+        TPolicy var = ( TPolicy )element;
         switch( columnIndex ) {
           case 0:
-            result = var;
+            result = var.getName();
           break;
+          
         }
       }
       return result;

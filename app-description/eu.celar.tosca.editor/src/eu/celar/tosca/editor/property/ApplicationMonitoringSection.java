@@ -36,6 +36,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.elasticity.MonitoringProbesType1;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
+import eu.celar.tosca.elasticity.TMonitoringProbe;
 
 // Application Properties - Monitoring Tab
 public class ApplicationMonitoringSection extends GFPropertySection
@@ -143,9 +144,9 @@ public class ApplicationMonitoringSection extends GFPropertySection
       .execute( new RecordingCommand( editingDomain ) {
 
         protected void doExecute() {
-          for( String monitoringProbe : monitoringProbes.getMonitoringProbes() )
+          for( TMonitoringProbe monitoringProbe : monitoringProbes.getMonitoringProbes() )
           {
-            if( monitoringProbe.compareTo( selectedObject ) == 0 ) {
+            if( monitoringProbe.getName().compareTo( selectedObject ) == 0 ) {
               monitoringProbes.getMonitoringProbes().remove( monitoringProbe );
               break;
             }
@@ -178,8 +179,9 @@ public class ApplicationMonitoringSection extends GFPropertySection
     final MonitoringProbesType1 monitoringProbes = boundaryDef.getMonitoringProbes();
     if( monitoringProbes == null )
       return;
-    for( String monitoringProbe : monitoringProbes.getMonitoringProbes() ) {
-      this.appMonitoringProbes.add( monitoringProbe );
+    for( TMonitoringProbe monitoringProbe : monitoringProbes.getMonitoringProbes() ) {
+      
+      this.appMonitoringProbes.add( monitoringProbe.getName() );
     }
   }
 

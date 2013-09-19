@@ -67,15 +67,11 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     switch (eClass.getClassifierID())
     {
-      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENTS_TYPE1: return createApplicationComponentElasticityRequirementsType1();
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINTS_TYPE1: return createDataHintsType1();
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENTS_TYPE1: return createGlobalElasticityRequirementsType1();
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1: return createLoadHintsType1();
       case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1: return createMonitoringProbesType1();
-      case Tosca_Elasticity_ExtensionsPackage.TAPPLICATION_COMPONENT_ELASTICITY_REQUIREMENT: return createTApplicationComponentElasticityRequirement();
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION: return createTBoundaryDefinitionsExtension();
       case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT: return createTDataHint();
-      case Tosca_Elasticity_ExtensionsPackage.TGLOBAL_ELASTICITY_REQUIREMENT: return createTGlobalElasticityRequirement();
       case Tosca_Elasticity_ExtensionsPackage.TLOAD_HINT: return createTLoadHint();
       case Tosca_Elasticity_ExtensionsPackage.TMONITORING_PROBE: return createTMonitoringProbe();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION: return createTNodeTemplateExtension();
@@ -96,22 +92,24 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
     {
       case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY:
         return createApplicationComponentElasticityRequirementCategoryFromString(eDataType, initialValue);
+      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_POLICY_CATEGORY:
+        return createApplicationPolicyCategoryFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINT_CATEGORY:
         return createDataHintCategoryFromString(eDataType, initialValue);
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY:
-        return createGlobalElasticityRequirementCategoryFromString(eDataType, initialValue);
+      case Tosca_Elasticity_ExtensionsPackage.ELASTICITY_REQUIREMENT_CATEGORY:
+        return createElasticityRequirementCategoryFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY:
         return createLoadHintCategoryFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
         return createApplicationComponentElasticityRequirementCategoryObjectFromString(eDataType, initialValue);
+      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_POLICY_CATEGORY_OBJECT:
+        return createApplicationPolicyCategoryObjectFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINT_CATEGORY_OBJECT:
         return createDataHintCategoryObjectFromString(eDataType, initialValue);
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
-        return createGlobalElasticityRequirementCategoryObjectFromString(eDataType, initialValue);
+      case Tosca_Elasticity_ExtensionsPackage.ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
+        return createElasticityRequirementCategoryObjectFromString(eDataType, initialValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY_OBJECT:
         return createLoadHintCategoryObjectFromString(eDataType, initialValue);
-      case Tosca_Elasticity_ExtensionsPackage.TVIRTUAL_MACHINE_IMAGE:
-        return createTVirtualMachineImageFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -129,36 +127,27 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
     {
       case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY:
         return convertApplicationComponentElasticityRequirementCategoryToString(eDataType, instanceValue);
+      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_POLICY_CATEGORY:
+        return convertApplicationPolicyCategoryToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINT_CATEGORY:
         return convertDataHintCategoryToString(eDataType, instanceValue);
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY:
-        return convertGlobalElasticityRequirementCategoryToString(eDataType, instanceValue);
+      case Tosca_Elasticity_ExtensionsPackage.ELASTICITY_REQUIREMENT_CATEGORY:
+        return convertElasticityRequirementCategoryToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY:
         return convertLoadHintCategoryToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
         return convertApplicationComponentElasticityRequirementCategoryObjectToString(eDataType, instanceValue);
+      case Tosca_Elasticity_ExtensionsPackage.APPLICATION_POLICY_CATEGORY_OBJECT:
+        return convertApplicationPolicyCategoryObjectToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINT_CATEGORY_OBJECT:
         return convertDataHintCategoryObjectToString(eDataType, instanceValue);
-      case Tosca_Elasticity_ExtensionsPackage.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
-        return convertGlobalElasticityRequirementCategoryObjectToString(eDataType, instanceValue);
+      case Tosca_Elasticity_ExtensionsPackage.ELASTICITY_REQUIREMENT_CATEGORY_OBJECT:
+        return convertElasticityRequirementCategoryObjectToString(eDataType, instanceValue);
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINT_CATEGORY_OBJECT:
         return convertLoadHintCategoryObjectToString(eDataType, instanceValue);
-      case Tosca_Elasticity_ExtensionsPackage.TVIRTUAL_MACHINE_IMAGE:
-        return convertTVirtualMachineImageToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ApplicationComponentElasticityRequirementsType1 createApplicationComponentElasticityRequirementsType1()
-  {
-    ApplicationComponentElasticityRequirementsType1Impl applicationComponentElasticityRequirementsType1 = new ApplicationComponentElasticityRequirementsType1Impl();
-    return applicationComponentElasticityRequirementsType1;
   }
 
   /**
@@ -170,17 +159,6 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     DataHintsType1Impl dataHintsType1 = new DataHintsType1Impl();
     return dataHintsType1;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public GlobalElasticityRequirementsType1 createGlobalElasticityRequirementsType1()
-  {
-    GlobalElasticityRequirementsType1Impl globalElasticityRequirementsType1 = new GlobalElasticityRequirementsType1Impl();
-    return globalElasticityRequirementsType1;
   }
 
   /**
@@ -210,17 +188,6 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public TApplicationComponentElasticityRequirement createTApplicationComponentElasticityRequirement()
-  {
-    TApplicationComponentElasticityRequirementImpl tApplicationComponentElasticityRequirement = new TApplicationComponentElasticityRequirementImpl();
-    return tApplicationComponentElasticityRequirement;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public TBoundaryDefinitionsExtension createTBoundaryDefinitionsExtension()
   {
     TBoundaryDefinitionsExtensionImpl tBoundaryDefinitionsExtension = new TBoundaryDefinitionsExtensionImpl();
@@ -236,17 +203,6 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     TDataHintImpl tDataHint = new TDataHintImpl();
     return tDataHint;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public TGlobalElasticityRequirement createTGlobalElasticityRequirement()
-  {
-    TGlobalElasticityRequirementImpl tGlobalElasticityRequirement = new TGlobalElasticityRequirementImpl();
-    return tGlobalElasticityRequirement;
   }
 
   /**
@@ -309,6 +265,28 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public ApplicationPolicyCategory createApplicationPolicyCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    ApplicationPolicyCategory result = ApplicationPolicyCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertApplicationPolicyCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public DataHintCategory createDataHintCategoryFromString(EDataType eDataType, String initialValue)
   {
     DataHintCategory result = DataHintCategory.get(initialValue);
@@ -331,9 +309,9 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public GlobalElasticityRequirementCategory createGlobalElasticityRequirementCategoryFromString(EDataType eDataType, String initialValue)
+  public ElasticityRequirementCategory createElasticityRequirementCategoryFromString(EDataType eDataType, String initialValue)
   {
-    GlobalElasticityRequirementCategory result = GlobalElasticityRequirementCategory.get(initialValue);
+    ElasticityRequirementCategory result = ElasticityRequirementCategory.get(initialValue);
     if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
     return result;
   }
@@ -343,7 +321,7 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertGlobalElasticityRequirementCategoryToString(EDataType eDataType, Object instanceValue)
+  public String convertElasticityRequirementCategoryToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }
@@ -395,6 +373,26 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public ApplicationPolicyCategory createApplicationPolicyCategoryObjectFromString(EDataType eDataType, String initialValue)
+  {
+    return createApplicationPolicyCategoryFromString(Tosca_Elasticity_ExtensionsPackage.Literals.APPLICATION_POLICY_CATEGORY, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertApplicationPolicyCategoryObjectToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertApplicationPolicyCategoryToString(Tosca_Elasticity_ExtensionsPackage.Literals.APPLICATION_POLICY_CATEGORY, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public DataHintCategory createDataHintCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
     return createDataHintCategoryFromString(Tosca_Elasticity_ExtensionsPackage.Literals.DATA_HINT_CATEGORY, initialValue);
@@ -415,9 +413,9 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public GlobalElasticityRequirementCategory createGlobalElasticityRequirementCategoryObjectFromString(EDataType eDataType, String initialValue)
+  public ElasticityRequirementCategory createElasticityRequirementCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return createGlobalElasticityRequirementCategoryFromString(Tosca_Elasticity_ExtensionsPackage.Literals.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY, initialValue);
+    return createElasticityRequirementCategoryFromString(Tosca_Elasticity_ExtensionsPackage.Literals.ELASTICITY_REQUIREMENT_CATEGORY, initialValue);
   }
 
   /**
@@ -425,9 +423,9 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertGlobalElasticityRequirementCategoryObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertElasticityRequirementCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return convertGlobalElasticityRequirementCategoryToString(Tosca_Elasticity_ExtensionsPackage.Literals.GLOBAL_ELASTICITY_REQUIREMENT_CATEGORY, instanceValue);
+    return convertElasticityRequirementCategoryToString(Tosca_Elasticity_ExtensionsPackage.Literals.ELASTICITY_REQUIREMENT_CATEGORY, instanceValue);
   }
 
   /**
@@ -448,26 +446,6 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   public String convertLoadHintCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
     return convertLoadHintCategoryToString(Tosca_Elasticity_ExtensionsPackage.Literals.LOAD_HINT_CATEGORY, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String createTVirtualMachineImageFromString(EDataType eDataType, String initialValue)
-  {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertTVirtualMachineImageToString(EDataType eDataType, Object instanceValue)
-  {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
   }
 
   /**

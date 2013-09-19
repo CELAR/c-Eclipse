@@ -21,7 +21,7 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
-import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.StyleUtil;
 
 public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
@@ -43,10 +43,16 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
   public boolean canAdd( final IAddContext context ) {
     boolean result = false;
     boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
-    if( context.getNewObject() instanceof VirtualMachineImage
+//    if( context.getNewObject() instanceof VirtualMachineImage
+//        && !diagraminstance )
+//    {
+//      result = true;
+//    }
+    if( context.getNewObject() instanceof TDeploymentArtifact
         && !diagraminstance )
     {
-      result = true;
+      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
+        result = true;
     }
     return result;
   }
@@ -54,7 +60,13 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
   // Adds a VM Image figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-    VirtualMachineImage addedClass = ( VirtualMachineImage )context.getNewObject();
+    //VirtualMachineImage addedClass = ( VirtualMachineImage )context.getNewObject();
+    
+    ///////////////////////////////////////////
+    TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
+    
+    ///////////////////////////////////////////
+    
     ContainerShape targetDiagram = ( ContainerShape )context.getTargetContainer();
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -106,6 +118,8 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
       // create link and wire it
       link( shape, addedClass );
     }
+    // call the layout feature
+    layoutPictogramElement( containerShape );
     return containerShape;
   }
 }

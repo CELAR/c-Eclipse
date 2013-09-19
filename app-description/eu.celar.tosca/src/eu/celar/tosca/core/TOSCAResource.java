@@ -9,13 +9,11 @@
 package eu.celar.tosca.core;
 
 import java.io.File;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
 
@@ -25,9 +23,7 @@ import eu.celar.tosca.PoliciesType1;
 import eu.celar.tosca.TBoundaryDefinitions;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.ToscaFactory;
-import eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
-import eu.celar.tosca.elasticity.TGlobalElasticityRequirement;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class TOSCAResource extends ResourceCloudContainer implements ICloudApplicationDescription {
@@ -84,34 +80,33 @@ public class TOSCAResource extends ResourceCloudContainer implements ICloudAppli
         
     boundaryDef.setPolicies( boundaryPolicies );
     
-    EList<TPolicy> policy = boundaryPolicies.getPolicy();
+    //EList<TPolicy> policy = boundaryPolicies.getPolicy();
         
-    policy.add( this.toscaFactory.createTPolicy() );
+    //policy.add( this.toscaFactory.createTPolicy() );
     
-    policy.get( 0 ).setName( optimizationPolicy );     
+    //policy.get( 0 ).setName( optimizationPolicy );  
+
   }
-  
-  public void setGlobalElasticityRequirements(final Hashtable<String, String> requirementList){
-              
-    GlobalElasticityRequirementsType1 globalElasticityRequirementsList = this.elasticityFactory.createGlobalElasticityRequirementsType1();
+    
+  public void setGlobalElasticityConstraints(final List<TPolicy> constraintsList){
+    
+    if ( constraintsList.size() > 0 ){
       
-    Enumeration<String> enumKey = requirementList.keys();
-    while(enumKey.hasMoreElements()) {
-        String key = enumKey.nextElement();
-        String val = requirementList.get(key);
+      TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )this.model.getServiceTemplate().getBoundaryDefinitions();
+      
+      if ( boundaryDef.getPolicies() == null ){
         
-    TGlobalElasticityRequirement requirement = this.elasticityFactory.createTGlobalElasticityRequirement();
-    
-    requirement.setName( key );
-    requirement.setValue( val );
-    
-    globalElasticityRequirementsList.getGlobalElasticityRequirements().add( requirement );
-    
+        PoliciesType1 boundaryPolicyList = this.toscaFactory.createPoliciesType1();
+        
+        boundaryDef.setPolicies( boundaryPolicyList );
+        
+      }
+      
+      for (TPolicy constraint : constraintsList)
+        
+        boundaryDef.getPolicies().getPolicy().add( constraint );
+
     }
-    
-    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )this.model.getServiceTemplate().getBoundaryDefinitions();
-    
-    boundaryDef.setGlobalElasticityRequirements( globalElasticityRequirementsList );
   }
   
   public void setUpBasicTOSCAStructure() {

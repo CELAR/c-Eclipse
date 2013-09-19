@@ -13,7 +13,12 @@ import java.util.List;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.viewers.ColumnLayoutData;
@@ -44,7 +49,7 @@ import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 /**
  *  Application Component Properties - Monitoring Tab
  */
-public class ApplicationComponentMonitoringResizingSection
+public class ApplicationComponentMonitoringSection
   extends GFPropertySection implements ITabbedPropertyConstants
 {
 
@@ -183,6 +188,24 @@ public class ApplicationComponentMonitoringResizingSection
       } );
     this.appComponentMonitoringProbes.remove( selectedObject );
     this.tableMonitoringProbesViewer.refresh();
+    
+    
+    // If 0 Monitoring Probes left remove monitoring icon
+    if ( this.appComponentMonitoringProbes.size() == 0 ){
+      
+//      Object[] targetDiagrams = ((ContainerShape) pe).getChildren().toArray();
+//      for( int i = 0; i < targetDiagrams.length; i++ ) {
+//        Shape imageShape = ( Shape )targetDiagrams[ i ];
+//        GraphicsAlgorithm imageGA = imageShape.getGraphicsAlgorithm();
+//        if( imageGA instanceof Image ){
+//          imageShape.setVisible( false );
+//          //OR
+//          imageGA.setTransparency( 1.0 );
+//          break;
+//        }
+//      }
+      
+    }
   }
 
   // Return the selected Monitoring Probe

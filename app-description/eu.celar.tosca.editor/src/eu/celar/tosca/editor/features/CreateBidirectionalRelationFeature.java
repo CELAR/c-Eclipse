@@ -4,6 +4,8 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
@@ -66,6 +68,7 @@ public class CreateBidirectionalRelationFeature
       // create new business object
       TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
       newClass.setName( "Relation" );
+//      newClass.setType( new QName("Peer - Peer") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
       se.setRef( source.getId() );
       newClass.setSourceElement( se );

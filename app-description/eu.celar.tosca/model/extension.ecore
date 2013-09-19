@@ -19,20 +19,19 @@
       <details key="baseType" value="ApplicationComponentElasticityRequirementCategory"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationComponentElasticityRequirementsType1">
+  <eClassifiers xsi:type="ecore:EEnum" name="ApplicationPolicyCategory">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ApplicationComponentElasticityRequirementsType1"/>
-      <details key="kind" value="elementOnly"/>
+      <details key="name" value="ApplicationPolicyCategory"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationComponentElasticityRequirements"
-        lowerBound="1" upperBound="-1" eType="#//TApplicationComponentElasticityRequirement"
-        containment="true" resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="applicationComponentElasticityRequirements"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
+    <eLiterals name="MinimizeCost" literal="Minimize Cost"/>
+    <eLiterals name="MaximizeThroughput" value="1" literal="Maximize Throughput"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ApplicationPolicyCategoryObject"
+      instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ApplicationPolicyCategory:Object"/>
+      <details key="baseType" value="ApplicationPolicyCategory"/>
+    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DataHintCategory">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -61,36 +60,22 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="GlobalElasticityRequirementCategory">
+  <eClassifiers xsi:type="ecore:EEnum" name="ElasticityRequirementCategory">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="GlobalElasticityRequirementCategory"/>
+      <details key="name" value="ElasticityRequirementCategory"/>
     </eAnnotations>
-    <eLiterals name="MinimumResponseTime" literal="Minimum Response Time"/>
-    <eLiterals name="Bandwidth" value="1"/>
-    <eLiterals name="MinimunCost" value="2" literal="Minimun Cost"/>
-    <eLiterals name="MaximumCost" value="3" literal="Maximum Cost"/>
+    <eLiterals name="Cost"/>
+    <eLiterals name="Throughput" value="1"/>
+    <eLiterals name="Latency" value="2"/>
+    <eLiterals name="MinimumResponseTime" value="3" literal="Minimum Response Time"/>
+    <eLiterals name="Bandwidth" value="4"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GlobalElasticityRequirementCategoryObject"
+  <eClassifiers xsi:type="ecore:EDataType" name="ElasticityRequirementCategoryObject"
       instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="GlobalElasticityRequirementCategory:Object"/>
-      <details key="baseType" value="GlobalElasticityRequirementCategory"/>
+      <details key="name" value="ElasticityRequirementCategory:Object"/>
+      <details key="baseType" value="ElasticityRequirementCategory"/>
     </eAnnotations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GlobalElasticityRequirementsType1">
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="GlobalElasticityRequirementsType1"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalElasticityRequirements"
-        lowerBound="1" upperBound="-1" eType="#//TGlobalElasticityRequirement" containment="true"
-        resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="globalElasticityRequirements"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LoadHintCategory">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -124,31 +109,12 @@
       <details key="name" value="MonitoringProbesType1"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="monitoringProbes" unique="false"
-        lowerBound="1" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringProbes" lowerBound="1"
+        upperBound="-1" eType="#//TMonitoringProbe" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="monitoringProbes"/>
         <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TApplicationComponentElasticityRequirement"
-      eSuperTypes="tosca.ecore#//TExtensibleElements">
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="TApplicationComponentElasticityRequirement"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Name"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Value"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -157,14 +123,6 @@
       <details key="name" value="TBoundaryDefinitionsExtension"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalElasticityRequirements"
-        eType="#//GlobalElasticityRequirementsType1" containment="true" resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="globalElasticityRequirements"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringProbes" eType="#//MonitoringProbesType1"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -177,24 +135,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="TDataHint" eSuperTypes="tosca.ecore#//TExtensibleElements">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TDataHint"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Name"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Value"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TGlobalElasticityRequirement" eSuperTypes="tosca.ecore#//TExtensibleElements">
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="TGlobalElasticityRequirement"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
@@ -245,15 +185,6 @@
       <details key="name" value="TNodeTemplateExtension"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationComponentElasticityRequirements"
-        eType="#//ApplicationComponentElasticityRequirementsType1" containment="true"
-        resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="applicationComponentElasticityRequirements"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="applicationComponentDataHints"
         eType="#//DataHintsType1" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -270,35 +201,5 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applicationComponentMonitoringProbes"
-        unique="false" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="applicationComponentMonitoringProbes"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applicationComponentResizingActions"
-        unique="false" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="applicationComponentResizingActions"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applicationComponentVMI"
-        eType="#//TVirtualMachineImage">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="applicationComponentVMI"/>
-        <details key="namespace" value="##targetNamespace"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="TVirtualMachineImage" instanceClassName="java.lang.String">
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="TVirtualMachineImage"/>
-      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
-    </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>

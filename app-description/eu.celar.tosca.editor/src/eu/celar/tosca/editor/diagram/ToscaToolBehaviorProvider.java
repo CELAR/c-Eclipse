@@ -11,6 +11,8 @@ package eu.celar.tosca.editor.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -48,7 +50,9 @@ import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
 import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
@@ -140,7 +144,16 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateVMIFeature ) {
           CreateVMIFeature vmiCF = ( CreateVMIFeature )cf;
-          vmiCF.setContextObject( vmi );
+          
+          //vmiCF.setContextObject( vmi );
+          
+          ///////////////////////////////////////////
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( vmi.getName() );
+          deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          vmiCF.setContextObject( deploymentArtifact );
+          ///////////////////////////////////////////
+          
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vmi.getName(),
                                                                                          vmiCF.getDescription(),
                                                                                          vmiCF.getCreateImageId(),
@@ -182,7 +195,16 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateVMIFeature ) {
           CreateVMIFeature vmiCF = ( CreateVMIFeature )cf;
-          vmiCF.setContextObject( vmi );
+          
+          //vmiCF.setContextObject( vmi );
+          
+          ///////////////////////////////////////////
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( vmi.getName() );
+          deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          vmiCF.setContextObject( deploymentArtifact );
+          ///////////////////////////////////////////
+          
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vmi.getName(),
                                                                                          vmiCF.getDescription(),
                                                                                          vmiCF.getCreateImageId(),

@@ -4,21 +4,15 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
-import javax.xml.namespace.QName;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 
-import eu.celar.infosystem.model.base.VirtualMachineImage;
-
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
-import eu.celar.tosca.editor.ModelHandler;
-import eu.celar.tosca.editor.ToscaModelLayer;
 
 public class CreateVMIFeature extends AbstractCreateFeature {
 
@@ -37,10 +31,11 @@ public class CreateVMIFeature extends AbstractCreateFeature {
   @Override
   public boolean canCreate( final ICreateContext context ) {
     Object parentBo = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
-    if( parentBo instanceof TNodeTemplate ) {
+    if( parentBo instanceof TNodeTemplate || parentBo instanceof TServiceTemplate ) {
       return true;
     }
-    return false;
+    //return false;
+    return true;
   }
 
   // Creates the business object for the VM image
@@ -48,7 +43,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
   public Object[] create( final ICreateContext context ) {
     if( this.contextObject == null )
       return null;
-    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
     TNodeTemplate tNode = null;
     if( parentObject == null )
@@ -56,10 +51,17 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     if( parentObject instanceof TNodeTemplate ) {
       tNode = ( TNodeTemplate )parentObject;
     }
-    VirtualMachineImage vmi = ( VirtualMachineImage )this.contextObject;
-    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-    deploymentArtifact.setName( vmi.getName() );
-    deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+    
+//    VirtualMachineImage vmi = ( VirtualMachineImage )this.contextObject;
+//    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+//    deploymentArtifact.setName( vmi.getName() );
+//    deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+    
+    ///////////////////////////////////////////
+    TDeploymentArtifact deploymentArtifact = ( TDeploymentArtifact )this.contextObject;
+    
+    ///////////////////////////////////////////
+    
     TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
     if( deploymentArtifacts == null ) {
       deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
@@ -68,7 +70,13 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     deploymentArtifacts.getDeploymentArtifact().add( deploymentArtifact );
     tNode.setDeploymentArtifacts( deploymentArtifacts );
     // do the add
-    addGraphicalRepresentation( context, vmi );
+    
+    //addGraphicalRepresentation( context, vmi );
+    
+    /////////////////////////////////////////////
+    addGraphicalRepresentation( context, deploymentArtifact );
+    /////////////////////////////////////////////
+
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
     // return newly created business object(s)

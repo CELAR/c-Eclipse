@@ -18,7 +18,6 @@ import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
-import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementsType1;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
@@ -47,8 +46,7 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
   public Object[] create( final ICreateContext context ) {
     // create Application Component
     TNodeTemplateExtension newClass = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
-    ApplicationComponentElasticityRequirementsType1 reqList = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createApplicationComponentElasticityRequirementsType1();
-    newClass.setApplicationComponentElasticityRequirements( reqList );
+        
     // initialize Application Component
     newClass.setMinInstances( Integer.parseInt( "1" ) );
     newClass.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( "1" ) ) );

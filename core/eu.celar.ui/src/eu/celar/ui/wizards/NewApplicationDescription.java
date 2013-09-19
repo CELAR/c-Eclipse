@@ -5,10 +5,11 @@
 package eu.celar.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -23,6 +24,7 @@ import org.eclipse.ui.ide.IDE;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ToscaDiagramCreator;
 import eu.celar.tosca.editor.ToscaFileService;
@@ -57,6 +59,7 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
         {
           try {
             IPath path = NewApplicationDescription.this.file.getFullPath();
+            
             // get or create the corresponding temporary folder
             final IFolder tempFolder = ToscaFileService.getOrCreateTempFolder( path );
             // finally get the diagram file that corresponds to the data file
@@ -104,20 +107,36 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
 
   @Override
   public boolean canFinish() {
-    // TODO Auto-generated method stub
     return ( firstPage.isPageComplete() && basicPage.isPageComplete() );
     // return super.canFinish();
   }
 
   public boolean createFile() {
-    // TODO Stalo
     String fileName = this.firstPage.getFileName();
     IPath path = new Path( fileName );
     fileName = path.removeFileExtension()
       .addFileExtension( "tosca" )
       .lastSegment();
     this.firstPage.setFileName( fileName );
-    this.file = firstPage.createNewFile();
+    this.file = firstPage.createNewFile();        
+    
+    //Tosca files must be under Application Descriptions folder    
+    String toscaFilePath = this.file.getParent().getLocation().lastSegment();
+    
+    if (toscaFilePath.compareTo( "Application Descriptions" )!=0){
+      String cloudProjectPath = (this.file).getFullPath().segment( 0 );
+      IProgressMonitor monitor = null;
+      try {
+        this.file.move( new Path("/"+cloudProjectPath+ "/Application Descriptions/" + fileName), true, monitor );
+      } catch( IllegalStateException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
     TOSCAResource toscaResource = null;
     ICloudElement element = CloudModel.getRoot().findElement( this.file );
     if( element instanceof TOSCAResource ) {
@@ -127,6 +146,8 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
       setInitialModel( toscaResource );
       toscaResource.save();
     }
+    
+    
     return true;
   }
 
@@ -134,10 +155,11 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
     toscaResource.setUpBasicTOSCAStructure();
     String appName = this.basicPage.getApplicationName();
     toscaResource.setApplicationName( appName );
-    String optimizationPolicy = this.basicPage.getOptimizationPolicy();
-    toscaResource.setOptimizationPolicy( optimizationPolicy );
-    Hashtable<String, String> requirementList = this.basicPage.getGlobalElasticityRequirement();
-    toscaResource.setGlobalElasticityRequirements( requirementList );
+    //String optimizationPolicy = this.basicPage.getOptimizationPolicy();
+    //toscaResource.setOptimizationPolicy( optimizationPolicy );
+    List<TPolicy> constraintsList = this.basicPage.getGlobalElasticityConstraints();
+    toscaResource.setGlobalElasticityConstraints( constraintsList );
+
   }
 
   private void openFile() {

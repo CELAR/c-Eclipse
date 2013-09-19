@@ -13,19 +13,23 @@ import java.util.List;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -41,11 +45,9 @@ public class ApplicationComponentParametersSection extends GFPropertySection
   private Table tableInputParameters;
   private Button removeInput;
   private Button addInput;
-  TableViewer tableInputParametersViewer;
   private Table tableOutputParameters;
   private Button removeOutput;
   private Button addOutput;
-  TableViewer tableOutputParametersViewer;
   List<String> appComponentInputParameters = new ArrayList<String>();
   List<String> appComponentOutputParameters = new ArrayList<String>();
 
@@ -102,7 +104,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        addNewInputParameter( getSelectedInputParameter() );
+        addInputParameter();
       }
 
       @Override
@@ -121,7 +123,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        removeInputParameter( getSelectedInputParameter() );
+        tableInputParameters.remove(tableInputParameters.getSelectionIndex());
       }
 
       @Override
@@ -133,11 +135,24 @@ public class ApplicationComponentParametersSection extends GFPropertySection
     gd.widthHint = 60;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeInput.setLayoutData( gd );
+    
+    final TableEditor editorInput = new TableEditor(this.tableInputParameters);
+    editorInput.horizontalAlignment = SWT.LEFT;
+    editorInput.grabHorizontal = true;
+    this.tableInputParameters.addListener(SWT.MouseDown, new Listener() {
+      public void handleEvent(Event event) {
+        editParameterName(event, tableInputParameters, editorInput);
+      }
+    });
+    
     // Add section components to the toolkit
     toolkit.adapt( this.tableInputParameters, true, true );
     toolkit.adapt( this.addInput, true, true );
     toolkit.adapt( this.removeInput, true, true );
     this.sectionInput.setClient( client );
+    
+
+    
     // Application Component Output Parameters Section
     this.sectionOutput = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionOutput.setText( "Output Parameters" ); //$NON-NLS-1$
@@ -185,6 +200,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
+        addOutputParameter();
       }
 
       @Override
@@ -203,7 +219,7 @@ public class ApplicationComponentParametersSection extends GFPropertySection
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        removeOutputParameter( getSelectedOutputParameter() );
+        tableOutputParameters.remove(tableOutputParameters.getSelectionIndex());
       }
 
       @Override
@@ -215,6 +231,16 @@ public class ApplicationComponentParametersSection extends GFPropertySection
     gdRA.widthHint = 60;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeOutput.setLayoutData( gdRA );
+    
+    final TableEditor editorOutput = new TableEditor(this.tableOutputParameters);
+    editorOutput.horizontalAlignment = SWT.LEFT;
+    editorOutput.grabHorizontal = true;
+    this.tableOutputParameters.addListener(SWT.MouseDown, new Listener() {
+      public void handleEvent(Event event) {
+        editParameterName(event, tableOutputParameters, editorOutput);
+      }
+    });
+    
     // Add section components to the toolkit
     toolkit.adapt( this.tableOutputParameters, true, true );
     toolkit.adapt( this.addOutput, true, true );
@@ -223,36 +249,73 @@ public class ApplicationComponentParametersSection extends GFPropertySection
   }
 
   // Add new Input Parameter to table
-  TableItem addNewInputParameter( final String selectedObject ) {
+  TableItem addInputParameter() {
     TableItem item = new TableItem( this.tableInputParameters, SWT.NONE );
+    item.setText( "New Input Parameter" );
     this.tableInputParameters.setSelection( item );
     return item;
   }
 
-  // Removes Input Parameter from TOSCA
-  void removeInputParameter( final String selectedObject ) {
+  // Add new Output Parameter to table
+  TableItem addOutputParameter() {
+    TableItem item = new TableItem( this.tableOutputParameters, SWT.NONE );
+    item.setText( "New Output Parameter" );
+    this.tableOutputParameters.setSelection( item );
+    return item;
   }
+  
+  void editParameterName(Event event, Table table, TableEditor editor){
 
-  // Removes Output Parameter from TOSCA
-  void removeOutputParameter( final String selectedObject ) {
-  }
-
-  // Return the selected Input Parameter
-  String getSelectedInputParameter() {
-    String result = null;
-    IStructuredSelection selection = ( IStructuredSelection )this.tableInputParametersViewer.getSelection();
-    Object obj = selection.getFirstElement();
-    result = ( String )obj;
-    return result;
-  }
-
-  // Return the selected Output Parameter
-  String getSelectedOutputParameter() {
-    String result = null;
-    IStructuredSelection selection = ( IStructuredSelection )this.tableOutputParametersViewer.getSelection();
-    Object obj = selection.getFirstElement();
-    result = ( String )obj;
-    return result;
+    Rectangle clientArea = table.getClientArea();
+    Point pt = new Point(event.x, event.y);
+    int index = table.getTopIndex();
+    while (index < table.getItemCount()) {
+      boolean visible = false;
+      final TableItem item = table.getItem(index);
+      for (int i = 0; i < table.getColumnCount(); i++) {
+        Rectangle rect = item.getBounds(i);
+        if (rect.contains(pt)) {
+          final int column = i;
+          final Text text = new Text(table, SWT.NONE);
+          Listener textListener = new Listener() {
+            public void handleEvent(final Event e) {
+              switch (e.type) {
+              case SWT.FocusOut:
+                item.setText(column, text.getText());
+                text.dispose();
+                break;
+              case SWT.Traverse:
+                switch (e.detail) {
+                case SWT.TRAVERSE_RETURN:
+                  item
+                      .setText(column, text
+                          .getText());
+                //FALL THROUGH
+                case SWT.TRAVERSE_ESCAPE:
+                  text.dispose();
+                  e.doit = false;
+                }
+                break;
+              }
+            }
+          };
+          text.addListener(SWT.FocusOut, textListener);
+          text.addListener(SWT.Traverse, textListener);
+          editor.setEditor(text, item, i);
+          text.setText(item.getText(i));
+          text.selectAll();
+          text.setFocus();
+          return;
+        }
+        if (!visible && rect.intersects(clientArea)) {
+          visible = true;
+        }
+      }
+      if (!visible)
+        return;
+      index++;
+    }
+  
   }
 
   // Refresh Tab

@@ -7,11 +7,15 @@
  *******************************************************************************/
 package eu.celar.tosca.editor.features;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+
+import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.TTopologyTemplate;
+import eu.celar.tosca.ToscaFactory;
 
 public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
 
@@ -21,24 +25,62 @@ public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
 
   @Override
   public boolean canMoveShape( final IMoveShapeContext context ) {
+    
     boolean canMove = super.canMoveShape( context );
     Shape shape = context.getShape();
     Object bo = getBusinessObjectForPictogramElement( shape );
-    if( bo instanceof EClass ) {
+    if( bo instanceof TNodeTemplate ) {
       canMove = true;
     }
-    // perform further check only if move allowed by default feature
-    // if (canMove) {
-    // // don't allow move if the class name has the length of 1
-    // Shape shape = context.getShape();
-    // Object bo = getBusinessObjectForPictogramElement(shape);
-    // if (bo instanceof EClass) {
-    // EClass c = (EClass) bo;
-    // if (c.getName() != null && c.getName().length() == 1) {
-    // canMove = false;
-    // }
-    // }
-    // }
+
     return canMove;
+    
+  }
+  
+  @Override
+  protected void postMoveShape(IMoveShapeContext context) {
+    
+    Object targetObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
+    
+    Object sourceObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getSourceContainer() );
+    
+    if (targetObject == sourceObject)
+      return;
+        
+    // Move application component to the target composite component
+    if (targetObject instanceof TServiceTemplate
+             && ( ( TServiceTemplate )targetObject ).getName() == null){
+
+      TServiceTemplate compositeComponent = (TServiceTemplate) targetObject;
+      
+      Shape shape = context.getShape();
+      TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
+      
+      TTopologyTemplate topology = null;
+      if( compositeComponent.getTopologyTemplate() == null ) {
+        topology = ToscaFactory.eINSTANCE.createTTopologyTemplate();
+        compositeComponent.setTopologyTemplate( topology );
+      } else {
+        topology = compositeComponent.getTopologyTemplate();
+      }
+      
+      topology.getNodeTemplate().add( applicationComponent );
+    }
+    
+    // Move application component from the source composite component to the application service template
+    else if (targetObject instanceof TServiceTemplate
+        && ( ( TServiceTemplate )targetObject ).getName() != null){
+      
+      TServiceTemplate applicationServiceTemplate = (TServiceTemplate) targetObject;
+      
+      Shape shape = context.getShape();
+      TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
+      
+      TTopologyTemplate topology = applicationServiceTemplate.getTopologyTemplate();
+      
+      topology.getNodeTemplate().add( applicationComponent );
+      
+    }
+    
   }
 }

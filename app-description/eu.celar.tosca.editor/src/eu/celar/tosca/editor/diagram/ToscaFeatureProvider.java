@@ -12,12 +12,14 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
+import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
@@ -32,7 +34,7 @@ import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
-import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
@@ -55,6 +57,8 @@ import eu.celar.tosca.editor.features.CreateServiceTemplateFeature;
 import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
+import eu.celar.tosca.editor.features.DeleteApplicationComponentFeature;
+import eu.celar.tosca.editor.features.DeleteGroupFeature;
 import eu.celar.tosca.editor.features.DirectEditApplicationComponentFeature;
 import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveApplicationComponentFeature;
@@ -79,8 +83,11 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       return new AddBidirectionalRelationFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
-    } else if( context.getNewObject() instanceof VirtualMachineImage ) {
-      return new AddVirtualMachineFeature( this );
+//    } else if( context.getNewObject() instanceof VirtualMachineImage ) {
+//      return new AddVirtualMachineFeature( this );
+    } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
+      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
+        return new AddVirtualMachineFeature( this );
     } else if( context.getNewObject() instanceof SoftwareDependency ) {
       return new AddSoftwareDependencyFeature( this );
     } else if( context.getNewObject() instanceof MonitoringProbe ) {
@@ -115,6 +122,21 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     };
   }
 
+  // Custom delete feature for application components and composite components
+  @Override
+  public IDeleteFeature getDeleteFeature(IDeleteContext context){
+    PictogramElement pictogramElement = context.getPictogramElement();
+    Object bo = getBusinessObjectForPictogramElement( pictogramElement );
+    if( bo instanceof TServiceTemplate
+        && ( ( TServiceTemplate )bo ).getName() == null ) {
+      return new DeleteGroupFeature( this );
+    }
+    else if (bo instanceof TNodeTemplate){
+      return new DeleteApplicationComponentFeature( this );
+    }
+    return super.getDeleteFeature( context );
+  }
+  
   // Enables direct editing
   @Override
   public IDirectEditingFeature getDirectEditingFeature( final IDirectEditingContext context )

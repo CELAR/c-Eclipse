@@ -5,9 +5,9 @@
 package eu.celar.ui.wizards;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -35,6 +35,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import eu.celar.tosca.TPolicy;
+import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
+import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
+
 public class ApplicationDescriptionBasicPage extends WizardPage
   implements ModifyListener
 {
@@ -44,10 +49,9 @@ public class ApplicationDescriptionBasicPage extends WizardPage
   private CCombo cmbOptimizationPolicy;
   Composite container;
   TableViewer tableViewer;
-  List<GlobalElasticityRequirement> globalElasticityRequirements = new ArrayList<GlobalElasticityRequirement>();
+  List<TPolicy> globalElasticityRequirements = new ArrayList<TPolicy>();
   private Table table;
   private Button addButton;
-  private Button editButton;
   private Button removeButton;
 
   protected ApplicationDescriptionBasicPage( final String pageName ) {
@@ -96,8 +100,14 @@ public class ApplicationDescriptionBasicPage extends WizardPage
     layout.horizontalAlignment = GridData.FILL;
     layout.horizontalSpan = 2;
     this.cmbOptimizationPolicy.setLayoutData( layout );
-    this.cmbOptimizationPolicy.add( Messages.getString( "NewApplicationDescriptionBasicPage.cmbMinimizeCost" ), 0 ); //$NON-NLS-1$
-    this.cmbOptimizationPolicy.add( Messages.getString( "NewApplicationDescriptionBasicPage.cmbMaximizeThroughput" ), 1 ); //$NON-NLS-1$
+    
+    
+    List<ApplicationPolicyCategory> categories = ApplicationPolicyCategory.VALUES;
+    for( ApplicationPolicyCategory tempCat : categories ){
+      this.cmbOptimizationPolicy.add( tempCat.toString() );
+    }
+    
+
     this.cmbOptimizationPolicy.setEditable( false );
     // Global Elasticity Requirements Label
     Label lblGlobalElasticityReq = new Label( container,
@@ -134,8 +144,6 @@ public class ApplicationDescriptionBasicPage extends WizardPage
     data = new ColumnWeightData( 150 );
     tableLayout.addColumnData( data );
     nameColumn.setText( "Elasticity Requirement" ); //$NON-NLS-1$
-    TableColumn typeColumn = new TableColumn( this.table, SWT.LEFT );
-    typeColumn.setText( "Value" ); //$NON-NLS-1$
     this.tableViewer = new TableViewer( this.table );
     IStructuredContentProvider contentProvider = new GlobalElasticityRequirementsContentProvider();
     this.tableViewer.setContentProvider( contentProvider );
@@ -163,22 +171,7 @@ public class ApplicationDescriptionBasicPage extends WizardPage
         // TODO Auto-generated method stub
       }
     } );
-    this.editButton = new Button( buttonsComp, SWT.PUSH );
-    gData = new GridData( GridData.FILL_BOTH );
-    this.editButton.setLayoutData( gData );
-    this.editButton.setText( "Edit" ); //$NON-NLS-1$
-    this.editButton.addSelectionListener( new SelectionListener() {
 
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
-        editDataStagingEntry( getSelectedObject() );
-      }
-
-      @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
-        // TODO Auto-generated method stub
-      }
-    } );
     this.removeButton = new Button( buttonsComp, SWT.PUSH );
     gData = new GridData( GridData.FILL_BOTH );
     this.removeButton.setLayoutData( gData );
@@ -187,7 +180,7 @@ public class ApplicationDescriptionBasicPage extends WizardPage
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        removeGlobalElasticityRequirement( getSelectedObject() );
+        removeGlobalElasticityConstraints( getSelectedObject() );
       }
 
       @Override
@@ -225,14 +218,9 @@ public class ApplicationDescriptionBasicPage extends WizardPage
   /**
    * @return the Global Elasticity Requirements list
    */
-  public Hashtable<String, String> getGlobalElasticityRequirement() {
-    Hashtable<String, String> globalElasticityReq = new Hashtable<String, String>();
-    for( GlobalElasticityRequirement req : this.globalElasticityRequirements ) {
-      globalElasticityReq.put( req.type, req.value );
-    }
-    return globalElasticityReq;
+  public List<TPolicy> getGlobalElasticityConstraints(){
+    return this.globalElasticityRequirements;
   }
-
   /**
    * @return the Value of the Global Elasticity Requirement
    */
@@ -246,47 +234,44 @@ public class ApplicationDescriptionBasicPage extends WizardPage
       validatePage();
   }
 
-  void editDataStagingEntry( final GlobalElasticityRequirement selectedObject )
+  void editDataStagingEntry( final TPolicy selectedObject )
   {
-    ElasticityRequirementsDialog dialog;
+    ElasticityConstraintDialog dialog;
     if( selectedObject == null ) {
-      dialog = new ElasticityRequirementsDialog( container.getShell(),
+      dialog = new ElasticityConstraintDialog( container.getShell(),
                                                  "Application" );
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
-        if( newElasticityRequirement != null ) {
-          this.globalElasticityRequirements.add( newElasticityRequirement );
+        String newElasticityConstraint = dialog.getElasticityConstraint();
+        if( newElasticityConstraint != null ) {
+          TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+          
+          final String policyUniqueName = "G" + this.globalElasticityRequirements.size();
+          
+          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+          
+          newPolicy.setName( policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+        
+          this.globalElasticityRequirements.add( newPolicy );
           this.tableViewer.refresh();
+          
+        }
+          
         } else {
         }
       }
-    } else {
-      dialog = new ElasticityRequirementsDialog( container.getShell(),
-                                                 selectedObject,
-                                                 "Application" );
-      if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getDataStageInList();
-        if( newElasticityRequirement != null ) {
-          this.globalElasticityRequirements.add( newElasticityRequirement );
-          this.globalElasticityRequirements.remove( selectedObject );
-          this.tableViewer.refresh();
-        } else {
-        }
-      }
-    }
-  }
+    } 
 
-  void removeGlobalElasticityRequirement( final GlobalElasticityRequirement selectedObject )
+  void removeGlobalElasticityConstraints( final TPolicy selectedObject )
   {
     this.globalElasticityRequirements.remove( selectedObject );
     this.tableViewer.refresh();
   }
 
-  GlobalElasticityRequirement getSelectedObject() {
-    GlobalElasticityRequirement result = null;
+  TPolicy getSelectedObject() {
+    TPolicy result = null;
     IStructuredSelection selection = ( IStructuredSelection )this.tableViewer.getSelection();
     Object obj = selection.getFirstElement();
-    result = ( GlobalElasticityRequirement )obj;
+    result = ( TPolicy )obj;
     return result;
   }
 }
@@ -294,25 +279,22 @@ public class ApplicationDescriptionBasicPage extends WizardPage
 class GlobalElasticityRequirementsContentProvider
   implements IStructuredContentProvider
 {
-
   @Override
   public void dispose() {
     // TODO Auto-generated method stub
   }
 
   @Override
-  public void inputChanged( Viewer viewer, Object oldInput, Object newInput ) {
+  public void inputChanged( final Viewer viewer, final Object oldInput, final Object newInput )
+  {
     // TODO Auto-generated method stub
   }
 
   @Override
   public Object[] getElements( Object inputElement ) {
-    GlobalElasticityRequirement[] elements = new GlobalElasticityRequirement[ 0 ];
-    elements = ( GlobalElasticityRequirement[] )( ( List )inputElement ).toArray( new GlobalElasticityRequirement[ 0 ] );
-    return elements;
+    return ((List<TPolicy>) inputElement).toArray();
   }
 }
-
 class GlobalElasticityRequirementsContentLabelProvider extends LabelProvider
   implements ITableLabelProvider
 {
@@ -327,16 +309,15 @@ class GlobalElasticityRequirementsContentLabelProvider extends LabelProvider
   public String getColumnText( Object element, int columnIndex ) {
     String result = null;
     if( element != null ) {
-      GlobalElasticityRequirement var = ( GlobalElasticityRequirement )element;
+      TPolicy var = ( TPolicy )element;
       switch( columnIndex ) {
         case 0:
-          result = var.type;
-        break;
-        case 1:
-          result = var.value;
+          // TODO type, value must not be public
+          result = var.getName();
         break;
       }
     }
     return result;
   }
 }
+

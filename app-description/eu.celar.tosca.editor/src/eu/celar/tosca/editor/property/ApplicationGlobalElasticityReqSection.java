@@ -1,12 +1,17 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
- * Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -34,38 +39,48 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import eu.celar.tosca.PoliciesType1;
+import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TServiceTemplate;
-import eu.celar.tosca.editor.dialog.ElasticityRequirementsDialog;
-import eu.celar.tosca.editor.dialog.GlobalElasticityRequirement;
-import eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1;
+import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.dialog.ElasticityConditionDialog;
+import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
+import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
-import eu.celar.tosca.elasticity.TGlobalElasticityRequirement;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
-// Application Properties - Elasticity Tab
-public class ApplicationGlobalElasticityReqSection extends GFPropertySection
-  implements ITabbedPropertyConstants
-{
+/** 
+ * Application Component Properties - Elasticity Tab
+ */
+public class ApplicationGlobalElasticityReqSection
+  extends GFPropertySection implements ITabbedPropertyConstants
+  {
 
   Composite client;
   Section section;
   private Table table;
   private Button addButton;
-  private Button editButton;
   private Button removeButton;
   TableViewer tableViewer;
-  List<GlobalElasticityRequirement> globalElasticityRequirements = new ArrayList<GlobalElasticityRequirement>();
+  List<TPolicy> appComponentElasticityRequirements = new ArrayList<TPolicy>();
+  Section sectionRA;
+  private Table tableResizingActions;
+  private Button removeButtonRA;
+  private Button addButtonRA;
+  private Button conditionButtonRA;
+  TableViewer tableResizingActionsViewer;
+  List<TPolicy> appComponentResizingActions = new ArrayList<TPolicy>();
   protected Tosca_Elasticity_ExtensionsFactory elasticityFactory = Tosca_Elasticity_ExtensionsFactory.eINSTANCE;
-
+  
   @Override
   public void createControls( Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
-    // Application Elasticity Requirements Section
+    // Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.section.setText( "Application Elasticity Requirements" ); //$NON-NLS-1$
+    this.section.setText( "Application Component Elasticity Requirements" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
@@ -104,16 +119,12 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     data = new ColumnWeightData( 150 );
     tableLayout.addColumnData( data );
     nameColumn.setText( "Elasticity Requirement" ); //$NON-NLS-1$
-    nameColumn.setWidth( 200 );
-    TableColumn typeColumn = new TableColumn( this.table, SWT.LEFT );
-    typeColumn.setText( "Value" ); //$NON-NLS-1$
-    typeColumn.setWidth( 100 );
     this.tableViewer = new TableViewer( this.table );
-    ElasticityRequirementsProvider ERProvider = new ElasticityRequirementsProvider();
+    ElasticityConstraintsProvider ERProvider = new ElasticityConstraintsProvider();
     IStructuredContentProvider contentProvider = ERProvider.ERContentProvider;
     this.tableViewer.setContentProvider( contentProvider );
     this.tableViewer.setLabelProvider( ERProvider.ERContentLabelProvider );
-    this.tableViewer.setInput( this.globalElasticityRequirements );
+    this.tableViewer.setInput( this.appComponentElasticityRequirements );
     this.addButton = new Button( client2, SWT.PUSH );
     this.addButton.setText( "Add" ); //$NON-NLS-1$
     gd = new GridData();
@@ -129,29 +140,11 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
-    this.editButton = new Button( client2, SWT.PUSH );
-    this.editButton.setText( "Edit" ); //$NON-NLS-1$
-    gd = new GridData();
-    gd.widthHint = 60;
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    this.editButton.setLayoutData( gd );
-    // Listener for Edit button
-    this.editButton.addSelectionListener( new SelectionListener() {
 
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
-        editDataStagingEntry( getSelectedObject() );
-      }
-
-      @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
-        // TODO Auto-generated method stub
-      }
-    } );
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
     gd = new GridData();
@@ -162,26 +155,147 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     this.removeButton.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
-        removeGlobalElasticityRequirement( getSelectedObject() );
+      public void widgetSelected( final SelectionEvent e ) {
+        removeApplicationComponentElasticityRequirement( getSelectedObject() );
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
     // Add section components to the toolkit
     toolkit.adapt( this.table, true, true );
     toolkit.adapt( this.addButton, true, true );
-    toolkit.adapt( this.editButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
     this.section.setClient( client );
+    
+    
+    // Application Component Elasticity Actions Section
+    this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
+    this.sectionRA.setText( "Elasticity Actions" ); //$NON-NLS-1$
+    Composite clientRA = toolkit.createComposite( this.sectionRA, SWT.WRAP );
+    Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
+    Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
+    GridLayout layoutRA;
+    layoutRA = new GridLayout();
+    layoutRA.numColumns = 2;
+    layoutRA.marginTop = 15;
+    layoutRA.verticalSpacing = 15;
+    layoutRA.marginWidth = 2;
+    layoutRA.marginHeight = 2;
+    clientRA.setLayout( layoutRA );
+    layoutRA = new GridLayout();
+    layoutRA.numColumns = 1;
+    clientRA1.setLayout( layoutRA );
+    layoutRA = new GridLayout();
+    layoutRA.numColumns = 1;
+    clientRA2.setLayout( layoutRA );
+    this.tableResizingActions = new Table( clientRA1, SWT.BORDER
+                                                      | SWT.VIRTUAL
+                                                      | SWT.MULTI
+                                                      | SWT.FULL_SELECTION );
+    this.tableResizingActions.setHeaderVisible( true );
+    this.tableResizingActions.setLinesVisible( false );
+    this.tableResizingActions.getHorizontalBar().setEnabled( false );
+    GridData gdRA;
+    gdRA = new GridData( 300, this.tableResizingActions.getItemHeight() * 4 );
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gdRA.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+    this.tableResizingActions.setLayoutData( gdRA );
+    TableLayout tableLayoutRA = new TableLayout();
+    this.tableResizingActions.setLayout( tableLayoutRA );
+    TableColumn nameColumnRA = new TableColumn( this.tableResizingActions,
+                                                SWT.CENTER );
+    nameColumnRA.setText( "Action" ); //$NON-NLS-1$
+    nameColumnRA.setWidth( 100 );
+    ColumnWeightData dataRA = new ColumnWeightData( 100 );
+    tableLayoutRA.addColumnData( dataRA );
+    
+    // Set the Elasticity Actions table viewer
+    ResizingActionsProvider RAProvider = new ResizingActionsProvider();
+    this.tableResizingActionsViewer = new TableViewer( this.tableResizingActions );
+    IStructuredContentProvider contentProviderRA = RAProvider.RAContentProvider;
+    this.tableResizingActionsViewer.setContentProvider( contentProviderRA );
+    this.tableResizingActionsViewer.setLabelProvider( RAProvider.RAContentLabelProvider );
+    this.tableResizingActionsViewer.setInput( this.appComponentResizingActions );
+    
+    // Add Elasticity Strategy button
+    this.addButtonRA = new Button( clientRA2, SWT.PUSH);
+    this.addButtonRA.setText( "Add" ); //$NON-NLS-1$
+    // Listener for Adding Elasticity Strategy button
+    this.addButtonRA.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        editDataStagingEntryRA( getSelectedObject() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gdRA = new GridData();
+    gdRA.widthHint = 60;
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.addButtonRA.setLayoutData( gdRA );
+    
+    
+    this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
+    this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
+    // Listener for Remove Elasticity Strategy button
+    this.removeButtonRA.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        removeApplicationComponentResizingAction( getSelectedElasticityStrategy() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gdRA = new GridData();
+    gdRA.widthHint = 60;
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.removeButtonRA.setLayoutData( gdRA );
+    
+    
+    
+    this.conditionButtonRA = new Button( clientRA2, SWT.PUSH );
+    this.conditionButtonRA.setText( "Condition" ); //$NON-NLS-1$
+    // Listener for Remove Elasticity Strategy button
+    this.conditionButtonRA.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        addStrategyCondition( getSelectedElasticityStrategy() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gdRA = new GridData();
+    gdRA.widthHint = 60;
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.conditionButtonRA.setLayoutData( gdRA );
+    
+
+    // Add section components to the toolkit
+    toolkit.adapt( this.tableResizingActions, true, true );
+    toolkit.adapt( this.removeButtonRA, true, true );
+    toolkit.adapt( this.addButtonRA, true, true );
+    toolkit.adapt( this.conditionButtonRA, true, true);
+    this.sectionRA.setClient( clientRA );
   }
 
   // Get the Application Elasticity Requirements given through Application
   // Description Wizard
-  public void getWizardGlobalElasticityRequirements() {
+  public void getWizardGlobalElasticityConstraints() {
     // Initiate Global Elasticity Requirement list with requirements from
     // description wizard
     PictogramElement pe = getSelectedPictogramElement();
@@ -191,119 +305,197 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
     TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
-    final GlobalElasticityRequirementsType1 globalElasticityRequirementsList = boundaryDef.getGlobalElasticityRequirements();
-    String type, value;
-    for( int i = 0; i < globalElasticityRequirementsList.getGlobalElasticityRequirements()
-      .size(); i++ )
-    {
-      type = globalElasticityRequirementsList.getGlobalElasticityRequirements()
-        .get( i )
-        .getName();
-      value = globalElasticityRequirementsList.getGlobalElasticityRequirements()
-        .get( i )
-        .getValue();
-      GlobalElasticityRequirement newElasticityRequirement = new GlobalElasticityRequirement( type,
-                                                                                              value );
-      this.globalElasticityRequirements.add( newElasticityRequirement );
+    
+    if (boundaryDef.getPolicies() != null ){
+      
+      for (TPolicy constraint : boundaryDef.getPolicies().getPolicy())
+        this.appComponentElasticityRequirements.add( constraint );
+      
     }
-  }
 
-  // Add or Edit Application Component Elasticity Requirement
-  void editDataStagingEntry( final GlobalElasticityRequirement selectedObject )
+  }
+  // Add or Edit Global Application Elasticity Requirement
+  void editDataStagingEntry( final TPolicy selectedObject )
   {
-    ElasticityRequirementsDialog dialog;
+    ElasticityConstraintDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
-      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
-                                                 "Application" ); //$NON-NLS-1$
+      dialog = new ElasticityConstraintDialog( this.section.getShell(),
+                                                 "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
-        if( newElasticityRequirement != null ) {
-          // Add the new global elasticity requirement to TOSCA
+        String newElasticityConstraint = dialog.getElasticityConstraint();
+        if( newElasticityConstraint != null ) {
+          // Add Global Application Elasticity Requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
           Object bo = null;
           if( pe != null ) {
             bo = Graphiti.getLinkService()
               .getBusinessObjectForLinkedPictogramElement( pe );
           }
-          TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
-          final GlobalElasticityRequirementsType1 globalElasticityRequirementsList = boundaryDef.getGlobalElasticityRequirements();
-          final TGlobalElasticityRequirement requirement = this.elasticityFactory.createTGlobalElasticityRequirement();
-          requirement.setName( newElasticityRequirement.type );
-          requirement.setValue( newElasticityRequirement.value );
+          final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+          
+             
+          if ( boundaryDef.getPolicies() == null ){
+            
+            final PoliciesType1 boundaryPolicies = ToscaFactory.eINSTANCE.createPoliciesType1();
+            
+            TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+            editingDomain.getCommandStack()
+              .execute( new RecordingCommand( editingDomain ) {
+
+                @Override
+                protected void doExecute() {
+                  boundaryDef.setPolicies( boundaryPolicies );
+                }
+              } );
+            
+           
+          }
+          
+          PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+          
+          final EList<TPolicy> policy = nodePolicyList.getPolicy();
+          
+          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+          
+          final String policyUniqueName = "G" + policy.size();
+          
+          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+          
+          newPolicy.setName( "C" + policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
+              @Override
               protected void doExecute() {
-                globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                  .add( requirement );
+                policy.add( newPolicy );
               }
             } );
-          // Add the new global elasticity requirement to temp list
-          this.globalElasticityRequirements.add( newElasticityRequirement );
+
+          // Add Application Component Elasticity Requirement to temp list
+          this.appComponentElasticityRequirements.add( newPolicy );
           this.tableViewer.refresh();
         } else {
         }
       }
-    } else {
-      // Edit button is pressed
-      dialog = new ElasticityRequirementsDialog( this.section.getShell(),
-                                                 selectedObject,
-                                                 "Application" ); //$NON-NLS-1$
+    } 
+  }
+
+  void editDataStagingEntryRA ( final TPolicy selectedObject )
+  {
+    ElasticityStrategyDialog dialog;
+    if( selectedObject == null ) {
+      // Add button is pressed
+      dialog = new ElasticityStrategyDialog( this.section.getShell(),
+                                                 "Application Component"); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
-        final GlobalElasticityRequirement newElasticityRequirement = dialog.getElasticityRequirement();
-        if( newElasticityRequirement != null ) {
-          // Add the edited global elasticity requirement to TOSCA
+        String newElasticityStrategy = dialog.getElasticityStrategy();
+        if( newElasticityStrategy != null ) {
+          // Add Application Component Elasticity Strategy to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
           Object bo = null;
           if( pe != null ) {
             bo = Graphiti.getLinkService()
               .getBusinessObjectForLinkedPictogramElement( pe );
           }
-          TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
-          final GlobalElasticityRequirementsType1 globalElasticityRequirementsList = boundaryDef.getGlobalElasticityRequirements();
-          final TGlobalElasticityRequirement requirement = this.elasticityFactory.createTGlobalElasticityRequirement();
-          requirement.setName( newElasticityRequirement.type );
-          requirement.setValue( newElasticityRequirement.value );
+          
+          final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+          
+          if ( boundaryDef.getPolicies() == null ){
+            
+            final PoliciesType1 boundaryPolicies = ToscaFactory.eINSTANCE.createPoliciesType1();
+            
+            TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+            editingDomain.getCommandStack()
+              .execute( new RecordingCommand( editingDomain ) {
+
+                @Override
+                protected void doExecute() {
+                  boundaryDef.setPolicies( boundaryPolicies );
+                }
+              } );
+          }
+          
+          PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+          
+          final EList<TPolicy> policy = nodePolicyList.getPolicy();
+          
+          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+          
+          final String policyUniqueName = "G" + policy.size();
+          
+          newPolicy.setPolicyType( new QName("SYBLStrategy") );         
+          
+          newPolicy.setName( "S" + policyUniqueName + ": STRATEGY " + newElasticityStrategy );
+
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
+              @Override
               protected void doExecute() {
-                globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                  .add( requirement );
+                policy.add( newPolicy );
               }
             } );
-          // Remove the edited global elasticity requirement from TOSCA
-          editingDomain.getCommandStack()
-            .execute( new RecordingCommand( editingDomain ) {
 
-              protected void doExecute() {
-                for( int i = 0; i < globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                  .size(); i++ )
-                {
-                  if( globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                    .get( i )
-                    .getName() == selectedObject.type )
-                  {
-                    globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                      .remove( i );
-                  }
-                }
-              }
-            } );
-          this.globalElasticityRequirements.add( newElasticityRequirement );
-          this.globalElasticityRequirements.remove( selectedObject );
-          this.tableViewer.refresh();
+          this.appComponentResizingActions.add( newPolicy );
+          this.tableResizingActionsViewer.refresh();
+          
         } else {
+          
+          //Edit
         }
       }
     }
   }
 
-  // Remove the selected Application Component Elasticity Requirement from TOSCA
-  void removeGlobalElasticityRequirement( final GlobalElasticityRequirement selectedObject )
+  
+  void addStrategyCondition( final TPolicy selectedObject ){
+
+    if( selectedObject == null ) 
+      return;
+    
+    TServiceTemplate serviceTemplate = null;
+    
+    if (getSelectedPictogramElement() != null) 
+      serviceTemplate = (TServiceTemplate) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
+    
+    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension ) serviceTemplate.getBoundaryDefinitions();
+    
+    PoliciesType1 elasticityPolicies = boundaryDef.getPolicies();
+    
+    ElasticityConditionDialog dialog;
+    
+    dialog = new ElasticityConditionDialog( this.section.getShell(),
+                                            elasticityPolicies.getPolicy()); //$NON-NLS-1$
+    String newElasticityCondition = null;
+    
+    if( dialog.open() == Window.OK ) {
+      newElasticityCondition = dialog.getSelectedCondition();
+    }
+      if( newElasticityCondition == null ) 
+        return;
+      
+      final String condition = newElasticityCondition;
+      
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( serviceTemplate );
+      editingDomain.getCommandStack()
+        .execute( new RecordingCommand( editingDomain ) {
+
+          @Override
+          protected void doExecute() {
+            selectedObject.setName( selectedObject.getName() + condition );
+          }
+        } );
+
+      this.tableResizingActionsViewer.refresh();
+  }
+  
+
+  // Remove the selected Application Elasticity Requirement from TOSCA
+  void removeApplicationComponentElasticityRequirement( final TPolicy selectedObject )
   {
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
@@ -311,51 +503,169 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
-    final GlobalElasticityRequirementsType1 globalElasticityRequirementsList = boundaryDef.getGlobalElasticityRequirements();
+    
+    final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+    
+    PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+    
+    final EList<TPolicy> policy = nodePolicyList.getPolicy();
+
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
+        @Override
         protected void doExecute() {
-          for( int i = 0; i < globalElasticityRequirementsList.getGlobalElasticityRequirements()
-            .size(); i++ )
+          for( TPolicy tempPolicy : policy )
           {
-            if( globalElasticityRequirementsList.getGlobalElasticityRequirements()
-              .get( i )
-              .getName() == selectedObject.type )
-            {
-              globalElasticityRequirementsList.getGlobalElasticityRequirements()
-                .remove( i );
-            }
+            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
+                policy.remove( tempPolicy );
+                
+                if ( policy.size() == 0 )
+                  boundaryDef.setPolicies( null );
+                
+                break;
+              }
           }
         }
       } );
-    this.globalElasticityRequirements.remove( selectedObject );
+
+    this.appComponentElasticityRequirements.remove( selectedObject );
     this.tableViewer.refresh();
   }
 
   // Return the selected Elasticity Requirement
-  GlobalElasticityRequirement getSelectedObject() {
-    GlobalElasticityRequirement result = null;
+  TPolicy getSelectedObject() {
+    TPolicy result = null;
     IStructuredSelection selection = ( IStructuredSelection )this.tableViewer.getSelection();
     Object obj = selection.getFirstElement();
-    result = ( GlobalElasticityRequirement )obj;
+    result = ( TPolicy )obj;
     return result;
   }
 
-  // Refresh Elasticity Tab
+  // Return the selected Elasticity Action
+  TPolicy getSelectedElasticityStrategy() {
+    TPolicy result = null;
+    IStructuredSelection selection = ( IStructuredSelection )this.tableResizingActionsViewer.getSelection();
+    Object obj = selection.getFirstElement();
+    result = ( TPolicy )obj;
+    return result;
+  }
+
+  /**
+   * Get Application Elasticity Actions
+   */
+  public void getResizingActions() {
+    // initiate global elasticity requirement list with requirements from
+    // description wizard
+    PictogramElement pe = getSelectedPictogramElement();
+    Object bo = null;
+    if( pe != null ) {
+      bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+    }
+    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+    
+    PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+    
+    if( nodePolicyList == null )
+      return;
+    
+    for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
+    {
+      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+        this.appComponentResizingActions.add( tempPolicy );
+    }
+    
+  }
+
+  
+  /**
+   * Get Application Elasticity Constraints
+   */
+  public void getElasticityConstraints() {
+    // initiate global elasticity requirement list with requirements from
+    // description wizard
+    PictogramElement pe = getSelectedPictogramElement();
+    Object bo = null;
+    if( pe != null ) {
+      bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+    }
+    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+    
+    PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+    
+    if( nodePolicyList == null )
+      return;
+    
+    for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
+    {
+      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+        this.appComponentElasticityRequirements.add( tempPolicy );
+    }
+    
+  }
+
+  // Remove Application Component Elasticity Action
+  void removeApplicationComponentResizingAction( final TPolicy selectedObject ) {
+    PictogramElement pe = getSelectedPictogramElement();
+    Object bo = null;
+    if( pe != null ) {
+      bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+    }
+    final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );        
+    
+    PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
+    
+    final EList<TPolicy> policy = nodePolicyList.getPolicy();
+
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          for( TPolicy tempPolicy : policy )
+          {
+            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
+                policy.remove( tempPolicy );
+                
+                if ( policy.size() == 0 )
+                  boundaryDef.setPolicies( null );
+                
+                break;
+              }
+          }
+        }
+      } );
+    this.appComponentResizingActions.remove( selectedObject );
+    this.tableResizingActionsViewer.refresh();
+  }
+
+
+  /*
+   *  Refresh Elasticity Tab(non-Javadoc)
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   */
   @Override
   public void refresh() {
-    if( this.globalElasticityRequirements.size() == 0 )
-      getWizardGlobalElasticityRequirements();
-    PictogramElement pe = getSelectedPictogramElement();
-    if( pe != null ) {
-      TServiceTemplate bo = ( TServiceTemplate )Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
-      if( bo == null )
-        return;
-      this.tableViewer.refresh();
-    }
+    // Refresh Elasticity Requirements
+    if( this.appComponentElasticityRequirements.size() == 0 )
+      getWizardGlobalElasticityConstraints();
+
+    // Refresh Elasticity Constraints
+    this.appComponentElasticityRequirements.clear();
+    getElasticityConstraints();
+    this.tableViewer.refresh();
+
+    // Refresh Elasticity Actions
+    this.appComponentResizingActions.clear();
+    getResizingActions();
+    this.tableResizingActionsViewer.refresh();
   }
+ 
 }

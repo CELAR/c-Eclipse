@@ -80,19 +80,9 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
     new Tosca_Elasticity_ExtensionsSwitch<Adapter>()
     {
       @Override
-      public Adapter caseApplicationComponentElasticityRequirementsType1(ApplicationComponentElasticityRequirementsType1 object)
-      {
-        return createApplicationComponentElasticityRequirementsType1Adapter();
-      }
-      @Override
       public Adapter caseDataHintsType1(DataHintsType1 object)
       {
         return createDataHintsType1Adapter();
-      }
-      @Override
-      public Adapter caseGlobalElasticityRequirementsType1(GlobalElasticityRequirementsType1 object)
-      {
-        return createGlobalElasticityRequirementsType1Adapter();
       }
       @Override
       public Adapter caseLoadHintsType1(LoadHintsType1 object)
@@ -105,11 +95,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
         return createMonitoringProbesType1Adapter();
       }
       @Override
-      public Adapter caseTApplicationComponentElasticityRequirement(TApplicationComponentElasticityRequirement object)
-      {
-        return createTApplicationComponentElasticityRequirementAdapter();
-      }
-      @Override
       public Adapter caseTBoundaryDefinitionsExtension(TBoundaryDefinitionsExtension object)
       {
         return createTBoundaryDefinitionsExtensionAdapter();
@@ -118,11 +103,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
       public Adapter caseTDataHint(TDataHint object)
       {
         return createTDataHintAdapter();
-      }
-      @Override
-      public Adapter caseTGlobalElasticityRequirement(TGlobalElasticityRequirement object)
-      {
-        return createTGlobalElasticityRequirementAdapter();
       }
       @Override
       public Adapter caseTLoadHint(TLoadHint object)
@@ -140,14 +120,14 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
         return createTNodeTemplateExtensionAdapter();
       }
       @Override
-      public Adapter caseTExtensibleElements(TExtensibleElements object)
-      {
-        return createTExtensibleElementsAdapter();
-      }
-      @Override
       public Adapter caseTBoundaryDefinitions(TBoundaryDefinitions object)
       {
         return createTBoundaryDefinitionsAdapter();
+      }
+      @Override
+      public Adapter caseTExtensibleElements(TExtensibleElements object)
+      {
+        return createTExtensibleElementsAdapter();
       }
       @Override
       public Adapter caseTEntityTemplate(TEntityTemplate object)
@@ -182,21 +162,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
 
 
   /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementsType1 <em>Application Component Elasticity Requirements Type1</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementsType1
-   * @generated
-   */
-  public Adapter createApplicationComponentElasticityRequirementsType1Adapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.DataHintsType1 <em>Data Hints Type1</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -207,21 +172,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createDataHintsType1Adapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1 <em>Global Elasticity Requirements Type1</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.GlobalElasticityRequirementsType1
-   * @generated
-   */
-  public Adapter createGlobalElasticityRequirementsType1Adapter()
   {
     return null;
   }
@@ -257,21 +207,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement <em>TApplication Component Elasticity Requirement</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.TApplicationComponentElasticityRequirement
-   * @generated
-   */
-  public Adapter createTApplicationComponentElasticityRequirementAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension <em>TBoundary Definitions Extension</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -297,21 +232,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createTDataHintAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TGlobalElasticityRequirement <em>TGlobal Elasticity Requirement</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.TGlobalElasticityRequirement
-   * @generated
-   */
-  public Adapter createTGlobalElasticityRequirementAdapter()
   {
     return null;
   }

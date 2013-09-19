@@ -48,6 +48,7 @@ import eu.celar.core.model.CloudModel;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.core.TOSCAResource;
@@ -385,6 +386,13 @@ public class ToscaDiagramEditor extends DiagramEditor {
                     .getPictogramElementForBusinessObject( tst );                
                   
                   addContainerElement( tnt, containerShape );
+                }
+                
+                for (TRelationshipTemplate trt : topology.getRelationshipTemplate()) {
+                  ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                    .getPictogramElementForBusinessObject( tst );                
+                  
+                  addContainerElement( trt, containerShape );
                 }
                 
             }
