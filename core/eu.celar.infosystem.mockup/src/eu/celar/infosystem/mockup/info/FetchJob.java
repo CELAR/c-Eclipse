@@ -48,7 +48,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImageType;
 public class FetchJob extends Job {
   
   private Connection con = null;
-  final static private String url = ""; //$NON-NLS-1$
+  final static private String url = "jdbc:mysql://x.x.x.x:3306/"; //$NON-NLS-1$
   final static private String db = "celarDB"; //$NON-NLS-1$
   final static private String driver = "com.mysql.jdbc.Driver"; //$NON-NLS-1$
   final static private String user = ""; //$NON-NLS-1$
