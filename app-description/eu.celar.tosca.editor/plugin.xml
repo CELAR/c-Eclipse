@@ -282,15 +282,6 @@
       <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
-      <wizard
-            id="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsModelWizardID"
-            name="%_UI_Tosca_Elasticity_ExtensionsModelWizard_label"
-            class="eu.celar.tosca.elasticity.presentation.Tosca_Elasticity_ExtensionsModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/Tosca_Elasticity_ExtensionsModelFile.gif">
-         <description>%_UI_Tosca_Elasticity_ExtensionsModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
    </extension>
 
    <extension point="org.eclipse.ui.editors">

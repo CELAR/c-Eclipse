@@ -13,6 +13,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -44,12 +51,16 @@ import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 
+import eu.celar.core.project.CloudProjectNature;
+import eu.celar.infosystem.mockup.info.FetchJob;
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
@@ -69,6 +80,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public IContextButtonPadData getContextButtonPad( IPictogramElementContext context )
   {
+    
     IContextButtonPadData data = super.getContextButtonPad( context );
     PictogramElement pe = context.getPictogramElement();
     // set the generic context buttons
@@ -103,13 +115,14 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   // Creates the Palette. Palette entries are retrieved from an SQL database.
   @Override
   public IPaletteCompartmentEntry[] getPalette() {
+
     List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
     // add compartments from super class - connections and objects
     IPaletteCompartmentEntry[] superCompartments = super.getPalette();
     for( int i = 0; i < superCompartments.length; i++ ) {
       ret.add( superCompartments[ i ] );
     }
-    addBaseMachineImageCompartment( ret );
+    //addBaseMachineImageCompartment( ret );
     addCustomMachineImageCompartment( ret );
     addUserAppsCompartment( ret );
     addSoftwareDependenciesCompartment( ret );
@@ -121,6 +134,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     ret.get( 1 ).getToolEntries().clear();
     ret.get( 1 ).getToolEntries().add( te );
     ret.get( 1 ).getToolEntries().add( te2 );
+       
     return ret.toArray( new IPaletteCompartmentEntry[ ret.size() ] );
   }
 
@@ -138,6 +152,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
                                               vmi.getName(),
                                               null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -180,6 +195,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<VirtualMachineImage> vmis = MockUpInfoSystem.getInstance()
       .getCustomMachineImages();
+        
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Custom Images", null ); //$NON-NLS-1$
     ret.add( compartmentEntry );
@@ -189,6 +205,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
                                               vmi.getName(),
                                               null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( true );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -213,6 +230,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
+
+      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
@@ -224,6 +243,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
+  
   }
 
   // Create Palette compartment for Software Dependencies
@@ -240,6 +260,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
                                               swd.getName(),
                                               null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -280,6 +301,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       // add new stack entry to new compartment
       StackEntry stackEntry = new StackEntry( mp.getName(), mp.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
+      
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -321,6 +344,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
                                               app.getName(),
                                               null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
+      
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -361,6 +386,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       // add new stack entry to new compartment
       StackEntry stackEntry = new StackEntry( ra.getName(), ra.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
+      
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -387,6 +414,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
+    
+    
   }
 
   @Override

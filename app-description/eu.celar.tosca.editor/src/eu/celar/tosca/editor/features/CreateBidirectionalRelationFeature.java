@@ -68,6 +68,8 @@ public class CreateBidirectionalRelationFeature
       // create new business object
       TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
       newClass.setName( "Relation" );
+      newClass.setId( ( "R" + ( Integer )newClass.hashCode() ).toString() );
+      newClass.setType( new QName("testType") );
 //      newClass.setType( new QName("Peer - Peer") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
       se.setRef( source.getId() );
@@ -75,7 +77,7 @@ public class CreateBidirectionalRelationFeature
       TargetElementType te = ToscaFactory.eINSTANCE.createTargetElementType();
       te.setRef( target.getId() );
       newClass.setTargetElement( te );
-      getDiagram().eResource().getContents().add( newClass );
+      
       ContainerShape sourceContainer = ( ContainerShape )context.getSourcePictogramElement();
       Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( sourceContainer.getContainer() );
       TServiceTemplate serviceTemplate = null;

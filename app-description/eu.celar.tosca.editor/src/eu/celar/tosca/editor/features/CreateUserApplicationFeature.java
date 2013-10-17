@@ -45,7 +45,7 @@ public class CreateUserApplicationFeature extends AbstractCreateFeature {
     TNodeTemplate tNode = ToscaFactory.eINSTANCE.createTNodeTemplate();
     if( this.contextObject != null ) {
       UserApplication uA = ( UserApplication )this.contextObject;
-      getDiagram().eResource().getContents().add( tNode );
+
       // do the add
       addGraphicalRepresentation( context, uA );
       // activate direct editing after object creation

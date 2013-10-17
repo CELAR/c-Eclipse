@@ -123,7 +123,7 @@ public class ElasticityConstraintDialog extends Dialog {
         ElasticityConstraintDialog.this.newType = ElasticityConstraintDialog.this.cmbGlobalElasticityReq.getText();
         // set metric unit
         ElasticityConstraintDialog.this.unit = "";
-        if( ElasticityConstraintDialog.this.newType.compareTo( "Minimum Response Time" ) == 0 )
+        if( ElasticityConstraintDialog.this.newType.compareTo( "ResponseTime" ) == 0 )
         {
           ElasticityConstraintDialog.this.unit = "s";
         } else if( ElasticityConstraintDialog.this.newType.compareTo( "Bandwidth" ) == 0 )
@@ -158,7 +158,7 @@ public class ElasticityConstraintDialog extends Dialog {
   @Override
   protected void okPressed() {
  
-    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + " " + this.cmbOperator.getText() + " " + this.valueText.getText() + " " + this.unit;
+    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText() + this.unit;
                                                                                              
     super.okPressed();
   }

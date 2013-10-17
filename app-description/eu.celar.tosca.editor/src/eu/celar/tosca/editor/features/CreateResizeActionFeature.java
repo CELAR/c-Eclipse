@@ -137,7 +137,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
         
         newPolicy.setPolicyType( new QName("SYBLStrategy") );          
         
-        newPolicy.setName( "S" + policyUniqueName + ": CONSTRAINT " + ra.getName() );
+        newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
 
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
         editingDomain.getCommandStack()
@@ -183,7 +183,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     
     newPolicy.setPolicyType( new QName("SYBLStrategy") );         
     
-    newPolicy.setName( "S" + policyUniqueName + ": STRATEGY " + ra.getName() );
+    newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
     
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
     editingDomain.getCommandStack()

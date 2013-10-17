@@ -6,6 +6,9 @@ package eu.celar.tosca.editor.features;
 
 import java.math.BigInteger;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -13,6 +16,9 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import eu.celar.tosca.DefinitionsType;
+import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
@@ -50,9 +56,10 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     // initialize Application Component
     newClass.setMinInstances( Integer.parseInt( "1" ) );
     newClass.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( "1" ) ) );
-    newClass.setId( ( ( Integer )newClass.hashCode() ).toString() );
+    newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );
+    newClass.setType( new QName("testType") );
     // create the node template
-    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );    
     model.getDocumentRoot()
       .getDefinitions()
       .getServiceTemplate()
@@ -74,7 +81,14 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     } else {
       topology = serviceTemplate.getTopologyTemplate();
     }
+    
+    // Add object to domain model
     topology.getNodeTemplate().add( newClass );
+    
+    // Add object to diagram model
+    //getDiagram().eResource().getContents().add(newClass);
+    
+    
     // do the add
     addGraphicalRepresentation( context, newClass );
     // activate direct editing after object creation

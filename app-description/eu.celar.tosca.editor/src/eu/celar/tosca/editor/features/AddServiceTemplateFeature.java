@@ -4,10 +4,12 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
@@ -58,19 +60,33 @@ public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     ContainerShape containerShape = peCreateService.createContainerShape( targetDiagram,
                                                                           true );
+
+    
     final int width = targetDiagram.getGraphicsAlgorithm().getWidth() - 10;
     final int height = targetDiagram.getGraphicsAlgorithm().getHeight() - 10;
     IGaService gaService = Graphiti.getGaService();
     RoundedRectangle roundedRectangle; 
     {
+      final Rectangle invisibleRectangle = gaService.createInvisibleRectangle( containerShape );
+      gaService.setLocationAndSize( invisibleRectangle,
+                                    5,
+                                    5,
+                                    width,
+                                    height );
+      // create and set visible rectangle inside invisible rectangle
+      roundedRectangle = gaService.createPlainRoundedRectangle( invisibleRectangle,
+                                                                5,
+                                                                5 );
+      
       // create and set graphics algorithm
-      roundedRectangle = gaService.createRoundedRectangle( containerShape, 5, 5 );
+      //roundedRectangle = gaService.createRoundedRectangle( containerShape, 5, 5 );
       roundedRectangle.setForeground( manageColor( E_CLASS_FOREGROUND ) );
       roundedRectangle.setBackground( manageColor( E_CLASS_BACKGROUND ) );
       roundedRectangle.setLineWidth( 2 );
+   
       gaService.setLocationAndSize( roundedRectangle,
-                                    context.getX(),
-                                    context.getY(),
+                                    0,
+                                    0,
                                     width,
                                     height );
       if( addedClass.eResource() == null ) {
@@ -103,6 +119,16 @@ public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( text, 0, 0, width, 20 );
       // create link and wire it
       link( shape, addedClass );
+      
+      // provide information to support direct-editing directly
+      // after object creation (must be activated additionally)
+      final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+      // set container shape for direct editing after object creation
+      directEditingInfo.setMainPictogramElement(containerShape);
+      // set shape and graphics algorithm where the editor for
+      // direct editing shall be opened after object creation
+      directEditingInfo.setPictogramElement(shape);
+      directEditingInfo.setGraphicsAlgorithm(text);
     }
     return containerShape;
   }

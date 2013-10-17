@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 
 // Filters out all other object than TNodeTemplate (application component) for
@@ -24,6 +25,11 @@ public class ApplicationComponentFilter extends AbstractPropertySectionFilter {
       .getBusinessObjectForLinkedPictogramElement( pe );
     if( bo instanceof TNodeTemplate ) {
       return true;
+    }
+    else if ( bo instanceof TDeploymentArtifact ){
+      TDeploymentArtifact artifact = ( TDeploymentArtifact ) bo;
+      if ( artifact.getArtifactType().toString().equals( "VMI" ))
+        return true;
     }
     return false;
   }

@@ -69,10 +69,11 @@ public class CreateMonitorProbeFeature extends AbstractCreateFeature {
       TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
       if( deploymentArtifacts == null ) {
         deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
+        tNode.setDeploymentArtifacts( deploymentArtifacts );
       }
       // Add the new deployment artifact to the list
       deploymentArtifacts.getDeploymentArtifact().add( deploymentArtifact );
-      tNode.setDeploymentArtifacts( deploymentArtifacts );
+
       // do the add
       addGraphicalRepresentation( context, mp );
       // activate direct editing after object creation

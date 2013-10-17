@@ -7,11 +7,22 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -20,9 +31,13 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -30,9 +45,18 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.reporting.ProblemException;
+import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+import eu.celar.infosystem.model.base.InfoSystemFactory;
+import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
+import eu.celar.tosca.editor.features.CreateVMIFeature;
 
 /**
  *  Application Component Properties - Main Tab
@@ -47,9 +71,10 @@ public class ApplicationComponentNameSection extends GFPropertySection
   private Text minInstancesText;
   private Text maxInstancesText;
   private CCombo cmbImageSize;
-
+  private Button uploadImage;
+    
   @Override
-  public void createControls( Composite parent,
+  public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
@@ -60,7 +85,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     section.setText( "Application Component Properties" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( section, SWT.WRAP );
     GridLayout layout = new GridLayout();
-    layout.numColumns = 2;
+    layout.numColumns = 3;
     layout.marginTop = 15;
     layout.verticalSpacing = 15;
     layout.marginWidth = 2;
@@ -71,33 +96,119 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gd.widthHint = 80;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     valueLabel.setLayoutData( gd );
     this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
     this.nameText.setEditable( true );
+   
     gd = new GridData();
+    gd.horizontalSpan = 2;
+    gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint = 140;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;   
+    
     this.nameText.setLayoutData( gd );
     CLabel imageLabel = factory.createCLabel( client, "VM Image:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gd.widthHint = 80;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     imageLabel.setLayoutData( gd );
     this.imageText = factory.createText( client, "" ); //$NON-NLS-1$
     this.imageText.setEditable( true );
     gd = new GridData();
+    gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint = 140;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;    
+    
     this.imageText.setLayoutData( gd );
+    this.imageText.addModifyListener( this );
+    
+    // Upload Image Button
+    this.uploadImage = new Button( client, SWT.PUSH );
+    this.uploadImage.setText( " Add Image... " ); //$NON-NLS-1$
+    gd = new GridData();
+    gd.widthHint = 80;
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.uploadImage.setLayoutData( gd );
+    // Listener for Add button
+    this.uploadImage.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+        
+        
+        FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
+        dialog.setText( "Select Image File" );
+        //dialog.setFilterExtensions(new String [] {"*.html"});
+        //dialog.setFilterPath("c:\\temp");
+        String result = dialog.open();
+        if (result != null){
+           
+          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
+          
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( dialog.getFileName() );
+          deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          
+          createImageFeature.setContextObject( deploymentArtifact );
+          
+          CreateContext createContext = new CreateContext();
+          createContext.setTargetContainer( (ContainerShape) getSelectedPictogramElement() );
+          
+          if ( createImageFeature.canCreate( createContext ))
+            createImageFeature.create( createContext );
+          
+          refresh();
+          
+          // Add uploaded image to the Palette
+          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+          vmi.setUID( "1" );
+          vmi.setName( dialog.getFileName() );
+          vmi.setDescription( "h" );
+          vmi.setURL( "h" );
+          vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+          MockUpInfoSystem.getInstance().getCustomMachineImages().add(  vmi );
+          
+          // Add uploaded image to Project Artifacts folder
+          IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+          IProject project = workspaceRoot.getProject( "test" );
+          String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName();
+          File tmp = new File( targetPath );
+          try {
+            tmp.createNewFile();
+          } catch( IOException e1 ) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+
+          IProgressMonitor monitor = null;
+          try {
+            CloudModel.getRoot().refresh( monitor );
+          } catch( ProblemException e2 ) {
+            e2.printStackTrace();
+          }
+          
+          // Refresh Palette Compartments
+          getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
+          
+        }
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    
     // VM Image Flavor
     CLabel vmImageLabel = factory.createCLabel( client, "VM Image Flavor:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gd.widthHint = 80;
     vmImageLabel.setLayoutData( gd );
     // Combo - VM Image Flavor
     this.cmbImageSize = new CCombo( client, SWT.BORDER );
@@ -107,8 +218,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     this.cmbImageSize.add( "Large" ); //$NON-NLS-1$
     this.cmbImageSize.setEditable( false );
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint = 140;
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;   
+    gd.widthHint = 160;
     this.cmbImageSize.setLayoutData( gd );
     // Add section components to the toolkit
     toolkit.adapt( vmImageLabel, true, true );
@@ -142,7 +253,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gdInstances.widthHint = 140;
+    gdInstances.widthHint = 160;
     this.minInstancesText.setText( "1" ); //$NON-NLS-1$
     this.minInstancesText.setLayoutData( gdInstances );
     this.minInstancesText.addModifyListener( this );
@@ -157,7 +268,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gdInstances.widthHint = 140;
+    gdInstances.widthHint = 160;
     this.maxInstancesText.setText( "1" ); //$NON-NLS-1$
     this.maxInstancesText.setLayoutData( gdInstances );
     this.maxInstancesText.addModifyListener( this );
@@ -184,8 +295,20 @@ public class ApplicationComponentNameSection extends GFPropertySection
         .getBusinessObjectForLinkedPictogramElement( pe );
       if( bo == null )
         return;
-      String minInstances = ( ( Integer )( ( TNodeTemplate )bo ).getMinInstances() ).toString();
-      String maxInstances = ( ( ( TNodeTemplate )bo ).getMaxInstances() ).toString();
+      
+      TNodeTemplate appComponent;
+      
+      if ( bo instanceof TDeploymentArtifact ){
+        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+        
+        appComponent =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+      }
+      else { // bo instanceof TNodeTemplate
+        appComponent = ( TNodeTemplate )bo;
+      }
+      
+      String minInstances = ( ( Integer )( appComponent.getMinInstances() )).toString();
+      String maxInstances = ( ( appComponent ).getMaxInstances() ).toString();
       if( minInstances.compareTo( "1" ) == 0 //$NON-NLS-1$
           && maxInstances.compareTo( "1" ) == 0 ) //$NON-NLS-1$
       {
@@ -203,11 +326,26 @@ public class ApplicationComponentNameSection extends GFPropertySection
     if( pe != null ) {
       final Object bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
-      // the filter assured, that it is a EClass
-      if( bo == null || ( ( TNodeTemplate )bo ).getName() == null )
+      
+      if ( bo == null )
         return;
-      TNodeTemplate appComponent = ( TNodeTemplate )bo;
+      
+      TNodeTemplate appComponent;
+     
+      if ( bo instanceof TDeploymentArtifact ){
+        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+        
+        appComponent =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+      }
+      else { // bo instanceof TNodeTemplate
+        appComponent = ( TNodeTemplate )bo;
+      }
+
       String name = appComponent.getName();
+      
+      if ( name == null )
+        return;
+      
       this.nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
       // set Image Artifact
@@ -238,7 +376,21 @@ public class ApplicationComponentNameSection extends GFPropertySection
       // the filter assured, that it is a TNodeTemplate
       if( bo == null )
         return;
-      final TNodeTemplate nodeTemplate = ( TNodeTemplate )bo;
+      
+    
+      
+      final TNodeTemplate nodeTemplate;
+     
+      if ( bo instanceof TDeploymentArtifact ){
+        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+        
+        nodeTemplate =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+      }
+      else { // bo instanceof TNodeTemplate
+        nodeTemplate = ( TNodeTemplate )bo;
+      }
+      
+      
       // nameText Listener
       if( e.widget == this.nameText ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -250,6 +402,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
             }
           } );
       }
+      
       // minInstancesText Listener
       else if( e.widget == this.minInstancesText ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );

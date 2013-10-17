@@ -58,6 +58,7 @@ import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
 import eu.celar.tosca.editor.features.DeleteApplicationComponentFeature;
+import eu.celar.tosca.editor.features.DeleteDeploymentArtifactFeature;
 import eu.celar.tosca.editor.features.DeleteGroupFeature;
 import eu.celar.tosca.editor.features.DirectEditApplicationComponentFeature;
 import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
@@ -134,6 +135,10 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     else if (bo instanceof TNodeTemplate){
       return new DeleteApplicationComponentFeature( this );
     }
+    else if ( bo instanceof TDeploymentArtifact){
+      return new DeleteDeploymentArtifactFeature( this );
+    }
+      
     return super.getDeleteFeature( context );
   }
   

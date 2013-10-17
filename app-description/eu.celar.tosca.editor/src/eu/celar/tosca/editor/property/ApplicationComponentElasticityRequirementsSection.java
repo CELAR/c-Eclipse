@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -67,20 +68,21 @@ public class ApplicationComponentElasticityRequirementsSection
   private Table tableResizingActions;
   private Button removeButtonRA;
   private Button addButtonRA;
+  private Button uploadButtonRA;
   private Button conditionButtonRA;
   TableViewer tableResizingActionsViewer;
   List<TPolicy> appComponentResizingActions = new ArrayList<TPolicy>();
   protected Tosca_Elasticity_ExtensionsFactory elasticityFactory = Tosca_Elasticity_ExtensionsFactory.eINSTANCE;
 
   @Override
-  public void createControls( Composite parent,
+  public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.section.setText( "Application Component Elasticity Requirements" ); //$NON-NLS-1$
+    this.section.setText( "Application Component Elasticity Constraints" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
@@ -118,7 +120,7 @@ public class ApplicationComponentElasticityRequirementsSection
     tableLayout.addColumnData( data );
     data = new ColumnWeightData( 150 );
     tableLayout.addColumnData( data );
-    nameColumn.setText( "Elasticity Requirement" ); //$NON-NLS-1$
+    nameColumn.setText( "Constraint" ); //$NON-NLS-1$
     this.tableViewer = new TableViewer( this.table );
     ElasticityConstraintsProvider ERProvider = new ElasticityConstraintsProvider();
     IStructuredContentProvider contentProvider = ERProvider.ERContentProvider;
@@ -144,7 +146,7 @@ public class ApplicationComponentElasticityRequirementsSection
         // TODO Auto-generated method stub
       }
     } );
-
+    
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
     gd = new GridData();
@@ -168,12 +170,13 @@ public class ApplicationComponentElasticityRequirementsSection
     toolkit.adapt( this.table, true, true );
     toolkit.adapt( this.addButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
+   
     this.section.setClient( client );
     
     
     // Application Component Elasticity Actions Section
     this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.sectionRA.setText( "Elasticity Actions" ); //$NON-NLS-1$
+    this.sectionRA.setText( "Elasticity Strategies" ); //$NON-NLS-1$
     Composite clientRA = toolkit.createComposite( this.sectionRA, SWT.WRAP );
     Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
     Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
@@ -207,7 +210,7 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableResizingActions.setLayout( tableLayoutRA );
     TableColumn nameColumnRA = new TableColumn( this.tableResizingActions,
                                                 SWT.CENTER );
-    nameColumnRA.setText( "Action" ); //$NON-NLS-1$
+    nameColumnRA.setText( "Strategy" ); //$NON-NLS-1$
     nameColumnRA.setWidth( 100 );
     ColumnWeightData dataRA = new ColumnWeightData( 100 );
     tableLayoutRA.addColumnData( dataRA );
@@ -241,6 +244,26 @@ public class ApplicationComponentElasticityRequirementsSection
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButtonRA.setLayoutData( gdRA );
     
+    
+    this.uploadButtonRA = new Button( clientRA2, SWT.PUSH );
+    this.uploadButtonRA.setText( "Upload" ); //$NON-NLS-1$
+    // Listener for Upload button
+    this.uploadButtonRA.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+        addElasticityStrategy();
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gdRA = new GridData();
+    gdRA.widthHint = 60;
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.uploadButtonRA.setLayoutData( gdRA );
     
     this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
     this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
@@ -289,6 +312,7 @@ public class ApplicationComponentElasticityRequirementsSection
     toolkit.adapt( this.tableResizingActions, true, true );
     toolkit.adapt( this.removeButtonRA, true, true );
     toolkit.adapt( this.addButtonRA, true, true );
+    toolkit.adapt(  this.uploadButtonRA, true, true );
     toolkit.adapt( this.conditionButtonRA, true, true);
     this.sectionRA.setClient( clientRA );
   }
@@ -339,7 +363,7 @@ public class ApplicationComponentElasticityRequirementsSection
           
           newPolicy.setPolicyType( new QName("SYBLConstraint") );          
           
-          newPolicy.setName( "C" + policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+          newPolicy.setName( "C" + policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -360,6 +384,67 @@ public class ApplicationComponentElasticityRequirementsSection
     } 
   }
 
+  void addElasticityStrategy(  )
+  {
+    FileDialog dialog = new FileDialog(this.section.getShell(), SWT.OPEN);
+    dialog.setText( "Select Elasticity Action File" );
+    //dialog.setFilterExtensions(new String [] {"*.html"});
+    //dialog.setFilterPath("c:\\temp");
+    String result = dialog.open();
+    if (result != null){
+      
+      String newElasticityStrategy = dialog.getFileName();
+      // Add Application Component Elasticity Requirement to TOSCA
+      PictogramElement pe = getSelectedPictogramElement();
+      Object bo = null;
+      if( pe != null ) {
+        bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( pe );
+      }
+      final TNodeTemplateExtension nodeTemplate = ( TNodeTemplateExtension )bo;
+      
+      if ( nodeTemplate.getPolicies() == null ){
+        final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
+        
+        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+        editingDomain.getCommandStack()
+          .execute( new RecordingCommand( editingDomain ) {
+
+            @Override
+            protected void doExecute() {
+              nodeTemplate.setPolicies( nodePolicyList );
+            }
+          } );
+      }
+   
+      PoliciesType nodePolicyList = nodeTemplate.getPolicies();
+      
+      final EList<TPolicy> policy = nodePolicyList.getPolicy();
+      
+      final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+      
+      final String policyUniqueName = nodeTemplate.getId() + policy.size();
+      
+      newPolicy.setPolicyType( new QName("SYBLStrategy") );         
+      
+      newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
+
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+      editingDomain.getCommandStack()
+        .execute( new RecordingCommand( editingDomain ) {
+
+          @Override
+          protected void doExecute() {
+            policy.add( newPolicy );
+          }
+        } );
+
+      this.appComponentResizingActions.add( newPolicy );
+      this.tableResizingActionsViewer.refresh();
+       
+    }
+    
+  }
   void editDataStagingEntryRA ( final TPolicy selectedObject )
   {
     ElasticityStrategyDialog dialog;
@@ -403,7 +488,7 @@ public class ApplicationComponentElasticityRequirementsSection
           
           newPolicy.setPolicyType( new QName("SYBLStrategy") );         
           
-          newPolicy.setName( "S" + policyUniqueName + ": STRATEGY " + newElasticityStrategy );
+          newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -459,7 +544,8 @@ public class ApplicationComponentElasticityRequirementsSection
 
           @Override
           protected void doExecute() {
-            selectedObject.setName( selectedObject.getName() + condition );
+            String[] strategy = selectedObject.getName().split("STRATEGY");
+            selectedObject.setName( strategy[0] + "STRATEGY " + condition + strategy[1]);
           }
         } );
 

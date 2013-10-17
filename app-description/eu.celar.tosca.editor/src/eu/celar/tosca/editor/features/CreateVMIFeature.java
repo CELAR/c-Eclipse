@@ -4,6 +4,9 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
@@ -56,20 +59,59 @@ public class CreateVMIFeature extends AbstractCreateFeature {
 //    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
 //    deploymentArtifact.setName( vmi.getName() );
 //    deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+
+
+    if( tNode.getDeploymentArtifacts() == null ) {
+      //deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
+      //tNode.setDeploymentArtifacts( deploymentArtifacts );
+      
+      final TNodeTemplate node = tNode;
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+      editingDomain.getCommandStack()
+        .execute( new RecordingCommand( editingDomain ) {
+
+          protected void doExecute() {
+            node.setDeploymentArtifacts( ToscaFactory.eINSTANCE.createTDeploymentArtifacts() );
+          }
+        } );
+      
+      
+    } 
     
-    ///////////////////////////////////////////
-    TDeploymentArtifact deploymentArtifact = ( TDeploymentArtifact )this.contextObject;
     
-    ///////////////////////////////////////////
+//    else {
+//      
+//      // Check whether a VM image has been specified for the component
+//      TDeploymentArtifact artifact;
+//      TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
+//      for( int i=0; i<deploymentArtifacts.getDeploymentArtifact().size(); i++ )
+//      {
+//        artifact = deploymentArtifacts.getDeploymentArtifact().get( i );
+//        if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 ) //$NON-NLS-1$
+//          deploymentArtifacts.getDeploymentArtifact().remove( artifact );
+//        
+//      }
+//    }
     
-    TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
-    if( deploymentArtifacts == null ) {
-      deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
-    }
+    
     // Add the new deployment artifact to the list
-    deploymentArtifacts.getDeploymentArtifact().add( deploymentArtifact );
-    tNode.setDeploymentArtifacts( deploymentArtifacts );
-    // do the add
+    final TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
+    TDeploymentArtifact tempDeploymentArtifact = ( TDeploymentArtifact )this.contextObject;
+    
+    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+    deploymentArtifact.setName( tempDeploymentArtifact.getName() );
+    deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
+    
+        
+    final TDeploymentArtifact tempArtifact = deploymentArtifact;
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        protected void doExecute() {
+          deploymentArtifacts.getDeploymentArtifact().add( tempArtifact );
+        }
+      } );
     
     //addGraphicalRepresentation( context, vmi );
     

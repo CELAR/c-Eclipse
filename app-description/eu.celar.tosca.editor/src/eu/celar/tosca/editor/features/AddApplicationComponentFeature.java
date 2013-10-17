@@ -22,9 +22,9 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 
-import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.StyleUtil;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
 
@@ -38,7 +38,7 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
   @Override
   public boolean canAdd( final IAddContext context ) {
     boolean result = false;
-    if( context.getNewObject() instanceof TNodeTemplate ) {
+    if( context.getNewObject() instanceof TNodeTemplateExtension ) {
       Object parentObject = getBusinessObjectForPictogramElement( context.getTargetContainer() );
       if( parentObject instanceof TServiceTemplate
           || parentObject instanceof EClass )
@@ -52,7 +52,7 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
   // Adds an application component figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-    final TNodeTemplate addedClass = ( TNodeTemplate )context.getNewObject();
+    final TNodeTemplateExtension addedClass = ( TNodeTemplateExtension )context.getNewObject();
     final ContainerShape targetDiagram = context.getTargetContainer();
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
     final IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -152,6 +152,9 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
     ellipse.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
     // call the layout feature
     layoutPictogramElement( containerShape );
+    
+    //PictogramElement pic = getFeatureProvider().getPictogramElementForBusinessObject( (TNodeTemplateExtension) addedClass );
+    
     return containerShape;
   }
 }

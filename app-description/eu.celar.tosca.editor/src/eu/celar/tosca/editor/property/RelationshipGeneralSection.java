@@ -133,33 +133,33 @@ public class RelationshipGeneralSection extends GFPropertySection
 
   @Override
   public void modifyText( ModifyEvent e ) {
-    PictogramElement pe = getSelectedPictogramElement();
-    if( pe != null ) {
-      final Object bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
-
-      if( bo == null )
-        return;
-      final TRelationshipTemplate relationshipTemplate = ( TRelationshipTemplate )bo;
-      
-      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-      if (e.widget == this.nameText){
-        
-        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
-            protected void doExecute() {
-              relationshipTemplate.setName( RelationshipGeneralSection.this.nameText.getText() );
-            }
-          } );
-      }
-      else if ( e.widget == this.cmbRelationshipType){
-
-        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
-            protected void doExecute() {
-              relationshipTemplate.setType( new QName(RelationshipGeneralSection.this.cmbRelationshipType.getText()) );
-            }
-          } );
-      }
-    }
+//    PictogramElement pe = getSelectedPictogramElement();
+//    if( pe != null ) {
+//      final Object bo = Graphiti.getLinkService()
+//        .getBusinessObjectForLinkedPictogramElement( pe );
+//
+//      if( bo == null )
+//        return;
+//      final TRelationshipTemplate relationshipTemplate = ( TRelationshipTemplate )bo;
+//      
+//      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+//      if (e.widget == this.nameText){
+//        
+//        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
+//            protected void doExecute() {
+//              relationshipTemplate.setName( RelationshipGeneralSection.this.nameText.getText() );
+//            }
+//          } );
+//      }
+//      else if ( e.widget == this.cmbRelationshipType){
+//
+//        editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
+//            protected void doExecute() {
+//              relationshipTemplate.setType( new QName(RelationshipGeneralSection.this.cmbRelationshipType.getText()) );
+//            }
+//          } );
+//      }
+//    }
     
   }
 }

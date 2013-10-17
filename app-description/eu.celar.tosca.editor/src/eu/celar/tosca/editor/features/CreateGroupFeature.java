@@ -42,13 +42,14 @@ public class CreateGroupFeature extends AbstractCreateFeature {
     //set the Service Template as substitutable so that it can be composed into another Service Template
     QName qname = new QName("substituteNode");
     tService.setSubstitutableNodeType( qname );
+    tService.setId( "G" + ( ( Integer )tService.hashCode() ).toString() );
     
     //Add substituted node type to parent Service Template
     TServiceTemplate parentServiceTemplate = (TServiceTemplate) getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
     
     TNodeTemplateExtension newNodeTemplate = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
     newNodeTemplate.setType( qname );
-    newNodeTemplate.setId( ( ( Integer )newNodeTemplate.hashCode() ).toString() );   
+    newNodeTemplate.setId( "G" + ( ( Integer )newNodeTemplate.hashCode() ).toString() );   
     
     parentServiceTemplate.getTopologyTemplate().getNodeTemplate().add( newNodeTemplate );  
     

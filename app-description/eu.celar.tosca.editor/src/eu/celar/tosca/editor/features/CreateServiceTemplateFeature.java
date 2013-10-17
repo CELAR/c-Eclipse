@@ -40,12 +40,18 @@ public class CreateServiceTemplateFeature extends AbstractCreateFeature {
   @Override
   public Object[] create( final ICreateContext context ) {
     TServiceTemplate tService = ToscaFactory.eINSTANCE.createTServiceTemplate();
+
+    // Add object to domain model
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     model.getDocumentRoot()
       .getDefinitions()
       .getServiceTemplate()
       .add( tService );
-    // getDiagram().eResource().getContents().add(tService);
+
+    // Add object to diagram model
+    //getDiagram().eResource().getContents().add(tService);
+    
+    
     // do the add
     addGraphicalRepresentation( context, tService );
     // activate direct editing after object creation

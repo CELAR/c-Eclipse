@@ -84,7 +84,7 @@ public class CompositeElasticity
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.section.setText( "Application Component Elasticity Requirements" ); //$NON-NLS-1$
+    this.section.setText( "Application Component Elasticity Constraints" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
@@ -122,7 +122,7 @@ public class CompositeElasticity
     tableLayout.addColumnData( data );
     data = new ColumnWeightData( 150 );
     tableLayout.addColumnData( data );
-    nameColumn.setText( "Elasticity Requirement" ); //$NON-NLS-1$
+    nameColumn.setText( "Constraint" ); //$NON-NLS-1$
     this.tableViewer = new TableViewer( this.table );
     ElasticityConstraintsProvider ERProvider = new ElasticityConstraintsProvider();
     IStructuredContentProvider contentProvider = ERProvider.ERContentProvider;
@@ -177,7 +177,7 @@ public class CompositeElasticity
     
     // Application Component Elasticity Actions Section
     this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.sectionRA.setText( "Elasticity Actions" ); //$NON-NLS-1$
+    this.sectionRA.setText( "Elasticity Strategies" ); //$NON-NLS-1$
     Composite clientRA = toolkit.createComposite( this.sectionRA, SWT.WRAP );
     Composite clientRA1 = toolkit.createComposite( clientRA, SWT.WRAP );
     Composite clientRA2 = toolkit.createComposite( clientRA, SWT.WRAP );
@@ -211,7 +211,7 @@ public class CompositeElasticity
     this.tableResizingActions.setLayout( tableLayoutRA );
     TableColumn nameColumnRA = new TableColumn( this.tableResizingActions,
                                                 SWT.CENTER );
-    nameColumnRA.setText( "Action" ); //$NON-NLS-1$
+    nameColumnRA.setText( "Strategy" ); //$NON-NLS-1$
     nameColumnRA.setWidth( 100 );
     ColumnWeightData dataRA = new ColumnWeightData( 100 );
     tableLayoutRA.addColumnData( dataRA );
@@ -365,7 +365,7 @@ public class CompositeElasticity
           
           newPolicy.setPolicyType( new QName("SYBLConstraint") );          
           
-          newPolicy.setName( "C" + policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+          newPolicy.setName( "C" + policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -453,7 +453,7 @@ public class CompositeElasticity
           
           newPolicy.setPolicyType( new QName("SYBLStrategy") );         
           
-          newPolicy.setName( "S" + policyUniqueName + ": STRATEGY " + newElasticityStrategy );
+          newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -536,7 +536,8 @@ public class CompositeElasticity
 
           @Override
           protected void doExecute() {
-            selectedObject.setName( selectedObject.getName() + condition );
+            String[] strategy = selectedObject.getName().split("STRATEGY");
+            selectedObject.setName( strategy[0] + "STRATEGY " + condition + strategy[1]);
           }
         } );
 

@@ -37,6 +37,8 @@ import org.eclipse.graphiti.features.context.impl.AreaContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.swt.widgets.Composite;
@@ -53,6 +55,7 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.listener.ToscaModelChangeListener;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 
 /**
@@ -66,6 +69,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
   private ToscaModelChangeListener toscaModelChangeListener;
   
   private TransactionalEditingDomain transactionalEditingDomain;
+  
     
   /**
    * The Tosca Diagram Editor Constructor.
@@ -73,9 +77,9 @@ public class ToscaDiagramEditor extends DiagramEditor {
   public ToscaDiagramEditor () {
     super ();
   }
-  
-    
+   
   protected void registerBusinessObjectsListener() {
+    
     this.toscaModelChangeListener = new ToscaModelChangeListener(this);
 
     final TransactionalEditingDomain ted = getEditingDomain();
@@ -111,6 +115,10 @@ public class ToscaDiagramEditor extends DiagramEditor {
     }
 
     super.init(site, finalInput);
+    
+    // Refresh Palette Compartments
+    getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
+    
   }
   
   private ToscaDiagramEditorInput createNewDiagramEditorInput(final IEditorInput input) throws CoreException {
@@ -185,7 +193,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
 
     final ToscaDiagramEditorInput tdei = (ToscaDiagramEditorInput) input;
     final IFile dataFile = tdei.getToscaFile();
-
+    
     final ToscaModelLayer model = new ToscaModelLayer(getDiagramTypeProvider().getFeatureProvider(), dataFile);
     ModelHandler.addModel(EcoreUtil.getURI(getDiagramTypeProvider().getDiagram()), model);
     
@@ -195,7 +203,6 @@ public class ToscaDiagramEditor extends DiagramEditor {
     
     URI resourceURI = null;
     IEditorInput eInput = getEditorInput();
-   
    
     if( getEditorInput() instanceof ToscaDiagramEditorInput ) {
       IFile modelFile = ((ToscaDiagramEditorInput) getEditorInput()).getToscaFile();      
@@ -358,8 +365,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DocumentRoot documentRoot = model.getDocumentRoot();
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
-            
-            
+                        
             for (TServiceTemplate tst : serviceTemplates) { 
               
               addContainerElement (tst, diagram);
@@ -379,11 +385,12 @@ public class ToscaDiagramEditor extends DiagramEditor {
               
               if (topology == null)
                 break;
-                
-              
+                           
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
                   ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
                     .getPictogramElementForBusinessObject( tst );                
+//                  boolean haspic1 = getDiagramTypeProvider().getFeatureProvider().hasPictogramElementForBusinessObject( tst );
+//                  boolean haspic = getDiagramTypeProvider().getFeatureProvider().hasPictogramElementForBusinessObject( tnt );
                   
                   addContainerElement( tnt, containerShape );
                 }
@@ -428,14 +435,24 @@ public class ToscaDiagramEditor extends DiagramEditor {
   {
         
     final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-        
+       
     AddContext context = new AddContext( new AreaContext(), element );
     IAddFeature addFeature = featureProvider.getAddFeature( context );
     context.setNewObject( element );    
     context.setTargetContainer( parent );
+        
+    int x, y;
     
-    int x = 0;
-    int y = 0;
+    if (element instanceof TServiceTemplate){
+      x = 0;
+      y = 0;
+    }
+    else {
+      //x = child.getGraphicsAlgorithm().getX();
+      //y = child.getGraphicsAlgorithm().getY();
+    }
+    x = 20;
+    y = 20;
     
     if( parent instanceof Diagram == false ) {
       x = x - parent.getGraphicsAlgorithm().getX();

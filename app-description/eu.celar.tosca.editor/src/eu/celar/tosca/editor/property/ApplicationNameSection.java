@@ -33,7 +33,7 @@ public class ApplicationNameSection extends GFPropertySection
 {
 
   private Text nameText;
-  CCombo cmbOptimizationPolicy;
+  //CCombo cmbOptimizationPolicy;
 
   @Override
   public void createControls( Composite parent,
@@ -68,30 +68,30 @@ public class ApplicationNameSection extends GFPropertySection
     gd.widthHint = 140;
     nameText.setLayoutData( gd );
     nameText.addModifyListener( this );
-    // Optimization Policy
-    CLabel optPolicyLabel = factory.createCLabel( client,
-                                                  "Optimization Policy:" ); //$NON-NLS-1$
-    gd = new GridData();
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    // gd.widthHint=STANDARD_LABEL_WIDTH;
-    optPolicyLabel.setLayoutData( gd );
-    cmbOptimizationPolicy = new CCombo( client, SWT.BORDER );
-    cmbOptimizationPolicy.setEnabled( true );
-    cmbOptimizationPolicy.add( "Minimize Cost" );
-    cmbOptimizationPolicy.add( "Maximize Throughput" );
-    cmbOptimizationPolicy.setEditable( false );
-    gd = new GridData();
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint = 140;
-    cmbOptimizationPolicy.setLayoutData( gd );
-    cmbOptimizationPolicy.addModifyListener( this );
+//    // Optimization Policy
+//    CLabel optPolicyLabel = factory.createCLabel( client,
+//                                                  "Optimization Policy:" ); //$NON-NLS-1$
+//    gd = new GridData();
+//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+//    // gd.widthHint=STANDARD_LABEL_WIDTH;
+//    optPolicyLabel.setLayoutData( gd );
+//    cmbOptimizationPolicy = new CCombo( client, SWT.BORDER );
+//    cmbOptimizationPolicy.setEnabled( true );
+//    cmbOptimizationPolicy.add( "Minimize Cost" );
+//    cmbOptimizationPolicy.add( "Maximize Throughput" );
+//    cmbOptimizationPolicy.setEditable( false );
+//    gd = new GridData();
+//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+//    gd.widthHint = 140;
+//    cmbOptimizationPolicy.setLayoutData( gd );
+//    cmbOptimizationPolicy.addModifyListener( this );
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
     toolkit.adapt( this.nameText, true, true );
-    toolkit.adapt( optPolicyLabel, true, true );
-    toolkit.adapt( cmbOptimizationPolicy, true, true );
+//    toolkit.adapt( optPolicyLabel, true, true );
+//    toolkit.adapt( cmbOptimizationPolicy, true, true );
     section.setClient( client );
   }
 
@@ -130,26 +130,26 @@ public class ApplicationNameSection extends GFPropertySection
     if( pe != null ) {
       final TServiceTemplate bo = ( TServiceTemplate )Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
-      if( bo == null )
-        return;
-      // Optimization policy modified
-      if( e.widget == this.cmbOptimizationPolicy ) {
-        final String optPolicy = cmbOptimizationPolicy.getText();
-        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-        editingDomain.getCommandStack()
-          .execute( new RecordingCommand( editingDomain ) {
-
-            protected void doExecute() {
-              bo.getBoundaryDefinitions()
-                .getPolicies()
-                .getPolicy()
-                .get( 0 )
-                .setName( optPolicy );
-            }
-          } );
-      }
+//      if( bo == null )
+//        return;
+//      // Optimization policy modified
+//      if( e.widget == this.cmbOptimizationPolicy ) {
+//        final String optPolicy = cmbOptimizationPolicy.getText();
+//        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+//        editingDomain.getCommandStack()
+//          .execute( new RecordingCommand( editingDomain ) {
+//
+//            protected void doExecute() {
+//              bo.getBoundaryDefinitions()
+//                .getPolicies()
+//                .getPolicy()
+//                .get( 0 )
+//                .setName( optPolicy );
+//            }
+//          } );
+//      }else
       // Application name modified
-      else if ( e.widget == this.nameText ){
+       if ( e.widget == this.nameText ){
         final String name = this.nameText.getText();
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
         editingDomain.getCommandStack()

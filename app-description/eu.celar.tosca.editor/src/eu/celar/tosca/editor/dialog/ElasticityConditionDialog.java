@@ -112,7 +112,7 @@ public class ElasticityConditionDialog extends Dialog {
   protected void okPressed() {
            
     if ( this.conditionSelected ){
-      ElasticityConditionDialog.this.condition = " WHEN Violated ( " + this.cmbCondition.getText().split( ":" )[0] + " )";
+      ElasticityConditionDialog.this.condition = "CASE Violated(" + this.cmbCondition.getText().split( ":" )[0] + "):";
     }
     else ElasticityConditionDialog.this.condition = "";
                                                                                              

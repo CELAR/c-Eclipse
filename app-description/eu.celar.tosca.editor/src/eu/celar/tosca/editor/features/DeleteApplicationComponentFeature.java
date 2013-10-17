@@ -12,12 +12,14 @@ import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
 
 
+
 public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
 
   public DeleteApplicationComponentFeature( IFeatureProvider fp ) {
     super( fp );
     // TODO Auto-generated constructor stub
   }
+  
   
   @Override
   public void preDelete(IDeleteContext context) {
@@ -37,5 +39,5 @@ public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
       }
     }
     
-  }
+  } 
 }
