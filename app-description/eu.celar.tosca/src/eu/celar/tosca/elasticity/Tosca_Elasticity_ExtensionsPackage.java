@@ -78,7 +78,7 @@ import org.eclipse.emf.ecore.EReference;
  *    </div>
  *   
  * 
- *    <div xmlns="http://www.w3.org/1999/xhtml" id="usage" xml:id="usage">
+ *    <div id="usage" xml:id="usage" xmlns="http://www.w3.org/1999/xhtml">
  *     <h2>
  *       <a name="usage">About this schema document</a>
  *     </h2>
@@ -124,7 +124,7 @@ import org.eclipse.emf.ecore.EReference;
  *    </div>
  *   
  * 
- *    <div xmlns="http://www.w3.org/1999/xhtml" id="nsversioning" xml:id="nsversioning">
+ *    <div id="nsversioning" xml:id="nsversioning" xmlns="http://www.w3.org/1999/xhtml">
  *     <h2>
  *       <a name="nsversioning">Versioning policy for this schema document</a>
  *     </h2>
@@ -404,6 +404,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TDATA_HINT__DOCUMENTATION = ToscaPackage.TEXTENSIBLE_ELEMENTS__DOCUMENTATION;
 
   /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TDATA_HINT__ANY = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TDATA_HINT__ANY_ATTRIBUTE = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY_ATTRIBUTE;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -448,6 +466,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @ordered
    */
   int TLOAD_HINT__DOCUMENTATION = ToscaPackage.TEXTENSIBLE_ELEMENTS__DOCUMENTATION;
+
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TLOAD_HINT__ANY = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TLOAD_HINT__ANY_ATTRIBUTE = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY_ATTRIBUTE;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -496,6 +532,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TMONITORING_PROBE__DOCUMENTATION = ToscaPackage.TEXTENSIBLE_ELEMENTS__DOCUMENTATION;
 
   /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__ANY = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TMONITORING_PROBE__ANY_ATTRIBUTE = ToscaPackage.TEXTENSIBLE_ELEMENTS__ANY_ATTRIBUTE;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -524,107 +578,6 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TNODE_TEMPLATE_EXTENSION = 7;
 
   /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategory()
-   * @generated
-   */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 8;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationPolicyCategory <em>Application Policy Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationPolicyCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategory()
-   * @generated
-   */
-  int APPLICATION_POLICY_CATEGORY = 9;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.DataHintCategory <em>Data Hint Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.DataHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategory()
-   * @generated
-   */
-  int DATA_HINT_CATEGORY = 10;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.ElasticityRequirementCategory <em>Elasticity Requirement Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategory()
-   * @generated
-   */
-  int ELASTICITY_REQUIREMENT_CATEGORY = 11;
-
-  /**
-   * The meta object id for the '{@link eu.celar.tosca.elasticity.LoadHintCategory <em>Load Hint Category</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.LoadHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategory()
-   * @generated
-   */
-  int LOAD_HINT_CATEGORY = 12;
-
-  /**
-   * The meta object id for the '<em>Application Component Elasticity Requirement Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategoryObject()
-   * @generated
-   */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 13;
-
-  /**
-   * The meta object id for the '<em>Application Policy Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ApplicationPolicyCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategoryObject()
-   * @generated
-   */
-  int APPLICATION_POLICY_CATEGORY_OBJECT = 14;
-
-  /**
-   * The meta object id for the '<em>Data Hint Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.DataHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategoryObject()
-   * @generated
-   */
-  int DATA_HINT_CATEGORY_OBJECT = 15;
-
-  /**
-   * The meta object id for the '<em>Elasticity Requirement Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.ElasticityRequirementCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategoryObject()
-   * @generated
-   */
-  int ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 16;
-
-  /**
-   * The meta object id for the '<em>Load Hint Category Object</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see eu.celar.tosca.elasticity.LoadHintCategory
-   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategoryObject()
-   * @generated
-   */
-  int LOAD_HINT_CATEGORY_OBJECT = 17;
-
-
-  /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -632,6 +585,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @ordered
    */
   int TNODE_TEMPLATE_EXTENSION__DOCUMENTATION = ToscaPackage.TNODE_TEMPLATE__DOCUMENTATION;
+
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__ANY = ToscaPackage.TNODE_TEMPLATE__ANY;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__ANY_ATTRIBUTE = ToscaPackage.TNODE_TEMPLATE__ANY_ATTRIBUTE;
 
   /**
    * The feature id for the '<em><b>Properties</b></em>' containment reference.
@@ -733,31 +704,114 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TNODE_TEMPLATE_EXTENSION__NAME = ToscaPackage.TNODE_TEMPLATE__NAME;
 
   /**
-   * The feature id for the '<em><b>Application Component Data Hints</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_DATA_HINTS = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Application Component Load Hints</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 1;
-
-  /**
    * The number of structural features of the '<em>TNode Template Extension</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
+  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategory()
+   * @generated
+   */
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 8;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationPolicyCategory <em>Application Policy Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationPolicyCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategory()
+   * @generated
+   */
+  int APPLICATION_POLICY_CATEGORY = 9;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.DataHintCategory <em>Data Hint Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.DataHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategory()
+   * @generated
+   */
+  int DATA_HINT_CATEGORY = 10;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.ElasticityRequirementCategory <em>Elasticity Requirement Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategory()
+   * @generated
+   */
+  int ELASTICITY_REQUIREMENT_CATEGORY = 11;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.LoadHintCategory <em>Load Hint Category</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.LoadHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategory()
+   * @generated
+   */
+  int LOAD_HINT_CATEGORY = 12;
+
+  /**
+   * The meta object id for the '<em>Application Component Elasticity Requirement Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategoryObject()
+   * @generated
+   */
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 13;
+
+  /**
+   * The meta object id for the '<em>Application Policy Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ApplicationPolicyCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategoryObject()
+   * @generated
+   */
+  int APPLICATION_POLICY_CATEGORY_OBJECT = 14;
+
+  /**
+   * The meta object id for the '<em>Data Hint Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.DataHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategoryObject()
+   * @generated
+   */
+  int DATA_HINT_CATEGORY_OBJECT = 15;
+
+  /**
+   * The meta object id for the '<em>Elasticity Requirement Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.ElasticityRequirementCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategoryObject()
+   * @generated
+   */
+  int ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 16;
+
+  /**
+   * The meta object id for the '<em>Load Hint Category Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.LoadHintCategory
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategoryObject()
+   * @generated
+   */
+  int LOAD_HINT_CATEGORY_OBJECT = 17;
+
 
   /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.DataHintsType1 <em>Data Hints Type1</em>}'.
@@ -937,28 +991,6 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EClass getTNodeTemplateExtension();
-
-  /**
-   * Returns the meta object for the containment reference '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentDataHints <em>Application Component Data Hints</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Application Component Data Hints</em>'.
-   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentDataHints()
-   * @see #getTNodeTemplateExtension()
-   * @generated
-   */
-  EReference getTNodeTemplateExtension_ApplicationComponentDataHints();
-
-  /**
-   * Returns the meta object for the containment reference '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentLoadHints <em>Application Component Load Hints</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Application Component Load Hints</em>'.
-   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getApplicationComponentLoadHints()
-   * @see #getTNodeTemplateExtension()
-   * @generated
-   */
-  EReference getTNodeTemplateExtension_ApplicationComponentLoadHints();
 
   /**
    * Returns the meta object for enum '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}'.
@@ -1244,22 +1276,6 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EClass TNODE_TEMPLATE_EXTENSION = eINSTANCE.getTNodeTemplateExtension();
-
-    /**
-     * The meta object literal for the '<em><b>Application Component Data Hints</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_DATA_HINTS = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentDataHints();
-
-    /**
-     * The meta object literal for the '<em><b>Application Component Load Hints</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS = eINSTANCE.getTNodeTemplateExtension_ApplicationComponentLoadHints();
 
     /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.

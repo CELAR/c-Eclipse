@@ -38,7 +38,7 @@ public class ToscaFactoryImpl extends EFactoryImpl implements ToscaFactory
   {
     try
     {
-      ToscaFactory theToscaFactory = (ToscaFactory)EPackage.Registry.INSTANCE.getEFactory("http://docs.oasis-open.org/tosca/ns/2011/12"); //$NON-NLS-1$ 
+      ToscaFactory theToscaFactory = (ToscaFactory)EPackage.Registry.INSTANCE.getEFactory(ToscaPackage.eNS_URI);
       if (theToscaFactory != null)
       {
         return theToscaFactory;

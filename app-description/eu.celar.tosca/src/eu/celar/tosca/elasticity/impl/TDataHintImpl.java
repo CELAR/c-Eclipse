@@ -27,9 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class TDataHintImpl extends 
-
-TExtensibleElementsImpl implements TDataHint
+public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
 {
   /**
    * An array of objects representing the values of non-primitive features.

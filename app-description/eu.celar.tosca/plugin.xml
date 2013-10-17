@@ -51,18 +51,4 @@
             type="tosca_elasticity_extensions"
             class="eu.celar.tosca.elasticity.util.Tosca_Elasticity_ExtensionsResourceFactoryImpl"/>
    </extension>
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated TOSCA-v1.0 -->
-      <package
-            uri="http://docs.oasis-open.org/tosca/ns/2011/12"
-            class="eu.celar._12.ToscaPackage"
-            genModel="model/TOSCA-v1.0.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated TOSCA-v1.0 -->
-      <parser
-            type="tosca"
-            class="eu.celar.tosca.util.ToscaResourceFactoryImpl"/>
-   </extension>
-</plugin>
+null</plugin>

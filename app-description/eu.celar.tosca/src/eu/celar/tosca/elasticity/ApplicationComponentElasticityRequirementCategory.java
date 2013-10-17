@@ -20,79 +20,79 @@ import org.eclipse.emf.common.util.Enumerator;
 public enum ApplicationComponentElasticityRequirementCategory implements Enumerator
 {
   /**
-   * The '<em><b>Minimum Response Time</b></em>' literal object.
+   * The '<em><b>Response Time</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #MINIMUM_RESPONSE_TIME_VALUE
+   * @see #RESPONSE_TIME_VALUE
    * @generated
    * @ordered
    */
-  MINIMUM_RESPONSE_TIME(0, "MinimumResponseTime", "Minimum Response Time"),
+  RESPONSE_TIME(0, "ResponseTime", "ResponseTime"),
 
   /**
-   * The '<em><b>Minimun Cost</b></em>' literal object.
+   * The '<em><b>Cost</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #MINIMUN_COST_VALUE
+   * @see #COST_VALUE
    * @generated
    * @ordered
    */
-  MINIMUN_COST(1, "MinimunCost", "Minimun Cost"),
+  COST(1, "Cost", "Cost"),
 
   /**
-   * The '<em><b>Maximum Cost</b></em>' literal object.
+   * The '<em><b>Throughput</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #MAXIMUM_COST_VALUE
+   * @see #THROUGHPUT_VALUE
    * @generated
    * @ordered
    */
-  MAXIMUM_COST(2, "MaximumCost", "Maximum Cost");
+  THROUGHPUT(2, "Throughput", "Throughput");
 
   /**
-   * The '<em><b>Minimum Response Time</b></em>' literal value.
+   * The '<em><b>Response Time</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Minimum Response Time</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Response Time</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #MINIMUM_RESPONSE_TIME
-   * @model name="MinimumResponseTime" literal="Minimum Response Time"
+   * @see #RESPONSE_TIME
+   * @model name="ResponseTime"
    * @generated
    * @ordered
    */
-  public static final int MINIMUM_RESPONSE_TIME_VALUE = 0;
+  public static final int RESPONSE_TIME_VALUE = 0;
 
   /**
-   * The '<em><b>Minimun Cost</b></em>' literal value.
+   * The '<em><b>Cost</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Minimun Cost</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Cost</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #MINIMUN_COST
-   * @model name="MinimunCost" literal="Minimun Cost"
+   * @see #COST
+   * @model name="Cost"
    * @generated
    * @ordered
    */
-  public static final int MINIMUN_COST_VALUE = 1;
+  public static final int COST_VALUE = 1;
 
   /**
-   * The '<em><b>Maximum Cost</b></em>' literal value.
+   * The '<em><b>Throughput</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Maximum Cost</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Throughput</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #MAXIMUM_COST
-   * @model name="MaximumCost" literal="Maximum Cost"
+   * @see #THROUGHPUT
+   * @model name="Throughput"
    * @generated
    * @ordered
    */
-  public static final int MAXIMUM_COST_VALUE = 2;
+  public static final int THROUGHPUT_VALUE = 2;
 
   /**
    * An array of all the '<em><b>Application Component Elasticity Requirement Category</b></em>' enumerators.
@@ -103,9 +103,9 @@ public enum ApplicationComponentElasticityRequirementCategory implements Enumera
   private static final ApplicationComponentElasticityRequirementCategory[] VALUES_ARRAY =
     new ApplicationComponentElasticityRequirementCategory[]
     {
-      MINIMUM_RESPONSE_TIME,
-      MINIMUN_COST,
-      MAXIMUM_COST,
+      RESPONSE_TIME,
+      COST,
+      THROUGHPUT,
     };
 
   /**
@@ -164,9 +164,9 @@ public enum ApplicationComponentElasticityRequirementCategory implements Enumera
   {
     switch (value)
     {
-      case MINIMUM_RESPONSE_TIME_VALUE: return MINIMUM_RESPONSE_TIME;
-      case MINIMUN_COST_VALUE: return MINIMUN_COST;
-      case MAXIMUM_COST_VALUE: return MAXIMUM_COST;
+      case RESPONSE_TIME_VALUE: return RESPONSE_TIME;
+      case COST_VALUE: return COST;
+      case THROUGHPUT_VALUE: return THROUGHPUT;
     }
     return null;
   }

@@ -407,26 +407,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getTNodeTemplateExtension_ApplicationComponentDataHints()
-  {
-    return (EReference)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getTNodeTemplateExtension_ApplicationComponentLoadHints()
-  {
-    return (EReference)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EEnum getApplicationComponentElasticityRequirementCategory()
   {
     return applicationComponentElasticityRequirementCategoryEEnum;
@@ -576,8 +556,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     createEAttribute(tMonitoringProbeEClass, TMONITORING_PROBE__NAME);
 
     tNodeTemplateExtensionEClass = createEClass(TNODE_TEMPLATE_EXTENSION);
-    createEReference(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_DATA_HINTS);
-    createEReference(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__APPLICATION_COMPONENT_LOAD_HINTS);
 
     // Create enums
     applicationComponentElasticityRequirementCategoryEEnum = createEEnum(APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY);
@@ -658,14 +636,12 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEAttribute(getTMonitoringProbe_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TMonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tNodeTemplateExtensionEClass, TNodeTemplateExtension.class, "TNodeTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getTNodeTemplateExtension_ApplicationComponentDataHints(), this.getDataHintsType1(), null, "applicationComponentDataHints", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getTNodeTemplateExtension_ApplicationComponentLoadHints(), this.getLoadHintsType1(), null, "applicationComponentLoadHints", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.class, "ApplicationComponentElasticityRequirementCategory");
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.MINIMUM_RESPONSE_TIME);
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.MINIMUN_COST);
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.MAXIMUM_COST);
+    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.RESPONSE_TIME);
+    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.COST);
+    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.THROUGHPUT);
 
     initEEnum(applicationPolicyCategoryEEnum, ApplicationPolicyCategory.class, "ApplicationPolicyCategory");
     addEEnumLiteral(applicationPolicyCategoryEEnum, ApplicationPolicyCategory.MINIMIZE_COST);
@@ -679,7 +655,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.COST);
     addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.THROUGHPUT);
     addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.LATENCY);
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.MINIMUM_RESPONSE_TIME);
+    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.RESPONSE_TIME);
     addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.BANDWIDTH);
 
     initEEnum(loadHintCategoryEEnum, LoadHintCategory.class, "LoadHintCategory");
@@ -924,24 +900,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TNodeTemplateExtension",
        "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getTNodeTemplateExtension_ApplicationComponentDataHints(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "applicationComponentDataHints",
-       "namespace", "##targetNamespace"
-       });		
-    addAnnotation
-      (getTNodeTemplateExtension_ApplicationComponentLoadHints(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "applicationComponentLoadHints",
-       "namespace", "##targetNamespace"
        });
   }
 

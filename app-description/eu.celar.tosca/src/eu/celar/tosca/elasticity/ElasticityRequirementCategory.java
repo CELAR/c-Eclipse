@@ -50,14 +50,14 @@ public enum ElasticityRequirementCategory implements Enumerator
   LATENCY(2, "Latency", "Latency"),
 
   /**
-   * The '<em><b>Minimum Response Time</b></em>' literal object.
+   * The '<em><b>Response Time</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #MINIMUM_RESPONSE_TIME_VALUE
+   * @see #RESPONSE_TIME_VALUE
    * @generated
    * @ordered
    */
-  MINIMUM_RESPONSE_TIME(3, "MinimumResponseTime", "Minimum Response Time"),
+  RESPONSE_TIME(3, "ResponseTime", "ResponseTime"),
 
   /**
    * The '<em><b>Bandwidth</b></em>' literal object.
@@ -115,19 +115,19 @@ public enum ElasticityRequirementCategory implements Enumerator
   public static final int LATENCY_VALUE = 2;
 
   /**
-   * The '<em><b>Minimum Response Time</b></em>' literal value.
+   * The '<em><b>Response Time</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of '<em><b>Minimum Response Time</b></em>' literal object isn't clear,
+   * If the meaning of '<em><b>Response Time</b></em>' literal object isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #MINIMUM_RESPONSE_TIME
-   * @model name="MinimumResponseTime" literal="Minimum Response Time"
+   * @see #RESPONSE_TIME
+   * @model name="ResponseTime"
    * @generated
    * @ordered
    */
-  public static final int MINIMUM_RESPONSE_TIME_VALUE = 3;
+  public static final int RESPONSE_TIME_VALUE = 3;
 
   /**
    * The '<em><b>Bandwidth</b></em>' literal value.
@@ -156,7 +156,7 @@ public enum ElasticityRequirementCategory implements Enumerator
       COST,
       THROUGHPUT,
       LATENCY,
-      MINIMUM_RESPONSE_TIME,
+      RESPONSE_TIME,
       BANDWIDTH,
     };
 
@@ -219,7 +219,7 @@ public enum ElasticityRequirementCategory implements Enumerator
       case COST_VALUE: return COST;
       case THROUGHPUT_VALUE: return THROUGHPUT;
       case LATENCY_VALUE: return LATENCY;
-      case MINIMUM_RESPONSE_TIME_VALUE: return MINIMUM_RESPONSE_TIME;
+      case RESPONSE_TIME_VALUE: return RESPONSE_TIME;
       case BANDWIDTH_VALUE: return BANDWIDTH;
     }
     return null;
