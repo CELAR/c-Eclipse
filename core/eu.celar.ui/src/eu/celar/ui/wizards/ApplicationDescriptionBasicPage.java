@@ -7,6 +7,7 @@ package eu.celar.ui.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -38,6 +39,8 @@ import org.eclipse.swt.widgets.Text;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 
 public class ApplicationDescriptionBasicPage extends WizardPage
@@ -46,7 +49,7 @@ public class ApplicationDescriptionBasicPage extends WizardPage
 
   private Text txtAppName;
   private Text txtElasticityRequirement;
-  private CCombo cmbOptimizationPolicy;
+  //private CCombo cmbOptimizationPolicy;
   Composite container;
   TableViewer tableViewer;
   List<TPolicy> globalElasticityRequirements = new ArrayList<TPolicy>();
@@ -85,30 +88,30 @@ public class ApplicationDescriptionBasicPage extends WizardPage
     layout.horizontalSpan = 2;
     this.txtAppName.setLayoutData( layout );
     this.txtAppName.addModifyListener( this );
-    // Optimization Policy Label
-    Label lblOptimizationPolicy = new Label( container,
-                                             GridData.HORIZONTAL_ALIGN_BEGINNING
-                                                 | GridData.VERTICAL_ALIGN_CENTER );
-    lblOptimizationPolicy.setText( Messages.getString( "NewApplicationDescriptionBasicPage.optimizationPolicyLabel" ) ); //$NON-NLS-1$
-    layout = new GridData();
-    layout.horizontalAlignment = GridData.FILL;
-    lblOptimizationPolicy.setLayoutData( layout );
-    // Combo - Policy
-    this.cmbOptimizationPolicy = new CCombo( container, SWT.BORDER );
-    this.cmbOptimizationPolicy.setEnabled( true );
-    layout = new GridData();
-    layout.horizontalAlignment = GridData.FILL;
-    layout.horizontalSpan = 2;
-    this.cmbOptimizationPolicy.setLayoutData( layout );
-    
-    
-    List<ApplicationPolicyCategory> categories = ApplicationPolicyCategory.VALUES;
-    for( ApplicationPolicyCategory tempCat : categories ){
-      this.cmbOptimizationPolicy.add( tempCat.toString() );
-    }
-    
-
-    this.cmbOptimizationPolicy.setEditable( false );
+//    // Optimization Policy Label
+//    Label lblOptimizationPolicy = new Label( container,
+//                                             GridData.HORIZONTAL_ALIGN_BEGINNING
+//                                                 | GridData.VERTICAL_ALIGN_CENTER );
+//    lblOptimizationPolicy.setText( Messages.getString( "NewApplicationDescriptionBasicPage.optimizationPolicyLabel" ) ); //$NON-NLS-1$
+//    layout = new GridData();
+//    layout.horizontalAlignment = GridData.FILL;
+//    lblOptimizationPolicy.setLayoutData( layout );
+//    // Combo - Policy
+//    this.cmbOptimizationPolicy = new CCombo( container, SWT.BORDER );
+//    this.cmbOptimizationPolicy.setEnabled( true );
+//    layout = new GridData();
+//    layout.horizontalAlignment = GridData.FILL;
+//    layout.horizontalSpan = 2;
+//    this.cmbOptimizationPolicy.setLayoutData( layout );
+//    
+//    
+//    List<ApplicationPolicyCategory> categories = ApplicationPolicyCategory.VALUES;
+//    for( ApplicationPolicyCategory tempCat : categories ){
+//      this.cmbOptimizationPolicy.add( tempCat.toString() );
+//    }
+//    
+//
+//    this.cmbOptimizationPolicy.setEditable( false );
     // Global Elasticity Requirements Label
     Label lblGlobalElasticityReq = new Label( container,
                                               GridData.HORIZONTAL_ALIGN_BEGINNING
@@ -208,12 +211,12 @@ public class ApplicationDescriptionBasicPage extends WizardPage
     return this.txtAppName.getText();
   }
 
-  /**
-   * @return the Optimization Policy
-   */
-  public String getOptimizationPolicy() {
-    return this.cmbOptimizationPolicy.getText();
-  }
+//  /**
+//   * @return the Optimization Policy
+//   */
+//  public String getOptimizationPolicy() {
+//    return this.cmbOptimizationPolicy.getText();
+//  }
 
   /**
    * @return the Global Elasticity Requirements list
@@ -243,14 +246,15 @@ public class ApplicationDescriptionBasicPage extends WizardPage
       if( dialog.open() == Window.OK ) {
         String newElasticityConstraint = dialog.getElasticityConstraint();
         if( newElasticityConstraint != null ) {
+            
           TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
-          
+                    
           final String policyUniqueName = "G" + this.globalElasticityRequirements.size();
           
           newPolicy.setPolicyType( new QName("SYBLConstraint") );          
           
-          newPolicy.setName( policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
-        
+          newPolicy.setName( "C" + policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+                         
           this.globalElasticityRequirements.add( newPolicy );
           this.tableViewer.refresh();
           

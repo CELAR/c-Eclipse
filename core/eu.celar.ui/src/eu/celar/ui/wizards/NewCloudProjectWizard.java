@@ -8,9 +8,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -125,6 +130,39 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
         eu.celar.ui.internal.Activator.logException( itExc );
       }
     }
+    
+    IFolder vmisFolder = this.project.getFolder( "Artifacts/Virtual Machine Images" );
+    try {
+      vmisFolder.create( false, true, null );
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    IFolder applicationsFolder = this.project.getFolder( "Artifacts/Applications" );
+    try {
+      applicationsFolder.create( false, true, null );
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    IFolder deploymentScriptsFolder = this.project.getFolder( "Artifacts/Deployment Scripts" );
+    try {
+      deploymentScriptsFolder.create( false, true, null );
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    IFolder reconfigurationScriptsFolder = this.project.getFolder( "Artifacts/Reconfiguration Scripts" );
+    try {
+      reconfigurationScriptsFolder.create( false, true, null );
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     return this.project;
   }
 

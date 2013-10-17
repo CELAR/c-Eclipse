@@ -89,16 +89,17 @@
                category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewCloudProjectWizard"
                hasPages="true"
+               icon="platform:/plugin/org.eclipse.ui/icons/full/dlcl16/remove.gif"
                id="eu.celar.ui.wizards.cloudProjectWizard"
-               name="%wizard.cloudProject"
+               name="CELAR Project"
                project="true">
             <description>
-               %wizard.cloudProject.createProject
+               Create a new CELAR Cloud project
             </description>
          </wizard>
          <category
                id="eu.celar.ui.newResourceCategory"
-               name="%category.name">
+               name="CELAR">
          </category>
          <wizard
                canFinishEarly="false"
@@ -106,10 +107,10 @@
                class="eu.celar.ui.wizards.NewApplicationDescription"
                hasPages="true"
                id="eu.celar.ui.wizards.applicationDescriptionWizard"
-               name="%wizard.applicationDescription"
+               name="Application Description"
                project="false">
             <description>
-               %wizard.applicationDescription.createApplicationDescription
+               Create a new CELAR Application Description
             </description>
          </wizard>
          <wizard
@@ -117,10 +118,10 @@
                category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewSubmissionWizard"
                id="eu.celar.ui.wizards.applicationSubmissionWizard"
-               name="%wizard.applicationSubmission"
+               name="Application Submission"
                project="false">
             <description>
-               %wizard.applicationSubmission.submitApplicationDescription
+               Submit a new CELAR Application for deployment
             </description>
          </wizard>
       </extension>
@@ -131,7 +132,7 @@
                locationURI="popup:org.eclipse.ui.popup.any?after=additions">
             <command
                   commandId="org.eclipse.ui.newWizard"
-                  label="%submitAction.name"
+                  label="Submit"
                   style="push">
                <parameter
                      name="newWizardId"
