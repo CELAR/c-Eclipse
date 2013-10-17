@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/eu.celar.tosca/src" modelPluginID="eu.celar.tosca"
     modelName="TOSCA" generateSchema="true" nonNLSMarkers="true" importerID="org.eclipse.xsd.ecore.importer"
     complianceLevel="7.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel#//namespace">
-  <foreignModel>file:/C:/Users/stalo.cs8526/Desktop/TOSCA/schemas/TOSCA-v1.0.xsd</foreignModel>
+  <foreignModel>TOSCA-v1.0.xsd</foreignModel>
   <genPackages prefix="Tosca" basePackage="eu.celar" resource="XML" disposableProviderFactory="true"
       ecorePackage="tosca.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="tosca.ecore#//MaxInstancesTypeMember1">

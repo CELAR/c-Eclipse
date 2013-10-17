@@ -34,6 +34,7 @@ import eu.celar.core.model.impl.AbstractCloudContainer;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.PropertiesDefinitionType;
+import eu.celar.tosca.TDefinitions;
 import eu.celar.tosca.TPolicyType;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
@@ -165,10 +166,12 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     // Create Document Root
     this.documentRoot = this.toscaFactory.createDocumentRoot();
     // Create Definitions Type
+    
     this.definitionsType = this.toscaFactory.createDefinitionsType();
     
     // Create Service and Topology Templates
     this.serviceTemplate = this.toscaFactory.createTServiceTemplate();
+    this.serviceTemplate.setId( "hello" );
     this.topologyTemplate = this.toscaFactory.createTTopologyTemplate();
     
     // Create the Boundary Definition for Elasticity
@@ -181,8 +184,11 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     
     // Associate Service template with the Definition Type
     this.definitionsType.getServiceTemplate().add( this.serviceTemplate );
-
+    
     // Finally- Add the Definition Type to the Document Root
+    this.definitionsType.setId( "hi" );
+    
+    this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );
     this.documentRoot.setDefinitions( this.definitionsType );
     
     

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.example.org/NewXMLSchema"
-	elementFormDefault="qualified" xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:etosca="http://www.example.org/NewXMLSchema">
-	<import schemaLocation="toscaXML.xsd" namespace="http://docs.oasis-open.org/tosca/ns/2011/12"></import>
-
-
+<schema targetNamespace="http://www.example.org/NewXMLSchema"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:elasticity="http://www.example.org/NewXMLSchema">
+	<import schemaLocation="TOSCA-v1.0.xsd" namespace="http://docs.oasis-open.org/tosca/ns/2011/12"></import>
 
 	<complexType name="TDataHint">
     	<complexContent>
-    		<extension base="tosca:TExtensibleElements">
+    		<extension base="tosca:tExtensibleElements">
     			<attribute name="Name" type="string"></attribute>
     			<attribute name="Value" type="string"></attribute>
     		</extension>
@@ -17,19 +14,18 @@
     
     <complexType name="TLoadHint">
     	<complexContent>
-    		<extension base="tosca:TExtensibleElements">
+    		<extension base="tosca:tExtensibleElements">
     			<attribute name="Name" type="string"></attribute>
     			<attribute name="Value" type="string"></attribute>
     		</extension>
     	</complexContent>
     </complexType>
-    
 
     <complexType name="TBoundaryDefinitionsExtension">
     	<complexContent>
-    		<extension base="tosca:TBoundaryDefinitions">
+    		<extension base="tosca:tBoundaryDefinitions">
     			<sequence>
-    				<element name="monitoringProbes" type="etosca:MonitoringProbesType1" maxOccurs="1" minOccurs="0"></element>
+    				<element name="monitoringProbes" type="elasticity:MonitoringProbesType1" maxOccurs="1" minOccurs="0"></element>
     			</sequence>
     		</extension>
     	</complexContent>
@@ -40,16 +36,16 @@
     		<enumeration value="Cost"></enumeration>
     		<enumeration value="Throughput"></enumeration>
     		<enumeration value="Latency"></enumeration>
-    		<enumeration value="Minimum Response Time"></enumeration>
+    		<enumeration value="ResponseTime"></enumeration>
     		<enumeration value="Bandwidth"></enumeration>
     	</restriction>
     </simpleType>
 
 	<simpleType name="ApplicationComponentElasticityRequirementCategory">
     	<restriction base="string">
-    		<enumeration value="Minimum Response Time"></enumeration>
-    		<enumeration value="Minimun Cost"></enumeration>
-    		<enumeration value="Maximum Cost"></enumeration>
+    		<enumeration value="ResponseTime"></enumeration>
+    		<enumeration value="Cost"></enumeration>
+    		<enumeration value="Throughput"></enumeration>
     	</restriction>
     </simpleType>
     
@@ -67,47 +63,42 @@
     	</restriction>
     </simpleType>
 
-
+ 
     <complexType
     	name="TNodeTemplateExtension">
     	<complexContent>
-    		<extension base="tosca:TNodeTemplate">
+    		<extension base="tosca:tNodeTemplate">
     			<sequence>
-    				<element name="applicationComponentDataHints"
-    					type="etosca:DataHintsType1" maxOccurs="1" minOccurs="0">
-    				</element>
-    				<element name="applicationComponentLoadHints"
-    					type="etosca:LoadHintsType1" maxOccurs="1" minOccurs="0">
-    				</element>
     			</sequence>
     		</extension>
     	</complexContent>
     </complexType>
 
+ 
 
     <attributeGroup name="NewAttributeGroup"></attributeGroup>
 
     <complexType name="DataHintsType1">
     	<sequence>
-    		<element name="dataHints" type="etosca:TDataHint" maxOccurs="unbounded" minOccurs="1"></element>
+    		<element name="dataHints" type="elasticity:TDataHint" maxOccurs="unbounded" minOccurs="1"></element>
     	</sequence>
     </complexType>
 
     <complexType name="LoadHintsType1">
     	<sequence>
-    		<element name="loadHints" type="etosca:TLoadHint" maxOccurs="unbounded" minOccurs="1"></element>
+    		<element name="loadHints" type="elasticity:TLoadHint" maxOccurs="unbounded" minOccurs="1"></element>
     	</sequence>
     </complexType>
 
     <complexType name="MonitoringProbesType1">
     	<sequence>
-    		<element name="monitoringProbes" type="etosca:TMonitoringProbe" maxOccurs="unbounded" minOccurs="1"></element>
+    		<element name="monitoringProbes" type="elasticity:TMonitoringProbe" maxOccurs="unbounded" minOccurs="1"></element>
     	</sequence>
     </complexType>
 
     <complexType name="TMonitoringProbe">
     	<complexContent>
-    		<extension base="tosca:TExtensibleElements">
+    		<extension base="tosca:tExtensibleElements">
     			<attribute name="Name" type="string"></attribute>
     		</extension>
     	</complexContent>
