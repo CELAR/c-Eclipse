@@ -19,7 +19,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 
 /**
  * @author Nicholas Loulloudes
- * MockUpInfoSystem
+ * MockUpInfoSystem - v1.0
  */
 public class MockUpInfoSystem  {
   
