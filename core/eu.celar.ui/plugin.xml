@@ -89,7 +89,7 @@
                category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewCloudProjectWizard"
                hasPages="true"
-               icon="platform:/plugin/org.eclipse.ui/icons/full/dlcl16/remove.gif"
+               icon="icons/etool16/newcelarprj_wiz.gif"
                id="eu.celar.ui.wizards.cloudProjectWizard"
                name="CELAR Project"
                project="true">
@@ -106,6 +106,7 @@
                category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewApplicationDescription"
                hasPages="true"
+               icon="icons/etool16/newtosca_wiz.gif"
                id="eu.celar.ui.wizards.applicationDescriptionWizard"
                name="Application Description"
                project="false">
@@ -117,6 +118,7 @@
                canFinishEarly="false"
                category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewSubmissionWizard"
+               icon="icons/etool16/newsubmit_wiz.gif"
                id="eu.celar.ui.wizards.applicationSubmissionWizard"
                name="Application Submission"
                project="false">
@@ -165,5 +167,13 @@
                </test>
             </adapt>
          </definition>
+      </extension>
+      <extension
+            point="org.eclipse.ui.ide.projectNatureImages">
+         <image
+               icon="icons/ovr16/project_ovr.gif"
+               id="eu.celar.ui.NatureImage"
+               natureId="eu.celar.core.project.CloudProjectNature">
+         </image>
       </extension>
 </plugin>
