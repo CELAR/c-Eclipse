@@ -91,12 +91,12 @@ public class FetchJob extends Job {
    
     localMonitor.beginTask( "Retrieving information", 6 * 10 ); //$NON-NLS-1$
 
-    //createStaticCelarDB();
+    createStaticCelarDB();
     
     /*
      * Connect to the database
      */
-    this.con = getDbConnection();
+/*    this.con = getDbConnection();
     
     try {
       fetchBaseMachineImages( localMonitor );
@@ -115,7 +115,7 @@ public class FetchJob extends Job {
           e.printStackTrace();
         }  
       }      
-    }
+    }*/
       
     
     localMonitor.done();
@@ -492,32 +492,32 @@ public class FetchJob extends Job {
  }
    
  private void createStaticCelarDB() {
-   VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-   vmi.setUID( "1" );
-   vmi.setName( "Ubuntu-12.04-64bit" );
-   vmi.setDescription( "h" );
-   vmi.setURL( "h" );
-   vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-   instance.base_images.add( vmi ); 
-   
-   vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-   vmi.setUID( "1" );
-   vmi.setName( "Ubuntu-12.04-32bit" );
-   vmi.setDescription( "h" );
-   vmi.setURL( "h" );
-   vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-   instance.base_images.add( vmi ); 
+//   VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+//   vmi.setUID( "1" );
+//   vmi.setName( "Ubuntu-12.04.3-64bit" );
+//   vmi.setDescription( "h" );
+//   vmi.setURL( "h" );
+//   vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+//   instance.base_images.add( vmi ); 
+//   
+//   vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+//   vmi.setUID( "1" );
+//   vmi.setName( "Ubuntu-12.04-32bit" );
+//   vmi.setDescription( "h" );
+//   vmi.setURL( "h" );
+//   vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+//   instance.base_images.add( vmi ); 
    
    VirtualMachineImage bvmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();       
    bvmi.setUID( "1" );
-   bvmi.setName( "Ubuntu-11.10-BuildEsset-64bit" );
+   bvmi.setName( "Ubuntu-12.04-64bit" );
    bvmi.setDescription( "h" );   
    bvmi.setType( VirtualMachineImageType.CUSTOM_IMAGE );
    instance.custom_images.add( bvmi ); 
    
    bvmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();       
    bvmi.setUID( "1" );
-   bvmi.setName( "Ubuntu-11.10-BuildEsset-32bit" );
+   bvmi.setName( "Ubuntu-12.04-32bit" );
    bvmi.setDescription( "h" );   
    bvmi.setType( VirtualMachineImageType.CUSTOM_IMAGE );
    instance.custom_images.add( bvmi ); 
@@ -531,7 +531,7 @@ public class FetchJob extends Job {
    
    swd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
    swd.setUID( "" );
-   swd.setName( "Apache HTTP" );
+   swd.setName( "Apache Server" );
    swd.setType( "" );        
    swd.setDescription( "" );        
    instance.software_dependencies.add( swd );
@@ -543,27 +543,35 @@ public class FetchJob extends Job {
    swd.setDescription( "" );        
    instance.software_dependencies.add( swd );
    
-   UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-   uA.setUID( "" );
-   uA.setName( "MyApp" );        
-   uA.setDescription( "" );        
-   instance.user_apps.add( uA ); 
+   swd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
+   swd.setUID( "" );
+   swd.setName( "Hive" );
+   swd.setType( "" );        
+   swd.setDescription( "" );        
+   instance.software_dependencies.add( swd );
    
-   uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-   uA.setUID( "" );
-   uA.setName( "YSCB" );        
-   uA.setDescription( "" );        
-   instance.user_apps.add( uA ); 
+   swd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
+   swd.setUID( "" );
+   swd.setName( "Apache_LB" );
+   swd.setType( "" );        
+   swd.setDescription( "" );        
+   instance.software_dependencies.add( swd );
    
-   uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-   uA.setUID( "" );
-   uA.setName( "MyReceiver.jar" );        
-   uA.setDescription( "" );        
-   instance.user_apps.add( uA ); 
+//   UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
+//   uA.setUID( "" );
+//   uA.setName( "DataQuery.jar" );        
+//   uA.setDescription( "" );        
+//   instance.user_apps.add( uA ); 
+//   
+//   uA = InfoSystemFactory.eINSTANCE.createUserApplication();
+//   uA.setUID( "" );
+//   uA.setName( "DataReceiver.py" );        
+//   uA.setDescription( "" );        
+//   instance.user_apps.add( uA ); 
    
    MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
    mp.setUID( "" );
-   mp.setName( "CPU Speed" );
+   mp.setName( "CPU Usage" );
    mp.setDescription( "" );        
    instance.monitor_probes.add( mp ); 
    
