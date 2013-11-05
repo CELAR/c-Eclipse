@@ -16,6 +16,7 @@ import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
 
@@ -39,6 +40,12 @@ public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
   
   @Override
   protected void postMoveShape(IMoveShapeContext context) {
+	  
+	    
+    Shape shape = context.getShape();
+    TNodeTemplateExtension applicationComponent = (TNodeTemplateExtension) getBusinessObjectForPictogramElement( shape );
+    applicationComponent.setX(context.getX());
+    applicationComponent.setY(context.getY());
     
     Object targetObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
     
@@ -53,8 +60,8 @@ public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
 
       TServiceTemplate compositeComponent = (TServiceTemplate) targetObject;
       
-      Shape shape = context.getShape();
-      TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
+      //Shape shape = context.getShape();
+      //TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
       
       TTopologyTemplate topology = null;
       if( compositeComponent.getTopologyTemplate() == null ) {
@@ -73,14 +80,15 @@ public class MoveApplicationComponentFeature extends DefaultMoveShapeFeature {
       
       TServiceTemplate applicationServiceTemplate = (TServiceTemplate) targetObject;
       
-      Shape shape = context.getShape();
-      TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
+      //Shape shape = context.getShape();
+      //TNodeTemplate applicationComponent = (TNodeTemplate) getBusinessObjectForPictogramElement( shape );
       
       TTopologyTemplate topology = applicationServiceTemplate.getTopologyTemplate();
       
       topology.getNodeTemplate().add( applicationComponent );
       
     }
+
     
   }
 }

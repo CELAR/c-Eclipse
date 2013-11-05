@@ -10,7 +10,6 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -51,19 +50,11 @@ public class AddDirectedRelationFeature extends AbstractAddFeature {
     IGaService gaService = Graphiti.getGaService();
     Polyline polyline = gaService.createPlainPolyline( connection );
     polyline.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
+    
     // create link and wire it
     link( connection, addedEReference );
-//    // add dynamic text decorator for the reference name
-//    ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator( connection,
-//                                                                                   true,
-//                                                                                   0.5,
-//                                                                                   true );
-//    Text text = gaService.createPlainText( textDecorator );
-//    text.setStyle( StyleUtil.getStyleForTextDecorator( ( getDiagram() ) ) );
-//    gaService.setLocation( text, 10, 0 );
-//    // set reference name in the text decorator
-//    TRelationshipTemplate eReference = ( TRelationshipTemplate )context.getNewObject();
-//    text.setValue( eReference.getName() );
+    
+   
     // add static graphical decorators (composition and navigable)
     ConnectionDecorator cd;
     cd = peCreateService.createConnectionDecorator( connection,

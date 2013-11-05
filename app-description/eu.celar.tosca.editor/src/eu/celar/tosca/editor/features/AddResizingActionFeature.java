@@ -13,6 +13,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import eu.celar.infosystem.model.base.ResizingAction;
+import eu.celar.tosca.editor.property.ApplicationComponentElasticityRequirementsSection;
 
 public class AddResizingActionFeature extends AbstractFeature
   implements IAddFeature

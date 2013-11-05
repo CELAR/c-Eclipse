@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -43,6 +44,8 @@ import eu.celar.tosca.PoliciesType1;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.editor.dialog.ElasticityConditionDialog;
 import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
@@ -358,11 +361,13 @@ public class ApplicationGlobalElasticityReqSection
           
           final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
           
-          final String policyUniqueName = "G" + policy.size();
+          //final String policyUniqueName = "G" + policy.size();
+          
+          final String policyUniqueName = ( ( TServiceTemplate )bo ).getName() + policy.size();
           
           newPolicy.setPolicyType( new QName("SYBLConstraint") );          
           
-          newPolicy.setName( "C" + policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
+          newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -424,11 +429,13 @@ public class ApplicationGlobalElasticityReqSection
           
           final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
           
-          final String policyUniqueName = "G" + policy.size();
+          //final String policyUniqueName = "G" + policy.size();
+          
+          final String policyUniqueName = ( ( TServiceTemplate )bo ).getName() + policy.size();
           
           newPolicy.setPolicyType( new QName("SYBLStrategy") );         
           
-          newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
+          newPolicy.setName( policyUniqueName + ":STRATEGY " + newElasticityStrategy );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -462,14 +469,16 @@ public class ApplicationGlobalElasticityReqSection
     if (getSelectedPictogramElement() != null) 
       serviceTemplate = (TServiceTemplate) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
     
-    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension ) serviceTemplate.getBoundaryDefinitions();
+//    TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension ) serviceTemplate.getBoundaryDefinitions();
+//    
+//    PoliciesType1 elasticityPolicies = boundaryDef.getPolicies();
     
-    PoliciesType1 elasticityPolicies = boundaryDef.getPolicies();
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
     ElasticityConditionDialog dialog;
     
     dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                            elasticityPolicies.getPolicy()); //$NON-NLS-1$
+                                            model); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {

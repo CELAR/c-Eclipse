@@ -49,7 +49,7 @@ public class ElasticityStrategyDialog extends Dialog {
   @Override
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
-    shell.setText( "Global Elasticity Requirements" );
+    shell.setText( "Add Elasticity Strategy" );
     shell.setSize( 300, 170 );
   }
 
@@ -91,6 +91,7 @@ public class ElasticityStrategyDialog extends Dialog {
       {
         this.cmbMetric.add( tempCat.toString() );
       }
+      this.cmbMetric.add( "Latency" );
     }
 
     return composite;
@@ -109,7 +110,7 @@ public class ElasticityStrategyDialog extends Dialog {
   @Override
   protected void okPressed() {
 
-    ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText() + " " + this.cmbMetric.getText();
+    ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText() + " (" + this.cmbMetric.getText() + ")";
                                                                                              
     super.okPressed();
   }

@@ -249,45 +249,57 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   // Create Palette compartment for Software Dependencies
   private void addSoftwareDependenciesCompartment( List<IPaletteCompartmentEntry> ret )
   {
-    ArrayList<SoftwareDependency> swds = MockUpInfoSystem.getInstance()
-      .getSoftwareDependencies();
+	    ArrayList<SoftwareDependency> swds = MockUpInfoSystem.getInstance()
+	    	      .getSoftwareDependencies();
+        
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Software Dependencies", null ); //$NON-NLS-1$
     ret.add( compartmentEntry );
     for( SoftwareDependency swd : swds ) {
-      // add new stack entry to new compartment
-      StackEntry stackEntry = new StackEntry( swd.getName(),
-                                              swd.getName(),
-                                              null );
-      compartmentEntry.addToolEntry( stackEntry );
-      compartmentEntry.setInitiallyOpen( false );
+        // add new stack entry to new compartment
+        StackEntry stackEntry = new StackEntry( swd.getName(),
+                                                swd.getName(),
+                                                null );
+        compartmentEntry.addToolEntry( stackEntry );
+        compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
       for( ICreateFeature cf : createFeatures ) {
-        if( cf instanceof CreateSoftwareDependencyFeature ) {
-          CreateSoftwareDependencyFeature swdCF = ( CreateSoftwareDependencyFeature )cf;
-          swdCF.setContextObject( swd );
+          if( cf instanceof CreateSoftwareDependencyFeature ) {
+              CreateSoftwareDependencyFeature swdCF = ( CreateSoftwareDependencyFeature )cf;
+
+          ///////////////////////////////////////////
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( swd.getName() );
+          deploymentArtifact.setArtifactType( new QName( "SD" ) );
+          swdCF.setContextObject( deploymentArtifact );
+          ///////////////////////////////////////////
+          
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( swd.getName(),
-                                                                                         swdCF.getDescription(),
-                                                                                         swdCF.getCreateImageId(),
-                                                                                         swdCF.getCreateLargeImageId(),
-                                                                                         swdCF );
+        		  swdCF.getDescription(),
+        		  swdCF.getCreateImageId(),
+        		  swdCF.getCreateLargeImageId(),
+        		  swdCF );
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
+
+      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
         ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( swd.getName(),
-                                                                                                   swd.getName(),
+                                                                                                   cf.getName(),
                                                                                                    cf.getCreateImageId(),
                                                                                                    cf.getCreateLargeImageId() );
         connectionCreationToolEntry.addCreateConnectionFeature( cf );
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
+  
   }
+
 
   // Create Palette compartment for Monitoring Probes
   private void addMonitorProbeCompartment( List<IPaletteCompartmentEntry> ret )
@@ -332,47 +344,63 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   }
 
   // Create Palette compartment for User Applications
-  private void addUserAppsCompartment( List<IPaletteCompartmentEntry> ret ) {
-    ArrayList<UserApplication> uApps = MockUpInfoSystem.getInstance()
-      .getUserApplications();
-    // add new compartment at the end of the existing compartments
-    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "User Applications", null ); //$NON-NLS-1$
-    ret.add( compartmentEntry );
-    for( UserApplication app : uApps ) {
-      // add new stack entry to new compartment
-      StackEntry stackEntry = new StackEntry( app.getName(),
-                                              app.getName(),
-                                              null );
-      compartmentEntry.addToolEntry( stackEntry );
-      compartmentEntry.setInitiallyOpen( false );
-      
+  private void addUserAppsCompartment( List<IPaletteCompartmentEntry> ret )
+  {
+ 
+	  ArrayList<UserApplication> uApps = MockUpInfoSystem.getInstance()
+	  .getUserApplications();
+	// add new compartment at the end of the existing compartments
+	PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "User Applications", null ); //$NON-NLS-1$
+	ret.add( compartmentEntry );
+	for( UserApplication app : uApps ) {
+	  // add new stack entry to new compartment
+	  StackEntry stackEntry = new StackEntry( app.getName(),
+	                                          app.getName(),
+	                                          null );
+	  compartmentEntry.addToolEntry( stackEntry );
+	  compartmentEntry.setInitiallyOpen( false );
+    
+    
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateUserApplicationFeature ) {
-          CreateUserApplicationFeature uaCF = ( CreateUserApplicationFeature )cf;
-          uaCF.setContextObject( app );
+        	 CreateUserApplicationFeature uaCF = ( CreateUserApplicationFeature )cf;
+   
+          
+          ///////////////////////////////////////////
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( app.getName() );
+          deploymentArtifact.setArtifactType( new QName( "UA" ) );
+          uaCF.setContextObject( deploymentArtifact );
+          ///////////////////////////////////////////
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( app.getName(),
-                                                                                         uaCF.getDescription(),
-                                                                                         uaCF.getCreateImageId(),
-                                                                                         uaCF.getCreateLargeImageId(),
-                                                                                         uaCF );
+                  uaCF.getDescription(),
+                  uaCF.getCreateImageId(),
+                  uaCF.getCreateLargeImageId(),
+                  uaCF );
+                                                                                      
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
+
+      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
         ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( app.getName(),
-                                                                                                   app.getName(),
+                                                                                                   cf.getName(),
                                                                                                    cf.getCreateImageId(),
                                                                                                    cf.getCreateLargeImageId() );
         connectionCreationToolEntry.addCreateConnectionFeature( cf );
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
+  
   }
+
 
   // Create Palette compartment for Resizing Actions
   private void addResizeActionsCompartment( List<IPaletteCompartmentEntry> ret )

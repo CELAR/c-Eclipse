@@ -69,7 +69,7 @@ public class CreateDirectedRelationFeature
       TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
       newClass.setName( "Directed Relation" );
       newClass.setId( ( "R" + ( Integer )newClass.hashCode() ).toString() );
-      newClass.setType( new QName("testType") );
+      newClass.setType( new QName("Directed") );
 //      newClass.setType( new QName("Peer - Peer") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
       se.setRef( source.getId() );

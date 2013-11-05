@@ -69,7 +69,7 @@ public class CreateBidirectionalRelationFeature
       TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
       newClass.setName( "Relation" );
       newClass.setId( ( "R" + ( Integer )newClass.hashCode() ).toString() );
-      newClass.setType( new QName("testType") );
+      newClass.setType( new QName("Bidirected") );
 //      newClass.setType( new QName("Peer - Peer") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
       se.setRef( source.getId() );

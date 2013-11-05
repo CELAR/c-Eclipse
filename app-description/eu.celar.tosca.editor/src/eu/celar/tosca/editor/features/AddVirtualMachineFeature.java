@@ -60,12 +60,9 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
   // Adds a VM Image figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-    //VirtualMachineImage addedClass = ( VirtualMachineImage )context.getNewObject();
-    
-    ///////////////////////////////////////////
+
     TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
     
-    ///////////////////////////////////////////
     
     ContainerShape targetDiagram = ( ContainerShape )context.getTargetContainer();
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE

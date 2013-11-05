@@ -116,7 +116,6 @@
          </wizard>
          <wizard
                canFinishEarly="false"
-               category="eu.celar.ui.newResourceCategory"
                class="eu.celar.ui.wizards.NewSubmissionWizard"
                icon="icons/etool16/newsubmit_wiz.gif"
                id="eu.celar.ui.wizards.applicationSubmissionWizard"
@@ -125,6 +124,14 @@
             <description>
                Submit a new CELAR Application for deployment
             </description>
+         </wizard>
+         <wizard
+               canFinishEarly="false"
+               class="eu.celar.ui.wizards.NewDeploymentWizard"
+               icon="icons/etool16/newsubmit_wiz.gif"
+               id="eu.celar.ui.wizards.applicationDeploymentWizard"
+               name="Application Deployment"
+               project="false">
          </wizard>
       </extension>
       <extension
@@ -154,6 +161,31 @@
                </visibleWhen>
             </command>
          </menuContribution>
+         <menuContribution
+               allPopups="false"
+               locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command
+                  commandId="org.eclipse.ui.newWizard"
+                  label="Deploy"
+                  style="push">
+               <parameter
+                     name="newWizardId"
+                     value="eu.celar.ui.wizards.applicationDeploymentWizard">
+               </parameter>
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="eu.celar.ui.deploymentDefinition">
+                        </reference>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.core.expressions.definitions">
@@ -164,6 +196,16 @@
                <test
                      property="org.eclipse.core.resources.extension"
                      value="tosca">
+               </test>
+            </adapt>
+         </definition>
+         <definition
+               id="eu.celar.ui.deploymentDefinition">
+            <adapt
+                  type="org.eclipse.core.resources.IResource">
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="deployment">
                </test>
             </adapt>
          </definition>

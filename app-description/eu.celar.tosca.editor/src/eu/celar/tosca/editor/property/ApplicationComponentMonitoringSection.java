@@ -146,8 +146,20 @@ public class ApplicationComponentMonitoringSection
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
+    }  
+    
+    final TNodeTemplateExtension appComponent;
+    
+    if ( bo instanceof TDeploymentArtifact ){
+      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+      
+      appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
     }
-    TNodeTemplate appComponent = ( TNodeTemplate )bo;
+    else { // bo instanceof TNodeTemplate
+    	appComponent = ( TNodeTemplateExtension )bo;
+    }
+    
+    
     TDeploymentArtifacts deploymentArtifacts = appComponent.getDeploymentArtifacts();
     if( deploymentArtifacts == null )
       return;
@@ -167,7 +179,18 @@ public class ApplicationComponentMonitoringSection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    TNodeTemplateExtension nodeTemplate = ( TNodeTemplateExtension )bo;
+    
+    final TNodeTemplateExtension nodeTemplate;
+    
+    if ( bo instanceof TDeploymentArtifact ){
+      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+      
+      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+    }
+    else { // bo instanceof TNodeTemplate
+      nodeTemplate = ( TNodeTemplateExtension )bo;
+    }
+    
     final TDeploymentArtifacts deploymentArtifacts = nodeTemplate.getDeploymentArtifacts();
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
@@ -227,12 +250,28 @@ public class ApplicationComponentMonitoringSection
     this.appComponentMonitoringProbes.clear();
     getMonitoringProbes();
     PictogramElement pe = getSelectedPictogramElement();
-    if( pe != null ) {
-      TNodeTemplate bo = ( TNodeTemplate )Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
-      if( bo == null )
-        return;
-      this.tableMonitoringProbesViewer.refresh();
+    
+    if ( pe != null ) {
+    	
+    	Object bo = Graphiti.getLinkService()
+    	        .getBusinessObjectForLinkedPictogramElement( pe );
+    	
+	    final TNodeTemplateExtension nodeTemplate;
+	    
+	    if ( bo instanceof TDeploymentArtifact ){
+	      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
+	      
+	      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+	    }
+	    else { // bo instanceof TNodeTemplate
+	      nodeTemplate = ( TNodeTemplateExtension )bo;
+	    }
+    
+	    if( nodeTemplate == null )
+	       return;
+	    
+	    this.tableMonitoringProbesViewer.refresh();
     }
+    
   }
 }

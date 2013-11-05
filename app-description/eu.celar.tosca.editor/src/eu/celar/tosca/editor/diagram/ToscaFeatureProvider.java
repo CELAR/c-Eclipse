@@ -79,18 +79,18 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate
-               && ( ( TRelationshipTemplate )context.getNewObject() ).getName() == "Relation" ) //$NON-NLS-1$
+               && ( ( TRelationshipTemplate )context.getNewObject() ).getType().toString().compareTo("Bidirected") == 0 ) //$NON-NLS-1$
     {
       return new AddBidirectionalRelationFeature( this );
     } else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
-//    } else if( context.getNewObject() instanceof VirtualMachineImage ) {
-//      return new AddVirtualMachineFeature( this );
     } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
       if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
         return new AddVirtualMachineFeature( this );
-    } else if( context.getNewObject() instanceof SoftwareDependency ) {
-      return new AddSoftwareDependencyFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
+          return new AddUserApplicationFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "SD" )==0)
+          return new AddSoftwareDependencyFeature( this );
     } else if( context.getNewObject() instanceof MonitoringProbe ) {
       return new AddMonitorProbeFeature( this );
     } else if( context.getNewObject() instanceof ResizingAction ) {
@@ -102,9 +102,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       return new AddGroupFeature( this );
     } else if( context.getNewObject() instanceof TServiceTemplate ) {
       return new AddServiceTemplateFeature( this );
-    } else if( context.getNewObject() instanceof UserApplication ) {
-      return new AddUserApplicationFeature( this );
-    }
+    } 
     return super.getAddFeature( context );
   }
 

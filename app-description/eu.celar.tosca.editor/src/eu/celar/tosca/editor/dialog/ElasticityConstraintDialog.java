@@ -54,7 +54,7 @@ public class ElasticityConstraintDialog extends Dialog {
   @Override
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
-    shell.setText( "Global Elasticity Requirements" );
+    shell.setText( "Add Elasticity Constraint" );
     shell.setSize( 300, 170 );
   }
 
@@ -87,6 +87,9 @@ public class ElasticityConstraintDialog extends Dialog {
       {
         this.cmbGlobalElasticityReq.add( tempCat.toString() );
       }
+      this.cmbGlobalElasticityReq.add( "Connections" );
+      this.cmbGlobalElasticityReq.add( "Latency" );
+      this.cmbGlobalElasticityReq.add( "Memory Usage" );
     }
 
     Composite valueComposite = new Composite( composite, SWT.NONE );
@@ -134,12 +137,15 @@ public class ElasticityConstraintDialog extends Dialog {
           ElasticityConstraintDialog.this.unit = "$";
         } else if( ElasticityConstraintDialog.this.newType.compareTo( "Latency" ) == 0 )
         {
-          ElasticityConstraintDialog.this.unit = "s";
+          ElasticityConstraintDialog.this.unit = "ms";
         } else if( ElasticityConstraintDialog.this.newType.compareTo( "Throughput" ) == 0 )
         {
           ElasticityConstraintDialog.this.unit = "s";
-        } else {
-          ElasticityConstraintDialog.this.unit = "other";
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Memory Usage" ) == 0 )
+        {
+            ElasticityConstraintDialog.this.unit = "%";
+          }else {
+          ElasticityConstraintDialog.this.unit = "";
         }
         String unitLabelText = "  ( " + ElasticityConstraintDialog.this.unit + " )";
         ElasticityConstraintDialog.this.unitLabel.setText( unitLabelText );

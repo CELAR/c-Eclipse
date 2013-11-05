@@ -249,7 +249,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="eu.celar.tosca.editor.ToscaDiagramEditor"
-            default="false"
+            default="true"
             extensions="tosca"
             id="eu.celar.tosca.editor.toscaEditor"
             matchingStrategy="eu.celar.tosca.editor.ToscaDiagramMatchingStrategy"

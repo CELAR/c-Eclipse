@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.tosca.TPolicy;
+import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
 import eu.celar.tosca.editor.ModelHandler;
@@ -146,7 +147,7 @@ public class ApplicationDescriptionBasicPage extends WizardPage
     tableLayout.addColumnData( data );
     data = new ColumnWeightData( 150 );
     tableLayout.addColumnData( data );
-    nameColumn.setText( "Elasticity Requirement" ); //$NON-NLS-1$
+    nameColumn.setText( "Constraint" ); //$NON-NLS-1$
     this.tableViewer = new TableViewer( this.table );
     IStructuredContentProvider contentProvider = new GlobalElasticityRequirementsContentProvider();
     this.tableViewer.setContentProvider( contentProvider );
@@ -249,11 +250,13 @@ public class ApplicationDescriptionBasicPage extends WizardPage
             
           TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
                     
-          final String policyUniqueName = "G" + this.globalElasticityRequirements.size();
+          //final String policyUniqueName = "G" + this.globalElasticityRequirements.size();
+          
+          final String policyUniqueName = this.getApplicationName() + this.globalElasticityRequirements.size();
           
           newPolicy.setPolicyType( new QName("SYBLConstraint") );          
           
-          newPolicy.setName( "C" + policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
+          newPolicy.setName( policyUniqueName + ": CONSTRAINT " + newElasticityConstraint );
                          
           this.globalElasticityRequirements.add( newPolicy );
           this.tableViewer.refresh();

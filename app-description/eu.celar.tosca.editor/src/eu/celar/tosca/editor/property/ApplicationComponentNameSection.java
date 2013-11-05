@@ -57,6 +57,7 @@ import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 /**
  *  Application Component Properties - Main Tab
@@ -68,6 +69,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
   private Text nameText;
   private Text imageText;
+  private Text initialInstancesText;
   private Text minInstancesText;
   private Text maxInstancesText;
   private CCombo cmbImageSize;
@@ -174,7 +176,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           
           // Add uploaded image to Project Artifacts folder
           IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-          IProject project = workspaceRoot.getProject( "test" );
+          IProject project = workspaceRoot.getProject( "EverythingHere" );
           String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName();
           File tmp = new File( targetPath );
           try {
@@ -242,6 +244,32 @@ public class ApplicationComponentNameSection extends GFPropertySection
     layoutInstances.marginHeight = 2;
     clientInstances.setLayout( layoutInstances );
     GridData gdInstances;
+    
+    
+    
+    CLabel initialInstancesLabel = factory.createCLabel( clientInstances, "Initial:" ); //$NON-NLS-1$
+    gdInstances = new GridData();
+    gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    // gd.widthHint=STANDARD_LABEL_WIDTH;
+    initialInstancesLabel.setLayoutData( gdInstances );
+    this.initialInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
+    this.initialInstancesText.setEditable( true );
+    gdInstances = new GridData();
+    gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+    gdInstances.widthHint = 160;
+    this.initialInstancesText.setText( "1" ); //$NON-NLS-1$
+    this.initialInstancesText.setLayoutData( gdInstances );
+    this.initialInstancesText.addModifyListener( this );
+    
+    
+    
+    
+    
+    
+    
+    
     CLabel minInstancesLabel = factory.createCLabel( clientInstances, "Min:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
@@ -254,7 +282,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-    this.minInstancesText.setText( "1" ); //$NON-NLS-1$
+    this.minInstancesText.setText( "" ); //$NON-NLS-1$
     this.minInstancesText.setLayoutData( gdInstances );
     this.minInstancesText.addModifyListener( this );
     CLabel maxInstancesLabel = factory.createCLabel( clientInstances, "Max:" ); //$NON-NLS-1$
@@ -269,7 +297,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-    this.maxInstancesText.setText( "1" ); //$NON-NLS-1$
+    this.maxInstancesText.setText( "" ); //$NON-NLS-1$
     this.maxInstancesText.setLayoutData( gdInstances );
     this.maxInstancesText.addModifyListener( this );
     // Add section components to the toolkit
@@ -296,24 +324,34 @@ public class ApplicationComponentNameSection extends GFPropertySection
       if( bo == null )
         return;
       
-      TNodeTemplate appComponent;
+      TNodeTemplateExtension appComponent;
       
       if ( bo instanceof TDeploymentArtifact ){
         PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
         
-        appComponent =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+        appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
       }
       else { // bo instanceof TNodeTemplate
-        appComponent = ( TNodeTemplate )bo;
+        appComponent = ( TNodeTemplateExtension )bo;
       }
+      
+      String initInstances = ( ( Integer )( appComponent.getInitInstances() )).toString();
+      this.initialInstancesText.setText( initInstances );
+      
       
       String minInstances = ( ( Integer )( appComponent.getMinInstances() )).toString();
       String maxInstances = ( ( appComponent ).getMaxInstances() ).toString();
-      if( minInstances.compareTo( "1" ) == 0 //$NON-NLS-1$
-          && maxInstances.compareTo( "1" ) == 0 ) //$NON-NLS-1$
+      if( minInstances.compareTo( "0" ) == 0 //$NON-NLS-1$
+          && maxInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
       {
         return;
       }
+      
+      if (minInstances.compareTo("0") == 0)
+    	  minInstances = "";
+      if (maxInstances.compareTo("0") == 0)
+    	  maxInstances = "";
+
       this.minInstancesText.setText( minInstances ); //$NON-NLS-1$
       this.maxInstancesText.setText( maxInstances ); //$NON-NLS-1$
     }
@@ -343,24 +381,26 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
       String name = appComponent.getName();
       
-      if ( name == null )
-        return;
+//      if ( name == null )
+//        return;
       
       this.nameText.setText( name == null
                                     ? "" : name ); //$NON-NLS-1$
       // set Image Artifact
       String imageName = null;
       TDeploymentArtifacts deploymentArtifacts = appComponent.getDeploymentArtifacts();
-      if( deploymentArtifacts == null )
-        return;
-      for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
-      {
-        if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 ) //$NON-NLS-1$
-          imageName = artifact.getName();
-        break;
+      if( deploymentArtifacts != null ){
+          
+          for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
+          {
+            if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 ) //$NON-NLS-1$
+              imageName = artifact.getName();
+            break;
+          }
+          this.imageText.setText( imageName == null
+                                              ? "" : imageName ); //$NON-NLS-1$
       }
-      this.imageText.setText( imageName == null
-                                          ? "" : imageName ); //$NON-NLS-1$
+
     }
     refreshInstances();
   }
@@ -379,15 +419,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
       
     
       
-      final TNodeTemplate nodeTemplate;
+      final TNodeTemplateExtension nodeTemplate;
      
       if ( bo instanceof TDeploymentArtifact ){
         PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
         
-        nodeTemplate =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+        nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
       }
       else { // bo instanceof TNodeTemplate
-        nodeTemplate = ( TNodeTemplate )bo;
+        nodeTemplate = ( TNodeTemplateExtension )bo;
       }
       
       
@@ -410,7 +450,10 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
+            	if ( ApplicationComponentNameSection.this.minInstancesText.getText().compareTo("")==0 )
+            		nodeTemplate.setMinInstances( 0 );
+            	else
+            		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
             }
           } );
       }
@@ -421,9 +464,68 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
+            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 )
+            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(0) );
+            	else
+            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }
           } );
+      }
+      // initialInstancesText Listener
+      else if( e.widget == this.initialInstancesText ) {
+    	  
+    	  if ( ApplicationComponentNameSection.this.initialInstancesText.getText().compareTo("")==0 ){
+  	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+  	        editingDomain.getCommandStack()
+  	          .execute( new RecordingCommand( editingDomain ) {
+
+  	            protected void doExecute() {
+  	            	nodeTemplate.setInitInstances( 1 );
+  	            }
+  	          } );
+    	  }
+    		  
+    	  else if ( nodeTemplate.getInitInstances() != Integer.parseInt(ApplicationComponentNameSection.this.initialInstancesText.getText() )){
+    	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+    	        editingDomain.getCommandStack()
+    	          .execute( new RecordingCommand( editingDomain ) {
+
+    	            protected void doExecute() {
+    	            	nodeTemplate.setInitInstances( Integer.parseInt(ApplicationComponentNameSection.this.initialInstancesText.getText()) );
+    	            }
+    	          } );
+    	  }
+    	  
+    	  
+    	  TransactionalEditingDomain editingDomain;
+        if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("ycsb") && nodeTemplate.getYcsbmulti()!=nodeTemplate.getInitInstances()){
+            editingDomain = TransactionUtil.getEditingDomain( bo );
+            editingDomain.getCommandStack()
+              .execute( new RecordingCommand( editingDomain ) {
+
+                protected void doExecute() {
+              
+            		 nodeTemplate.setYcsbmulti( nodeTemplate.getInitInstances() );
+
+            	
+                }
+              } );
+        }
+        else if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("cassandra") && nodeTemplate.getCasmulti()!=nodeTemplate.getInitInstances()){
+            editingDomain = TransactionUtil.getEditingDomain( bo );
+            editingDomain.getCommandStack()
+              .execute( new RecordingCommand( editingDomain ) {
+
+                protected void doExecute() {
+              
+                	nodeTemplate.setCasmulti( nodeTemplate.getInitInstances() );
+            	  
+            	
+                }
+              } );
+        }
+        
+
       }
     }
   }

@@ -15,6 +15,7 @@ import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -25,6 +26,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.editor.StyleUtil;
 
@@ -47,20 +49,26 @@ public class AddUserApplicationFeature extends AbstractFeature
   // Checks whether a Software Dependency can be added to the target object
   @Override
   public boolean canAdd( final IAddContext context ) {
-    boolean result = false;
-    if( context.getNewObject() instanceof UserApplication ) {
-      Object parentObject = getBusinessObjectForPictogramElement( context.getTargetContainer() );
-      if( parentObject instanceof TNodeTemplate ) {
-        result = true;
-      }
-    }
-    return result;
+	  
+	    boolean result = false;
+	    boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
+
+	    if( context.getNewObject() instanceof TDeploymentArtifact
+	        && !diagraminstance )
+	    {
+	      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
+	        result = true;
+	    }
+	    return result;
+	    
   }
 
   // Adds a User Application figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-    UserApplication addedClass = ( UserApplication )context.getNewObject();
+
+    TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
+    
     ContainerShape targetDiagram = ( ContainerShape )context.getTargetContainer();
     Object[] targetDiagrams = targetDiagram.getChildren().toArray();
     int ySD = 0;

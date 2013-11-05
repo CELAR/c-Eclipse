@@ -54,10 +54,18 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     TNodeTemplateExtension newClass = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
         
     // initialize Application Component
-    newClass.setMinInstances( Integer.parseInt( "1" ) );
-    newClass.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( "1" ) ) );
+    // Max or Min instances == 0 => nothing specified by user
+    newClass.setInitInstances(1);
+    newClass.setYcsbmulti(1);
+    newClass.setCasmulti(1);
+    newClass.setMinInstances( Integer.parseInt( "0" ) );
+    newClass.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( "0" ) ) );
     newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );
     newClass.setType( new QName("testType") );
+    
+    //Set X and Y required for reloading tosca model in tosca editor
+    newClass.setX(context.getX());
+    newClass.setY(context.getY());
     // create the node template
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );    
     model.getDocumentRoot()

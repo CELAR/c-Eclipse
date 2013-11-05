@@ -513,13 +513,11 @@ public class CompositeElasticity
       return;
     
     TNodeTemplateExtension nodeTemplate = (TNodeTemplateExtension) substituteNode; 
-   
-    PoliciesType elasticityPolicies = nodeTemplate.getPolicies();
-    
+       
     ElasticityConditionDialog dialog;
     
     dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                            elasticityPolicies.getPolicy()); //$NON-NLS-1$
+                                            model); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {

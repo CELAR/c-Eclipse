@@ -4,17 +4,16 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
-import eu.celar.infosystem.model.base.SoftwareDependency;
+import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
 
@@ -41,36 +40,89 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
   // Creates the business object for the software dependency
   @Override
   public Object[] create( final ICreateContext context ) {
-    MessageConsole myConsole = findConsole( "MyConsole" );
-    MessageConsoleStream out = myConsole.newMessageStream();
-    TNodeTemplate tNode = ToscaFactory.eINSTANCE.createTNodeTemplate();
-    if( this.contextObject != null ) {
-      SoftwareDependency swd = ( SoftwareDependency )this.contextObject;
-      out.println( "create Software Dependency: " + swd.getName() );
-      getDiagram().eResource().getContents().add( tNode );
-      // do the add
-      addGraphicalRepresentation( context, swd );
-      // activate direct editing after object creation
-      getFeatureProvider().getDirectEditingInfo().setActive( true );
-      // return newly created business object(s)
-    }
-    return new Object[]{
-      tNode
-    };
+	  
+	    if( this.contextObject == null )
+	        return null;
+
+	      Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
+	      TNodeTemplate tNode = null;
+	      if( parentObject == null )
+	        return null;
+	      if( parentObject instanceof TNodeTemplate ) {
+	        tNode = ( TNodeTemplate )parentObject;
+	      }
+	      
+//	      VirtualMachineImage vmi = ( VirtualMachineImage )this.contextObject;
+//	      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+//	      deploymentArtifact.setName( vmi.getName() );
+//	      deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+
+
+	      if( tNode.getDeploymentArtifacts() == null ) {
+	        //deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
+	        //tNode.setDeploymentArtifacts( deploymentArtifacts );
+	        
+	        final TNodeTemplate node = tNode;
+	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+	        editingDomain.getCommandStack()
+	          .execute( new RecordingCommand( editingDomain ) {
+
+	            protected void doExecute() {
+	              node.setDeploymentArtifacts( ToscaFactory.eINSTANCE.createTDeploymentArtifacts() );
+	            }
+	          } );
+	        
+	        
+	      } 
+	      
+	      
+//	      else {
+//	        
+//	        // Check whether a VM image has been specified for the component
+//	        TDeploymentArtifact artifact;
+//	        TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
+//	        for( int i=0; i<deploymentArtifacts.getDeploymentArtifact().size(); i++ )
+//	        {
+//	          artifact = deploymentArtifacts.getDeploymentArtifact().get( i );
+//	          if( artifact.getArtifactType().toString().compareTo( "VMI" ) == 0 ) //$NON-NLS-1$
+//	            deploymentArtifacts.getDeploymentArtifact().remove( artifact );
+//	          
+//	        }
+//	      }
+	      
+	      
+	      // Add the new deployment artifact to the list
+	      final TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
+	      TDeploymentArtifact tempDeploymentArtifact = ( TDeploymentArtifact )this.contextObject;
+	      
+	      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+	      deploymentArtifact.setName( tempDeploymentArtifact.getName() );
+	      deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
+	      
+	          
+	      final TDeploymentArtifact tempArtifact = deploymentArtifact;
+	      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
+	      editingDomain.getCommandStack()
+	        .execute( new RecordingCommand( editingDomain ) {
+
+	          protected void doExecute() {
+	            deploymentArtifacts.getDeploymentArtifact().add( tempArtifact );
+	          }
+	        } );
+	      
+	      //addGraphicalRepresentation( context, vmi );
+	      
+	      /////////////////////////////////////////////
+	      addGraphicalRepresentation( context, deploymentArtifact );
+	      /////////////////////////////////////////////
+
+	      // activate direct editing after object creation
+	      getFeatureProvider().getDirectEditingInfo().setActive( true );
+	      // return newly created business object(s)
+	      return new Object[]{
+	        deploymentArtifact
+	      };
+
   }
 
-  private MessageConsole findConsole( String name ) {
-    ConsolePlugin plugin = ConsolePlugin.getDefault();
-    IConsoleManager conMan = plugin.getConsoleManager();
-    IConsole[] existing = conMan.getConsoles();
-    for( int i = 0; i < existing.length; i++ )
-      if( name.equals( existing[ i ].getName() ) )
-        return ( MessageConsole )existing[ i ];
-    // no console found, so create a new one
-    MessageConsole myConsole = new MessageConsole( name, null );
-    conMan.addConsoles( new IConsole[]{
-      myConsole
-    } );
-    return myConsole;
-  }
 }

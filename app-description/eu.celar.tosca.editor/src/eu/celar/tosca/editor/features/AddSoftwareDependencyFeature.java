@@ -25,6 +25,7 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import eu.celar.infosystem.model.base.SoftwareDependency;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.StyleUtil;
 
 public class AddSoftwareDependencyFeature extends AbstractFeature
@@ -46,20 +47,26 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
   // Checks whether a Software Dependency can be added to the target object
   @Override
   public boolean canAdd( final IAddContext context ) {
-    boolean result = false;
-    boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
-    if( context.getNewObject() instanceof SoftwareDependency
-        && !diagraminstance )
-    {
-      result = true;
-    }
-    return result;
+	  
+	    boolean result = false;
+	    boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
+
+	    if( context.getNewObject() instanceof TDeploymentArtifact
+	        && !diagraminstance )
+	    {
+	      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "SD" )==0)
+	        result = true;
+	    }
+	    return result;
+
   }
 
   // Adds a Software Dependency figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-    SoftwareDependency addedClass = ( SoftwareDependency )context.getNewObject();
+	  
+	TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
+	    
     ContainerShape targetDiagram = context.getTargetContainer();
     Object[] targetDiagrams = targetDiagram.getChildren().toArray();
     int ySD = 0;

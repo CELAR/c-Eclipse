@@ -8,12 +8,12 @@
  ************************************************************/
 package eu.celar.tosca.editor;
 
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -32,13 +32,15 @@ import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.AreaContext;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.ui.editor.DiagramBehavior;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.swt.widgets.Composite;
@@ -46,14 +48,15 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
-import eu.celar.core.model.CloudModel;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.SourceElementType;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
-import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.TargetElementType;
 import eu.celar.tosca.editor.listener.ToscaModelChangeListener;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
@@ -144,35 +147,8 @@ public class ToscaDiagramEditor extends DiagramEditor {
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
 
-    final ToscaDiagramEditorInput tdei = (ToscaDiagramEditorInput) getEditorInput();
+    //final ToscaDiagramEditorInput tdei = (ToscaDiagramEditorInput) getEditorInput();
     
-    // Save Model as we know best
-    // Nickl
-//
-//    try {
-//      final IFile dataFile = tdei.getToscaFile();
-//      final String diagramFileString = dataFile.getLocationURI().getPath();
-//
-//      ToscaModelLayer model = ModelHandler.getModel(EcoreUtil.getURI(getDiagramTypeProvider().getDiagram()));
-//
-//      // add sequence flow bend-points to the model
-//      final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-//      new GraphitiToBpmnDI(model, featureProvider).processGraphitiElements();
-//
-//      BpmnXMLConverter converter = new BpmnXMLConverter();
-//      byte[] xmlBytes = converter.convertToXML(model.getBpmnModel());
-//
-//      File objectsFile = new File(diagramFileString);
-//      FileOutputStream fos = new FileOutputStream(objectsFile);
-//      fos.write(xmlBytes);
-//      fos.close();
-//
-//      dataFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-//
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-
     ((BasicCommandStack) getEditingDomain().getCommandStack()).saveIsDone();
     updateDirtyState();
   }
@@ -199,15 +175,15 @@ public class ToscaDiagramEditor extends DiagramEditor {
     
     DocumentRoot documentRoot = null;
     
-    TOSCAResource toscaResource = null;
+    //TOSCAResource toscaResource = null;
     
     URI resourceURI = null;
-    IEditorInput eInput = getEditorInput();
+    //IEditorInput eInput = getEditorInput();
    
     if( getEditorInput() instanceof ToscaDiagramEditorInput ) {
       IFile modelFile = ((ToscaDiagramEditorInput) getEditorInput()).getToscaFile();      
       resourceURI = URI.createPlatformResourceURI( modelFile.getFullPath().toString(), false );      
-      toscaResource = ( TOSCAResource )CloudModel.getRoot().findElement( new Path( modelFile.getFullPath().toString() ) );
+      //toscaResource = ( TOSCAResource )CloudModel.getRoot().findElement( new Path( modelFile.getFullPath().toString() ) );
     } 
     
     Exception exception = null;
@@ -243,58 +219,6 @@ public class ToscaDiagramEditor extends DiagramEditor {
       basicCommandStack.saveIsDone();
       basicCommandStack.flush();
     }
-    
-    // Load Model as we know best!
-    // Nickl
-    
-//    String filePath = dataFile.getLocationURI().getPath();
-//    File bpmnFile = new File(filePath);
-//    try {
-//      if (bpmnFile.exists() == false) {
-//        model.setBpmnModel(new BpmnModel());
-//        model.addMainProcess();
-//        bpmnFile.createNewFile();
-//        dataFile.refreshLocal(IResource.DEPTH_INFINITE, null);
-//      } else {
-//        FileInputStream fileStream = new FileInputStream(bpmnFile);
-//        XMLInputFactory xif = XMLInputFactory.newInstance();
-//        InputStreamReader in = new InputStreamReader(fileStream, "UTF-8");
-//        XMLStreamReader xtr = xif.createXMLStreamReader(in);
-//        BpmnXMLConverter bpmnConverter = new BpmnXMLConverter();
-//        bpmnConverter.setUserTaskFormTypes(PreferencesUtil.getStringArray(Preferences.ALFRESCO_FORMTYPES_USERTASK));
-//        bpmnConverter.setStartEventFormTypes(PreferencesUtil.getStringArray(Preferences.ALFRESCO_FORMTYPES_STARTEVENT));
-//        BpmnModel bpmnModel = null;
-//        try {
-//          bpmnModel = bpmnConverter.convertToBpmnModel(xtr);
-//        } catch(Exception e) {
-//          bpmnModel = new BpmnModel();
-//        }
-//        model.setBpmnModel(bpmnModel);
-//
-//        if (bpmnModel.getLocationMap().size() == 0) {
-//          BpmnAutoLayout layout = new BpmnAutoLayout(bpmnModel);
-//          layout.execute();
-//        }
-//
-//        BasicCommandStack basicCommandStack = (BasicCommandStack) getEditingDomain().getCommandStack();
-//
-//        if (input instanceof DiagramEditorInput) {
-//
-//          basicCommandStack.execute(new RecordingCommand(getEditingDomain()) {
-//
-//            @Override
-//            protected void doExecute() {
-//              importDiagram(model);
-//            }
-//          });
-//        }
-//        basicCommandStack.saveIsDone();
-//        basicCommandStack.flush();
-//      }
-//
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
   }
   
   private final DocumentRoot getDocumentRoot( final Resource resource ) {
@@ -367,99 +291,90 @@ public class ToscaDiagramEditor extends DiagramEditor {
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
                         
             for (TServiceTemplate tst : serviceTemplates) { 
-              
-              addContainerElement (tst, diagram);
+            	
+              addContainerElement (tst, diagram, 0, 0);
               TTopologyTemplate topology = tst.getTopologyTemplate();
-              
-              
-              //TODO just for debugging purposes
-              if (serviceTemplates.size()!=1){
-                int j=0;
-                j++;
-                ContainerShape cs;
-                cs = (ContainerShape) getDiagramTypeProvider().getFeatureProvider().getPictogramElementForBusinessObject( tst );
-                if (cs==null)
-                  break;
-              
-              }
               
               if (topology == null)
                 break;
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
+                	
                   ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
                     .getPictogramElementForBusinessObject( tst );                
-//                  boolean haspic1 = getDiagramTypeProvider().getFeatureProvider().hasPictogramElementForBusinessObject( tst );
-//                  boolean haspic = getDiagramTypeProvider().getFeatureProvider().hasPictogramElementForBusinessObject( tnt );
+
+                  TNodeTemplateExtension tnte = (TNodeTemplateExtension) tnt;
+                  addContainerElement( tnt, containerShape, tnte.getX(), tnte.getY() );
                   
-                  addContainerElement( tnt, containerShape );
+                  //Add Deployment Artifacts
+                  if ( tnt.getDeploymentArtifacts() != null && tnt.getDeploymentArtifacts().getDeploymentArtifact() != null ){
+                      for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
+                          ContainerShape containerShapeDA = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                                  .getPictogramElementForBusinessObject( tnt );                
+
+                                addContainerElement( tda, containerShapeDA, 0, 0 );
+                    	  
+                      }
+                  }
+ 
                 }
                 
-                for (TRelationshipTemplate trt : topology.getRelationshipTemplate()) {
-                  ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-                    .getPictogramElementForBusinessObject( tst );                
+                //Add Relationships
+                for (TRelationshipTemplate trt : topology.getRelationshipTemplate()) {    
+                  	
+		         SourceElementType se = trt.getSourceElement();
+		         TargetElementType te = trt.getTargetElement();
+		         String sourceID = se.getRef();
+		         String targetID = te.getRef();
+		         Anchor sourceAnchor = null, targetAnchor = null;
+         
+		         for (TNodeTemplate tnt : topology.getNodeTemplate()) {
+		             ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+		                          .getPictogramElementForBusinessObject( tnt ); 
+		        	 if ( tnt.getId().equals(sourceID) ){
+		        		 if ( containerShapeTNT.getAnchors() != null ){
+		                	  for ( Anchor anchor : containerShapeTNT.getAnchors() ){
+		                		  if (anchor instanceof ChopboxAnchor){
+		                			  sourceAnchor = anchor;
+		                			  break;
+		                		  }
+		                	  }
+		        		 }
+		            
+		        	 } else if ( tnt.getId().equals(targetID) ){
+		        		 if ( containerShapeTNT.getAnchors() != null ){
+		                	  for ( Anchor anchor : containerShapeTNT.getAnchors() ){
+		                		  if (anchor instanceof ChopboxAnchor){
+		                			  targetAnchor = anchor;
+		                			  break;
+		                		  }
+		                	  }
+		        		 }
+		        	 }
+		         }
+         
                   
-                  addContainerElement( trt, containerShape );
+                 addRelationshipContainerElement( trt, sourceAnchor, targetAnchor );
                 }
                 
             }
           }
-//          if( model.getBpmnModel().getPools().size() > 0 ) {
-//            for( Pool pool : model.getBpmnModel().getPools() ) {
-//              PictogramElement poolElement = addContainerElement( pool,
-//                                                                  model,
-//                                                                  diagram );
-//              if( poolElement == null ) {
-//                continue;
-//              }
-//              Process process = model.getBpmnModel().getProcess( pool.getId() );
-//              for( Lane lane : process.getLanes() ) {
-//                addContainerElement( lane, model, ( ContainerShape )poolElement );
-//              }
-//            }
-//          }
-//          for( Process process : model.getBpmnModel().getProcesses() ) {
-//            drawFlowElements( process.getFlowElements(), model.getBpmnModel()
-//              .getLocationMap(), diagram, process );
-//            drawArtifacts( process.getArtifacts(), model.getBpmnModel()
-//              .getLocationMap(), diagram, process );
-//          }
-//          drawAllFlows( model );
         }
 
       } );
   }
   
   protected PictogramElement addContainerElement( final EObject element,
-                                                  final ContainerShape parent )
+                                                  final ContainerShape parent, int x_axis, int y_axis )
   {
         
     final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-       
+    
     AddContext context = new AddContext( new AreaContext(), element );
     IAddFeature addFeature = featureProvider.getAddFeature( context );
     context.setNewObject( element );    
     context.setTargetContainer( parent );
-        
-    int x, y;
-    
-    if (element instanceof TServiceTemplate){
-      x = 0;
-      y = 0;
-    }
-    else {
-      //x = child.getGraphicsAlgorithm().getX();
-      //y = child.getGraphicsAlgorithm().getY();
-    }
-    x = 20;
-    y = 20;
-    
-    if( parent instanceof Diagram == false ) {
-      x = x - parent.getGraphicsAlgorithm().getX();
-      y = y - parent.getGraphicsAlgorithm().getY();
-    }
-    
-    context.setLocation( x, y );
+    context.setLocation(x_axis, y_axis);
     PictogramElement pictElement = null;
     
     boolean canAdd = addFeature.canAdd( context ) ;
@@ -471,6 +386,36 @@ public class ToscaDiagramEditor extends DiagramEditor {
     
     return pictElement;
   }
+  
+  protected PictogramElement addRelationshipContainerElement( final EObject element,
+		  final Anchor sourceAnchor, final Anchor targetAnchor ){
+	  
+	  if (sourceAnchor == null)
+		  return null;
+	  
+	  if (targetAnchor == null)
+		  return null;
+	  
+	  AddConnectionContext context = new AddConnectionContext(sourceAnchor, targetAnchor);
+	  context.setNewObject( element );
+	  
+	  final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
+	  IAddFeature addFeature = featureProvider.getAddFeature( context );
+	  
+	    PictogramElement pictElement = null;
+	    
+	    boolean canAdd = addFeature.canAdd( context ) ;
+	        
+	    if( canAdd ) {
+	      pictElement = addFeature.add( context );
+	      featureProvider.link( pictElement, new Object[]{ element } );
+	    }
+	    
+	    return pictElement;
+
+  }
+
+  
   
   @Override
   public void createPartControl(Composite parent) {
