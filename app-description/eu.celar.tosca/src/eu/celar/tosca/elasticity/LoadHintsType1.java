@@ -25,20 +25,20 @@ import org.eclipse.emf.ecore.EObject;
 public interface LoadHintsType1 extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Load Hints</b></em>' containment reference list.
-   * The list contents are of type {@link eu.celar.tosca.elasticity.TLoadHint}.
-   * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Load Hints</b></em>' containment reference list.
+	 * The list contents are of type {@link eu.celar.tosca.elasticity.TLoadHint}.
+	 * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Load Hints</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Load Hints</em>' containment reference list.
-   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getLoadHintsType1_LoadHints()
-   * @model containment="true" required="true"
-   *        extendedMetaData="kind='element' name='loadHints' namespace='##targetNamespace'"
-   * @generated
-   */
+	 * @return the value of the '<em>Load Hints</em>' containment reference list.
+	 * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getLoadHintsType1_LoadHints()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='loadHints' namespace='##targetNamespace'"
+	 * @generated
+	 */
   EList<TLoadHint> getLoadHints();
 
 } // LoadHintsType1

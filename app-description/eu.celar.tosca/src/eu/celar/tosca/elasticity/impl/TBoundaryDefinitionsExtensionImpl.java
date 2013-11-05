@@ -32,227 +32,218 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class TBoundaryDefinitionsExtensionImpl extends TBoundaryDefinitionsImpl implements TBoundaryDefinitionsExtension
 {
   /**
-   * An array of objects representing the values of non-primitive features.
-   * <!-- begin-user-doc -->
+	 * An array of objects representing the values of non-primitive features.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected Object[] eVirtualValues;
 
   /**
-   * A bit field representing the indices of non-primitive feature values.
-   * <!-- begin-user-doc -->
+	 * A bit field representing the indices of non-primitive feature values.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected int eVirtualIndexBits0;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected TBoundaryDefinitionsExtensionImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return Tosca_Elasticity_ExtensionsPackage.Literals.TBOUNDARY_DEFINITIONS_EXTENSION;
-  }
+		return Tosca_Elasticity_ExtensionsPackage.Literals.TBOUNDARY_DEFINITIONS_EXTENSION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public MonitoringProbesType1 getMonitoringProbes()
   {
-    return (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
-  }
+		return (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetMonitoringProbes(MonitoringProbesType1 newMonitoringProbes, NotificationChain msgs)
   {
-    Object oldMonitoringProbes = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes);
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, oldMonitoringProbes == EVIRTUAL_NO_VALUE ? null : oldMonitoringProbes, newMonitoringProbes);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		Object oldMonitoringProbes = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, oldMonitoringProbes == EVIRTUAL_NO_VALUE ? null : oldMonitoringProbes, newMonitoringProbes);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setMonitoringProbes(MonitoringProbesType1 newMonitoringProbes)
   {
-    MonitoringProbesType1 monitoringProbes = (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
-    if (newMonitoringProbes != monitoringProbes)
-    {
-      NotificationChain msgs = null;
-      if (monitoringProbes != null)
-        msgs = ((InternalEObject)monitoringProbes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
-      if (newMonitoringProbes != null)
-        msgs = ((InternalEObject)newMonitoringProbes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
-      msgs = basicSetMonitoringProbes(newMonitoringProbes, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes, newMonitoringProbes));
-  }
+		MonitoringProbesType1 monitoringProbes = (MonitoringProbesType1)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
+		if (newMonitoringProbes != monitoringProbes) {
+			NotificationChain msgs = null;
+			if (monitoringProbes != null)
+				msgs = ((InternalEObject)monitoringProbes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
+			if (newMonitoringProbes != null)
+				msgs = ((InternalEObject)newMonitoringProbes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, null, msgs);
+			msgs = basicSetMonitoringProbes(newMonitoringProbes, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES, newMonitoringProbes, newMonitoringProbes));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
-        return basicSetMonitoringProbes(null, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+				return basicSetMonitoringProbes(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
-        return getMonitoringProbes();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+				return getMonitoringProbes();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
-        setMonitoringProbes((MonitoringProbesType1)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+				setMonitoringProbes((MonitoringProbesType1)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
-        setMonitoringProbes((MonitoringProbesType1)null);
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+				setMonitoringProbes((MonitoringProbesType1)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
-        return eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES) != null;
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES:
+				return eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES) != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected Object[] eVirtualValues()
   {
-    return eVirtualValues;
-  }
+		return eVirtualValues;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected void eSetVirtualValues(Object[] newValues)
   {
-    eVirtualValues = newValues;
-  }
+		eVirtualValues = newValues;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected int eVirtualIndexBits(int offset)
   {
-    switch (offset)
-    {
-      case 0 :
-        return eVirtualIndexBits0;
-      default :
-        throw new IndexOutOfBoundsException();
-    }
-  }
+		switch (offset) {
+			case 0 :
+				return eVirtualIndexBits0;
+			default :
+				throw new IndexOutOfBoundsException();
+		}
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected void eSetVirtualIndexBits(int offset, int newIndexBits)
   {
-    switch (offset)
-    {
-      case 0 :
-        eVirtualIndexBits0 = newIndexBits;
-        break;
-      default :
-        throw new IndexOutOfBoundsException();
-    }
-  }
+		switch (offset) {
+			case 0 :
+				eVirtualIndexBits0 = newIndexBits;
+				break;
+			default :
+				throw new IndexOutOfBoundsException();
+		}
+	}
 
 } //TBoundaryDefinitionsExtensionImpl

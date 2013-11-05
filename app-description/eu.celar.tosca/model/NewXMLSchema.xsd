@@ -64,17 +64,20 @@
     </simpleType>
 
  
-    <complexType
-    	name="TNodeTemplateExtension">
+    <complexType name="TNodeTemplateExtension">
     	<complexContent>
     		<extension base="tosca:tNodeTemplate">
-    			<sequence>
-    			</sequence>
+    			<sequence></sequence>
+    			<attribute name="initInstances" type="int"></attribute>
+    			<attribute name="ycsbmulti" type="int"></attribute>
+    			<attribute name="casmulti" type="int"></attribute>
+    			<attribute name="x" type="int"></attribute>
+    			<attribute name="y" type="int"></attribute>
     		</extension>
     	</complexContent>
     </complexType>
 
- 
+
 
     <attributeGroup name="NewAttributeGroup"></attributeGroup>
 

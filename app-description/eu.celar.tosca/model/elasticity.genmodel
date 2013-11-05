@@ -59,6 +59,12 @@
     <genClasses ecoreClass="extension.ecore#//TMonitoringProbe">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TMonitoringProbe/name"/>
     </genClasses>
-    <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension"/>
+    <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/casmulti"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/initInstances"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/ycsbmulti"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
