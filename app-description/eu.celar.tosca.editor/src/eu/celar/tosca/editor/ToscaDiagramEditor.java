@@ -59,6 +59,7 @@ import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.TargetElementType;
 import eu.celar.tosca.editor.listener.ToscaModelChangeListener;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 
 
 /**
@@ -290,74 +291,98 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
                         
+            ContainerShape containerShapeTST = null;
+            
             for (TServiceTemplate tst : serviceTemplates) { 
             	
-              addContainerElement (tst, diagram, 0, 0);
+              if ( tst.getSubstitutableNodeType() != null ){
+                //tst is a group component
+                TServiceTemplateExtension tstG = (TServiceTemplateExtension) tst;
+                addContainerElement (tst, containerShapeTST, tstG.getX(), tstG.getY());
+              }
+              else{
+                addContainerElement (tst, diagram, 0, 0);
+                containerShapeTST = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                    .getPictogramElementForBusinessObject( tst );
+              }
+              
+              ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                .getPictogramElementForBusinessObject( tst ); 
+              
               TTopologyTemplate topology = tst.getTopologyTemplate();
               
               if (topology == null)
                 break;
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
-                	
-                  ContainerShape containerShape = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-                    .getPictogramElementForBusinessObject( tst );                
 
+                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 )
+                    continue;
+                  
                   TNodeTemplateExtension tnte = (TNodeTemplateExtension) tnt;
                   addContainerElement( tnt, containerShape, tnte.getX(), tnte.getY() );
+                  
+                  ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                      .getPictogramElementForBusinessObject( tnt ); 
                   
                   //Add Deployment Artifacts
                   if ( tnt.getDeploymentArtifacts() != null && tnt.getDeploymentArtifacts().getDeploymentArtifact() != null ){
                       for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
-                          ContainerShape containerShapeDA = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-                                  .getPictogramElementForBusinessObject( tnt );                
 
-                                addContainerElement( tda, containerShapeDA, 0, 0 );
+                                addContainerElement( tda, containerShapeTNT, 0, 0 );
                     	  
                       }
                   }
  
-                }
-                
-                //Add Relationships
-                for (TRelationshipTemplate trt : topology.getRelationshipTemplate()) {    
-                  	
-		         SourceElementType se = trt.getSourceElement();
-		         TargetElementType te = trt.getTargetElement();
-		         String sourceID = se.getRef();
-		         String targetID = te.getRef();
-		         Anchor sourceAnchor = null, targetAnchor = null;
-         
-		         for (TNodeTemplate tnt : topology.getNodeTemplate()) {
-		             ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-		                          .getPictogramElementForBusinessObject( tnt ); 
-		        	 if ( tnt.getId().equals(sourceID) ){
-		        		 if ( containerShapeTNT.getAnchors() != null ){
-		                	  for ( Anchor anchor : containerShapeTNT.getAnchors() ){
-		                		  if (anchor instanceof ChopboxAnchor){
-		                			  sourceAnchor = anchor;
-		                			  break;
-		                		  }
-		                	  }
-		        		 }
-		            
-		        	 } else if ( tnt.getId().equals(targetID) ){
-		        		 if ( containerShapeTNT.getAnchors() != null ){
-		                	  for ( Anchor anchor : containerShapeTNT.getAnchors() ){
-		                		  if (anchor instanceof ChopboxAnchor){
-		                			  targetAnchor = anchor;
-		                			  break;
-		                		  }
-		                	  }
-		        		 }
-		        	 }
-		         }
-         
-                  
-                 addRelationshipContainerElement( trt, sourceAnchor, targetAnchor );
-                }
-                
+                }                
             }
+            
+            //Add Relationships
+            for (TServiceTemplate tst : serviceTemplates) { 
+              
+              for (TRelationshipTemplate trt : tst.getTopologyTemplate().getRelationshipTemplate()) {    
+                  
+               SourceElementType se = trt.getSourceElement();
+               TargetElementType te = trt.getTargetElement();
+               String sourceID = se.getRef();
+               String targetID = te.getRef();
+               Anchor sourceAnchor = null, targetAnchor = null;
+               for (TServiceTemplate tstTemp : serviceTemplates) {
+                   for (TNodeTemplate tnt : tstTemp.getTopologyTemplate().getNodeTemplate()) {
+                     
+                       if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 )
+                         continue;
+                       
+                       ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                                    .getPictogramElementForBusinessObject( tnt ); 
+                       
+                       if ( tnt.getId().equals(sourceID) ){
+                           if ( containerShapeTNT.getAnchors() != null ){
+                                for ( Anchor anchor : containerShapeTNT.getAnchors() ){
+                                    if (anchor instanceof ChopboxAnchor){
+                                        sourceAnchor = anchor;
+                                        break;
+                                    }
+                                }
+                           }
+                      
+                       } else if ( tnt.getId().equals(targetID) ){
+                           if ( containerShapeTNT.getAnchors() != null ){
+                                for ( Anchor anchor : containerShapeTNT.getAnchors() ){
+                                    if (anchor instanceof ChopboxAnchor){
+                                        targetAnchor = anchor;
+                                        break;
+                                    }
+                                }
+                           }
+                       }
+                   }
+               }
+       
+                
+               addRelationshipContainerElement( trt, sourceAnchor, targetAnchor );
+              }
+          }
           }
         }
 

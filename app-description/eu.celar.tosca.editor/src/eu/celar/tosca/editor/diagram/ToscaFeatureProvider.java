@@ -16,6 +16,7 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -23,6 +24,7 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -32,8 +34,6 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
-import eu.celar.infosystem.model.base.SoftwareDependency;
-import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
@@ -63,8 +63,10 @@ import eu.celar.tosca.editor.features.DeleteGroupFeature;
 import eu.celar.tosca.editor.features.DirectEditApplicationComponentFeature;
 import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveApplicationComponentFeature;
+import eu.celar.tosca.editor.features.MoveServiceTemplateFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
+import eu.celar.tosca.editor.features.ResizeApplicationComponentFeature;
 import eu.celar.tosca.editor.features.UpdateApplicationComponentFeature;
 
 public class ToscaFeatureProvider extends DefaultFeatureProvider {
@@ -185,6 +187,9 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     if( bo instanceof TNodeTemplate ) {
       return new MoveApplicationComponentFeature( this );
     }
+    if ( bo instanceof TServiceTemplate ){
+      return new MoveServiceTemplateFeature( this );
+    }
     return super.getMoveShapeFeature( context );
   }
 
@@ -203,5 +208,15 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       new CreateDirectedRelationFeature( this ),
       new CreateBidirectionalRelationFeature( this )
     };
+  }
+  
+  @Override
+  public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context) {
+      Shape shape = context.getShape();
+      Object bo = getBusinessObjectForPictogramElement(shape);
+      if (bo instanceof TNodeTemplate) {
+          return new ResizeApplicationComponentFeature(this);
+      }
+      return super.getResizeShapeFeature(context);
   }
 }

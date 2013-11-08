@@ -4,6 +4,7 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -14,6 +15,8 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.TDataHint;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class CreateServiceTemplateFeature extends AbstractCreateFeature {
 
@@ -41,6 +44,14 @@ public class CreateServiceTemplateFeature extends AbstractCreateFeature {
   public Object[] create( final ICreateContext context ) {
     TServiceTemplate tService = ToscaFactory.eINSTANCE.createTServiceTemplate();
 
+    
+    TDataHint dataHint = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTDataHint();
+    dataHint.setName( "Data Hint Name" );
+    dataHint.setValue( "Data Hint Value" );
+    EStructuralFeature ef = dataHint.eContainingFeature(); 
+    tService.getAnyAttribute().add( ef, dataHint );
+    
+    
     // Add object to domain model
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     model.getDocumentRoot()

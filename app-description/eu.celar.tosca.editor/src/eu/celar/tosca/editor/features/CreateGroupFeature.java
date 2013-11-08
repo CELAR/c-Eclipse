@@ -16,6 +16,7 @@ import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class CreateGroupFeature extends AbstractCreateFeature {
@@ -37,12 +38,16 @@ public class CreateGroupFeature extends AbstractCreateFeature {
   @Override
   public Object[] create( ICreateContext context ) {
     // create substitutableNodeType
-    TServiceTemplate tService = ToscaFactory.eINSTANCE.createTServiceTemplate();
+    TServiceTemplateExtension tService = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTServiceTemplateExtension();
     
     //set the Service Template as substitutable so that it can be composed into another Service Template
     QName qname = new QName("substituteNode");
     tService.setSubstitutableNodeType( qname );
     tService.setId( "G" + ( ( Integer )tService.hashCode() ).toString() );
+    
+    //Set X and Y required for reloading tosca model in tosca editor
+    tService.setX(context.getX());
+    tService.setY(context.getY());
     
     //Add substituted node type to parent Service Template
     TServiceTemplate parentServiceTemplate = (TServiceTemplate) getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
