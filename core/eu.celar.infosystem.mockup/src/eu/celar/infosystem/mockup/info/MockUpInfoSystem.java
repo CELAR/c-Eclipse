@@ -9,6 +9,8 @@ package eu.celar.infosystem.mockup.info;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IFile;
+
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
@@ -38,6 +40,19 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem () {
+    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher.schedule();    
+  }
+  
+  
+  public static MockUpInfoSystem getInstance (IFile toscaFile) {
+    if (instance == null) {
+      instance = new MockUpInfoSystem(toscaFile);      
+    }    
+    return instance;
+  }
+  
+  private MockUpInfoSystem (IFile toscaFile) {
     this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
