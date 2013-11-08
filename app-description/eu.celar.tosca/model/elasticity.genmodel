@@ -66,5 +66,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/ycsbmulti"/>
     </genClasses>
+    <genClasses ecoreClass="extension.ecore#//TServiceTemplateExtension">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/y"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

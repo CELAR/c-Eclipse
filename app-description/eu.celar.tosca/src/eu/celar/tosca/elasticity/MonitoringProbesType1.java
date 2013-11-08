@@ -25,20 +25,20 @@ import org.eclipse.emf.ecore.EObject;
 public interface MonitoringProbesType1 extends EObject
 {
   /**
-	 * Returns the value of the '<em><b>Monitoring Probes</b></em>' containment reference list.
-	 * The list contents are of type {@link eu.celar.tosca.elasticity.TMonitoringProbe}.
-	 * <!-- begin-user-doc -->
+   * Returns the value of the '<em><b>Monitoring Probes</b></em>' containment reference list.
+   * The list contents are of type {@link eu.celar.tosca.elasticity.TMonitoringProbe}.
+   * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Monitoring Probes</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-	 * @return the value of the '<em>Monitoring Probes</em>' containment reference list.
-	 * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getMonitoringProbesType1_MonitoringProbes()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='monitoringProbes' namespace='##targetNamespace'"
-	 * @generated
-	 */
+   * @return the value of the '<em>Monitoring Probes</em>' containment reference list.
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getMonitoringProbesType1_MonitoringProbes()
+   * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='monitoringProbes' namespace='##targetNamespace'"
+   * @generated
+   */
   EList<TMonitoringProbe> getMonitoringProbes();
 
 } // MonitoringProbesType1

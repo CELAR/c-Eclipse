@@ -116,4 +116,13 @@
 
 
 
+
+    <complexType name="TServiceTemplateExtension">
+    	<complexContent>
+    		<extension base="tosca:tServiceTemplate">
+    			<attribute name="x" type="int"></attribute>
+    			<attribute name="y" type="int"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
 </schema>

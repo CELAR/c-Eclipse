@@ -16,15 +16,15 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 public class Tosca_Elasticity_ExtensionsResourceImpl extends XMLResourceImpl
 {
   /**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc -->
+   * Creates an instance of the resource.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @param uri the URI of the new resource.
-	 * @generated
-	 */
+   * @param uri the URI of the new resource.
+   * @generated
+   */
   public Tosca_Elasticity_ExtensionsResourceImpl(URI uri)
   {
-		super(uri);
-	}
+    super(uri);
+  }
 
 } //Tosca_Elasticity_ExtensionsResourceImpl

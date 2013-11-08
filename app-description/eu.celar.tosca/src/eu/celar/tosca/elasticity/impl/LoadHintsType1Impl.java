@@ -36,191 +36,199 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
 {
   /**
-	 * An array of objects representing the values of non-primitive features.
-	 * <!-- begin-user-doc -->
+   * An array of objects representing the values of non-primitive features.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected Object[] eVirtualValues;
 
   /**
-	 * A bit field representing the indices of non-primitive feature values.
-	 * <!-- begin-user-doc -->
+   * A bit field representing the indices of non-primitive feature values.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected int eVirtualIndexBits0;
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   protected LoadHintsType1Impl()
   {
-		super();
-	}
+    super();
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected EClass eStaticClass()
   {
-		return Tosca_Elasticity_ExtensionsPackage.Literals.LOAD_HINTS_TYPE1;
-	}
+    return Tosca_Elasticity_ExtensionsPackage.Literals.LOAD_HINTS_TYPE1;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   public EList<TLoadHint> getLoadHints()
   {
-		EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
-		if (loadHints == null) {
-			eVirtualSet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS, loadHints = new EObjectContainmentEList<TLoadHint>(TLoadHint.class, this, Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS));
-		}
-		return loadHints;
-	}
+    EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
+    if (loadHints == null)
+    {
+      eVirtualSet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS, loadHints = new EObjectContainmentEList<TLoadHint>(TLoadHint.class, this, Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS));
+    }
+    return loadHints;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-		switch (featureID) {
-			case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-				return ((InternalEList<?>)getLoadHints()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
+        return ((InternalEList<?>)getLoadHints()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-		switch (featureID) {
-			case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-				return getLoadHints();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
+        return getLoadHints();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-		switch (featureID) {
-			case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-				getLoadHints().clear();
-				getLoadHints().addAll((Collection<? extends TLoadHint>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
+        getLoadHints().clear();
+        getLoadHints().addAll((Collection<? extends TLoadHint>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   public void eUnset(int featureID)
   {
-		switch (featureID) {
-			case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-				getLoadHints().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
+        getLoadHints().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public boolean eIsSet(int featureID)
   {
-		switch (featureID) {
-			case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-				EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
-				return loadHints != null && !loadHints.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+    switch (featureID)
+    {
+      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
+        EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
+        return loadHints != null && !loadHints.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected Object[] eVirtualValues()
   {
-		return eVirtualValues;
-	}
+    return eVirtualValues;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected void eSetVirtualValues(Object[] newValues)
   {
-		eVirtualValues = newValues;
-	}
+    eVirtualValues = newValues;
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected int eVirtualIndexBits(int offset)
   {
-		switch (offset) {
-			case 0 :
-				return eVirtualIndexBits0;
-			default :
-				throw new IndexOutOfBoundsException();
-		}
-	}
+    switch (offset)
+    {
+      case 0 :
+        return eVirtualIndexBits0;
+      default :
+        throw new IndexOutOfBoundsException();
+    }
+  }
 
   /**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected void eSetVirtualIndexBits(int offset, int newIndexBits)
   {
-		switch (offset) {
-			case 0 :
-				eVirtualIndexBits0 = newIndexBits;
-				break;
-			default :
-				throw new IndexOutOfBoundsException();
-		}
-	}
+    switch (offset)
+    {
+      case 0 :
+        eVirtualIndexBits0 = newIndexBits;
+        break;
+      default :
+        throw new IndexOutOfBoundsException();
+    }
+  }
 
 } //LoadHintsType1Impl

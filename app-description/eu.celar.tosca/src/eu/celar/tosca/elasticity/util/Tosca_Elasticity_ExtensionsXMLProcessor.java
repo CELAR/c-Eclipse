@@ -22,32 +22,33 @@ public class Tosca_Elasticity_ExtensionsXMLProcessor extends XMLProcessor
 {
 
   /**
-	 * Public constructor to instantiate the helper.
-	 * <!-- begin-user-doc -->
+   * Public constructor to instantiate the helper.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   public Tosca_Elasticity_ExtensionsXMLProcessor()
   {
-		super((EPackage.Registry.INSTANCE));
-		Tosca_Elasticity_ExtensionsPackage.eINSTANCE.eClass();
-	}
+    super((EPackage.Registry.INSTANCE));
+    Tosca_Elasticity_ExtensionsPackage.eINSTANCE.eClass();
+  }
   
   /**
-	 * Register for "*" and "xml" file extensions the Tosca_Elasticity_ExtensionsResourceFactoryImpl factory.
-	 * <!-- begin-user-doc -->
+   * Register for "*" and "xml" file extensions the Tosca_Elasticity_ExtensionsResourceFactoryImpl factory.
+   * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
   @Override
   protected Map<String, Resource.Factory> getRegistrations()
   {
-		if (registrations == null) {
-			super.getRegistrations();
-			registrations.put(XML_EXTENSION, new Tosca_Elasticity_ExtensionsResourceFactoryImpl());
-			registrations.put(STAR_EXTENSION, new Tosca_Elasticity_ExtensionsResourceFactoryImpl());
-		}
-		return registrations;
-	}
+    if (registrations == null)
+    {
+      super.getRegistrations();
+      registrations.put(XML_EXTENSION, new Tosca_Elasticity_ExtensionsResourceFactoryImpl());
+      registrations.put(STAR_EXTENSION, new Tosca_Elasticity_ExtensionsResourceFactoryImpl());
+    }
+    return registrations;
+  }
 
 } //Tosca_Elasticity_ExtensionsXMLProcessor

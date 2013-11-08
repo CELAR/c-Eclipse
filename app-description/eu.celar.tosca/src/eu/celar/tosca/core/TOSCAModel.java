@@ -20,11 +20,14 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
 
@@ -40,7 +43,9 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.ToscaPackage;
+import eu.celar.tosca.elasticity.DataHintsType1;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
+import eu.celar.tosca.elasticity.TDataHint;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 import eu.celar.tosca.util.ToscaResourceFactoryImpl;
@@ -172,6 +177,8 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     // Create Service and Topology Templates
     this.serviceTemplate = this.toscaFactory.createTServiceTemplate();
     this.serviceTemplate.setId( "hello" );
+   
+    
     this.topologyTemplate = this.toscaFactory.createTTopologyTemplate();
     
     // Create the Boundary Definition for Elasticity
