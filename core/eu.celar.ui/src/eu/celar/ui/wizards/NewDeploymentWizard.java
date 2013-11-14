@@ -102,7 +102,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard{
     HttpURLConnection connection = null;
     try {
       url = new URL ("http://83.212.116.50:8080/celar-server-api/deployment/deploy/?" + "casmulti=" + casMulti + "&ycsbmulti=" + ycsbMulti);
-      int x=0;
+  
       connection = (HttpURLConnection) url.openConnection();
 
       connection.setRequestMethod( "GET" );

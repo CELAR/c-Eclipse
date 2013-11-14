@@ -7,7 +7,6 @@ package eu.celar.ui.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -21,7 +20,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -37,11 +35,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.tosca.TPolicy;
-import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
-import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
-import eu.celar.tosca.editor.ModelHandler;
-import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 
 public class ApplicationDescriptionBasicPage extends WizardPage

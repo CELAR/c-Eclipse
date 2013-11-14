@@ -13,9 +13,8 @@ import java.math.BigInteger;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -39,6 +38,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -47,14 +49,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.reporting.ProblemException;
-import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
-import eu.celar.infosystem.model.base.InfoSystemFactory;
-import eu.celar.infosystem.model.base.VirtualMachineImage;
-import eu.celar.infosystem.model.base.VirtualMachineImageType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ToscaDiagramEditorInput;
 import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
@@ -164,19 +163,18 @@ public class ApplicationComponentNameSection extends GFPropertySection
             createImageFeature.create( createContext );
           
           refresh();
-          
-          // Add uploaded image to the Palette
-          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-          vmi.setUID( "1" );
-          vmi.setName( dialog.getFileName() );
-          vmi.setDescription( "h" );
-          vmi.setURL( "h" );
-          vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-          MockUpInfoSystem.getInstance().getCustomMachineImages().add(  vmi );
-          
+                    
           // Add uploaded image to Project Artifacts folder
-          IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-          IProject project = workspaceRoot.getProject( "EverythingHere" );
+          IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+          IEditorInput input = activePage.getActiveEditor().getEditorInput();
+          
+          IFile file = null;
+          if ( input instanceof ToscaDiagramEditorInput ){
+            file = ((ToscaDiagramEditorInput) input).getToscaFile();
+          }
+                    
+          IProject project = file.getProject();
+          
           String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName();
           File tmp = new File( targetPath );
           try {

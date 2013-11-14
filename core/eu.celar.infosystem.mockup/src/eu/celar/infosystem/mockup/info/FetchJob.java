@@ -14,13 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -46,7 +39,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImageType;
  *
  */
 public class FetchJob extends Job {
-  
+
   private Connection con = null;
   final static private String url = "jdbc:mysql://cs7649.in.cs.ucy.ac.cy:3306/"; //$NON-NLS-1$
   final static private String db = "celarDB"; //$NON-NLS-1$
@@ -96,7 +89,8 @@ public class FetchJob extends Job {
     /*
      * Connect to the database
      */
-    this.con = getDbConnection();
+    this.con = getDbConnection();  
+
     
     try {
       fetchBaseMachineImages( localMonitor );
@@ -209,27 +203,35 @@ public class FetchJob extends Job {
        instance.custom_images.add( vmi ); 
       }
       
-      // Add custom images from project explorer
+//      // Add custom images from project explorer
+//      
 //      IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-//      IProject project = workspaceRoot.getProject( "test" );
-//      IFolder artifactsFolder = project.getFolder( "/Artifacts/Virtual Machine Images" );
-//      IResource[] artifactsResource = null;
-//      try {
-//        artifactsResource = artifactsFolder.members();
-//      } catch( CoreException e ) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//      for ( IResource tempResource : artifactsResource ){
-//        if ( tempResource instanceof IFile){
-//          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-//          vmi.setUID( "1" );
-//          vmi.setName( tempResource.getName() );
-//          vmi.setDescription( "h" );
-//          vmi.setURL( "h" );
-//          vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-//          //add new base vmi to images list
-//          instance.custom_images.add( vmi ); 
+//      //IProject project = workspaceRoot.getProject( "test" );
+//      //String projectName = MockUpInfoSystem.getInstanceProjectName();
+//      //String projectName = this.project.getName();
+//      String projectName = "test";
+//      if ( projectName != null ){
+//        IProject project = workspaceRoot.getProject( projectName );
+//
+//        IFolder artifactsFolder = project.getFolder( "/Artifacts/Virtual Machine Images" );
+//        IResource[] artifactsResource = null;
+//        try {
+//          artifactsResource = artifactsFolder.members();
+//        } catch( CoreException e ) {
+//          // TODO Auto-generated catch block
+//          e.printStackTrace();
+//        }
+//        for ( IResource tempResource : artifactsResource ){
+//          if ( tempResource instanceof IFile){
+//            VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+//            vmi.setUID( "1" );
+//            vmi.setName( tempResource.getName() );
+//            vmi.setDescription( "h" );
+//            vmi.setURL( "h" );
+//            vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+//            //add new base vmi to images list
+//            instance.custom_images.add( vmi ); 
+//          }
 //        }
 //      }
       

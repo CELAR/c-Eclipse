@@ -17,8 +17,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -51,8 +49,6 @@ import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 
-import eu.celar.core.project.CloudProjectNature;
-import eu.celar.infosystem.mockup.info.FetchJob;
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.MonitoringProbe;
@@ -64,6 +60,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImageType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ToscaDiagramEditor;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
 import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
@@ -116,6 +113,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public IPaletteCompartmentEntry[] getPalette() {
 
+    MockUpInfoSystem.getInstance();
+    
     List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
     // add compartments from super class - connections and objects
     IPaletteCompartmentEntry[] superCompartments = super.getPalette();
@@ -195,11 +194,51 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<VirtualMachineImage> vmis = MockUpInfoSystem.getInstance()
       .getCustomMachineImages();
+    
+    ArrayList<VirtualMachineImage> vmisCopy = ( ArrayList<VirtualMachineImage> )vmis.clone();
+    
+    // Add custom images from project explorer
         
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    
+    if ( activeProject != null ){
+
+      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Virtual Machine Images" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = artifactsFolder.members();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      for ( IResource tempResource : artifactsResource ){
+        boolean vmiExistsInPalette = false;
+        if ( tempResource instanceof IFile){
+          for( VirtualMachineImage vmi : vmisCopy ) {
+            if ( vmi.getName().equals( tempResource.getName() ) ){
+              vmiExistsInPalette = true;
+              break;
+            }
+          }
+          if ( vmiExistsInPalette == false ){
+            VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+            vmi.setUID( "1" );
+            vmi.setName( tempResource.getName() );
+            vmi.setDescription( "h" );
+            vmi.setURL( "h" );
+            vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+            //add new base vmi to images list
+            vmisCopy.add( vmi ); 
+          }
+        }
+      }
+    }
+    
+
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Custom Images", null ); //$NON-NLS-1$
     ret.add( compartmentEntry );
-    for( VirtualMachineImage vmi : vmis ) {
+    for( VirtualMachineImage vmi : vmisCopy ) {
       // add new stack entry to new compartment
       StackEntry stackEntry = new StackEntry( vmi.getName(),
                                               vmi.getName(),
@@ -230,7 +269,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
-
+      
       
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();

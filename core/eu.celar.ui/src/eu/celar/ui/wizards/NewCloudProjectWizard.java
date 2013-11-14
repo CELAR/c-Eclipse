@@ -10,12 +10,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -27,7 +24,7 @@ import org.eclipse.ui.dialogs.WizardNewProjectReferencePage;
 
 import eu.celar.core.ExtensionManager;
 import eu.celar.core.Extensions;
-import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+//import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 
 /**
  * @author Nicholas Loulloudes
@@ -79,7 +76,6 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
       this.referencePage.setDescription( Messages.getString( "NewCloudProjectWizard.reference_page_description" ) ); //$NON-NLS-1$
       addPage( this.referencePage );
     }
-    MockUpInfoSystem mis = MockUpInfoSystem.getInstance();
   }
 
   @Override
@@ -162,7 +158,7 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
+    
     return this.project;
   }
 

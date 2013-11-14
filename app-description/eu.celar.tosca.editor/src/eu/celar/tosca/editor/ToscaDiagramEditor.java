@@ -11,6 +11,7 @@ package eu.celar.tosca.editor;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -40,7 +41,7 @@ import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
+//import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.swt.widgets.Composite;
@@ -74,6 +75,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
   
   private TransactionalEditingDomain transactionalEditingDomain;
   
+  private static IProject activeProject = null;
     
   /**
    * The Tosca Diagram Editor Constructor.
@@ -82,6 +84,12 @@ public class ToscaDiagramEditor extends DiagramEditor {
     super ();
   }
    
+  public static IProject getActiveProject(){
+    
+    return activeProject;
+    
+  }
+  
   protected void registerBusinessObjectsListener() {
     
     this.toscaModelChangeListener = new ToscaModelChangeListener(this);
@@ -106,6 +114,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
 
   @Override
   public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
+    
     IEditorInput finalInput = null;
 
     try {
@@ -118,6 +127,10 @@ public class ToscaDiagramEditor extends DiagramEditor {
       exception.printStackTrace();
     }
 
+    if ( finalInput instanceof ToscaDiagramEditorInput ){
+      activeProject = ((ToscaDiagramEditorInput) finalInput).getToscaFile().getProject();
+    }
+    
     super.init(site, finalInput);
     
     // Refresh Palette Compartments
