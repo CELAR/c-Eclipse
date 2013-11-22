@@ -7,6 +7,7 @@
  ************************************************************/
 package eu.celar.ui.views;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -15,6 +16,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 
 import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.ICloudElement;
@@ -26,7 +29,7 @@ import eu.celar.ui.listeners.TreeColumnListener;
  * @author Nicholas Loulloudes
  *
  */
-public abstract class TreeControlViewPart extends CloudModelViewPart {
+public abstract class TreeControlViewPart extends CloudModelViewPart implements ISelectionListener {
   
   @Override
   public void refreshViewer( final ICloudElement element ) {
@@ -71,6 +74,8 @@ public abstract class TreeControlViewPart extends CloudModelViewPart {
       tree.setSortDirection( SWT.UP );
       // Set also the first column as fallback sorting column
       tViewer.setComparator( new TreeColumnComparator( firstColumn ) );
+      
+      getViewSite().getPage().addSelectionListener(this);
     }
     
     return tViewer;
@@ -79,6 +84,14 @@ public abstract class TreeControlViewPart extends CloudModelViewPart {
   protected boolean createTreeColumns( @SuppressWarnings("unused") final Tree tree )
   {
     return false;
+  }
+  
+  @Override
+  public void selectionChanged( IWorkbenchPart part, ISelection selection ) {
+    int i=0;
+    if ( i==0 )
+      System.out.println("hi");
+    
   }
   
 }

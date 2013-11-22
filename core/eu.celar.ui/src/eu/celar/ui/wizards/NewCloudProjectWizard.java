@@ -24,7 +24,6 @@ import org.eclipse.ui.dialogs.WizardNewProjectReferencePage;
 
 import eu.celar.core.ExtensionManager;
 import eu.celar.core.Extensions;
-//import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 
 /**
  * @author Nicholas Loulloudes
