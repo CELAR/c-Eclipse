@@ -203,38 +203,6 @@ public class FetchJob extends Job {
        instance.custom_images.add( vmi ); 
       }
       
-//      // Add custom images from project explorer
-//      
-//      IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-//      //IProject project = workspaceRoot.getProject( "test" );
-//      //String projectName = MockUpInfoSystem.getInstanceProjectName();
-//      //String projectName = this.project.getName();
-//      String projectName = "test";
-//      if ( projectName != null ){
-//        IProject project = workspaceRoot.getProject( projectName );
-//
-//        IFolder artifactsFolder = project.getFolder( "/Artifacts/Virtual Machine Images" );
-//        IResource[] artifactsResource = null;
-//        try {
-//          artifactsResource = artifactsFolder.members();
-//        } catch( CoreException e ) {
-//          // TODO Auto-generated catch block
-//          e.printStackTrace();
-//        }
-//        for ( IResource tempResource : artifactsResource ){
-//          if ( tempResource instanceof IFile){
-//            VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-//            vmi.setUID( "1" );
-//            vmi.setName( tempResource.getName() );
-//            vmi.setDescription( "h" );
-//            vmi.setURL( "h" );
-//            vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-//            //add new base vmi to images list
-//            instance.custom_images.add( vmi ); 
-//          }
-//        }
-//      }
-      
       if ( subMonitor != null ) {
         subMonitor.worked( 1 );
       }
