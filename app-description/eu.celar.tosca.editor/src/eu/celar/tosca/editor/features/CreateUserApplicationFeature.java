@@ -4,8 +4,6 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
-import javax.xml.namespace.QName;
-
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -14,7 +12,6 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;

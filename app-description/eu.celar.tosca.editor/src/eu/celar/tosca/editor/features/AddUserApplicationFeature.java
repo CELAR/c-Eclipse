@@ -27,7 +27,6 @@ import org.eclipse.graphiti.util.IColorConstant;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.tosca.TDeploymentArtifact;
-import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.editor.StyleUtil;
 
 public class AddUserApplicationFeature extends AbstractFeature

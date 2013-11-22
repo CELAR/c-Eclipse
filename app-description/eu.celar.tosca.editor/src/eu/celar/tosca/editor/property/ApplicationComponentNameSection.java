@@ -262,12 +262,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
     this.initialInstancesText.addModifyListener( this );
     
     
-    
-    
-    
-    
-    
-    
     CLabel minInstancesLabel = factory.createCLabel( clientInstances, "Min:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;

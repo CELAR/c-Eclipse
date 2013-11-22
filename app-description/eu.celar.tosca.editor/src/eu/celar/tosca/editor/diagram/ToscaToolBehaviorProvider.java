@@ -212,24 +212,15 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         e.printStackTrace();
       }
       for ( IResource tempResource : artifactsResource ){
-        boolean vmiExistsInPalette = false;
         if ( tempResource instanceof IFile){
-          for( VirtualMachineImage vmi : vmisCopy ) {
-            if ( vmi.getName().equals( tempResource.getName() ) ){
-              vmiExistsInPalette = true;
-              break;
-            }
-          }
-          if ( vmiExistsInPalette == false ){
-            VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
-            vmi.setUID( "1" );
-            vmi.setName( tempResource.getName() );
-            vmi.setDescription( "h" );
-            vmi.setURL( "h" );
-            vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-            //add new base vmi to images list
-            vmisCopy.add( vmi ); 
-          }
+          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+          vmi.setUID( "1" );
+          vmi.setName( tempResource.getName() );
+          vmi.setDescription( "h" );
+          vmi.setURL( "h" );
+          vmi.setType( VirtualMachineImageType.BASE_IMAGE );
+          //add new base vmi to images list
+          vmisCopy.add( vmi ); 
         }
       }
     }

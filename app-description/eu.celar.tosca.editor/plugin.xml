@@ -131,6 +131,12 @@
          id="graphiti.application.monitoring"
          label="Monitoring">
    </propertyTab>
+   <propertyTab
+         afterTab="graphiti.component.parameters.tab"
+         category="Graphiti"
+         id="graphiti.component.deployment.script.tab"
+         label="Deployment">
+   </propertyTab>
 	    </propertyTabs>
 	</extension>
 	 
@@ -231,6 +237,12 @@
            filter="eu.celar.tosca.editor.property.ApplicationFilter"
            id="graphiti.application.MonitoringSection"
            tab="graphiti.application.monitoring">
+     </propertySection>
+     <propertySection
+           class="eu.celar.tosca.editor.property.ApplicationComponentScriptSection"
+           filter="eu.celar.tosca.editor.property.ApplicationComponentFilter"
+           id="graphiti.advanced.tab.deployment.script"
+           tab="graphiti.component.deployment.script.tab">
      </propertySection>
 			    </propertySections>
 	</extension>
