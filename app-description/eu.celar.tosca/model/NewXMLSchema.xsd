@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema targetNamespace="http://www.example.org/NewXMLSchema"
-	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:elasticity="http://www.example.org/NewXMLSchema">
+	elementFormDefault="qualified" 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12" 
+	xmlns:elasticity="http://www.example.org/NewXMLSchema"
+	xmlns:epolicy="http://www.example.org/PolicyProperties"
+	xmlns:hrequirement="http://www.example.org/EnvironmentRequirementProperties">
+	
 	<import schemaLocation="TOSCA-v1.0.xsd" namespace="http://docs.oasis-open.org/tosca/ns/2011/12"></import>
+	<import schemaLocation="PolicyProperties.xsd" namespace="http://www.example.org/PolicyProperties"></import>
+	<import schemaLocation="EnvironmentRequirementProperties.xsd" namespace="http://www.example.org/EnvironmentRequirementProperties"></import>
 
 	<complexType name="TDataHint">
     	<complexContent>
@@ -125,4 +133,6 @@
     		</extension>
     	</complexContent>
     </complexType>
+
+
 </schema>
