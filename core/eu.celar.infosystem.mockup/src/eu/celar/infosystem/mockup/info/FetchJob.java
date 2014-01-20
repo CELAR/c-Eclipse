@@ -84,32 +84,32 @@ public class FetchJob extends Job {
    
     localMonitor.beginTask( "Retrieving information", 6 * 10 ); //$NON-NLS-1$
 
-    //createStaticCelarDB();
+    createStaticCelarDB();
     
     /*
      * Connect to the database
      */
-    this.con = getDbConnection();  
-
-    
-    try {
-      fetchBaseMachineImages( localMonitor );
-      fetchCustomMachineImages( localMonitor );      
-      fetchSwDependencies( localMonitor );
-      fetchMonitorProbes( localMonitor );
-      fetchResizingActions (localMonitor );
-      fetchUserApps (localMonitor );
-    } catch( SQLException e ) {     
-      e.printStackTrace();
-    } finally {
-      if (this.con != null) {
-        try {
-          this.con.close();
-        } catch( SQLException e ) {
-          e.printStackTrace();
-        }  
-      }      
-    }
+//    this.con = getDbConnection();  
+//
+//    
+//    try {
+//      fetchBaseMachineImages( localMonitor );
+//      fetchCustomMachineImages( localMonitor );      
+//      fetchSwDependencies( localMonitor );
+//      fetchMonitorProbes( localMonitor );
+//      fetchResizingActions (localMonitor );
+//      fetchUserApps (localMonitor );
+//    } catch( SQLException e ) {     
+//      e.printStackTrace();
+//    } finally {
+//      if (this.con != null) {
+//        try {
+//          this.con.close();
+//        } catch( SQLException e ) {
+//          e.printStackTrace();
+//        }  
+//      }      
+//    }
       
     
     localMonitor.done();
@@ -485,12 +485,12 @@ public class FetchJob extends Job {
    bvmi.setType( VirtualMachineImageType.CUSTOM_IMAGE );
    instance.custom_images.add( bvmi ); 
    
-   bvmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();       
-   bvmi.setUID( "1" );
-   bvmi.setName( "Ubuntu-12.04-32bit" );
-   bvmi.setDescription( "h" );   
-   bvmi.setType( VirtualMachineImageType.CUSTOM_IMAGE );
-   instance.custom_images.add( bvmi ); 
+//   bvmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();       
+//   bvmi.setUID( "1" );
+//   bvmi.setName( "Ubuntu-12.04-32bit" );
+//   bvmi.setDescription( "h" );   
+//   bvmi.setType( VirtualMachineImageType.CUSTOM_IMAGE );
+//   instance.custom_images.add( bvmi ); 
    
    SoftwareDependency swd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
    swd.setUID( "" );
@@ -527,11 +527,11 @@ public class FetchJob extends Job {
    swd.setDescription( "" );        
    instance.software_dependencies.add( swd );
    
-//   UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-//   uA.setUID( "" );
-//   uA.setName( "DataQuery.jar" );        
-//   uA.setDescription( "" );        
-//   instance.user_apps.add( uA ); 
+   UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
+   uA.setUID( "" );
+   uA.setName( "DataQuery.jar" );        
+   uA.setDescription( "" );        
+   instance.user_apps.add( uA ); 
 //   
 //   uA = InfoSystemFactory.eINSTANCE.createUserApplication();
 //   uA.setUID( "" );
