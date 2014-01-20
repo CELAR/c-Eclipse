@@ -31,6 +31,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import eu.celar.tosca.hrequirements.Tosca_HRequirements_ExtensionsPackage;
+import eu.celar.tosca.hrequirements.impl.Tosca_HRequirements_ExtensionsPackageImpl;
+import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsPackage;
+import eu.celar.tosca.epolicies.impl.Tosca_EPolicy_ExtensionsPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -225,11 +229,19 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     ToscaPackage.eINSTANCE.eClass();
     XMLTypePackage.eINSTANCE.eClass();
 
+    // Obtain or create and register interdependencies
+    Tosca_HRequirements_ExtensionsPackageImpl theTosca_HRequirements_ExtensionsPackage = (Tosca_HRequirements_ExtensionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Tosca_HRequirements_ExtensionsPackage.eNS_URI) instanceof Tosca_HRequirements_ExtensionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Tosca_HRequirements_ExtensionsPackage.eNS_URI) : Tosca_HRequirements_ExtensionsPackage.eINSTANCE);
+    Tosca_EPolicy_ExtensionsPackageImpl theTosca_EPolicy_ExtensionsPackage = (Tosca_EPolicy_ExtensionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Tosca_EPolicy_ExtensionsPackage.eNS_URI) instanceof Tosca_EPolicy_ExtensionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Tosca_EPolicy_ExtensionsPackage.eNS_URI) : Tosca_EPolicy_ExtensionsPackage.eINSTANCE);
+
     // Create package meta-data objects
     theTosca_Elasticity_ExtensionsPackage.createPackageContents();
+    theTosca_HRequirements_ExtensionsPackage.createPackageContents();
+    theTosca_EPolicy_ExtensionsPackage.createPackageContents();
 
     // Initialize created meta-data
     theTosca_Elasticity_ExtensionsPackage.initializePackageContents();
+    theTosca_HRequirements_ExtensionsPackage.initializePackageContents();
+    theTosca_EPolicy_ExtensionsPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
     theTosca_Elasticity_ExtensionsPackage.freeze();

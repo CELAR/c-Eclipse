@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:ElasticityStrategyProperties StrategyId="" xmlns:p="http://www.example.org/PolicyProperties" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/PolicyProperties PolicyProperties.xsd ">
+  <ComplexCondition BitwiseOperator="AND">
+  	<LeftHandSide>
+  		<LeftSimpleCondition Type="lessThan">
+  			<LeftHandSide>
+  				<Metric>Metric</Metric>
+  			</LeftHandSide>
+  			<RightHandSide>
+  				<Number>Number</Number>
+  			</RightHandSide>
+  		</LeftSimpleCondition>
+  	</LeftHandSide>
+  	<RightHandSide>
+  		<RightCompexCondition BitwiseOperator="AND">
+  			<RightHandSide>
+  				<RightSimpleCondition Type="lessThan">
+  					<LeftHandSide>
+  						<Metric>Metric</Metric>
+  					</LeftHandSide>
+  					<RightHandSide>
+  						<Number>Number</Number>
+  					</RightHandSide>
+  				</RightSimpleCondition>
+  			</RightHandSide>
+  		</RightCompexCondition>
+  		
+  	</RightHandSide>
+  </ComplexCondition>
+  
+  <Action ActionName="Add VM">
+    <ActionParameter ParameterName="Number of VMs" ParameterValue="2"/>
+  </Action>
+</p:ElasticityStrategyProperties>

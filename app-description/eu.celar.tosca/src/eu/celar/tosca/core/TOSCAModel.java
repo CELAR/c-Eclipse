@@ -170,6 +170,7 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
 
     // Create Document Root
     this.documentRoot = this.toscaFactory.createDocumentRoot();
+   
     // Create Definitions Type
     
     this.definitionsType = this.toscaFactory.createDefinitionsType();
@@ -195,7 +196,8 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     // Finally- Add the Definition Type to the Document Root
     this.definitionsType.setId( "hi" );
     
-    this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );
+    this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );   
+    
     this.documentRoot.setDefinitions( this.definitionsType );
     
     

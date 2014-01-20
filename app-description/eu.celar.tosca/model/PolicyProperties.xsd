@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" 
+targetNamespace="http://www.example.org/PolicyProperties"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns="http://www.example.org/PolicyProperties" >
+        
+  <xs:element name="ElasticityConstraintProperties" type="tElasticityConstraintProperties"/>
+  <xs:complexType name="tElasticityConstraintProperties">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="ToEnforceSimpleConstraint" type="tRelationOperation"/>
+        <xs:element name="ToEnforceComplexConstraint" type="tBitwiseOperation"/>
+      </xs:choice> 
+      <xs:element name="Priority" maxOccurs="unbounded" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence/>
+          <xs:attribute name="PriorityType" type="tPriorityType" use="required"/>
+          <xs:attribute name="ConstraintId" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="ConstraintId" type="xs:string" use="required"/>
+  </xs:complexType>
+  
+  <xs:element name="ElasticityStrategyProperties" type="tElasticityStrategyProperties"/>
+  <xs:complexType name="tElasticityStrategyProperties">
+  <xs:sequence>
+    <xs:choice>
+      <xs:element name="SimpleCondition" type="tRelationOperation"/>
+      <xs:element name="ComplexCondition" type="tBitwiseOperation"/>
+      <xs:element name="ConstraintBasedCondition" type="tConstraintStatus"/>
+    </xs:choice>  
+    <xs:element name="Action">
+      <xs:complexType>
+	    <xs:sequence>
+	    	<xs:element name="ActionParameter" type="tActionParameterType" maxOccurs="unbounded" minOccurs="0"></xs:element>
+	    </xs:sequence>
+	    <xs:attribute name="ActionName" type="xs:string" use="required"/>
+      </xs:complexType>  
+    </xs:element>
+  </xs:sequence>
+  <xs:attribute name="StrategyId" type="xs:string" use="required"/>
+  </xs:complexType>
+              
+  <xs:complexType name="tRelationOperation">
+    <xs:sequence>
+      <xs:element name="RelationLeftHandSide">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Metric" type="xs:string" minOccurs="1" maxOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelationRightHandSide">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Number" type="xs:string" minOccurs="1" maxOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="Type" type="tRelationOperationType" use="required"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="tRelationOperationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="lessThan"/>
+      <xs:enumeration value="greaterThan"/>
+      <xs:enumeration value="equal"/>
+      <xs:enumeration value="notEqual"/>
+    </xs:restriction>
+  </xs:simpleType> 
+  
+  <xs:complexType name="tBitwiseOperation">
+    <xs:sequence>
+      <xs:element name="BitwiseLeftHandSide" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice>
+              <xs:element name="LeftSimpleCondition" type="tRelationOperation"/>
+              <xs:element name="LeftCompexCondition" type="tBitwiseOperation"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BitwiseRightHandSide" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice>
+              <xs:element name="RightSimpleCondition" type="tRelationOperation"/>
+              <xs:element name="RightCompexCondition" type="tBitwiseOperation"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="BitwiseOperator" type="tBitwiseOperationType" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="tBitwiseOperationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AND"/>
+      <xs:enumeration value="OR"/>
+      <xs:enumeration value="XOR"/>
+      <xs:enumeration value="NOT"/>
+    </xs:restriction>
+  </xs:simpleType> 
+
+  <xs:complexType name="tConstraintStatus">
+    <xs:sequence>
+  	  <xs:choice>
+  		  <xs:element name="Violated" type="tViolatedConstraint"></xs:element>
+  		  <xs:element name="Fulfilled" type="tFulfilledConstraint"></xs:element>
+  	  </xs:choice>
+  	</xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tViolatedConstraint">
+  	<xs:attribute name="ConstraintId" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="tFulfilledConstraint">
+  	<xs:attribute name="ConstraintId" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="tActionParameterType">
+  	<xs:sequence></xs:sequence>
+  	<xs:attribute name="ParameterName" type="xs:string" use="required"></xs:attribute>
+  	<xs:attribute name="ParameterValue" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+    
+  <xs:simpleType name="tPriorityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="lessThan"/>
+      <xs:enumeration value="greaterThan"/>
+    </xs:restriction>
+  </xs:simpleType> 
+
+</xs:schema>
+
