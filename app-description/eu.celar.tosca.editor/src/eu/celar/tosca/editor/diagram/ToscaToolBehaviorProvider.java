@@ -379,16 +379,47 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
  
 	  ArrayList<UserApplication> uApps = MockUpInfoSystem.getInstance()
 	  .getUserApplications();
+	  
+	    
+	    ArrayList<UserApplication> uAppsCopy = ( ArrayList<UserApplication> )uApps.clone();
+	    
+	    // Add custom images from project explorer
+	        
+	    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+	    
+	    if ( activeProject != null ){
+
+	      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Deployment Scripts" );
+	      IResource[] artifactsResource = null;
+	      try {
+	        artifactsResource = artifactsFolder.members();
+	      } catch( CoreException e ) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	      }
+	      for ( IResource tempResource : artifactsResource ){
+	        if ( tempResource instanceof IFile){
+	          UserApplication ua = InfoSystemFactory.eINSTANCE.createUserApplication();      
+	          ua.setUID( "1" );
+	          ua.setName( tempResource.getName() );
+	          ua.setDescription( "h" );
+	          ua.setURL( "h" );
+	          ua.setType( "UA" );
+	          //add new base vmi to images list
+	          uAppsCopy.add( ua ); 
+	        }
+	      }
+	    }
 	// add new compartment at the end of the existing compartments
 	PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "User Applications", null ); //$NON-NLS-1$
 	ret.add( compartmentEntry );
-	for( UserApplication app : uApps ) {
+	for( UserApplication app : uAppsCopy ) {
 	  // add new stack entry to new compartment
 	  StackEntry stackEntry = new StackEntry( app.getName(),
 	                                          app.getName(),
 	                                          null );
 	  compartmentEntry.addToolEntry( stackEntry );
-	  compartmentEntry.setInitiallyOpen( false );
+	  compartmentEntry.setInitiallyOpen( true );
     
     
       // add all create-features to the new stack-entry

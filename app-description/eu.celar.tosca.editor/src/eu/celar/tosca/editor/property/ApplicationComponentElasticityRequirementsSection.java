@@ -53,6 +53,13 @@ import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.epolicies.RelationLeftHandSideType;
+import eu.celar.tosca.epolicies.RelationRightHandSideType;
+import eu.celar.tosca.epolicies.TElasticityConstraintProperties;
+import eu.celar.tosca.epolicies.TRelationOperation;
+import eu.celar.tosca.epolicies.TRelationOperationType;
+import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
+
 
 /** 
  * Application Component Properties - Elasticity Tab
@@ -72,7 +79,6 @@ public class ApplicationComponentElasticityRequirementsSection
   private Table tableResizingActions;
   private Button removeButtonRA;
   private Button addButtonRA;
-  private Button uploadButtonRA;
   private Button conditionButtonRA;
   TableViewer tableResizingActionsViewer;
   List<TPolicy> appComponentResizingActions = new ArrayList<TPolicy>();
@@ -248,27 +254,6 @@ public class ApplicationComponentElasticityRequirementsSection
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButtonRA.setLayoutData( gdRA );
     
-    
-//    this.uploadButtonRA = new Button( clientRA2, SWT.PUSH );
-//    this.uploadButtonRA.setText( "Upload" ); //$NON-NLS-1$
-//    // Listener for Upload button
-//    this.uploadButtonRA.addSelectionListener( new SelectionListener() {
-//
-//      @Override
-//      public void widgetSelected( SelectionEvent e ) {
-//        addElasticityStrategy();
-//      }
-//
-//      @Override
-//      public void widgetDefaultSelected( final SelectionEvent e ) {
-//        // TODO Auto-generated method stub
-//      }
-//    } );
-//    gdRA = new GridData();
-//    gdRA.widthHint = 60;
-//    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-//    this.uploadButtonRA.setLayoutData( gdRA );
-    
     this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
     this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
     // Listener for Remove Elasticity Strategy button
@@ -352,7 +337,6 @@ public class ApplicationComponentElasticityRequirementsSection
           }
           
           
-          
           if ( nodeTemplate.getPolicies() == null ){
             final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
             
@@ -375,13 +359,34 @@ public class ApplicationComponentElasticityRequirementsSection
           
           final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
           
-          //final String policyUniqueName = nodeTemplate.getId() + policy.size();
+          /////////////////////////////////////////////////////////////////////////////////////
           
-          final String policyUniqueName = nodeTemplate.getName() + policy.size();
+          TElasticityConstraintProperties elasticityConstraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
+          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
+
+          RelationLeftHandSideType leftHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationLeftHandSideType();
+          leftHandSideType.setMetric( "cpuUsage" );
           
-          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+          RelationRightHandSideType rightHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationRightHandSideType();
+          rightHandSideType.setNumber( "3" );
           
-          newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
+          relation.setRelationLeftHandSide( leftHandSideType );
+          relation.setRelationRightHandSide( rightHandSideType );
+          
+          relation.setType( TRelationOperationType.GREATER_THAN );
+          elasticityConstraint.setToEnforceSimpleConstraint( relation ); 
+                    
+          QName qname = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ElasticityConstraint", null );
+          newPolicy.setPolicyType( qname );
+          
+          
+          /////////////////////////////////////////////////////////////////////////////////////
+          
+//          final String policyUniqueName = nodeTemplate.getName() + policy.size();
+//          
+//          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+//          
+//          newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()

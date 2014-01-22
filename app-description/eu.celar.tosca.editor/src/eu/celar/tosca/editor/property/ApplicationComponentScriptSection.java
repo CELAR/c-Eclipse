@@ -40,6 +40,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
 import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
@@ -55,7 +56,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
 {
 
   Section section;
-  private Text simpleText;
+  private Text deploymentScriptText;
 
   @Override
   public void createControls( Composite parent,
@@ -77,7 +78,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
 
     TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     
-    simpleText = factory.createText(client, "", SWT.V_SCROLL | SWT.H_SCROLL ); //$NON-NLS-1$
+    deploymentScriptText = factory.createText(client, "", SWT.V_SCROLL | SWT.H_SCROLL ); //$NON-NLS-1$
     
     GridData gd = new GridData();
     gd.widthHint = 1100;
@@ -85,13 +86,13 @@ public class ApplicationComponentScriptSection extends GFPropertySection
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;   
     
-    this.simpleText.setLayoutData( gd );
+    this.deploymentScriptText.setLayoutData( gd );
     
 
-    simpleText.addModifyListener( this );   
+    deploymentScriptText.addModifyListener( this );   
 
     // Add section components to the toolkit
-    toolkit.adapt( this.simpleText, true, true );
+    toolkit.adapt( this.deploymentScriptText, true, true );
     this.section.setClient( client );
   }
 
@@ -123,12 +124,20 @@ public class ApplicationComponentScriptSection extends GFPropertySection
       }
     }
     
+    String fileName = null;
+    TDeploymentArtifacts deploymentArtifacts = appComponent.getDeploymentArtifacts();
+    if ( deploymentArtifacts != null ){
+      for ( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() ){
+        if ( artifact.getArtifactType().toString().equals( "UA" )){
+          fileName = artifact.getName();
+          break;
+        }
+      }
+    }
     
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
     
     if ( activeProject != null ){
-      
-      String fileName = appComponent.getName() + " Deployment";
       
       IFile file = activeProject.getFile( new Path("/Artifacts/Deployment Scripts/" +  fileName));
       
@@ -147,17 +156,17 @@ public class ApplicationComponentScriptSection extends GFPropertySection
 
         try {
           while ((line = br.readLine()) != null) {
-              sb.append(line);
+              sb.append(line + "\n");
           }
         } catch( IOException e1 ) {
           // TODO Auto-generated catch block
           e1.printStackTrace();
         }
         
-        this.simpleText.setText(sb.toString());
+        this.deploymentScriptText.setText(sb.toString());
       }
       else{
-        this.simpleText.setText( "" );
+        this.deploymentScriptText.setText( "" );
       }
       }
     
@@ -165,6 +174,11 @@ public class ApplicationComponentScriptSection extends GFPropertySection
 
   @Override
   public void modifyText( ModifyEvent e ) {
+    
+    if ( this.deploymentScriptText.getText().equals("") ){
+      // this is also the case where the Deployment Script tab is preopened
+      return;
+    }
     
     PictogramElement pe = getSelectedPictogramElement();
     TNodeTemplateExtension appComponent = null;
@@ -197,7 +211,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
       }
       else{
         try {
-          file.setContents( new ByteArrayInputStream(this.simpleText.getText().getBytes()), false, false, null );
+          file.setContents( new ByteArrayInputStream(this.deploymentScriptText.getText().getBytes()), false, false, null );
         } catch( CoreException e1 ) {
           // TODO Auto-generated catch block
           e1.printStackTrace();
@@ -238,7 +252,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
         
      file = activeProject.getFile( new Path("/Artifacts/Deployment Scripts/" +  fileName));
      try {
-      file.create(new ByteArrayInputStream(this.simpleText.getText().getBytes()), false, null);
+      file.create(new ByteArrayInputStream(this.deploymentScriptText.getText().getBytes()), false, null);
       } catch (CoreException e1) {
           // TODO Auto-generated catch block
           e1.printStackTrace();
@@ -253,6 +267,8 @@ public class ApplicationComponentScriptSection extends GFPropertySection
         e.printStackTrace();
       }
  
+      // Refresh Palette Compartments
+      getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
           
       // Call the Create User Application Feature to create a deployment artifact for the deployment script and add it to the artifacts list 
       CreateUserApplicationFeature createUAFeature = new CreateUserApplicationFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
