@@ -9,6 +9,8 @@ import java.util.Hashtable;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 
+import eu.celar.core.model.ICloudProvider;
+
 /**
  * @author Nicholas Loulloudes
  */
@@ -16,7 +18,7 @@ public class CloudProjectProperties {
 
   private String projectName;
   private IPath projectLocation;
-  // private ICloudProvider cloudProvider;
+  private ICloudProvider cloudProvider;
   private IProject[] referencesProjects;
   private Hashtable<String, String> projectFolders = new Hashtable<String, String>();
 
@@ -61,17 +63,17 @@ public class CloudProjectProperties {
    * 
    * @return
    */
-  // public ICloudProvider getCloudProvider() {
-  // return this.cloudProvider;
-  // }
+   public ICloudProvider getCloudProvider() {
+     return this.cloudProvider;
+   }
   /**
    * set the Cloud Provider of the Project
    * 
    * @param cloudProvider
    */
-  // public void setCloudProvider( final ICloudProvider cloudProvider ) {
-  // this.cloudProvider = cloudProvider;
-  // }
+   public void setCloudProvider( final ICloudProvider cloudProvider ) {
+     this.cloudProvider = cloudProvider;
+   }
   /**
    * Get the list of reference projects
    * 

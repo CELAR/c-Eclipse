@@ -100,6 +100,11 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
         return createUserApplicationAdapter();
       }
       @Override
+      public Adapter caseKeyPair(KeyPair object)
+      {
+        return createKeyPairAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -192,6 +197,21 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createUserApplicationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.infosystem.model.base.KeyPair <em>Key Pair</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.infosystem.model.base.KeyPair
+   * @generated
+   */
+  public Adapter createKeyPairAdapter()
   {
     return null;
   }

@@ -18,8 +18,12 @@ package eu.celar.core.internal.model;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 
+import eu.celar.core.internal.Activator;
 import eu.celar.core.model.ICloudContainer;
+import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudProject;
 import eu.celar.core.model.ICloudProvider;
@@ -36,6 +40,8 @@ public class ProjectCloudProvider extends AbstractCloudContainer
   implements ICloudProvider, IWrappedElement
 {
   
+  private static final String NA_STRING = "N/A"; //$NON-NLS-1$
+
   private ICloudProject project;
   
   private String providerName;
@@ -89,8 +95,7 @@ public class ProjectCloudProvider extends AbstractCloudContainer
    */
   @Override
   public ICloudContainer getParent() {
-    // TODO Auto-generated method stub
-    return null;
+    return this.project;
   }
 
   /* (non-Javadoc)
@@ -108,6 +113,13 @@ public class ProjectCloudProvider extends AbstractCloudContainer
   public void serialize() throws ProblemException {
     // TODO Auto-generated method stub
   }
+  
+  @SuppressWarnings( "unchecked" )
+  @Override
+  public Object getAdapter( final Class adapter ) {
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getAdapter( adapter ) : null;
+  }
 
   /* (non-Javadoc)
    * @see eu.celar.core.model.ISerializableElement#deserialize()
@@ -122,8 +134,21 @@ public class ProjectCloudProvider extends AbstractCloudContainer
    */
   @Override
   public ICloudElement getWrappedElement() {
-    // TODO Auto-generated method stub
-    return null;
+    return getSlave();
+  }
+  
+  @Override
+  public void refresh( final IProgressMonitor monitor ) throws ProblemException {
+    
+    ICloudElement[] children = getChildren( null );
+    
+    SubMonitor sMonitor = SubMonitor.convert( monitor, "Refreshing Cloud Provider resources", children.length );
+    
+    for ( ICloudElement elem : children ) {
+      if ( elem instanceof ICloudContainer ) {
+        ( ( ICloudContainer ) elem ).refresh( sMonitor.newChild( 1 ) );
+      }
+    }
   }
 
   /* (non-Javadoc)
@@ -131,17 +156,36 @@ public class ProjectCloudProvider extends AbstractCloudContainer
    */
   @Override
   public String getName() {
-    // TODO Auto-generated method stub
-    return null;
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getName() : "CloudProvider-Wrapper";     //$NON-NLS-1$
   }
+  
+  protected ICloudProvider getSlave() {
+    ICloudProvider result
+      = ( ICloudProvider ) CloudProviderManager.getManager().findChild( this.providerName );
+    return result;
+  }
+  
+  @Override
+  public void setDirty() {
+    try {
+      for ( ICloudElement child : getChildren( null ) ) {
+        if ( child instanceof ICloudContainer ) {
+          ( ( ICloudContainer ) child ).setDirty();
+        }
+      }
+    } catch ( ProblemException pExc ) {
+      // Should never happen, if it does we will at least log it
+      Activator.logException( pExc );
+    }
+  }  
 
   /* (non-Javadoc)
    * @see eu.celar.core.model.ICloudProvider#getId()
    */
-  @Override
   public String getId() {
-    // TODO Auto-generated method stub
-    return null;
+    ICloudProvider vo = getSlave();
+    return vo != null ? vo.getId() : NA_STRING;
   }
 
   /* (non-Javadoc)
@@ -160,5 +204,25 @@ public class ProjectCloudProvider extends AbstractCloudContainer
   public String getTypeName() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  /* (non-Javadoc)
+   * @see eu.celar.core.model.ICloudProvider#getWizardId()
+   */
+  @Override
+  public String getWizardId() {
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getWizardId() : null;
+  }
+
+  /* (non-Javadoc)
+   * @see eu.celar.core.model.ICloudProvider#getDeploymentServices(org.eclipse.core.runtime.IProgressMonitor)
+   */
+  @Override
+  public ICloudDeploymentService[] getDeploymentServices( final IProgressMonitor monitor )
+    throws ProblemException
+  {
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getDeploymentServices( monitor ) : new ICloudDeploymentService[ 0 ];
   }
 }

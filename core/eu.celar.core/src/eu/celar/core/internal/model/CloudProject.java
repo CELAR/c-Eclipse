@@ -17,14 +17,12 @@ package eu.celar.core.internal.model;
 
 import java.util.List;
 
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -60,16 +58,19 @@ import eu.celar.core.reporting.ProblemException;
 public class CloudProject extends ResourceCloudContainer implements ICloudProject {
   
   /**
-   * ID of the preference node for cloud projects.
+   * ID of the preference node for Cloud Projects.
    */
   public static final String PROJECT_NODE = "eu.celar.core"; //$NON-NLS-1$
   
   /**
-   * ID of the preference folder node for cloud projects.
+   * ID of the preference folder node for Cloud Projects.
    */
   public static final String PROJECT_FOLDER_NODE = "eu.celar.core.folders"; //$NON-NLS-1$
   
-  private static final String CLOUD_PROVIDER_ATTRIBUTE = "cloud-provider"; //$NON-NLS-1$
+  /**
+   * ID of the preference Cloud Provider node for Cloud Projects
+   */
+  public static final String CLOUD_PROVIDER_ATTRIBUTE = "cloud-provider"; //$NON-NLS-1$
   
   private static final QualifiedName PROJECT_FOLDER_ID_QN
     = new QualifiedName( Activator.PLUGIN_ID, "cloud.project.folder.id" ); //$NON-NLS-1$
@@ -325,13 +326,13 @@ public class CloudProject extends ResourceCloudContainer implements ICloudProjec
     try {
       
       projectNode.sync();
-      String voName = projectNode.get( CLOUD_PROVIDER_ATTRIBUTE, null );
+      String cpName = projectNode.get( CLOUD_PROVIDER_ATTRIBUTE, null );
       this.cloudProvider = null;
-      CloudProviderManager voManager = CloudProviderManager.getManager();
-      if ( voName != null ) {
-        ICloudProvider globalVo = ( ICloudProvider ) voManager.findChild( voName );
-        if ( globalVo != null ) {
-          this.cloudProvider = new ProjectCloudProvider( this, globalVo );
+      CloudProviderManager cloudProviderManager = CloudProviderManager.getManager();
+      if ( cpName != null ) {
+        ICloudProvider globalClourProvider = ( ICloudProvider ) cloudProviderManager.findChild( cpName );
+        if ( globalClourProvider != null ) {
+          this.cloudProvider = new ProjectCloudProvider( this, globalClourProvider );
           addElement( this.cloudProvider );
         }
       }

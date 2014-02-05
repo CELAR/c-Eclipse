@@ -17,8 +17,18 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.search;bundle-version="3.8.0",
  eu.celar.tosca;bundle-version="1.0.0",
  org.eclipse.core.expressions,
- eu.celar.tosca.editor
+ eu.celar.tosca.editor,
+ org.eclipse.ui.cheatsheets;bundle-version="3.4.200",
+ org.eclipse.help;bundle-version="3.6.0",
+ org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: eu.celar.tosca.core,
+Import-Package: com.amazonaws.services.ec2,
+ eu.celar.connectors.aws,
+ eu.celar.connectors.aws.operation,
+ eu.celar.tosca.core,
  org.eclipse.ui.actions
+Export-Package: eu.celar.ui,
+ eu.celar.ui.dialogs,
+ eu.celar.ui.wizards,
+ eu.celar.ui.wizards.wizardselection

@@ -1,131 +1,194 @@
 package eu.celar.ui.wizards;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import eu.celar.connectors.aws.EC2Client;
+import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
+import eu.celar.connectors.aws.operation.OperationExecuter;
+import eu.celar.core.model.ICloudDeploymentService;
+import eu.celar.core.model.ICloudProject;
+import eu.celar.core.reporting.ProblemException;
+import eu.celar.tosca.core.TOSCAModel;
+import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.editor.Activator;
+import eu.celar.ui.dialogs.ProblemDialog;
 
+/**
+ * @author Nicholas Loulloudes
+ */
+public class NewDeploymentWizard extends Wizard implements INewWizard {
 
-public class NewDeploymentWizard extends Wizard implements INewWizard{
+  private List<ICloudDeploymentService> deploymentServices = null;
+  private TOSCAResource deploymentFile = null;
+  private IStructuredSelection selection = null;
+  private NewSubmissionWizardSecondPage secondPage = null;
+  private TOSCAModel toscaModel;
 
-  private IStructuredSelection selection;
-  private NewSubmissionWizardSecondPage secondPage;
-  
-  private IFile deploymentFile;
-  private String deploymentString;
-  
-  @Override
-  public void init( IWorkbench workbench, IStructuredSelection selection ) {
-    setWindowTitle( Messages.getString( "NewApplicationSubmissionWizard.windowTitle" ) ); //$NON-NLS-1$
-    this.selection = selection;
-    Object tempFile = this.selection.getFirstElement();
-    this.deploymentFile = (IFile) tempFile;
+  public NewDeploymentWizard() {
+    setNeedsProgressMonitor( true );
+    setForcePreviousAndNextButtons( true );
   }
-  
-  @Override
-  public void addPages() {
-    
-    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" )); //$NON-NLS-1$
-    this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
-    this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
-    addPage( this.secondPage );
 
-  }
-  
+  /*
+   * (non-Javadoc)
+   * @see org.eclipse.jface.wizard.Wizard#performFinish()
+   */
   @Override
   public boolean performFinish() {
-	  
-    //Convert Deployment file to String
-
-	    Object tempFile = this.selection.getFirstElement();
-	    this.deploymentFile = (IFile) tempFile;
-	    
-	    //Convert TOSCA Application Description file to String
-	    BufferedReader br = null;
-	    StringBuilder sb = new StringBuilder();
-	    String line;
-	    
-	    try {
-	      br = new BufferedReader(new InputStreamReader(this.deploymentFile.getContents()));
-	    } catch( CoreException e1 ) {
-	      // TODO Auto-generated catch block
-	      e1.printStackTrace();
-	    }
-
-	    try {
-	      while ((line = br.readLine()) != null) {
-	          sb.append(line);
-	      }
-	    } catch( IOException e1 ) {
-	      // TODO Auto-generated catch block
-	      e1.printStackTrace();
-	    }
-	    
-	    this.deploymentString = sb.toString();
-    
-	    String ycsbPattern = "ycsbmulti="+"\"";
-	    String[] ycsb = this.deploymentString.split(ycsbPattern);
-	    Integer ycsbMulti1 = Integer.parseInt(ycsb[1].substring(0, ycsb[1].indexOf("\"")));
-	    Integer ycsbMulti2 = Integer.parseInt(ycsb[2].substring(0, ycsb[2].indexOf("\"")));    
-	    Integer ycsbMulti;
-	    if (ycsbMulti1!=1)
-	    	ycsbMulti = ycsbMulti1;
-	    else if (ycsbMulti2!=1)
-	    	ycsbMulti = ycsbMulti2;
-	    else
-	    	ycsbMulti = 1;
-	    
-	    String casPattern = "casmulti="+"\"";
-	    String[] cas = this.deploymentString.split(casPattern);
-	    Integer casMulti1 = Integer.parseInt(cas[1].substring(0, cas[1].indexOf("\"")));
-	    Integer casMulti2 = Integer.parseInt(cas[2].substring(0, cas[2].indexOf("\"")));   
-	    Integer casMulti;
-	    if (casMulti1!=1)
-	    	casMulti = casMulti1;
-	    else if (casMulti2!=1)
-	    	casMulti = casMulti2;
-	    else
-	    	casMulti = 1;
-	    
-    //Deploy Cassandra application using HTTP
-    URL url = null;
-    HttpURLConnection connection = null;
     try {
-      url = new URL ("http://83.212.116.50:8080/celar-server-api/deployment/deploy/?" + "casmulti=" + casMulti + "&ycsbmulti=" + ycsbMulti);
-  
-      connection = (HttpURLConnection) url.openConnection();
+      getContainer().run( false, false, new IRunnableWithProgress() {
 
-      connection.setRequestMethod( "GET" );
-      
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      String inputLine;
-      while ((inputLine = in.readLine()) != null) {
-          System.out.println(inputLine);
-      }
-      in.close();
-      
-      connection.disconnect();
-      
-    } catch( MalformedURLException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch( IOException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+        @Override
+        public void run( final IProgressMonitor monitor )
+          throws InvocationTargetException, InterruptedException
+        {
+          EC2OpDeployApplication deployOperation = null;
+          try {
+            monitor.beginTask( "Deploying VMIs", 2 );
+            deployOperation = new EC2OpDeployApplication( EC2Client.getEC2(),
+                                                          NewDeploymentWizard.this.deploymentFile );
+            if( deployOperation.getException() != null ) {
+              throw deployOperation.getException();
+            }
+            new OperationExecuter().execOp( deployOperation );
+          } catch( Exception e ) {
+            e.printStackTrace( );
+            
+          } finally {
+            monitor.done();
+          }
+        }
+      } );
+    } catch (final Exception ex) {
+      ex.printStackTrace();
+//      Display display = PlatformUI.getWorkbench().getDisplay();
+//      display.asyncExec( new Runnable() {
+//
+//        public void run() {
+//          IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
+//            .getActiveWorkbenchWindow();
+//          ProblemDialog.openProblem( workbenchWindow.getShell(),
+//                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_title"), //$NON-NLS-1$
+//                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_description"), //$NON-NLS-1$
+//                                     ex );
+//        }
+//      } );
+      return false;
     }
 
     return true;
-    
   }
 
+  @Override
+  public void addPages() {
+    this.deploymentServices = new ArrayList<ICloudDeploymentService>();
+    getDeploymentServicesJob();
+    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" ) ); //$NON-NLS-1$
+    this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
+    this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
+    addPage( this.secondPage );
+  }
+
+  /**
+   * 
+   */
+  private void getDeploymentServicesJob() {
+    Job job = new Job( "Retrieving list of job services" ) {
+
+      @Override
+      protected IStatus run( final IProgressMonitor monitor ) {
+        // assert JobCreatorSelectionWizard.this.jobDescriptions != null;
+        // assert JobCreatorSelectionWizard.this.jobDescriptions.get( 0 ) !=
+        // null;
+        ICloudDeploymentService[] allServices = null;
+        ICloudProject project = NewDeploymentWizard.this.deploymentFile.getProject();
+        assert project != null;
+        assert project.getCloudProvider() != null;
+        try {
+          allServices = project.getCloudProvider().getDeploymentServices( null );
+          boolean valid;
+          for( ICloudDeploymentService service : allServices ) {
+            valid = true;
+            if( !service.canDeploy( NewDeploymentWizard.this.deploymentFile ) )
+            {
+              valid = false;
+            }
+            if( valid == true ) {
+              NewDeploymentWizard.this.deploymentServices.add( service );
+            }
+          }
+          IWorkbench workbench = PlatformUI.getWorkbench();
+          Display display = workbench.getDisplay();
+          display.syncExec( new Runnable() {
+
+            public void run() {
+              // List<IGridJobService> synchronizedList =
+              // Collections.synchronizedList( jobServices );
+              NewDeploymentWizard.this.secondPage.setServices( NewDeploymentWizard.this.deploymentServices );
+            }
+          } );
+        } catch( ProblemException e ) {
+          return Status.CANCEL_STATUS;
+        }
+        return Status.OK_STATUS;
+      }
+    };
+    job.setUser( true );
+    job.schedule();
+  }
+
+  @Override
+  public boolean canFinish() {
+    return super.canFinish();
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
+   * org.eclipse.jface.viewers.IStructuredSelection)
+   */
+  @Override
+  public void init( final IWorkbench workbench,
+                    final IStructuredSelection selection )
+  {
+    setWindowTitle( Messages.getString( "NewApplicationSubmissionWizard.windowTitle" ) ); //$NON-NLS-1$
+    this.selection = selection;
+    Object obj = this.selection.getFirstElement();
+    if( obj instanceof TOSCAResource ) {
+      this.deploymentFile = ( TOSCAResource )obj;
+      this.toscaModel = this.deploymentFile.getTOSCAModel();
+    }
+    // if (obj instanceof IFile){
+    // IFile file = (IFile) obj;
+    // ICloudElement element = CloudModel.getRoot().findElement( file );
+    //
+    // if( element instanceof TOSCAResource ) {
+    // this.deploymentFile = ( TOSCAResource )element;
+    // this.toscaModel = this.deploymentFile.getTOSCAModel();
+    // }
+    // }
+  }
+
+  /**
+   * @return
+   */
+  public ICloudDeploymentService getDeploymentService() {
+    return this.secondPage.getCloudDeploymentService();
+  }
 }

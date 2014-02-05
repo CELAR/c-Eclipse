@@ -4,6 +4,8 @@
    <extension-point id="cloudElementCreator" name="Cloud Element Creator" schema="schema/cloudElementCreator.exsd"/>
    <extension-point id="cloudProjectFolder" name="%extension-point.cloudProjectFolder" schema="schema/cloudProjectFolder.exsd"/>
 	<extension-point id="cloudResourceCategory" name="%extension-point.clourResourceCategory" schema="schema/cloudResourceCategory.exsd"/>
+ <extension-point id="authTokenProvider" name="Authentication Token Provider" schema="schema/authTokenProvider.exsd"/>
+ <extension-point id="authTokens" name="Authentication Tokens" schema="schema/authTokens.exsd"/>
 	
 	<extension
          id="eu.celar.core.project.CloudProjectBuilder"
@@ -23,9 +25,60 @@
    </extension>
   <extension
      point="org.eclipse.core.runtime.preferences">
+     <scope
+           class="eu.celar.core.project.CloudProjectScope"
+           name="eu.celar.core.projectScope">
+     </scope>
    </extension>
    <extension
          point="eu.celar.core.reporting.problemReporting">
+               <problem
+            description="Token request canceled"
+            id="eu.celar.core.problem.auth.tokenRequestCanceled">
+      </problem>
+      <problem
+            description="Unable to create credential"
+            id="eu.celar.core.problem.auth.credentialCreateFailed"
+            mailto="">
+      </problem>
+      <problem
+            description="Unable to save credential"
+            id="eu.celar.core.problem.auth.credentialSaveFailed"
+            mailto="">
+      </problem>
+      <problem
+            description="Invalid token description"
+            id="eu.celar.core.problem.auth.invalidTokenDescription"
+            mailto="">
+      </problem>
+      <problem
+            description="Unable to load key file"
+            id="eu.celar.core.problem.auth.keyLoadFailed"
+            mailto="">
+      </problem>
+      <problem
+            description="Login failed"
+            id="eu.celar.core.problem.auth.loginFailed">
+      </problem>
+      <problem
+            description="Permission denied"
+            id="eu.celar.core.problem.auth.permissionDenied">
+      </problem>
+      <problem
+            description="Unable to activate token"
+            id="eu.celar.core.problem.auth.tokenActivateFailed"
+            mailto="">
+      </problem>
+      <problem
+            description="Authentication token has not been activated yet"
+            id="eu.celar.core.problem.auth.tokenNotYetValid"
+            mailto="">
+      </problem>
+      <problem
+            description="Failed to get an authentication token"
+            id="eu.celar.core.problem.auth.didNotGetToken"
+            mailto="">
+      </problem>
       <problem
             description="Corrupted file"
             id="eu.celar.core.problem.io.corruptedFile">
@@ -105,6 +158,20 @@
             description="The VO import failed for one or more VOs"
             id="eu.celar.core.problem.vo.importFailed">
       </problem>
+   </extension>
+   <extension
+         point="eu.celar.core.authTokenProvider">
+      <provider
+            class="eu.celar.core.auth.CoreAuthTokenProvider"
+            priority="0">
+      </provider>
+   </extension>
+   <extension
+         point="eu.celar.core.cloudResourceCategory">
+      <category
+            id="eu.celar.core.model.category.services.deployment"
+            name="Cloud Application Deployment Services">
+      </category>
    </extension>
    
 </plugin>

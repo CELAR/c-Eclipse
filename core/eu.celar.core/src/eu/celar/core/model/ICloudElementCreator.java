@@ -22,7 +22,7 @@ import eu.celar.core.reporting.ProblemException;
  * Base interface for all classes that implement functionality for
  * creating specific implementations of the {@link ICloudElement}
  * interface. Element creators and their capabilities to create elements from
- * a source object are specified with the eu.geclipse.core.CloudElementCreator
+ * a source object are specified with the eu.celar.core.CloudElementCreator
  * extension point. Normally an element creator needs a source object from
  * which it creates a corresponding Cloud model element. This source object has
  * to be set with {@link #setSource(Object)}.

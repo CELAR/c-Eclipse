@@ -40,6 +40,13 @@ public class TOSCAResource extends ResourceCloudContainer implements ICloudAppli
       e.printStackTrace();
     }
   }
+  
+  /**
+   * @return the complete TOSCAModel
+   */
+  public TOSCAModel getTOSCAModel(){
+    return this.model;
+  }
 
   @Override
   public String getApplicationName() {

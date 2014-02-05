@@ -126,4 +126,5 @@ public interface ICloudElement extends IAdaptable {
   public boolean isVirtual();
   
   
+  
 }

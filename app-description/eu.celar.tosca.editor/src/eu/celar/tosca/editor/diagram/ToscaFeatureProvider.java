@@ -41,6 +41,7 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.features.AddApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddBidirectionalRelationFeature;
 import eu.celar.tosca.editor.features.AddGroupFeature;
+import eu.celar.tosca.editor.features.AddKeyPairFeature;
 import eu.celar.tosca.editor.features.AddMonitorProbeFeature;
 import eu.celar.tosca.editor.features.AddResizingActionFeature;
 import eu.celar.tosca.editor.features.AddServiceTemplateFeature;
@@ -51,6 +52,7 @@ import eu.celar.tosca.editor.features.CreateApplicationComponentFeature;
 import eu.celar.tosca.editor.features.CreateBidirectionalRelationFeature;
 import eu.celar.tosca.editor.features.CreateDirectedRelationFeature;
 import eu.celar.tosca.editor.features.CreateGroupFeature;
+import eu.celar.tosca.editor.features.CreateKeyPairFeature;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
 import eu.celar.tosca.editor.features.CreateServiceTemplateFeature;
@@ -87,12 +89,14 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     } else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
     } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
-      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
-        return new AddVirtualMachineFeature( this );
-      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
+      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
           return new AddUserApplicationFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "SD" )==0)
           return new AddSoftwareDependencyFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
+          return new AddVirtualMachineFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
+        return new AddKeyPairFeature( this );;
     } else if( context.getNewObject() instanceof MonitoringProbe ) {
       return new AddMonitorProbeFeature( this );
     } else if( context.getNewObject() instanceof ResizingAction ) {
@@ -119,7 +123,8 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       new CreateServiceTemplateFeature( this ),
       new CreateResizeActionFeature( this ),
       new CreateUserApplicationFeature( this ),
-      new CreateGroupFeature( this )
+      new CreateGroupFeature( this ),
+      new CreateKeyPairFeature( this )
     };
   }
 

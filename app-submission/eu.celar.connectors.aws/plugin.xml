@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         name="AWS Element Creators"
+         point="eu.celar.core.cloudElementCreator">
+      <creator
+            class="eu.celar.connectors.aws.AWSCloudProviderCreator"
+            id="eu.celar.connectors.aws.awsCloudProviderCreator"
+            name="AWS Cloud Provider"
+            wizard="eu.celar.connectors.aws.ui.wizards.awsCloudProviderWizard">
+         <source
+               class="org.eclipse.core.filesystem.IFileStore"
+               matcher="eu.celar.connectors.aws.AWSCloudProviderCreator">
+         </source>
+         <target
+               class="eu.celar.connectors.aws.AWSCloudProvider"
+               name="AWS">
+         </target>
+      </creator>
+      <creator
+            class="eu.celar.connectors.aws.AWSDeploymentServiceCreator"
+            id="eu.celar.connectors.aws.AWSDeploymentServiceCreator"
+            name="AWS Application Deployment Service">
+         <target
+               class="eu.celar.connectors.aws.AWSApplicationDeploymentService"
+               name="AWS Deployment Service">
+         </target>
+         <source
+               class="java.net.URI">
+         </source>
+         <source
+               class="org.eclipse.core.filesystem.IFileStore">
+         </source>
+      </creator>
+   </extension>
+   <extension
+         point="eu.celar.core.authTokens">
+      <token
+            description="eu.celar.connectors.aws.auth.AWSAuthTokenDescription"
+            id="eu.celar.connectors.aws.authToken"
+            name="AWS Credentials"
+            wizard="eu.celar.connectors.aws.ui.wizards.awsAuthTokenWizard">
+      </token>
+   </extension>
+
+
+</plugin>

@@ -1,5 +1,7 @@
 package eu.celar.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -10,11 +12,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import eu.celar.core.model.ICloudDeploymentService;
+
 
 public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyListener {
   
   private CCombo cmbCloudProvider;
   Composite container;
+  private List<ICloudDeploymentService> deploymentServices;
 
   protected NewSubmissionWizardSecondPage( String pageName ) {
     super( pageName );
@@ -24,14 +29,14 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
   @Override
   public void createControl( Composite parent ) {
 
-    container = new Composite( parent, SWT.NONE );
+    this.container = new Composite( parent, SWT.NONE );
     GridLayout gLayout = new GridLayout( 2, false );
     gLayout.horizontalSpacing = 10;
     gLayout.verticalSpacing = 12;
-    container.setLayout( gLayout );
+    this.container.setLayout( gLayout );
     
     // Optimization Policy Label
-    Label lblOptimizationPolicy = new Label( container,
+    Label lblOptimizationPolicy = new Label( this.container,
                                              GridData.HORIZONTAL_ALIGN_BEGINNING
                                                  | GridData.VERTICAL_ALIGN_CENTER );
     lblOptimizationPolicy.setText( Messages.getString( "NewSubmissionWizardSecondPage.cloudProviderLabel" ) ); //$NON-NLS-1$
@@ -39,19 +44,21 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     layout.horizontalAlignment = GridData.FILL;
     lblOptimizationPolicy.setLayoutData( layout );
     // Combo - Policy
-    this.cmbCloudProvider = new CCombo( container, SWT.BORDER );
+    this.cmbCloudProvider = new CCombo( this.container, SWT.BORDER );
     this.cmbCloudProvider.setEnabled( true );
     layout = new GridData();
     layout.horizontalAlignment = GridData.FILL;
     layout.horizontalSpan = 2;
     this.cmbCloudProvider.setLayoutData( layout );
-    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 0 ); //$NON-NLS-1$
-    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 1 ); //$NON-NLS-1$
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
+//    
     this.cmbCloudProvider.setEditable( false );
     
     this.cmbCloudProvider.addModifyListener( this );
     
-    setControl( container );
+    setControl( this.container );
   }
   
   protected boolean validatePage() {
@@ -69,10 +76,26 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
       validatePage();
   }
   
+  public void setServices (final List<ICloudDeploymentService> deploymentServices){    
+    setMessage( null );
+    this.deploymentServices = deploymentServices;
+    
+    for (ICloudDeploymentService service : this.deploymentServices) {
+      this.cmbCloudProvider.add( service.getName() );
+    }
+
+    
+  }
+  
   /**
    * @return the Cloud Provider
    */
-  public String getCloudProvider() {
-    return this.cmbCloudProvider.getText();
+  public ICloudDeploymentService getCloudDeploymentService() {
+    ICloudDeploymentService service = null;
+    int index = this.cmbCloudProvider.getSelectionIndex();
+    if( index != -1 ) {
+      service = this.deploymentServices.get( index );
+    }
+    return service;
   }
 }

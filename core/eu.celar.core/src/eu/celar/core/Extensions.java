@@ -214,4 +214,65 @@ public class Extensions {
    */
   public static final String PROJECT_FOLDER_ICON_ATTRIBUTE
     = "icon"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the authentication token extension point.
+   */
+  public static final String AUTH_TOKEN_POINT
+    = "eu.celar.core.authTokens"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the authentication token configuration element contained
+   * in the authentication token management extension point. 
+   */
+  public static final String AUTH_TOKEN_ELEMENT
+    = "token"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the name attribute of the token element of the
+   * authentication token extension point.
+   */
+  public static final String AUTH_TOKEN_NAME_ATTRIBUTE
+    = "name"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the wizard attribute of the token element of the
+   * authentication token extension point.
+   */
+  public static final String AUTH_TOKEN_WIZARD_ATTRIBUTE
+    = "wizard"; //$NON-NLS-1$
+
+  /**
+   * The ID of the executable extension of the authentication token description
+   * configuration element.
+   */
+  public static final String AUTH_TOKEN_DESCRIPTION_EXECUTABLE
+    = "description"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the authentication token provider extension point.
+   */
+  public static final String AUTH_TOKEN_PROVIDER_POINT
+    = "eu.celar.core.authTokenProvider"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the authentication token provider configuration element
+   * contained in the authentication token management extension point. 
+   */
+  public static final String AUTH_TOKEN_PROVIDER_ELEMENT
+    = "provider"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the executable extension of the authentication token
+   * provider element.
+   */
+  public static final String AUTH_TOKEN_PROVIDER_EXECUTABLE
+    = "class"; //$NON-NLS-1$
+  
+  /**
+   * The ID of the priority attribute of the provider element of the
+   * authentication token provider extension point.
+   */
+  public static final String AUTH_TOKEN_PROVIDER_PRIORITY_ATTRIBUTE
+    = "priority"; //$NON-NLS-1$
 }

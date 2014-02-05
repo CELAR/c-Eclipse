@@ -34,6 +34,10 @@
                class="eu.celar.tosca.core.TOSCAResource"
                name="TOSCA App Description">
          </target>
+         <source
+               class="org.eclipse.core.resources.IFile"
+               pattern=".*\.deployment">
+         </source>
       </creator>
    </extension>
 

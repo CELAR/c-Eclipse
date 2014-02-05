@@ -68,6 +68,15 @@ public interface InfoSystemFactory extends EFactory
   UserApplication createUserApplication();
 
   /**
+   * Returns a new object of class '<em>Key Pair</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Key Pair</em>'.
+   * @generated
+   */
+  KeyPair createKeyPair();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

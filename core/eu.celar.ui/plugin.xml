@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="propertiesFactory" name="propertiesFactory" schema="schema/PropertiesFactory.exsd"/>
+   <extension-point id="authTokenUI" name="Authentication Token UI Contributions" schema="schema/authTokenUI.exsd"/>
+   <extension-point id="newCloudProviderWizards" name="eu.celar.ui.newCloudProviderWizards" schema="schema/newCloudProviderWizards.exsd"/>
+   
 
    <extension
          point="org.eclipse.ui.views">
@@ -14,6 +18,14 @@
             category="eu.celar.ui"
             class="eu.celar.ui.views.CloudProjectView"
             id="eu.celar.ui.views.CloudProjectView">
+      </view>
+      <view
+            category="eu.celar.ui"
+            class="eu.celar.ui.views.AuthTokenView"
+            icon="icons/eview16/authtokens.gif"
+            id="eu.celar.ui.views.authenticationTokenView"
+            name="Authentication Token UI"
+            restorable="true">
       </view>
    </extension>
    <extension
@@ -49,6 +61,14 @@
                   name="eu.celar.core.model.ICloudContainer">
             </objectClass></enablement>
       </decorator>
+   </extension>
+   
+      <extension
+         point="eu.celar.core.authTokenProvider">
+      <provider
+            class="eu.celar.ui.UIAuthTokenProvider"
+            priority="999">
+      </provider>
    </extension>
    
       <extension
@@ -217,5 +237,27 @@
                id="eu.celar.ui.NatureImage"
                natureId="eu.celar.core.project.CloudProjectNature">
          </image>
+      </extension>
+      <extension
+            point="org.eclipse.ui.preferencePages">
+         <page
+               class="eu.celar.ui.internal.preference.CEclipsePreferencePage"
+               id="eu.celar.ui.internal.preference.CEclipsePreferencePage"
+               name="c-Eclipse">
+         </page>
+         <page
+               category="eu.celar.ui.internal.preference.CEclipsePreferencePage"
+               class="eu.celar.ui.internal.preference.CloudProviderPreferencePage"
+               id="eu.celar.ui.internal.preference.CloudProviderPreferencePage"
+               name="Cloud Providers">
+         </page>
+      </extension>
+      <extension
+            point="eu.celar.ui.newCloudProviderWizards">
+         <wizard
+               class="eu.celar.ui.wizards.GenericCloudProviderWizard"
+               id="eu.celar.ui.wizards.GenericCloudProviderWizard"
+               name="Generic Cloud Provider">
+         </wizard>
       </extension>
 </plugin>

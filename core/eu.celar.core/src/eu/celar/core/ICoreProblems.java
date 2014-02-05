@@ -60,4 +60,26 @@ public interface ICoreProblems {
     = "eu.celar.core.problem.io.operationFailed"; //$NON-NLS-1$
   public static final String IO_UNSPECIFIED_PROBLEM
     = "eu.celar.core.problem.io.unspecified"; //$NON-NLS-1$
+  
+  // Auth
+  public static final String AUTH_CERTIFICATE_LOAD_FAILED
+    = "eu.celar.core.problem.auth.certificateLoadFailed"; //$NON-NLS-1$
+  public static final String AUTH_CREDENTIAL_CREATE_FAILED
+    = "eu.celar.core.problem.auth.credentialCreateFailed"; //$NON-NLS-1$
+  public static final String AUTH_CREDENTIAL_SAVE_FAILED
+    = "eu.celar.core.problem.auth.credentialSaveFailed"; //$NON-NLS-1$
+  public static final String AUTH_INVALID_TOKEN_DESCRIPTION
+    = "eu.celar.core.problem.auth.invalidTokenDescription"; //$NON-NLS-1$
+  public static final String AUTH_KEY_LOAD_FAILED
+    = "eu.celar.core.problem.auth.keyLoadFailed"; //$NON-NLS-1$
+  public static final String AUTH_LOGIN_FAILED
+    = "eu.celar.core.problem.auth.loginFailed"; //$NON-NLS-1$
+  public static final String AUTH_PERMISSION_DENIED
+    = "eu.celar.core.problem.auth.permissionDenied"; //$NON-NLS-1$  
+  public static final String AUTH_TOKEN_ACTIVATE_FAILED
+    = "eu.celar.core.problem.auth.tokenActivateFailed"; //$NON-NLS-1$
+  public static final String AUTH_TOKEN_NOT_YET_VALID
+    = "eu.celar.core.problem.auth.tokenNotYetValid"; //$NON-NLS-1$
+  public static final String AUTH_TOKEN_REQUEST_CANCELED
+    = "eu.celar.core.problem.auth.tokenRequestCanceled"; //$NON-NLS-1$
 }

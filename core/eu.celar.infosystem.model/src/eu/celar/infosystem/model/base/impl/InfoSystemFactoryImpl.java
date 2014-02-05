@@ -31,7 +31,7 @@ public class InfoSystemFactoryImpl extends EFactoryImpl implements InfoSystemFac
   {
     try
     {
-      InfoSystemFactory theInfoSystemFactory = (InfoSystemFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.org/InfoSystem"); 
+      InfoSystemFactory theInfoSystemFactory = (InfoSystemFactory)EPackage.Registry.INSTANCE.getEFactory(InfoSystemPackage.eNS_URI);
       if (theInfoSystemFactory != null)
       {
         return theInfoSystemFactory;
@@ -70,6 +70,7 @@ public class InfoSystemFactoryImpl extends EFactoryImpl implements InfoSystemFac
       case InfoSystemPackage.SOFTWARE_DEPENDENCY: return createSoftwareDependency();
       case InfoSystemPackage.VIRTUAL_MACHINE_IMAGE: return createVirtualMachineImage();
       case InfoSystemPackage.USER_APPLICATION: return createUserApplication();
+      case InfoSystemPackage.KEY_PAIR: return createKeyPair();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -166,6 +167,17 @@ public class InfoSystemFactoryImpl extends EFactoryImpl implements InfoSystemFac
   {
     UserApplicationImpl userApplication = new UserApplicationImpl();
     return userApplication;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public KeyPair createKeyPair()
+  {
+    KeyPairImpl keyPair = new KeyPairImpl();
+    return keyPair;
   }
 
   /**

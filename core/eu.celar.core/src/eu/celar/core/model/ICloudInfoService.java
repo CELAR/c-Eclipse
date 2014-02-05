@@ -17,7 +17,6 @@ package eu.celar.core.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import eu.celar.core.model.impl.AbstractInfoStore;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -25,26 +24,18 @@ import eu.celar.core.reporting.ProblemException;
  * An info service provides access to an information service
  * of a specific Cloud Provider
  */
-public interface ICloudInfoService extends ICloudResource {
-  
-  
-  public AbstractInfoStore getInfoStore();
-  
-  /**
-   * 
-   * @param cp The Cloud provide
-   */
-  public void setCloudProvider (final ICloudProvider cp);
-  
-  public void scheduleFetch (final IProgressMonitor monitor);
+public interface ICloudInfoService extends ICloudService {
+
   
   public ICloudResource[] fetchResources( final ICloudContainer parent,
                                           final ICloudProvider cp,
+                                          final ICloudResourceCategory category,
                                           final IProgressMonitor monitor )
     throws ProblemException;
   
   public ICloudResource[] fetchResources( final ICloudContainer parent,
                                          final ICloudProvider cp,
+                                         final ICloudResourceCategory category,
                                          final boolean exclusive,
                                          final Class< ? extends ICloudResource > typeFilter,
                                          final IProgressMonitor monitor ) 

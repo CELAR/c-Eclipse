@@ -28,6 +28,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: eu.celar.core.reporting,
  eu.celar.infosystem.mockup.info,
+ org.eclipse.core.filesystem,
+ org.eclipse.core.internal.filesystem.local,
  org.eclipse.ui.part
 Export-Package: eu.celar.tosca.editor,
  eu.celar.tosca.editor.diagram,

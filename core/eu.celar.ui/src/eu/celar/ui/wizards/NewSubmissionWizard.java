@@ -1,44 +1,23 @@
 package eu.celar.ui.wizards;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.xml.sax.SAXException;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudContainer;
+import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProject;
 import eu.celar.core.reporting.ProblemException;
+import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.core.TOSCAModel;
+import eu.celar.tosca.core.TOSCAResource;
 
 
 public class NewSubmissionWizard extends Wizard implements INewWizard{
@@ -46,14 +25,14 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   private IStructuredSelection selection;
   private NewSubmissionWizardFirstPage firstPage;
   private NewSubmissionWizardSecondPage secondPage;
-  private String toscaString;
+//  private String toscaString;
   
   //private File deploymentfile;
   private IFile deploymentFile;
-  private IFile toscaFile;
+//  private IFile toscaFile;
 
   @Override
-  public void init( IWorkbench workbench, IStructuredSelection selection ) {
+  public void init( final IWorkbench workbench, final IStructuredSelection selection ) {
     setWindowTitle( Messages.getString( "NewApplicationSubmissionWizard.windowTitle" ) ); //$NON-NLS-1$
     this.selection = selection;
   }
@@ -61,7 +40,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   @Override
   public void addPages() {
 
-    this.firstPage = new NewSubmissionWizardFirstPage( Messages.getString( "NewSubmissionWizardFirstPage.pageName" ), selection ); //$NON-NLS-1$
+    this.firstPage = new NewSubmissionWizardFirstPage( Messages.getString( "NewSubmissionWizardFirstPage.pageName" ), this.selection ); //$NON-NLS-1$
     this.firstPage.setTitle( Messages.getString( "NewSubmissionWizardFirstPage.pageTitle" ) ); //$NON-NLS-1$
     this.firstPage.setDescription( Messages.getString( "NewSubmissionWizardFirstPage.pageDescription" ) ); //$NON-NLS-1$
     addPage( this.firstPage );
@@ -91,35 +70,41 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
 //      return false;
 
 	  
+    Object obj = this.selection.getFirstElement();
+    
+    if( obj instanceof TOSCAResource )  {
+      // Create Application Deployment file
+      createDeploymentFile( ( TOSCAResource ) obj );
+    }
+       
 
-    Object tempFile = this.selection.getFirstElement();
-    this.toscaFile = (IFile) tempFile;
+//    this.toscaFile = (IFile) selection;
     
     //Convert TOSCA Application Description file to String
-    BufferedReader br = null;
-    StringBuilder sb = new StringBuilder();
-    String line;
+//    BufferedReader br = null;
+//    StringBuilder sb = new StringBuilder();
+//    String line;
+//    
+//    try {
+//      br = new BufferedReader(new InputStreamReader(this.toscaFile.getContents()));
+//    } catch( CoreException e1 ) {
+//      // TODO Auto-generated catch block
+//      e1.printStackTrace();
+//    }
+//
+//    try {
+//      while ((line = br.readLine()) != null) {
+//          sb.append(line);
+//      }
+//    } catch( IOException e1 ) {
+//      // TODO Auto-generated catch block
+//      e1.printStackTrace();
+//    }
+//    
+//    this.toscaString = sb.toString();
     
-    try {
-      br = new BufferedReader(new InputStreamReader(this.toscaFile.getContents()));
-    } catch( CoreException e1 ) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
 
-    try {
-      while ((line = br.readLine()) != null) {
-          sb.append(line);
-      }
-    } catch( IOException e1 ) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-    
-    this.toscaString = sb.toString();
-    
-    // Create Application Deployment file
-    createDeploymentFile();
+
 
     
 //    
@@ -164,74 +149,84 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   }
   
   // Creates the Application Deployment file
-  public boolean createDeploymentFile() {
-         
+  public boolean createDeploymentFile( final TOSCAResource resource ) {
+    
     String fileName = this.firstPage.getFileName();
     IPath path = new Path( fileName );
     fileName = path.removeFileExtension()
       .addFileExtension( "deployment" )
       .lastSegment();
+    
     this.firstPage.setFileName( fileName );
-   
-
-    boolean fileCreated = false; 
+    
+    boolean fileCreated = false;
         
-   IProject project = this.toscaFile.getProject();
-   IFile file = project.getFile( new Path("/Application Submissions/" +  fileName));
-   try {
-	file.create(new ByteArrayInputStream(this.toscaString.getBytes()), false, null);
-	fileCreated  = true;
-	} catch (CoreException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+    IProject project = resource.getProject().getResource().getProject();
+    
+    IFile file = project.getFile( "/Application Submissions/" + fileName );
+    
+    try {
+      DocumentRoot model = resource.getTOSCAModel().getDocumentRoot();            
+      TOSCAModel.saveModelToFile( file, model );  
+    } catch( Exception e ) {
+      e.printStackTrace();
+    }
+    
 
-   this.deploymentFile = file;
-
-    		
-   	IProgressMonitor monitor = null;
+    
+//    try {
+//      file.create( new ByteArrayInputStream( this.toscaString.getBytes() ),
+//                   false,
+//                   null );
+//      fileCreated = true;
+//    } catch( CoreException e1 ) {
+//      e1.printStackTrace();
+//    }
+    
+    this.deploymentFile = file;
+    
+    IProgressMonitor monitor = null;
     try {
       CloudModel.getRoot().refresh( monitor );
     } catch( ProblemException e ) {
       e.printStackTrace();
     }
     return fileCreated;
-    
   }
   
-  // Validates TOSCA file before passing it to CELAR Server
-  boolean validateTOSCA() throws IOException, SAXException{
-    // 1. Specify you want a factory for RELAX NG
-    SchemaFactory factory 
-     = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    
-    // Load the specific schema you want. 
-    
-    File schemaLocation = new File("/Users/stalo.cs8526/git/c-Eclipse/app-description/eu.celar.tosca/model/NewXMLSchema.xsd");
-    // Compile the schema.
-    Schema schema = factory.newSchema(schemaLocation);
-    
-    //URL schemaFile = new URL("http://docs.oasis-open.org/tosca/TOSCA/v1.0/cs01/schemas/TOSCA-v1.0.xsd");
-    //Schema schema = factory.newSchema(schemaFile);
-
-    // Get a validator from the schema.
-    Validator validator = schema.newValidator();
-    
-    // Parse the document you want to check.
-    IFile ifile = this.toscaFile; 
-    
-    File input = new File(ifile.getLocation().toOSString());
-
-    // Check the document
-    try {
-        validator.validate( new StreamSource( input) );
-        System.out.println("TOSCA is valid.");
-    }
-    catch (SAXException ex) {
-        System.out.println("TOSCA is not valid because ");
-        System.out.println(ex.getMessage());
-        return false;
-    }  
-    return true;
-  }
+//  // Validates TOSCA file before passing it to CELAR Server
+//  boolean validateTOSCA() throws IOException, SAXException{
+//    // 1. Specify you want a factory for RELAX NG
+//    SchemaFactory factory 
+//     = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//    
+//    // Load the specific schema you want. 
+//    
+//    File schemaLocation = new File("/Users/stalo.cs8526/git/c-Eclipse/app-description/eu.celar.tosca/model/NewXMLSchema.xsd");
+//    // Compile the schema.
+//    Schema schema = factory.newSchema(schemaLocation);
+//    
+//    //URL schemaFile = new URL("http://docs.oasis-open.org/tosca/TOSCA/v1.0/cs01/schemas/TOSCA-v1.0.xsd");
+//    //Schema schema = factory.newSchema(schemaFile);
+//
+//    // Get a validator from the schema.
+//    Validator validator = schema.newValidator();
+//    
+//    // Parse the document you want to check.
+//    IFile ifile = this.toscaFile; 
+//    
+//    File input = new File(ifile.getLocation().toOSString());
+//
+//    // Check the document
+//    try {
+//        validator.validate( new StreamSource( input) );
+//        System.out.println("TOSCA is valid.");
+//    }
+//    catch (SAXException ex) {
+//        System.out.println("TOSCA is not valid because ");
+//        System.out.println(ex.getMessage());
+//        return false;
+//    }  
+//    return true;
+//  }
 }

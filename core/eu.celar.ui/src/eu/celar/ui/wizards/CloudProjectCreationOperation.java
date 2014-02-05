@@ -27,6 +27,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
+import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.project.CloudProjectNature;
 import eu.celar.ui.internal.Activator;
 
@@ -147,13 +148,13 @@ public class CloudProjectCreationOperation implements IRunnableWithProgress {
                                      final CloudProjectProperties props )
     throws CoreException
   {
-    // ICloudProvider cloudProvider = props.getCloudProvider();
-    // String cloudProviderName = cloudProvider.getName();
+    ICloudProvider cloudProvider = props.getCloudProvider();
+    String cloudProviderName = cloudProvider.getName();
     Hashtable<String, String> folders = props.getProjectFolders();
     IScopeContext projectScope = new ProjectScope( project );
     try {
       Preferences projectNode = projectScope.getNode( "eu.celar.core" ); //$NON-NLS-1$
-      //      projectNode.put( "cloudProvider", cloudProviderName ); //$NON-NLS-1$
+      projectNode.put( "cloud-provider", cloudProviderName ); //$NON-NLS-1$
       projectNode.flush();
       Preferences folderNode = projectScope.getNode( "eu.celar.core.folders" ); //$NON-NLS-1$
       for( String id : folders.keySet() ) {
