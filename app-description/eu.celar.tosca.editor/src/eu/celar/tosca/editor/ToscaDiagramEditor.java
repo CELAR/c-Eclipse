@@ -197,7 +197,6 @@ public class ToscaDiagramEditor extends DiagramEditor {
     if( getEditorInput() instanceof ToscaDiagramEditorInput ) {
       IFile modelFile = ((ToscaDiagramEditorInput) getEditorInput()).getToscaFile();      
       resourceURI = URI.createPlatformResourceURI( modelFile.getFullPath().toString(), false );      
-      //toscaResource = ( TOSCAResource )CloudModel.getRoot().findElement( new Path( modelFile.getFullPath().toString() ) );
     } 
     
     Exception exception = null;
@@ -415,8 +414,11 @@ public class ToscaDiagramEditor extends DiagramEditor {
     context.setLocation(x_axis, y_axis);
     PictogramElement pictElement = null;
     
-    boolean canAdd = addFeature.canAdd( context ) ;
-        
+    boolean canAdd  = false;
+    if (addFeature != null) {
+      canAdd = addFeature.canAdd( context ) ;
+    }
+      
     if( canAdd ) {
       pictElement = addFeature.add( context );
       featureProvider.link( pictElement, new Object[]{ element } );

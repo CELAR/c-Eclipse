@@ -31,7 +31,7 @@ import eu.celar.core.Extensions;
 public class NewCloudProjectWizard extends Wizard implements INewWizard {
 
   private WizardNewProjectCreationPage creationPage;
-  // private CloudProviderSelectionWizardPage cloudProviderPage;
+  private CloudProviderSelectionWizardPage cloudProviderPage;
   private WizardNewProjectReferencePage referencePage;
   private IProject project = null;
 
@@ -67,8 +67,8 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
     this.creationPage.setTitle( Messages.getString( "NewCloudProjectWizard.basic_page_title" ) ); //$NON-NLS-1$
     this.creationPage.setDescription( Messages.getString( "NewCloudProjectWizard.basic_page_description" ) ); //$NON-NLS-1$
     addPage( this.creationPage );
-    // this.cloudProviderPage = new CloudProviderSelectionWizardPage( false );
-    // addPage( this.cloudProviderPage );
+     this.cloudProviderPage = new CloudProviderSelectionWizardPage( false );
+     addPage( this.cloudProviderPage );
     if( ResourcesPlugin.getWorkspace().getRoot().getProjects().length > 0 ) {
       this.referencePage = new WizardNewProjectReferencePage( "newCloudProjectReferencePage" ); //$NON-NLS-1$
       this.referencePage.setTitle( Messages.getString( "NewCloudProjectWizard.reference_page_title" ) ); //$NON-NLS-1$
@@ -81,10 +81,10 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
   public boolean canFinish() {
     boolean result = false;
     IWizardPage currentPage = getContainer().getCurrentPage();
-    if( currentPage == this.creationPage ) {
-      if( validatePage() == false )
-        result = false;
-      else
+    if( currentPage != this.creationPage ) {
+//      if( validatePage() == false )
+//        result = false;
+//      else
         result = super.canFinish();
     }
     return result;
@@ -108,7 +108,7 @@ public class NewCloudProjectWizard extends Wizard implements INewWizard {
       properties.setProjectLocation( this.creationPage.useDefaults()
                                                                     ? null
                                                                     : this.creationPage.getLocationPath() );
-      // properties.setProjectVo( this.cloudProviderPage.getSelectedVos()[0] );
+      properties.setCloudProvider( this.cloudProviderPage.getSelectedCloudProviders()[0] );
       properties.addProjectFolders( getProjectFolders() );
       if( this.referencePage != null ) {
         properties.setReferencesProjects( this.referencePage.getReferencedProjects() );

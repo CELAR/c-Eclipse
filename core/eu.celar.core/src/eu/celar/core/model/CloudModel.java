@@ -15,6 +15,7 @@
  *****************************************************************************/
 package eu.celar.core.model;
 
+import eu.celar.core.internal.model.CloudProviderManager;
 import eu.celar.core.internal.model.CloudRoot;
 import eu.celar.core.internal.model.ElementCreatorRegistry;
 import eu.celar.core.internal.model.HiddenProject;
@@ -76,5 +77,16 @@ public class CloudModel {
    */
   public static ICloudPreferences getPreferences() throws ProblemException {
     return HiddenProject.getInstance();
+  }
+  
+  /**
+   * Get the manager that is dedicated to the management of
+   * {@link  CloudProviderManager }s.
+   * 
+   * @return The core implementation of the {@link ICloudProviderManager}
+   * interface.
+   */
+  public static ICloudProviderManager getCloudProviderManager() {
+    return CloudProviderManager.getManager();
   }
 }

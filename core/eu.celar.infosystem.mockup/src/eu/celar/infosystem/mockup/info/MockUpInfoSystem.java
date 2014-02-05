@@ -27,7 +27,8 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 public class MockUpInfoSystem  {
   
   private static MockUpInfoSystem instance = null;
-  private FetchJob resourceFetcher; 
+  private AmazonAWSFetch resourceFetcher;
+//  private FetchJob resourceFetcher;
   
   /**
    * @return The Mockup Information System
@@ -40,7 +41,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem () {
-    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   
@@ -53,7 +55,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem (IFile toscaFile) {
-    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = AmazonAWSFetch.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   
@@ -99,6 +102,10 @@ public class MockUpInfoSystem  {
   public ArrayList<UserApplication> getUserApplications () {
     return this.resourceFetcher.getUserApplications();
   }
-   
+  
+  // TODO - nickl Reflect this to the infosystem model
+  public ArrayList<String> getInstanceTypes () {
+    return this.resourceFetcher.getInstanceTypes();
+  }
   
 }

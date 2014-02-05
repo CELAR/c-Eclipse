@@ -14,6 +14,17 @@ public class Activator extends AbstractUIPlugin {
 
   // The plug-in ID
   public static final String PLUGIN_ID = "eu.celar.ui"; //$NON-NLS-1$
+  /**
+   * The id of the authentication token management view.
+   */
+  public static final String ID_AUTH_VIEW
+    = "eu.celar.ui.views.authenticationTokenView"; //$NON-NLS-1$
+  
+  /**
+   * Image for action Refresh
+   */
+  public static final String IMG_REFRESH = "refresh"; //$NON-NLS-1$
+  
   // The shared instance
   private static Activator plugin;
 
@@ -77,6 +88,15 @@ public class Activator extends AbstractUIPlugin {
                                  exc );
     getDefault().getLog().log( status );
   }
+  
+  /**
+   * Logs a status object to the eclipse logger.
+   * 
+   * @param status The status to be logged.
+   */
+  public static void logStatus( final IStatus status ) {
+    getDefault().getLog().log( status );
+  }
 
   @Override
   protected void initializeImageRegistry( final ImageRegistry reg ) {
@@ -93,6 +113,15 @@ public class Activator extends AbstractUIPlugin {
         "reason", "icons/obj16/ihigh_obj.gif"}, //$NON-NLS-1$ //$NON-NLS-2$
       {
         "refresh", "icons/elcl16/refresh_nav.gif"}, //$NON-NLS-1$ //$NON-NLS-2$
+        
+      { "activestate", "icons/elcl16/activate.gif" }, //$NON-NLS-1$ //$NON-NLS-2$
+      
+      { "inactivestate", "icons/elcl16/deactivate.gif" }, //$NON-NLS-1$ //$NON-NLS-2$
+      
+      { IMG_REFRESH, "icons/eview16/refresh.gif" },  //$NON-NLS-1$
+
+
+      
     };
     ImageDescriptor imgDsc = null;
     for( String[] image : images ) {

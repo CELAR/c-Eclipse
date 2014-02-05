@@ -4,6 +4,7 @@ package eu.celar.infosystem.model.base.impl;
 
 import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.InfoSystemPackage;
+import eu.celar.infosystem.model.base.KeyPair;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
@@ -63,6 +64,13 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * @generated
    */
   private EClass userApplicationEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass keyPairEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -429,6 +437,56 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getKeyPair()
+  {
+    return keyPairEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getKeyPair_UID()
+  {
+    return (EAttribute)keyPairEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getKeyPair_Name()
+  {
+    return (EAttribute)keyPairEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getKeyPair_Description()
+  {
+    return (EAttribute)keyPairEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getKeyPair_URL()
+  {
+    return (EAttribute)keyPairEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getVirtualMachineImageType()
   {
     return virtualMachineImageTypeEEnum;
@@ -507,6 +565,12 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     createEAttribute(userApplicationEClass, USER_APPLICATION__URL);
     createEAttribute(userApplicationEClass, USER_APPLICATION__TYPE);
 
+    keyPairEClass = createEClass(KEY_PAIR);
+    createEAttribute(keyPairEClass, KEY_PAIR__UID);
+    createEAttribute(keyPairEClass, KEY_PAIR__NAME);
+    createEAttribute(keyPairEClass, KEY_PAIR__DESCRIPTION);
+    createEAttribute(keyPairEClass, KEY_PAIR__URL);
+
     // Create enums
     virtualMachineImageTypeEEnum = createEEnum(VIRTUAL_MACHINE_IMAGE_TYPE);
 
@@ -580,6 +644,12 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     initEAttribute(getUserApplication_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, UserApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getUserApplication_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, UserApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getUserApplication_Type(), theXMLTypePackage.getString(), "type", "", 1, 1, UserApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(keyPairEClass, KeyPair.class, "KeyPair", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getKeyPair_UID(), theXMLTypePackage.getString(), "uID", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getKeyPair_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getKeyPair_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getKeyPair_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(virtualMachineImageTypeEEnum, VirtualMachineImageType.class, "VirtualMachineImageType");
@@ -866,6 +936,50 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "kind", "element",
        "name", "Type",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (keyPairEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "KeyPair",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getKeyPair_UID(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "UID",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getKeyPair_Name(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Name",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getKeyPair_Description(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Description",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getKeyPair_URL(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "URL",
        "namespace", "##targetNamespace"
        });
   }

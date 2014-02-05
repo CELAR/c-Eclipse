@@ -24,6 +24,10 @@ import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class CreateApplicationComponentFeature extends AbstractCreateFeature {
+  
+  private static int DEFAULT_MIN_INSTANCES = 1;
+  private static int DEFAULT_MAX_INSTANCES = 1;
+  private static int DEFAULT_INIT_INSTANCES = 1;
 
   public CreateApplicationComponentFeature( final IFeatureProvider fp ) {
     // set name and description of the creation feature
@@ -51,11 +55,11 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
         
     // initialize Application Component
     // Max or Min instances == 0 => nothing specified by user
-    newClass.setInitInstances(1);
-    newClass.setYcsbmulti(1);
-    newClass.setCasmulti(1);
-    newClass.setMinInstances( Integer.parseInt( "0" ) );
-    newClass.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( "0" ) ) );
+    newClass.setInitInstances( DEFAULT_INIT_INSTANCES );
+    newClass.setYcsbmulti( 1 );
+    newClass.setCasmulti( 1 );
+    newClass.setMinInstances( DEFAULT_MIN_INSTANCES );
+    newClass.setMaxInstances(  BigInteger.valueOf( DEFAULT_MAX_INSTANCES ) );
     newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );
     newClass.setType( new QName("testType") );
     

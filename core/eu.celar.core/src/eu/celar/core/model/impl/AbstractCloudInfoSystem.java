@@ -16,6 +16,7 @@ import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.ICloudInfoService;
 import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudResource;
+import eu.celar.core.model.ICloudResourceCategory;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -32,10 +33,11 @@ public abstract class AbstractCloudInfoSystem extends AbstractCloudElement
   @Override
   public ICloudResource[] fetchResources( final ICloudContainer parent,
                                           final ICloudProvider cp,
+                                          final ICloudResourceCategory category,
                                           final IProgressMonitor monitor )
     throws ProblemException
   {
-    return fetchResources( parent, cp, false, null, monitor );
+    return fetchResources( parent, cp, category, false, null, monitor );
   }
 
   protected ICloudResource[] filterResources( final ICloudResource[] resources,

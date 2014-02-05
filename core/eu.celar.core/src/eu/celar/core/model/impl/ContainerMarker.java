@@ -10,8 +10,10 @@ package eu.celar.core.model.impl;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import eu.celar.core.model.ICloudContainer;
+import eu.celar.core.reporting.ProblemException;
 
 
 /**

@@ -360,6 +360,61 @@ public interface InfoSystemPackage extends EPackage
   int USER_APPLICATION_FEATURE_COUNT = 5;
 
   /**
+   * The meta object id for the '{@link eu.celar.infosystem.model.base.impl.KeyPairImpl <em>Key Pair</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.infosystem.model.base.impl.KeyPairImpl
+   * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getKeyPair()
+   * @generated
+   */
+  int KEY_PAIR = 5;
+
+  /**
+   * The feature id for the '<em><b>UID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEY_PAIR__UID = 0;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEY_PAIR__NAME = 1;
+
+  /**
+   * The feature id for the '<em><b>Description</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEY_PAIR__DESCRIPTION = 2;
+
+  /**
+   * The feature id for the '<em><b>URL</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEY_PAIR__URL = 3;
+
+  /**
+   * The number of structural features of the '<em>Key Pair</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEY_PAIR_FEATURE_COUNT = 4;
+
+  /**
    * The meta object id for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -367,7 +422,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageType()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE = 5;
+  int VIRTUAL_MACHINE_IMAGE_TYPE = 6;
 
   /**
    * The meta object id for the '<em>Virtual Machine Image Type Object</em>' data type.
@@ -377,7 +432,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageTypeObject()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 6;
+  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 7;
 
 
   /**
@@ -684,6 +739,60 @@ public interface InfoSystemPackage extends EPackage
   EAttribute getUserApplication_Type();
 
   /**
+   * Returns the meta object for class '{@link eu.celar.infosystem.model.base.KeyPair <em>Key Pair</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Key Pair</em>'.
+   * @see eu.celar.infosystem.model.base.KeyPair
+   * @generated
+   */
+  EClass getKeyPair();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.KeyPair#getUID <em>UID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>UID</em>'.
+   * @see eu.celar.infosystem.model.base.KeyPair#getUID()
+   * @see #getKeyPair()
+   * @generated
+   */
+  EAttribute getKeyPair_UID();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.KeyPair#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see eu.celar.infosystem.model.base.KeyPair#getName()
+   * @see #getKeyPair()
+   * @generated
+   */
+  EAttribute getKeyPair_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.KeyPair#getDescription <em>Description</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Description</em>'.
+   * @see eu.celar.infosystem.model.base.KeyPair#getDescription()
+   * @see #getKeyPair()
+   * @generated
+   */
+  EAttribute getKeyPair_Description();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.KeyPair#getURL <em>URL</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>URL</em>'.
+   * @see eu.celar.infosystem.model.base.KeyPair#getURL()
+   * @see #getKeyPair()
+   * @generated
+   */
+  EAttribute getKeyPair_URL();
+
+  /**
    * Returns the meta object for enum '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -961,6 +1070,48 @@ public interface InfoSystemPackage extends EPackage
      * @generated
      */
     EAttribute USER_APPLICATION__TYPE = eINSTANCE.getUserApplication_Type();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.infosystem.model.base.impl.KeyPairImpl <em>Key Pair</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.infosystem.model.base.impl.KeyPairImpl
+     * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getKeyPair()
+     * @generated
+     */
+    EClass KEY_PAIR = eINSTANCE.getKeyPair();
+
+    /**
+     * The meta object literal for the '<em><b>UID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute KEY_PAIR__UID = eINSTANCE.getKeyPair_UID();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute KEY_PAIR__NAME = eINSTANCE.getKeyPair_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute KEY_PAIR__DESCRIPTION = eINSTANCE.getKeyPair_Description();
+
+    /**
+     * The meta object literal for the '<em><b>URL</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute KEY_PAIR__URL = eINSTANCE.getKeyPair_URL();
 
     /**
      * The meta object literal for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.
