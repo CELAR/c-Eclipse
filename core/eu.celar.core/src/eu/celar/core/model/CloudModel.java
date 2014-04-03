@@ -89,4 +89,8 @@ public class CloudModel {
   public static ICloudProviderManager getCloudProviderManager() {
     return CloudProviderManager.getManager();
   }
+  
+  public static ICloudDeploymentManager getDeploymentManager(){
+    return null;
+  }
 }
