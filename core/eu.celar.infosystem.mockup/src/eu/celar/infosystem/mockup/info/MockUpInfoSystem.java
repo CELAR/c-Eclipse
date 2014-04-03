@@ -28,6 +28,7 @@ public class MockUpInfoSystem  {
   
   private static MockUpInfoSystem instance = null;
   private AmazonAWSFetch resourceFetcher;
+//  private OpenStackFetch resourceFetcher;
 //  private FetchJob resourceFetcher;
   
   /**
@@ -43,6 +44,7 @@ public class MockUpInfoSystem  {
   private MockUpInfoSystem () {
 //    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   
@@ -56,7 +58,8 @@ public class MockUpInfoSystem  {
   
   private MockUpInfoSystem (IFile toscaFile) {
 //    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = AmazonAWSFetch.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   

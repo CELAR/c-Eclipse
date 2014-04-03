@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench,
- com.amazon.aws;bundle-version="1.0.0"
+ com.amazon.aws;bundle-version="1.0.0",
+ org.apache.jclouds,
+ eu.celar.connectors.openstack
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.infosystem.mockup.info;

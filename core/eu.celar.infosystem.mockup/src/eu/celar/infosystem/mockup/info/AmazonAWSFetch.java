@@ -17,9 +17,8 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.RegionUtils;
+import com.amazonaws.services.cloudwatch.model.Metric;
 import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.Image;
 import com.amazonaws.services.ec2.model.InstanceType;
 
@@ -28,6 +27,7 @@ import eu.celar.connectors.aws.EC2Client;
 import eu.celar.connectors.aws.auth.AWSAuthToken;
 import eu.celar.connectors.aws.auth.AWSAuthTokenDescription;
 import eu.celar.connectors.aws.operation.EC2OpDescribeImages;
+import eu.celar.connectors.aws.operation.EC2OpDescribeMetrics;
 import eu.celar.connectors.aws.operation.OperationExecuter;
 import eu.celar.core.auth.AbstractAuthTokenProvider;
 import eu.celar.core.auth.AuthTokenRequest;
@@ -91,16 +91,16 @@ public class AmazonAWSFetch extends Job  {
       localMonitor.beginTask( "Creating AWS EC2 client", 6 * 10 ); //$NON-NLS-1$
       this.ec2 = EC2Client.getEC2();
       
-      EC2OpDescribeImages operation = new EC2OpDescribeImages( this.ec2 );
-      new OperationExecuter().execOp( operation );
+      EC2OpDescribeImages imagesOperation = new EC2OpDescribeImages( this.ec2 );
+      new OperationExecuter().execOp( imagesOperation );
       localMonitor.worked( 1 );
       
-      if( operation.getException() == null ) {
-        int size = operation.getResult().size();
-        System.out.println("Size: " + size); //$NON-NLS-1$
+      if( imagesOperation.getException() == null ) {
+        int size = imagesOperation.getResult().size();
+        System.out.println("Images Size: " + size); //$NON-NLS-1$
         this.custom_images = new ArrayList<VirtualMachineImage>( size );
         
-        for( Image ami : operation.getResult() ) {
+        for( Image ami : imagesOperation.getResult() ) {
 //          if( ami.getName() == null ) {
 //            continue;
 //          }
@@ -114,8 +114,31 @@ public class AmazonAWSFetch extends Job  {
         
         localMonitor.worked( 2 );
       }  else {
-        throw new Exception(operation.getException());
+        throw new Exception(imagesOperation.getException());
       }
+      
+      EC2OpDescribeMetrics metricsOperation = new EC2OpDescribeMetrics( this.ec2 );
+      new OperationExecuter().execOp( metricsOperation );
+      localMonitor.worked( 3 );
+      
+      if( metricsOperation.getException() == null ) {
+        int size = metricsOperation.getResult().size();
+        System.out.println("Metrics Size: " + size); //$NON-NLS-1$
+        this.monitor_probes = new ArrayList<MonitoringProbe>( size );
+        
+        for( Metric metric : metricsOperation.getResult() ) {
+
+          MonitoringProbe probe = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+          probe.setName( metric.getMetricName() );                    
+          this.monitor_probes.add( probe );
+        }
+        
+        localMonitor.worked( 2 );
+      }  else {
+        throw new Exception(imagesOperation.getException());
+      }
+      
+      
       
       
     } catch( Exception e ) {
