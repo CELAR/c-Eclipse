@@ -27,6 +27,13 @@
             name="Authentication Token UI"
             restorable="true">
       </view>
+      <view
+            category="eu.celar.ui"
+            class="eu.celar.ui.views.ApplicationDeploymentMockupView"
+            id="eu.celar.ui.views.deploymentview"
+            name="Application Deployments"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">

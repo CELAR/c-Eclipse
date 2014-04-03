@@ -1,7 +1,10 @@
 package eu.celar.ui.wizards;
 
+import java.util.Dictionary;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -11,9 +14,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import eu.celar.core.model.CloudModel;
-import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.ICloudElement;
-import eu.celar.core.model.ICloudProject;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;
@@ -25,6 +26,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   private IStructuredSelection selection;
   private NewSubmissionWizardFirstPage firstPage;
   private NewSubmissionWizardSecondPage secondPage;
+  private CloudProviderSelectionWizardPage thirdPage;
 //  private String toscaString;
   
   //private File deploymentfile;
@@ -43,7 +45,12 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     this.firstPage = new NewSubmissionWizardFirstPage( Messages.getString( "NewSubmissionWizardFirstPage.pageName" ), this.selection ); //$NON-NLS-1$
     this.firstPage.setTitle( Messages.getString( "NewSubmissionWizardFirstPage.pageTitle" ) ); //$NON-NLS-1$
     this.firstPage.setDescription( Messages.getString( "NewSubmissionWizardFirstPage.pageDescription" ) ); //$NON-NLS-1$
+    
+    this.thirdPage = new CloudProviderSelectionWizardPage( true );
+    this.thirdPage.setTitle( "Cloud Provider Selection" ); //$NON-NLS-1$
+    this.thirdPage.setDescription( "Select the target Cloud Provider for the Application" );
     addPage( this.firstPage );
+    addPage( this.thirdPage );
     
 //    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" )); //$NON-NLS-1$
 //    this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
@@ -73,8 +80,11 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     Object obj = this.selection.getFirstElement();
     
     if( obj instanceof TOSCAResource )  {
+      
+      TOSCAResource tosca = (TOSCAResource) obj;
+      
       // Create Application Deployment file
-      createDeploymentFile( ( TOSCAResource ) obj );
+      createDeploymentFile( tosca );
     }
        
 
@@ -154,19 +164,25 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     String fileName = this.firstPage.getFileName();
     IPath path = new Path( fileName );
     fileName = path.removeFileExtension()
-      .addFileExtension( "deployment" )
+      .addFileExtension( "deployment" ) //$NON-NLS-1$
       .lastSegment();
     
     this.firstPage.setFileName( fileName );
     
     boolean fileCreated = false;
-        
+       
     IProject project = resource.getProject().getResource().getProject();
     
-    IFile file = project.getFile( "/Application Submissions/" + fileName );
+    IFile file = project.getFile( "/Application Submissions/" + fileName ); //$NON-NLS-1$
     
     try {
-      DocumentRoot model = resource.getTOSCAModel().getDocumentRoot();            
+//      TOSCAModel toscaModel = resource.getTOSCAModel();
+      IResource resourceName = resource.getResource();
+      IFile toscaFile = (IFile) resourceName;
+      
+      DocumentRoot model = TOSCAModel.loadModelFromFile( toscaFile );
+      
+//      DocumentRoot model = resource.getTOSCAModel().getDocumentRoot();            
       TOSCAModel.saveModelToFile( file, model );  
     } catch( Exception e ) {
       e.printStackTrace();

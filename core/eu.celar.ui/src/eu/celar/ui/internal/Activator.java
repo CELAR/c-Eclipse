@@ -25,6 +25,16 @@ public class Activator extends AbstractUIPlugin {
    */
   public static final String IMG_REFRESH = "refresh"; //$NON-NLS-1$
   
+  /**
+   * Image for action AWS
+   */
+  public static final String aws = "aws"; //$NON-NLS-1$
+  
+  /**
+   * Image for action OpenStack
+   */
+  public static final String openstack = "openstack"; //$NON-NLS-1$
+  
   // The shared instance
   private static Activator plugin;
 
@@ -119,6 +129,10 @@ public class Activator extends AbstractUIPlugin {
       { "inactivestate", "icons/elcl16/deactivate.gif" }, //$NON-NLS-1$ //$NON-NLS-2$
       
       { IMG_REFRESH, "icons/eview16/refresh.gif" },  //$NON-NLS-1$
+      
+      { aws, "icons/aws.gif" },  //$NON-NLS-1$
+      
+      { openstack, "icons/openstack.gif" },  //$NON-NLS-1$
 
 
       

@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,19 +14,19 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import eu.celar.connectors.aws.EC2Client;
 import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
 import eu.celar.connectors.aws.operation.OperationExecuter;
+//import eu.celar.connectors.openstack.OpenStackClient;
+//import eu.celar.connectors.openstack.operation.OpenStackOpDeployApplication;
+//import eu.celar.connectors.openstack.operation.OperationExecuter;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudProject;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
-import eu.celar.tosca.editor.Activator;
-import eu.celar.ui.dialogs.ProblemDialog;
 
 /**
  * @author Nicholas Loulloudes
@@ -59,10 +58,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
           throws InvocationTargetException, InterruptedException
         {
           EC2OpDeployApplication deployOperation = null;
+//          OpenStackOpDeployApplication deployOperation = null;
           try {
             monitor.beginTask( "Deploying VMIs", 2 );
             deployOperation = new EC2OpDeployApplication( EC2Client.getEC2(),
                                                           NewDeploymentWizard.this.deploymentFile );
+            
+//          deployOperation = new OpenStackOpDeployApplication( OpenStackClient.getInstance(),
+//          NewDeploymentWizard.this.deploymentFile );
             if( deployOperation.getException() != null ) {
               throw deployOperation.getException();
             }
