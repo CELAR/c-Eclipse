@@ -54,7 +54,7 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
   private TServiceTemplate serviceTemplate;
   private TTopologyTemplate topologyTemplate;
   private TBoundaryDefinitionsExtension boundaryDef;
-  private Resource resource;
+  public Resource resource;
   
   
   public TOSCAModel (final File file) throws IOWrappedException{
@@ -67,7 +67,7 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
       String filePath = this.fileResource.getAbsolutePath();
       URI uri = URI.createFileURI( filePath );
       ResourceSet resourceSet = new ResourceSetImpl();
-      Resource resourceA = resourceSet.createResource( uri );
+      this.resource = resourceSet.createResource( uri );
       XMLMapImpl baseToscaMap = new XMLMapImpl();
       baseToscaMap.setNoNamespacePackage( ToscaPackage.eINSTANCE );      
       XMLMapImpl elasticityToscaMap = new XMLMapImpl();
@@ -77,8 +77,8 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
       options.put( XMLResource.OPTION_XML_MAP, elasticityToscaMap );
       options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //TODO Stalo "UTF-8"  //$NON-NLS-1$
       try {
-        resourceA.load( options );
-        this.documentRoot = ( DocumentRoot )resourceA.getContents().get( 0 );        
+        this.resource.load( options );
+        this.documentRoot = ( DocumentRoot )this.resource.getContents().get( 0 );        
         this.serviceTemplate = this.documentRoot.getDefinitions().getServiceTemplate().get( 0 );
         this.topologyTemplate = this.serviceTemplate.getTopologyTemplate();
       } catch( IOException ioEx ) {
@@ -289,6 +289,11 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
      } catch( IOException ioEx ) {
        ioEx.printStackTrace();
      }
+   }
+   
+   
+   public Resource getToscaResource(){
+     return this.resource;
    }
    
    
