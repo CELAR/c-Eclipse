@@ -24,7 +24,6 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
-import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.StyleUtil;
 
@@ -36,9 +35,9 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
   private static final IColorConstant E_CLASS_FOREGROUND = new ColorConstant( 98,
                                                                               131,
                                                                               167 );
-  private static final IColorConstant E_CLASS_BACKGROUND = new ColorConstant( 176,
-                                                                              196,
-                                                                              222 );
+  private static final IColorConstant E_CLASS_BACKGROUND = new ColorConstant( 255,
+                                                                              255,
+                                                                              255 );
 
   public AddSoftwareDependencyFeature( final IFeatureProvider fp ) {
     super( fp );

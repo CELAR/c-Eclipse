@@ -7,6 +7,7 @@ package eu.celar.tosca.editor.dialog;
 /**
  * @author stalo
  */
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -22,7 +23,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory;
+import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
 
 public class ElasticityConstraintDialog extends Dialog {
@@ -54,7 +56,7 @@ public class ElasticityConstraintDialog extends Dialog {
   @Override
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
-    shell.setText( "Add Elasticity Constraint" );
+    shell.setText( "Add Elasticity Constraint" ); //$NON-NLS-1$
     shell.setSize( 300, 170 );
   }
 
@@ -67,7 +69,7 @@ public class ElasticityConstraintDialog extends Dialog {
     GridLayout gLayout = new GridLayout( 2, false );
     typeComposite.setLayout( gLayout );
     Label typeLabel = new Label( typeComposite, SWT.LEAD );
-    typeLabel.setText( "Type" );
+    typeLabel.setText( "Type" ); //$NON-NLS-1$
     GridData gd = new GridData( 50, 20 );
     typeLabel.setLayoutData( gd );
     // Combo - GlobalElasticityReq
@@ -75,21 +77,22 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbGlobalElasticityReq.setEnabled( true );
     gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
-    if( this.component.compareTo( "Application" ) == 0 ) {
+    if( this.component.compareTo( "Application" ) == 0 ) { //$NON-NLS-1$
       List<ElasticityRequirementCategory> categories = ElasticityRequirementCategory.VALUES;
       for( ElasticityRequirementCategory tempCat : categories ) {
         this.cmbGlobalElasticityReq.add( tempCat.toString() );
       }
     } 
-    else if( this.component.compareTo( "Application Component" ) == 0 ) {
-      List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
-      for( ApplicationComponentElasticityRequirementCategory tempCat : categories )
+    else if( this.component.compareTo( "Application Component" ) == 0 ) { //$NON-NLS-1$
+//      List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
+      ArrayList<MonitoringProbe> categories = MockUpInfoSystem.getInstance().getMonitoringProbes();
+      for( MonitoringProbe tempCat : categories )
       {
-        this.cmbGlobalElasticityReq.add( tempCat.toString() );
+        this.cmbGlobalElasticityReq.add( tempCat.getName() );
       }
-      this.cmbGlobalElasticityReq.add( "Connections" );
-      this.cmbGlobalElasticityReq.add( "Latency" );
-      this.cmbGlobalElasticityReq.add( "Memory Usage" );
+//      this.cmbGlobalElasticityReq.add( "Connections" );
+//      this.cmbGlobalElasticityReq.add( "Latency" );
+//      this.cmbGlobalElasticityReq.add( "Memory Usage" );
     }
 
     Composite valueComposite = new Composite( composite, SWT.NONE );
@@ -97,7 +100,7 @@ public class ElasticityConstraintDialog extends Dialog {
     valueComposite.setLayout( gLayout );
     
     Label valueLabel = new Label( valueComposite, SWT.LEAD );
-    valueLabel.setText( "Value" );
+    valueLabel.setText( "Value" ); //$NON-NLS-1$
     gd = new GridData( 50, 20 );
     valueLabel.setLayoutData( gd );
     
@@ -106,18 +109,18 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbOperator.setEnabled( true );
     gd = new GridData( 40, 20 );
     this.cmbOperator.setLayoutData( gd );
-    this.cmbOperator.add( "=" );
-    this.cmbOperator.add( "<" );
-    this.cmbOperator.add( ">" ); 
+    this.cmbOperator.add( "=" ); //$NON-NLS-1$
+    this.cmbOperator.add( "<" ); //$NON-NLS-1$
+    this.cmbOperator.add( ">" );  //$NON-NLS-1$
     this.cmbOperator.setText( this.cmbOperator.getItem( 0 ) );  
     
     this.valueText = new Text( valueComposite, SWT.BORDER );
     gd = new GridData( 112, 20 );
     this.valueText.setLayoutData( gd );
     // metric unit label
-    unitLabel = new Label( valueComposite, SWT.NONE );
+    this.unitLabel = new Label( valueComposite, SWT.NONE );
     gd = new GridData( GridData.FILL_HORIZONTAL, 20 );
-    unitLabel.setLayoutData( gd );
+    this.unitLabel.setLayoutData( gd );
 
     this.cmbGlobalElasticityReq.setEditable( false );
     this.cmbGlobalElasticityReq.addModifyListener( new ModifyListener() {
@@ -125,29 +128,29 @@ public class ElasticityConstraintDialog extends Dialog {
       public void modifyText( final ModifyEvent e ) {
         ElasticityConstraintDialog.this.newType = ElasticityConstraintDialog.this.cmbGlobalElasticityReq.getText();
         // set metric unit
-        ElasticityConstraintDialog.this.unit = "";
-        if( ElasticityConstraintDialog.this.newType.compareTo( "ResponseTime" ) == 0 )
+        ElasticityConstraintDialog.this.unit = ""; //$NON-NLS-1$
+        if( ElasticityConstraintDialog.this.newType.compareTo( "ResponseTime" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "s";
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Bandwidth" ) == 0 )
+          ElasticityConstraintDialog.this.unit = "s"; //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Bandwidth" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "MB/s";
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Cost" ) == 0 )
+          ElasticityConstraintDialog.this.unit = "MB/s"; //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Cost" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "$";
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Latency" ) == 0 )
+          ElasticityConstraintDialog.this.unit = "$"; //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Latency" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "ms";
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Throughput" ) == 0 )
+          ElasticityConstraintDialog.this.unit = "ms"; //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Throughput" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "s";
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Memory Usage" ) == 0 )
+          ElasticityConstraintDialog.this.unit = "s"; //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Memory Usage" ) == 0 ) //$NON-NLS-1$
         {
-            ElasticityConstraintDialog.this.unit = "%";
+            ElasticityConstraintDialog.this.unit = "%"; //$NON-NLS-1$
           }else {
-          ElasticityConstraintDialog.this.unit = "";
+          ElasticityConstraintDialog.this.unit = ""; //$NON-NLS-1$
         }
-        String unitLabelText = "  ( " + ElasticityConstraintDialog.this.unit + " )";
+        String unitLabelText = "  ( " + ElasticityConstraintDialog.this.unit + " )"; //$NON-NLS-1$ //$NON-NLS-2$
         ElasticityConstraintDialog.this.unitLabel.setText( unitLabelText );
       }
     } );

@@ -35,7 +35,7 @@
 <extension
 	    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
 	    <propertyContributor contributorId="ToscaDiagram.PropertyContributor">
-	        <propertyCategory category="Graphiti">
+	        <propertyCategory category="CELAR">
 	        </propertyCategory>
 	    </propertyContributor>
 	</extension>
@@ -43,7 +43,7 @@
 	<extension
 	    point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 	    <propertyTabs contributorId="ToscaDiagram.PropertyContributor">
-	        <propertyTab label="Main" category="Graphiti" 
+	        <propertyTab label="Main" category="CELAR" 
 	            id="graphiti.main.tab">
 	        </propertyTab>
 	        
@@ -52,88 +52,88 @@
 	        -->
    <propertyTab
          afterTab="graphiti.main.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.component.elasticity.tab"
          label="Elasticity">
    </propertyTab>
    <propertyTab
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.connection.tab"
          label="Connection">
    </propertyTab>
    <propertyTab
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.application.tab"
          label="Application">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.application.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.application.advanced.tab"
          label="Elasticity">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.connection.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.connection.advanced.tab"
          label="Network">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.application.advanced.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.data.load.tab"
          label="Data/Load">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.component.elasticity.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.component.data.load.tab"
          label="Data/Load">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.component.data.load.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.component.monitoring.resizing.tab"
          label="Monitoring">
    </propertyTab>
    <propertyTab
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.composite.elasticity"
          label="Elasticity">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.composite.elasticity"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.composite.data.load"
          label="Data/Load">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.composite.data.load"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.composite.monitoring"
          label="Monitoring">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.component.data.load.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.component.parameters.tab"
          label="Parameters">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.composite.data.load"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.composite.network"
          label="Network">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.data.load.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.application.monitoring"
          label="Monitoring">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.component.parameters.tab"
-         category="Graphiti"
+         category="CELAR"
          id="graphiti.component.deployment.script.tab"
          label="Deployment">
    </propertyTab>
@@ -262,7 +262,7 @@
       <editor
             class="eu.celar.tosca.editor.ToscaDiagramEditor"
             default="true"
-            extensions="tosca"
+            extensions="tosca,deployment"
             id="eu.celar.tosca.editor.toscaEditor"
             matchingStrategy="eu.celar.tosca.editor.ToscaDiagramMatchingStrategy"
             name="Tosca DiagramEditor">

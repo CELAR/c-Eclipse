@@ -82,11 +82,13 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   public IAddFeature getAddFeature( final IAddContext context ) {
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
-    } else if( context.getNewObject() instanceof TRelationshipTemplate
-               && ( ( TRelationshipTemplate )context.getNewObject() ).getType().toString().compareTo("Bidirected") == 0 ) //$NON-NLS-1$
-    {
-      return new AddBidirectionalRelationFeature( this );
-    } else if( context.getNewObject() instanceof TRelationshipTemplate ) {
+    } 
+//    else if( context.getNewObject() instanceof TRelationshipTemplate
+//               && ( ( TRelationshipTemplate )context.getNewObject() ).getType().toString().compareTo("Bidirected") == 0 ) //$NON-NLS-1$
+//    {
+//      return new AddBidirectionalRelationFeature( this );
+//    }
+    else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
     } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
       if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
@@ -210,8 +212,9 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   @Override
   public ICreateConnectionFeature[] getCreateConnectionFeatures() {
     return new ICreateConnectionFeature[]{
-      new CreateDirectedRelationFeature( this ),
-      new CreateBidirectionalRelationFeature( this )
+      new CreateDirectedRelationFeature( this )
+//      ,
+//      new CreateBidirectionalRelationFeature( this )
     };
   }
   

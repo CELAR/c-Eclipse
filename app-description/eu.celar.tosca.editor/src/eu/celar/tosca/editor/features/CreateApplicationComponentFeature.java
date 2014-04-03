@@ -28,6 +28,8 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
   private static int DEFAULT_MIN_INSTANCES = 1;
   private static int DEFAULT_MAX_INSTANCES = 1;
   private static int DEFAULT_INIT_INSTANCES = 1;
+  
+  private Object contextObject = null;
 
   public CreateApplicationComponentFeature( final IFeatureProvider fp ) {
     // set name and description of the creation feature
@@ -46,10 +48,18 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     }
     return false;
   }
-
+  
+  public void setContextObject (final Object obj) {
+    this.contextObject = obj;
+  }
+  
   // Creates the business object for the application component
   @Override
   public Object[] create( final ICreateContext context ) {
+    
+    if (this.contextObject == null) {
+      return null;
+    }
     // create Application Component
     TNodeTemplateExtension newClass = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
         

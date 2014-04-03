@@ -49,6 +49,8 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudElement;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.SourceElementType;
@@ -58,6 +60,7 @@ import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.TargetElementType;
+import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.listener.ToscaModelChangeListener;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
@@ -130,7 +133,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
     if ( finalInput instanceof ToscaDiagramEditorInput ){
       activeProject = ((ToscaDiagramEditorInput) finalInput).getToscaFile().getProject();
     }
-    
+
     super.init(site, finalInput);
     
     // Refresh Palette Compartments
@@ -138,6 +141,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
     
   }
   
+
   private ToscaDiagramEditorInput createNewDiagramEditorInput(final IEditorInput input) throws CoreException {
 
     final IFile dataFile = ToscaFileService.getDataFileForInput(input);
@@ -160,8 +164,8 @@ public class ToscaDiagramEditor extends DiagramEditor {
   @Override
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
-
-    //final ToscaDiagramEditorInput tdei = (ToscaDiagramEditorInput) getEditorInput();
+    
+//    final ToscaDiagramEditorInput tdei = (ToscaDiagramEditorInput) getEditorInput();
     
     ((BasicCommandStack) getEditingDomain().getCommandStack()).saveIsDone();
     updateDirtyState();
@@ -188,8 +192,11 @@ public class ToscaDiagramEditor extends DiagramEditor {
     ModelHandler.addModel(EcoreUtil.getURI(getDiagramTypeProvider().getDiagram()), model);
     
     DocumentRoot documentRoot = null;
-    
-    //TOSCAResource toscaResource = null;
+    TOSCAResource toscaResource = null ;
+    ICloudElement findElement = CloudModel.getRoot().findElement( dataFile );
+    if (findElement instanceof TOSCAResource) {
+      toscaResource = (TOSCAResource) findElement;
+    }
     
     URI resourceURI = null;
     //IEditorInput eInput = getEditorInput();
@@ -214,6 +221,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
       //todo
     } else {
       documentRoot = getDocumentRoot( resource );
+//      documentRoot = toscaResource.getTOSCAModel().getDocumentRoot();
     }
 
     
@@ -328,7 +336,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
 
-                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 )
+                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) //$NON-NLS-1$
                     continue;
                   
                   TNodeTemplateExtension tnte = (TNodeTemplateExtension) tnt;
@@ -362,7 +370,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                for (TServiceTemplate tstTemp : serviceTemplates) {
                    for (TNodeTemplate tnt : tstTemp.getTopologyTemplate().getNodeTemplate()) {
                      
-                       if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 )
+                       if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) //$NON-NLS-1$
                          continue;
                        
                        ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()

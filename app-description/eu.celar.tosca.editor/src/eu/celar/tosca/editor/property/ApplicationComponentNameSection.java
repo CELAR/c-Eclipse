@@ -156,7 +156,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
         
         
         FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
-        dialog.setText( "Select Image File" );
+        dialog.setText( "Select Image File" ); //$NON-NLS-1$
         //dialog.setFilterExtensions(new String [] {"*.html"});
         //dialog.setFilterPath("c:\\temp");
         String result = dialog.open();
@@ -166,7 +166,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName() );
-          deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          deploymentArtifact.setArtifactType( new QName( "VMI" ) ); //$NON-NLS-1$
           
           createImageFeature.setContextObject( deploymentArtifact );
           
@@ -189,7 +189,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
                     
           IProject project = file.getProject();
           
-          String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName();
+          String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           File tmp = new File( targetPath );
           try {
             tmp.createNewFile();
@@ -300,8 +300,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
         
         
         FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
-        dialog.setText( "Select Keypair " );
-        dialog.setFilterExtensions(new String [] {"*.pub"}); // filter only pub keys
+        dialog.setText( "Select Keypair " ); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String [] {"*.pub"}); // filter only pub keys //$NON-NLS-1$
         //dialog.setFilterPath("c:\\temp");
         String result = dialog.open();
         if (result != null){
@@ -310,7 +310,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName() );
-          deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );          
+          deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );           //$NON-NLS-1$
           createImageFeature.setContextObject( deploymentArtifact );
           
           CreateContext createContext = new CreateContext();
@@ -331,9 +331,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
           }
                     
           IProject project = file.getProject();                    
-          String target =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Deployment Scripts/" +  dialog.getFileName();
+          String target =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Deployment Scripts/" +  dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           
-          String source = dialog.getFilterPath() + System.getProperty( "file.separator" ) + dialog.getFileName();
+          String source = dialog.getFilterPath() + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$
                
           File targetFile = new File( target );
           if (!targetFile.exists()){
@@ -499,10 +499,10 @@ public class ApplicationComponentNameSection extends GFPropertySection
         return;
       }
       
-      if( minInstances.compareTo( "0" ) == 0 )
-        minInstances = "";
-      if( maxInstances.compareTo( "0" ) == 0 )
-        maxInstances = "";
+      if( minInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
+        minInstances = ""; //$NON-NLS-1$
+      if( maxInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
+        maxInstances = ""; //$NON-NLS-1$
 
       this.minInstancesText.setText( minInstances );
       this.maxInstancesText.setText( maxInstances ); 
@@ -600,11 +600,13 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-            	if ( ApplicationComponentNameSection.this.minInstancesText.getText().compareTo("")==0 )
-            		nodeTemplate.setMinInstances( 0 );
-            	else
-            		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
-            }
+              if (nodeTemplate != null) {
+              	if ( ApplicationComponentNameSection.this.minInstancesText.getText().equals( "" ) ) //$NON-NLS-1$
+              		nodeTemplate.setMinInstances( 0 );
+              	else
+              		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
+              }
+            }              
           } );
       }
       // maxInstancesText Listener
@@ -614,7 +616,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 )
+            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 ) //$NON-NLS-1$
             		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(0) );
             	else
             		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
@@ -624,7 +626,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
       // initialInstancesText Listener
       else if( e.widget == this.initialInstancesText ) {
     	  
-    	  if ( ApplicationComponentNameSection.this.initialInstancesText.getText().compareTo("")==0 ){
+    	  if ( ApplicationComponentNameSection.this.initialInstancesText.getText().compareTo("")==0 ){ //$NON-NLS-1$
   	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
   	        editingDomain.getCommandStack()
   	          .execute( new RecordingCommand( editingDomain ) {
@@ -648,7 +650,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     	  
     	  
     	  TransactionalEditingDomain editingDomain;
-        if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("ycsb") && nodeTemplate.getYcsbmulti()!=nodeTemplate.getInitInstances()){
+        if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("ycsb") && nodeTemplate.getYcsbmulti()!=nodeTemplate.getInitInstances()){ //$NON-NLS-1$
             editingDomain = TransactionUtil.getEditingDomain( bo );
             editingDomain.getCommandStack()
               .execute( new RecordingCommand( editingDomain ) {
@@ -661,7 +663,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
                 }
               } );
         }
-        else if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("cassandra") && nodeTemplate.getCasmulti()!=nodeTemplate.getInitInstances()){
+        else if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("cassandra") && nodeTemplate.getCasmulti()!=nodeTemplate.getInitInstances()){ //$NON-NLS-1$
             editingDomain = TransactionUtil.getEditingDomain( bo );
             editingDomain.getCommandStack()
               .execute( new RecordingCommand( editingDomain ) {

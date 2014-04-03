@@ -1,15 +1,13 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium 
- * http://www.celarcloud.eu
- * 
- * Contributors:
- *      Nicholas Loulloudes - initial API and implementation
- *      Stalo Sofokleous - implementation extension
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Nicholas Loulloudes - initial API and implementation Stalo Sofokleous -
+ * implementation extension
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
 
@@ -18,6 +16,10 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -62,6 +64,8 @@ import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
+import eu.celar.tosca.editor.features.CreateApplicationComponentFeature;
+import eu.celar.tosca.editor.features.CreateGroupFeature;
 import eu.celar.tosca.editor.features.CreateKeyPairFeature;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
@@ -69,6 +73,9 @@ import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.TServiceTemplateExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
@@ -79,7 +86,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public IContextButtonPadData getContextButtonPad( IPictogramElementContext context )
   {
-    
     IContextButtonPadData data = super.getContextButtonPad( context );
     PictogramElement pe = context.getPictogramElement();
     // set the generic context buttons
@@ -111,47 +117,212 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     return data;
   }
 
+  /**
+   * 
+   */
+  private void fetchResources() {
+    Job job = new Job( "Resource Fetching" ) { //$NON-NLS-1$
+
+      @Override
+      protected IStatus run( final IProgressMonitor monitor ) {
+        monitor.beginTask( "Fetching Resources from Cloud Provider", 100 );
+        MockUpInfoSystem.getInstance();
+        for( int i = 0; i < 5; i++ ) {
+          try {
+            // sleep a second
+            TimeUnit.SECONDS.sleep( 1 );
+            monitor.subTask( "Resource bundle #" + i );
+            // report that 20 additional units are done
+            monitor.worked( 20 );
+          } catch( InterruptedException e1 ) {
+            e1.printStackTrace();
+            return Status.CANCEL_STATUS;
+          }
+        }
+        System.out.println( "Called save" );
+        return Status.OK_STATUS;
+      }
+    };
+    job.schedule();
+  }
+
   // Creates the Palette. Palette entries are retrieved from an SQL database.
   @Override
   public IPaletteCompartmentEntry[] getPalette() {
-
-    MockUpInfoSystem.getInstance();
-    
+    //    Job job = new Job("Resource Fetching") { //$NON-NLS-1$
+    //
+    // @Override
+    // protected IStatus run( final IProgressMonitor monitor ) {
+    //
+    // monitor.beginTask("Fetching Resources from Cloud Provider", 100);
+    // MockUpInfoSystem.getInstance();
+    // for (int i = 0; i < 5; i++) {
+    // try {
+    // // sleep a second
+    // TimeUnit.SECONDS.sleep(1);
+    //
+    // monitor.subTask("Resource bundle #" + i);
+    //
+    // // report that 20 additional units are done
+    // monitor.worked(20);
+    // } catch (InterruptedException e1) {
+    // e1.printStackTrace();
+    // return Status.CANCEL_STATUS;
+    // }
+    // }
+    // return Status.OK_STATUS;
+    // }
+    // };
+    // job.setUser( true );
+    // job.schedule();
+    // // TODO nickl - Workaround for resource fetcher in UI. should be done in
+    // the background
+    // fetchResources();
+    // MockUpInfoSystem.getInstance();
     List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
-    // add compartments from super class - connections and objects    
+    // add compartments from super class - connections and objects
+    // IPaletteCompartmentEntry[] superCompartments = super.getPalette();
+    // for( int i = 0; i < superCompartments.length; i++ ) {
+    // if (superCompartments[i].getLabel().equals( "Objects" )){
+    // PaletteCompartmentEntry appCompartment =
+    // getApplicationComponentCompartment(ret);
+    // appCompartment.getToolEntries().addAll(
+    // superCompartments[i].getToolEntries() );
+    // ret.add( appCompartment );
+    // } else {
+    // ret.add( superCompartments[ i ] );
+    // }
+    //
+    // }
+    // addBaseMachineImageCompartment( ret );
+    // add compartments from super class - connections and objects
     IPaletteCompartmentEntry[] superCompartments = super.getPalette();
-
     for( int i = 0; i < superCompartments.length; i++ ) {
-      ret.add( superCompartments[ i ] );
+      if( superCompartments[ i ].getLabel().equals( "Objects" ) == false )
+        ret.add( superCompartments[ i ] );
     }
-    //addBaseMachineImageCompartment( ret );
+    addApplicationComponentsCompartment( ret );
     addCustomMachineImageCompartment( ret );
     addUserAppsCompartment( ret );
-    addSoftwareDependenciesCompartment( ret );
-    addResizeActionsCompartment( ret );
+    // addSoftwareDependenciesCompartment( ret );
+    addKeyPairCompartment( ret );
+    addDeployScriptCompartment( ret );
     addMonitorProbeCompartment( ret );
-    addKeyPairCompartment (ret);
+    addResizeActionsCompartment( ret );
     // Only Application Component in Objects compartment
-    IToolEntry te = ret.get( 1 ).getToolEntries().get( 0 );
-    IToolEntry te2 = ret.get( 1 ).getToolEntries().get( 7 );
-    ret.get( 1 ).getToolEntries().clear();
-    ret.get( 1 ).getToolEntries().add( te );
-    ret.get( 1 ).getToolEntries().add( te2 );
-       
+    // IToolEntry te = ret.get( 1 ).getToolEntries().get( 0 );
+    // IToolEntry te2 = ret.get( 1 ).getToolEntries().get( 7 );
+    // ret.get( 1 ).getToolEntries().clear();
+    // ret.get( 1 ).getToolEntries().add( te );
+    // ret.get( 1 ).getToolEntries().add( te2 );
     return ret.toArray( new IPaletteCompartmentEntry[ ret.size() ] );
   }
 
   /**
    * @param ret
    */
-  private void addKeyPairCompartment( List<IPaletteCompartmentEntry> ret ) {
-    
-    ArrayList<KeyPair> keyPairList = new ArrayList<KeyPair>();
-    
-    IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    
-    if ( activeProject != null ){
+  // private PaletteCompartmentEntry getApplicationComponentCompartment( final
+  // List<IPaletteCompartmentEntry> ret )
+  // {
+  //    return new PaletteCompartmentEntry( "Components", null ); //$NON-NLS-1$
+  //
+  // }
+  // Create Palette compartment for Application Components
+  private void addApplicationComponentsCompartment( List<IPaletteCompartmentEntry> ret )
+  {
+    ArrayList<TNodeTemplateExtension> appComponents = new ArrayList<TNodeTemplateExtension>();
+    TNodeTemplateExtension applicationServerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
+    applicationServerComponent.setType( new QName( "ApplicationServer" ) );
+    applicationServerComponent.setName( "ApplicationServer" );
+    appComponents.add( applicationServerComponent );
+    TNodeTemplateExtension databaseServerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
+    databaseServerComponent.setType( new QName( "DatabaseServer" ) );
+    databaseServerComponent.setName( "DatabaseServer" );
+    appComponents.add( databaseServerComponent );
+    TNodeTemplateExtension loadBalancerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
+    loadBalancerComponent.setType( new QName( "LoadBalancer" ) );
+    loadBalancerComponent.setName( "LoadBalancer" );
+    appComponents.add( loadBalancerComponent );
+    // add new compartment at the end of the existing compartments
+    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Application Components", null ); //$NON-NLS-1$
+    ret.add( compartmentEntry );
+    for( TNodeTemplateExtension appComponent : appComponents ) {
+      // add new stack entry to new compartment
+      StackEntry stackEntry = new StackEntry( appComponent.getName(),
+                                              appComponent.getName(),
+                                              null );
+      compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( true );
+      // add all create-features to the new stack-entry
+      IFeatureProvider featureProvider = getFeatureProvider();
+      ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+      for( ICreateFeature cf : createFeatures ) {
+        if( cf instanceof CreateApplicationComponentFeature ) {
+          CreateApplicationComponentFeature appCompCF = ( CreateApplicationComponentFeature )cf;
+          appCompCF.setContextObject( appComponent );
+          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( appComponent.getName(),
+                                                                                         appCompCF.getDescription(),
+                                                                                         appCompCF.getCreateImageId(),
+                                                                                         appCompCF.getCreateLargeImageId(),
+                                                                                         appCompCF );
+          stackEntry.addCreationToolEntry( objectCreationToolEntry );
+        }
+      }
+      // add all create-connection-features to the new stack-entry
+      ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
+      for( ICreateConnectionFeature cf : createConnectionFeatures ) {
+        ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( appComponent.getName(),
+                                                                                                   cf.getName(),
+                                                                                                   cf.getCreateImageId(),
+                                                                                                   cf.getCreateLargeImageId() );
+        connectionCreationToolEntry.addCreateConnectionFeature( cf );
+        stackEntry.addCreationToolEntry( connectionCreationToolEntry );
+      }
+    }
+    // Add Group Entry
+    // add new stack entry to new compartment
+    TServiceTemplateExtension groupComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTServiceTemplateExtension();
+    groupComponent.setName( null );
+    StackEntry stackEntry = new StackEntry( "Composite Component",
+                                            "Composite Component",
+                                            null );
+    compartmentEntry.addToolEntry( stackEntry );
+    compartmentEntry.setInitiallyOpen( true );
+    // add all create-features to the new stack-entry
+    IFeatureProvider featureProvider = getFeatureProvider();
+    ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+    for( ICreateFeature cf : createFeatures ) {
+      if( cf instanceof CreateGroupFeature ) {
+        CreateGroupFeature groupCF = ( CreateGroupFeature )cf;
+        groupCF.setContextObject( groupComponent );
+        ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( "Composite Component",
+                                                                                       groupCF.getDescription(),
+                                                                                       groupCF.getCreateImageId(),
+                                                                                       groupCF.getCreateLargeImageId(),
+                                                                                       groupCF );
+        stackEntry.addCreationToolEntry( objectCreationToolEntry );
+      }
+    }
+    // add all create-connection-features to the new stack-entry
+    ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
+    for( ICreateConnectionFeature cf : createConnectionFeatures ) {
+      ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( "Composite Component",
+                                                                                                 cf.getName(),
+                                                                                                 cf.getCreateImageId(),
+                                                                                                 cf.getCreateLargeImageId() );
+      connectionCreationToolEntry.addCreateConnectionFeature( cf );
+      stackEntry.addCreationToolEntry( connectionCreationToolEntry );
+    }
+  }
 
+  /**
+   * @param ret
+   */
+  private void addDeployScriptCompartment( List<IPaletteCompartmentEntry> ret )
+  {
+    ArrayList<SoftwareDependency> deployScriptsList = new ArrayList<SoftwareDependency>();
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    if( activeProject != null ) {
       IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Deployment Scripts" );
       IResource[] artifactsResource = null;
       try {
@@ -159,58 +330,109 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       } catch( CoreException e ) {
         e.printStackTrace();
       }
-      for ( IResource tempResource : artifactsResource ){
-        if ( tempResource instanceof IFile){          
-          IFile file = (IFile) tempResource;
-          if (!file.getFileExtension().equals("pub" ))
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          IFile file = ( IFile )tempResource;
+          if( !file.getFileExtension().equals( "sh" ) )
+            continue;
+          SoftwareDependency sd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
+          sd.setName( file.getName() );
+          sd.setURL( file.getFullPath().toString() );
+          sd.setDescription( file.getName() );
+          // add new keypair to list
+          deployScriptsList.add( sd );
+        }
+      }
+      // add new compartment at the end of the existing compartments
+      PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Deployment Scripts", null ); //$NON-NLS-1$
+      ret.add( compartmentEntry );
+      // TODO - nickl: Fix below. It should be Scripts and not Software
+      // dependency. Maybe update sysinfo model.
+      for( SoftwareDependency script : deployScriptsList ) {
+        // add all create-features to the new stack-entry
+        IFeatureProvider featureProvider = getFeatureProvider();
+        ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+        for( ICreateFeature cf : createFeatures ) {
+          if( cf instanceof CreateSoftwareDependencyFeature ) {
+            CreateSoftwareDependencyFeature sdCF = ( CreateSoftwareDependencyFeature )cf;
+            // /////////////////////////////////////////
+            TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+            deploymentArtifact.setName( script.getName() );
+            deploymentArtifact.setArtifactType( new QName( "SD" ) );
+            sdCF.setContextObject( deploymentArtifact );
+            // add new stack entry to new compartment
+            IToolEntry entry = new ObjectCreationToolEntry( script.getName(),
+                                                            script.getDescription(),
+                                                            null,
+                                                            null,
+                                                            sdCF );
+            compartmentEntry.addToolEntry( entry );
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @param ret
+   */
+  private void addKeyPairCompartment( List<IPaletteCompartmentEntry> ret ) {
+    ArrayList<KeyPair> keyPairList = new ArrayList<KeyPair>();
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    if( activeProject != null ) {
+      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Deployment Scripts" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = artifactsFolder.members();
+      } catch( CoreException e ) {
+        e.printStackTrace();
+      }
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          IFile file = ( IFile )tempResource;
+          if( !file.getFileExtension().equals( "pub" ) )
             continue;
           KeyPair kp = InfoSystemFactory.eINSTANCE.createKeyPair();
           kp.setName( file.getName() );
           kp.setURL( file.getFullPath().toString() );
           kp.setDescription( file.getName() );
-          
-          //add new keypair to list
-          keyPairList.add( kp ); 
+          // add new keypair to list
+          keyPairList.add( kp );
         }
       }
-      
       // add new compartment at the end of the existing compartments
       PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Key Pairs", null ); //$NON-NLS-1$
-      ret.add( compartmentEntry );    
-      
+      ret.add( compartmentEntry );
       for( KeyPair keyPair : keyPairList ) {
-            
         // add all create-features to the new stack-entry
         IFeatureProvider featureProvider = getFeatureProvider();
         ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
-
         for( ICreateFeature cf : createFeatures ) {
           if( cf instanceof CreateKeyPairFeature ) {
             CreateKeyPairFeature kpCF = ( CreateKeyPairFeature )cf;
-            
-            ///////////////////////////////////////////
+            // /////////////////////////////////////////
             TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
             deploymentArtifact.setName( keyPair.getName() );
             deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );
             kpCF.setContextObject( deploymentArtifact );
-//            ///////////////////////////////////////////
-//            ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( kpCF.getName(),
-//                                                                                           kpCF.getDescription(),
-//                                                                                           kpCF.getCreateImageId(),
-//                                                                                           kpCF.getCreateLargeImageId(),
-//                                                                                           kpCF );
-            
+            // ///////////////////////////////////////////
+            // ObjectCreationToolEntry objectCreationToolEntry = new
+            // ObjectCreationToolEntry( kpCF.getName(),
+            // kpCF.getDescription(),
+            // kpCF.getCreateImageId(),
+            // kpCF.getCreateLargeImageId(),
+            // kpCF );
             // add new stack entry to new compartment
-            IToolEntry entry = new ObjectCreationToolEntry( keyPair.getName(), keyPair.getDescription(), null, null, kpCF );
+            IToolEntry entry = new ObjectCreationToolEntry( keyPair.getName(),
+                                                            keyPair.getDescription(),
+                                                            null,
+                                                            null,
+                                                            kpCF );
             compartmentEntry.addToolEntry( entry );
-            
           }
         }
-
       }
     }
-    
-
   }
 
   // Create Palette compartment for VM Images
@@ -234,16 +456,13 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateVMIFeature ) {
           CreateVMIFeature vmiCF = ( CreateVMIFeature )cf;
-          
-          //vmiCF.setContextObject( vmi );
-          
-          ///////////////////////////////////////////
+          // vmiCF.setContextObject( vmi );
+          // /////////////////////////////////////////
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( vmi.getName() );
           deploymentArtifact.setArtifactType( new QName( "VMI" ) );
           vmiCF.setContextObject( deploymentArtifact );
-          ///////////////////////////////////////////
-          
+          // /////////////////////////////////////////
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vmi.getName(),
                                                                                          vmiCF.getDescription(),
                                                                                          vmiCF.getCreateImageId(),
@@ -270,15 +489,10 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<VirtualMachineImage> vmis = MockUpInfoSystem.getInstance()
       .getCustomMachineImages();
-    
     ArrayList<VirtualMachineImage> vmisCopy = ( ArrayList<VirtualMachineImage> )vmis.clone();
-    
     // Add custom images from project explorer
-        
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    
-    if ( activeProject != null ){
-
+    if( activeProject != null ) {
       IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Virtual Machine Images" );
       IResource[] artifactsResource = null;
       try {
@@ -287,48 +501,41 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
-      for ( IResource tempResource : artifactsResource ){
-        if ( tempResource instanceof IFile){
-          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();      
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
           vmi.setUID( "1" );
           vmi.setName( tempResource.getName() );
           vmi.setDescription( "h" );
           vmi.setURL( "h" );
           vmi.setType( VirtualMachineImageType.BASE_IMAGE );
-          //add new base vmi to images list
-          vmisCopy.add( vmi ); 
+          // add new base vmi to images list
+          vmisCopy.add( vmi );
         }
       }
     }
-    
-
     // add new compartment at the end of the existing compartments
-    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Custom Images", null ); //$NON-NLS-1$
+    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Images", null ); //$NON-NLS-1$
+    compartmentEntry.setInitiallyOpen( false );
     ret.add( compartmentEntry );
     for( VirtualMachineImage vmi : vmisCopy ) {
       // add new stack entry to new compartment
-      StackEntry stackEntry = new StackEntry( vmi.getUID(),
-                                              vmi.getName(),
-                                              null );
-      
+      StackEntry stackEntry = new StackEntry( vmi.getUID(), vmi.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
-      compartmentEntry.setInitiallyOpen( true );
+      compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateVMIFeature ) {
           CreateVMIFeature vmiCF = ( CreateVMIFeature )cf;
-          
-          //vmiCF.setContextObject( vmi );
-          
-          ///////////////////////////////////////////
+          // vmiCF.setContextObject( vmi );
+          // /////////////////////////////////////////
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( vmi.getUID() );
           deploymentArtifact.setArtifactType( new QName( "VMI" ) );
           vmiCF.setContextObject( deploymentArtifact );
-          ///////////////////////////////////////////
-          
+          // /////////////////////////////////////////
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vmi.getUID(),
                                                                                          vmiCF.getName(),
                                                                                          vmiCF.getCreateImageId(),
@@ -337,8 +544,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
-      
-      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
@@ -350,49 +555,43 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
-  
   }
 
   // Create Palette compartment for Software Dependencies
   private void addSoftwareDependenciesCompartment( List<IPaletteCompartmentEntry> ret )
   {
-	    ArrayList<SoftwareDependency> swds = MockUpInfoSystem.getInstance()
-	    	      .getSoftwareDependencies();
-        
+    ArrayList<SoftwareDependency> swds = MockUpInfoSystem.getInstance()
+      .getSoftwareDependencies();
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Software Dependencies", null ); //$NON-NLS-1$
     ret.add( compartmentEntry );
     for( SoftwareDependency swd : swds ) {
-        // add new stack entry to new compartment
-        StackEntry stackEntry = new StackEntry( swd.getName(),
-                                                swd.getName(),
-                                                null );
-        compartmentEntry.addToolEntry( stackEntry );
-        compartmentEntry.setInitiallyOpen( false );
+      // add new stack entry to new compartment
+      StackEntry stackEntry = new StackEntry( swd.getName(),
+                                              swd.getName(),
+                                              null );
+      compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
       for( ICreateFeature cf : createFeatures ) {
-          if( cf instanceof CreateSoftwareDependencyFeature ) {
-              CreateSoftwareDependencyFeature swdCF = ( CreateSoftwareDependencyFeature )cf;
-
-          ///////////////////////////////////////////
+        if( cf instanceof CreateSoftwareDependencyFeature ) {
+          CreateSoftwareDependencyFeature swdCF = ( CreateSoftwareDependencyFeature )cf;
+          // /////////////////////////////////////////
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( swd.getName() );
           deploymentArtifact.setArtifactType( new QName( "SD" ) );
           swdCF.setContextObject( deploymentArtifact );
-          ///////////////////////////////////////////
-          
+          // /////////////////////////////////////////
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( swd.getName(),
-        		  swdCF.getDescription(),
-        		  swdCF.getCreateImageId(),
-        		  swdCF.getCreateLargeImageId(),
-        		  swdCF );
+                                                                                         swdCF.getDescription(),
+                                                                                         swdCF.getCreateImageId(),
+                                                                                         swdCF.getCreateLargeImageId(),
+                                                                                         swdCF );
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
-
-      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
@@ -404,9 +603,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
-  
   }
-
 
   // Create Palette compartment for Monitoring Probes
   private void addMonitorProbeCompartment( List<IPaletteCompartmentEntry> ret )
@@ -421,7 +618,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       StackEntry stackEntry = new StackEntry( mp.getName(), mp.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
       compartmentEntry.setInitiallyOpen( false );
-      
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -453,78 +649,63 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   // Create Palette compartment for User Applications
   private void addUserAppsCompartment( final List<IPaletteCompartmentEntry> ret )
   {
- 
-	  ArrayList<UserApplication> uApps = MockUpInfoSystem.getInstance()
-	  .getUserApplications();
-	  
-	    
-	    ArrayList<UserApplication> uAppsCopy = ( ArrayList<UserApplication> )uApps.clone();
-	    
-	    // Add custom images from project explorer
-	        
-	    IProject activeProject = ToscaDiagramEditor.getActiveProject();
-	    
-	    if ( activeProject != null ){
-
-	      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Deployment Scripts" );
-	      IResource[] artifactsResource = null;
-	      try {
-	        artifactsResource = artifactsFolder.members();
-	      } catch( CoreException e ) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	      }
-	      for ( IResource tempResource : artifactsResource ){
-	        if ( tempResource instanceof IFile){
-	          UserApplication ua = InfoSystemFactory.eINSTANCE.createUserApplication();      
-	          ua.setUID( "1" );
-	          ua.setName( tempResource.getName() );
-	          ua.setDescription( "h" );
-	          ua.setURL( "h" );
-	          ua.setType( "UA" );
-	          //add new base vmi to images list
-	          uAppsCopy.add( ua ); 
-	        }
-	      }
-	    }
-	// add new compartment at the end of the existing compartments
-	PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "User Applications", null ); //$NON-NLS-1$
-	ret.add( compartmentEntry );
-	for( UserApplication app : uAppsCopy ) {
-	  // add new stack entry to new compartment
-	  StackEntry stackEntry = new StackEntry( app.getName(),
-	                                          app.getName(),
-	                                          null );
-	  compartmentEntry.addToolEntry( stackEntry );
-	  compartmentEntry.setInitiallyOpen( true );
-    
-    
+    ArrayList<UserApplication> uApps = MockUpInfoSystem.getInstance()
+      .getUserApplications();
+    ArrayList<UserApplication> uAppsCopy = ( ArrayList<UserApplication> )uApps.clone();
+    // Add custom images from project explorer
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    if( activeProject != null ) {
+      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Applications" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = artifactsFolder.members();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          UserApplication ua = InfoSystemFactory.eINSTANCE.createUserApplication();
+          ua.setUID( "1" );
+          ua.setName( tempResource.getName() );
+          ua.setDescription( "h" );
+          ua.setURL( "h" );
+          ua.setType( "UA" );
+          // add new base vmi to images list
+          uAppsCopy.add( ua );
+        }
+      }
+    }
+    // add new compartment at the end of the existing compartments
+    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "User Applications", null ); //$NON-NLS-1$
+    ret.add( compartmentEntry );
+    for( UserApplication app : uAppsCopy ) {
+      // add new stack entry to new compartment
+      StackEntry stackEntry = new StackEntry( app.getName(),
+                                              app.getName(),
+                                              null );
+      compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( true );
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
-
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateUserApplicationFeature ) {
-        	 CreateUserApplicationFeature uaCF = ( CreateUserApplicationFeature )cf;
-   
-          
-          ///////////////////////////////////////////
+          CreateUserApplicationFeature uaCF = ( CreateUserApplicationFeature )cf;
+          // /////////////////////////////////////////
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( app.getName() );
           deploymentArtifact.setArtifactType( new QName( "UA" ) );
           uaCF.setContextObject( deploymentArtifact );
-          ///////////////////////////////////////////
+          // /////////////////////////////////////////
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( app.getName(),
-                  uaCF.getDescription(),
-                  uaCF.getCreateImageId(),
-                  uaCF.getCreateLargeImageId(),
-                  uaCF );
-                                                                                      
+                                                                                         uaCF.getDescription(),
+                                                                                         uaCF.getCreateImageId(),
+                                                                                         uaCF.getCreateLargeImageId(),
+                                                                                         uaCF );
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
-
-      
       // add all create-connection-features to the new stack-entry
       ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
       for( ICreateConnectionFeature cf : createConnectionFeatures ) {
@@ -536,9 +717,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
-  
   }
-
 
   // Create Palette compartment for Resizing Actions
   private void addResizeActionsCompartment( List<IPaletteCompartmentEntry> ret )
@@ -553,7 +732,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       StackEntry stackEntry = new StackEntry( ra.getName(), ra.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
       compartmentEntry.setInitiallyOpen( false );
-      
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
@@ -580,8 +758,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         stackEntry.addCreationToolEntry( connectionCreationToolEntry );
       }
     }
-    
-    
   }
 
   @Override

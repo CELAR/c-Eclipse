@@ -20,10 +20,12 @@ import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class CreateGroupFeature extends AbstractCreateFeature {
+  
+  private Object contextObject = null;
 
   public CreateGroupFeature( IFeatureProvider fp ) {
     // set name and description of the creation feature
-    super( fp, "Group", "Create Group" ); //$NON-NLS-1$ //$NON-NLS-2$
+    super( fp, "Component Group", "Create Group" ); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   // Checks if user can create a group component object in the target
@@ -33,10 +35,18 @@ public class CreateGroupFeature extends AbstractCreateFeature {
     // return context.getTargetContainer() instanceof TServiceTemplate;
     return true;
   }
+  
+  public void setContextObject (final Object obj) {
+    this.contextObject = obj;
+  }
 
   // Creates the business object for the group component
   @Override
   public Object[] create( ICreateContext context ) {
+    
+    if (this.contextObject == null) {
+      return null;
+    }
     // create substitutableNodeType
     TServiceTemplateExtension tService = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTServiceTemplateExtension();
     
