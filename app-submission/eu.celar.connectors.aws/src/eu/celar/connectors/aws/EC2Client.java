@@ -30,21 +30,28 @@ import eu.celar.core.reporting.ProblemException;
  */
 public class EC2Client {
   private static AmazonEC2Client ec2;
+  private static AWSCredentials awsCredentials;
   
   public static AmazonEC2Client getEC2() {
-    if ( ec2 == null) {
-      AWSCredentials awsCredentials = getAWSAuthCredentials();
-      if( awsCredentials != null ) {        
+    if( ec2 == null ) {
+      awsCredentials = getAWSAuthCredentials();
+      if( awsCredentials != null ) {
         ec2 = new AmazonEC2Client( awsCredentials );
-        ec2.setRegion( RegionUtils.getRegion( "eu-west-1" ) );         //$NON-NLS-1$        
+        ec2.setRegion( RegionUtils.getRegion( "eu-west-1" ) ); //$NON-NLS-1$        
       }
-
     }
     return ec2;
   }
   
+  public static AWSCredentials getCredentials() {
+    if (awsCredentials != null) {
+      awsCredentials = getAWSAuthCredentials();
+    }
+    return awsCredentials;
+  }
+  
   private static AWSCredentials getAWSAuthCredentials()  {
-    AWSCredentials awsCredentials = null;
+    AWSCredentials credentials = null;
     ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
     ICloudElement[] children;
     try {
@@ -64,7 +71,7 @@ public class EC2Client {
                                                          "Fectch AWS Info" ); //$NON-NLS-1$
         AWSAuthToken awsAuthToken = ( AWSAuthToken )AbstractAuthTokenProvider.staticRequestToken( request );
         if( awsAuthToken != null ) {
-          awsCredentials = new BasicAWSCredentials( awsAuthTokenDesc.getAwsAccessId(),
+          credentials = new BasicAWSCredentials( awsAuthTokenDesc.getAwsAccessId(),
                                                     awsAuthTokenDesc.getAwsSecretId() );
         }
       }
@@ -74,6 +81,6 @@ public class EC2Client {
     }
 
     
-    return awsCredentials;
+    return credentials;
   }
 }
