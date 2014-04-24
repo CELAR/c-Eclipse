@@ -16,8 +16,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.jclouds.compute.ComputeService;
 import org.jclouds.compute.domain.Image;
-import org.jclouds.openstack.nova.v2_0.NovaApi;
-
 import eu.celar.connectors.openstack.OpenStackClient;
 import eu.celar.connectors.openstack.operation.OpenStackOpDescribeImages;
 import eu.celar.connectors.openstack.operation.OperationExecuter;

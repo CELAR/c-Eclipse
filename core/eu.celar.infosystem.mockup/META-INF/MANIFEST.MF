@@ -16,8 +16,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench,
  com.amazon.aws;bundle-version="1.0.0",
- org.apache.jclouds,
- eu.celar.connectors.openstack
+ eu.celar.connectors.openstack,
+ jclouds-core;bundle-version="1.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.infosystem.mockup.info;
@@ -34,4 +34,8 @@ Import-Package: com.amazonaws.auth,
  eu.celar.connectors.aws.auth,
  eu.celar.connectors.aws.operation,
  org.apache.commons.logging,
- org.apache.http;version="4.1.4"
+ org.apache.http;version="4.1.4",
+ org.jclouds.compute;version="1.7.0",
+ org.jclouds.compute.domain;version="1.7.0",
+ org.jclouds.openstack.nova.v2_0;version="1.7.0",
+ org.jclouds.openstack.nova.v2_0.domain;version="1.7.0"
