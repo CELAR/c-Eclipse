@@ -1,87 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <relativePath>../eu.celar.tycho/pom.xml</relativePath>
-    <groupId>eu.celar.tycho</groupId>
-    <artifactId>parent</artifactId>
-    <version>1.0.0.qualifier</version>
-  </parent>
+	<artifactId>p2-site</artifactId>
+	<packaging>pom</packaging>
 
-  <artifactId>org.apache.jclouds</artifactId>
-  <version>1.0.0.qualifier</version>
-  <packaging>eclipse-plugin</packaging>
-  
-  <properties>
-    <jclouds.version>1.7.0</jclouds.version>
-  </properties>
-  
-	<dependencies>
-    <!-- jclouds dependencies -->
-    <dependency>
-      <groupId>org.apache.jclouds.driver</groupId>
-      <artifactId>jclouds-slf4j</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.driver</groupId>
-      <artifactId>jclouds-sshj</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <!-- OpenStack dependencies -->
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>openstack-keystone</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>openstack-nova</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>swift</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>openstack-cinder</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.api</groupId>
-      <artifactId>openstack-trove</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
-      <artifactId>openstack-glance</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
-      <artifactId>openstack-marconi</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jclouds.labs</groupId>
-      <artifactId>openstack-neutron</artifactId>
-      <version>${jclouds.version}</version>
-    </dependency>
-    <!-- 3rd party dependencies -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.0.13</version>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.25</version>
-    </dependency>
-  </dependencies>
+	<parent>
+		<groupId>eu.celar.tycho</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0.qualifier</version>
+		<relativePath>../../eu.celar.tycho</relativePath>
+	</parent>
 
-</project> 
+	<properties>
+		<jclouds.version>1.7.0</jclouds.version>
+	</properties>
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.reficio</groupId>
+                <artifactId>p2-maven-plugin</artifactId>
+                <version>1.1.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <!-- QUICK-START EXAMPLE -->
+                        <!--
+                        This is the default quick-start configuration.
+
+                        Expected behavior:
+                          - specified dependencies will be fetched
+                          - transitive dependencies will be fetched (no default exclusions)
+                          - jars containing source source code will NOT be fetched
+                          - jars that are NOT OSGi bundles will be "bundled" using bnd tool,
+                            if you specify instructions for these jars they will be APPLIED
+                          - jars that are OSGi bundles will be simply included
+                            if you specify instructions for these jars they will be IGNORED (see <override> option)
+                          - p2 site will be generated
+
+                        How the instructions works:
+                          - instructions are applied only to the root artifact that you specify!
+                          - instructions are not applied to the TRANSITIVE dependencies!
+                          - transitive dependencies are never overridden (see <override> option)
+                          - transitive dependencies are bundled using the default instructions:
+                              <instructions>
+                                  <Import-Package>*;resolution:=optional</Import-Package>
+                                  <Export-Package>*</Export-Package>
+                              </instructions>
+                          - other instructions, such as, Bundle-SymbolicName, Bundle-Name, Bundle-Version, etc.
+                            are calculated according to the following rules:
+                            http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+                          - if you specify any instructions they will be applied only if
+                            the jar is not already an OSGi bundle - otherwise you have to use the override
+                            option - please see the /examples/override/pom.xml example
+
+                        The following definition of an artifact:
+                            <artifact>
+                                <id>commons-io:commons-io:2.1</id>
+                            </artifact>
+
+                        is an equivalent of the following definition:
+                            <artifact>
+                                <id>commons-io:commons-io:2.1</id>
+                                <transitive>true</transitive>
+                                <source>false</source>
+                                <override>false</override>
+                                <instructions>
+                                    <Import-Package>*;resolution:=optional</Import-Package>
+                                    <Export-Package>*</Export-Package>
+                                </instructions>
+                                <excludes/>
+                            </artifact>
+
+                        To run the example please invoke: mvn p2:site
+                        -->
+                        <configuration>
+                            <artifacts>
+                                <!-- jclouds dependencies -->
+                                <artifact>
+                                    <id>org.apache.jclouds.driver:jclouds-slf4j:1.7.0</id>
+                                </artifact>
+								<!-- 
+								<artifact>
+                                    <id>org.apache.jclouds.driver:jclouds-sshj:1.7.0</id>
+                                </artifact>
+                                -->
+								<artifact>
+                                    <id>org.apache.jclouds.api:openstack-nova:1.7.0</id>
+                                </artifact>
+								<artifact>
+                                    <id>org.apache.jclouds.api:openstack-keystone:1.7.0</id>
+                                </artifact>
+								<artifact>
+                                    <id>org.apache.jclouds.api:swift:1.7.0</id>
+                                </artifact>                                
+								<artifact>
+                                    <id>org.apache.jclouds.api:openstack-cinder:1.7.0</id>
+                                </artifact>
+                                <!--  
+								<artifact>
+                                    <id>org.apache.jclouds.api:openstack-trove:1.7.0</id>
+                                </artifact>
+								<artifact>
+                                    <id>org.apache.jclouds.labs:openstack-glance:1.7.0</id>
+                                </artifact>   
+								<artifact>
+                                    <id>org.apache.jclouds.labs:openstack-marconi:1.7.0</id>
+                                </artifact>
+								<artifact>
+                                    <id>org.apache.jclouds.labs:openstack-neutron:1.7.0</id>
+                                </artifact>   
+                                -->
+                                <!-- 3rd party dependencies -->                                
+								<artifact>
+                                    <id>ch.qos.logback:logback-classic:1.0.13</id>
+                                </artifact>                                                                                     
+                                <artifact>
+                                    <id>mysql:mysql-connector-java:5.1.25</id>
+                                </artifact>                                
+                            </artifacts>
+                        </configuration>
+
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.5.v20120716</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webAppSourceDirectory>${basedir}/target/repository/</webAppSourceDirectory>
+                    <webApp>
+                        <contextPath>/site</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>reficio</id>
+            <url>http://repo.reficio.org/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
