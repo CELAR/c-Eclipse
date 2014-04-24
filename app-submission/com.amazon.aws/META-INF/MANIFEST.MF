@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Aws
 Bundle-SymbolicName: com.amazon.aws
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: aws-java-sdk-1.6.12.jar,
  aws-java-sdk-1.6.12-javadoc.jar,
  aspectjrt.jar,
