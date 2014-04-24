@@ -7,23 +7,23 @@ Bundle-Activator: eu.celar.connectors.openstack.internal.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.8.101",
- eu.celar.core;bundle-version="1.0.0",
  eu.celar.tosca,
- org.apache.jclouds,
- com.google.guava;bundle-version="11.0.2"
+ com.google.guava;bundle-version="11.0.2",
+ eu.celar.core;bundle-version="1.0.0",
+ jclouds-slf4j,
+ jclouds-core,
+ jclouds-compute,
+ openstack-keystone,
+ openstack-nova
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: com.google.inject;version="1.4.0",
+Import-Package: com.google.inject,
  eu.celar.core,
  eu.celar.core.model,
  eu.celar.core.model.impl,
  eu.celar.core.reporting,
  eu.celar.tosca.core,
- org.eclipse.core.filesystem,
- org.jclouds,
- org.jclouds.compute,
- org.jclouds.compute.domain,
- org.jclouds.logging.slf4j.config
+ org.eclipse.core.filesystem
 Export-Package: eu.celar.connectors.openstack,
  eu.celar.connectors.openstack.auth,
  eu.celar.connectors.openstack.operation
