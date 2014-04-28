@@ -78,9 +78,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   </build>
 
   <modules>
-  	<module>
-  		../../../workspaces/workspace_celar/eu.celar.tycho.target
-  	</module>
+  	
   	<module>../app-submission/eu.celar.connectors.openstack</module>
   	<module>../core/eu.celar.core</module>
   	<module>../core/eu.celar.core.reporting</module>
@@ -95,6 +93,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   	<module>
   		../app-submission/eu.celar.connectors.openstack.ui
   	</module>
+  	
+  	
+  	<module>../eu.celar.tycho.feature</module>
+  	<module>../eu.celar.tycho.target</module>
   </modules>
  
 </project> 
