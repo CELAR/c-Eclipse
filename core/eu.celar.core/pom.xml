@@ -27,7 +27,7 @@
   	<artifactId>parent</artifactId>
   	<groupId>eu.celar.tycho</groupId>
   	<version>1.0.0.qualifier</version>
-  	<relativePath>../../eu.celar.tycho</relativePath>
+  	<relativePath>..\..\eu.celar.tycho</relativePath>
   </parent>
   <packaging>eclipse-plugin</packaging>
 </project>

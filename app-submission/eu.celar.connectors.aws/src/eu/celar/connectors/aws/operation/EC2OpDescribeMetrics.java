@@ -46,7 +46,7 @@ public class EC2OpDescribeMetrics extends AbstractEC2OpDescribeMetrics {
      request.setNamespace( "AWS/EC2");
      ListMetricsResult listMetrics = this.cloudWatch.listMetrics( request );
      List<Metric> metrics = listMetrics.getMetrics();
-      
+     
       setResult( metrics );
     } catch( Exception ex ) {
       setException( ex );

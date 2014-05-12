@@ -1,24 +1,37 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium 
- * http://www.celarcloud.eu
- * 
- * Contributors:
- *      Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.text.edits.TextEdit;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
-import org.eclipse.graphiti.mm.algorithms.Rectangle;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.viewers.ColumnLayoutData;
@@ -34,33 +47,61 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.formatter.CodeFormatter;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.launching.LibraryLocation;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
-import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ToscaDiagramEditorInput;
+import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
+import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
+import eu.celar.tosca.editor.features.CreateVMIFeature;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 /**
- *  Application Component Properties - Monitoring Tab
+ * Application Component Properties - Monitoring Tab
  */
-public class ApplicationComponentMonitoringSection
-  extends GFPropertySection implements ITabbedPropertyConstants
+public class ApplicationComponentMonitoringSection extends GFPropertySection
+  implements ITabbedPropertyConstants
 {
 
   Section section;
   private Table tableMonitoringProbes;
   private Button removeButton;
+  private Button createButton;
   TableViewer tableMonitoringProbesViewer;
   List<String> appComponentMonitoringProbes = new ArrayList<String>();
 
   @Override
-  public void createControls( Composite parent,
+  public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
@@ -131,14 +172,61 @@ public class ApplicationComponentMonitoringSection
     gd.widthHint = 60;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButton.setLayoutData( gd );
+    
+    // Monitoring Probe Create Button
+    this.createButton = new Button( client2, SWT.PUSH );
+    this.createButton.setText( "Create Custom" ); //$NON-NLS-1$
+    this.createButton.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+  
+        // Get probe name
+        String probeName = null;
+        FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
+        dialog.setText( "Select Image File" ); //$NON-NLS-1$
+        //dialog.setFilterExtensions(new String [] {"*.html"});
+        //dialog.setFilterPath("c:\\temp");
+        String result = dialog.open();
+        if (result != null){
+          probeName = dialog.getFileName();
+        }
+
+        try {
+            try {
+                createProbeProject(probeName);
+            } catch (PartInitException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        } catch (JavaModelException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+      }
+
+      @Override
+      public void widgetDefaultSelected( SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gd = new GridData();
+    gd.widthHint = 60;
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.removeButton.setLayoutData( gd );
+    
     // Add section components to the toolkit
     toolkit.adapt( this.tableMonitoringProbes, true, true );
     toolkit.adapt( this.removeButton, true, true );
+    toolkit.adapt( this.createButton, true, true );
     this.section.setClient( client );
   }
 
   /**
-   *  Get Application Component Monitoring Probes from TOSCA
+   * Get Application Component Monitoring Probes from TOSCA
    */
   public void getMonitoringProbes() {
     PictogramElement pe = getSelectedPictogramElement();
@@ -146,20 +234,16 @@ public class ApplicationComponentMonitoringSection
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
-    }  
-    
+    }
     final TNodeTemplateExtension appComponent;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
+      appComponent = ( TNodeTemplateExtension )bo;
     }
-    else { // bo instanceof TNodeTemplate
-    	appComponent = ( TNodeTemplateExtension )bo;
-    }
-    
-    
     TDeploymentArtifacts deploymentArtifacts = appComponent.getDeploymentArtifacts();
     if( deploymentArtifacts == null )
       return;
@@ -179,18 +263,15 @@ public class ApplicationComponentMonitoringSection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    
     final TNodeTemplateExtension nodeTemplate;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-    }
-    else { // bo instanceof TNodeTemplate
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
       nodeTemplate = ( TNodeTemplateExtension )bo;
     }
-    
     final TDeploymentArtifacts deploymentArtifacts = nodeTemplate.getDeploymentArtifacts();
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
@@ -211,23 +292,20 @@ public class ApplicationComponentMonitoringSection
       } );
     this.appComponentMonitoringProbes.remove( selectedObject );
     this.tableMonitoringProbesViewer.refresh();
-    
-    
     // If 0 Monitoring Probes left remove monitoring icon
-    if ( this.appComponentMonitoringProbes.size() == 0 ){
-      
-//      Object[] targetDiagrams = ((ContainerShape) pe).getChildren().toArray();
-//      for( int i = 0; i < targetDiagrams.length; i++ ) {
-//        Shape imageShape = ( Shape )targetDiagrams[ i ];
-//        GraphicsAlgorithm imageGA = imageShape.getGraphicsAlgorithm();
-//        if( imageGA instanceof Image ){
-//          imageShape.setVisible( false );
-//          //OR
-//          imageGA.setTransparency( 1.0 );
-//          break;
-//        }
-//      }
-      
+    if( this.appComponentMonitoringProbes.size() == 0 ) {
+      // Object[] targetDiagrams = ((ContainerShape)
+      // pe).getChildren().toArray();
+      // for( int i = 0; i < targetDiagrams.length; i++ ) {
+      // Shape imageShape = ( Shape )targetDiagrams[ i ];
+      // GraphicsAlgorithm imageGA = imageShape.getGraphicsAlgorithm();
+      // if( imageGA instanceof Image ){
+      // imageShape.setVisible( false );
+      // //OR
+      // imageGA.setTransparency( 1.0 );
+      // break;
+      // }
+      // }
     }
   }
 
@@ -241,8 +319,9 @@ public class ApplicationComponentMonitoringSection
   }
 
   /*
-   *  Refresh Tab(non-Javadoc)
-   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   * Refresh Tab(non-Javadoc)
+   * @see
+   * org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
    */
   @Override
   public void refresh() {
@@ -250,28 +329,350 @@ public class ApplicationComponentMonitoringSection
     this.appComponentMonitoringProbes.clear();
     getMonitoringProbes();
     PictogramElement pe = getSelectedPictogramElement();
+    if( pe != null ) {
+      Object bo = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( pe );
+      final TNodeTemplateExtension nodeTemplate;
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+          .getPictogramElementParent( pe );
+        nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
+        nodeTemplate = ( TNodeTemplateExtension )bo;
+      }
+      if( nodeTemplate == null )
+        return;
+      this.tableMonitoringProbesViewer.refresh();
+    }
+  }
+
+  public void createProbeProject(String probeName)
+    throws JavaModelException, PartInitException, IOException
+  {
+
+    // Create java project
+    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject project = workspaceRoot.getProject( "MonitoringProbe" );
+    IJavaProject monitoringProbeProject;
     
-    if ( pe != null ) {
-    	
-    	Object bo = Graphiti.getLinkService()
-    	        .getBusinessObjectForLinkedPictogramElement( pe );
-    	
-	    final TNodeTemplateExtension nodeTemplate;
-	    
-	    if ( bo instanceof TDeploymentArtifact ){
-	      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-	      
-	      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-	    }
-	    else { // bo instanceof TNodeTemplate
-	      nodeTemplate = ( TNodeTemplateExtension )bo;
-	    }
-    
-	    if( nodeTemplate == null )
-	       return;
-	    
-	    this.tableMonitoringProbesViewer.refresh();
+    try {
+      if (project.exists() && project.hasNature(JavaCore.NATURE_ID)){
+        
+        monitoringProbeProject = JavaCore.create( project );
+        
+        IPackageFragmentRoot root = monitoringProbeProject.getPackageFragmentRoot( project.getFolder( "src" ) );       
+        
+        createProbeClass(root, probeName);
+        return;
+      }
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     
+    try {
+      project.create( null );
+      project.open( null );
+    } catch( CoreException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    IProjectDescription description;
+    try {
+      description = project.getDescription();
+      description.setNatureIds( new String[]{
+        JavaCore.NATURE_ID
+      } );
+      project.setDescription( description, null );
+    } catch( CoreException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    IJavaProject javaProject = JavaCore.create( project );
+    IFolder binFolder = project.getFolder( "bin" );
+    try {
+      binFolder.create( false, true, null );
+      javaProject.setOutputLocation( binFolder.getFullPath(), null );
+    } catch( CoreException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
+    IVMInstall vmInstall = JavaRuntime.getDefaultVMInstall();
+    LibraryLocation[] locations = JavaRuntime.getLibraryLocations( vmInstall );
+    for( LibraryLocation element : locations ) {
+      entries.add( JavaCore.newLibraryEntry( element.getSystemLibraryPath(),
+                                             null,
+                                             null ) );
+    }
+    // Add probes.jar
+    IPath probeJarPath = new Path( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" );
+    LibraryLocation probeJarLocation = new LibraryLocation( probeJarPath,
+                                                            Path.EMPTY,
+                                                            Path.EMPTY );
+    entries.add( JavaCore.newLibraryEntry( probeJarLocation.getSystemLibraryPath(),
+                                           null,
+                                           null ) );
+    // add libs to project class path
+    try {
+      javaProject.setRawClasspath( entries.toArray( new IClasspathEntry[ entries.size() ] ),
+                                   null );
+    } catch( JavaModelException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    IFolder sourceFolder = project.getFolder( "src" );
+    try {
+      sourceFolder.create( false, true, null );
+    } catch( CoreException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    
+    IPackageFragmentRoot root = javaProject.getPackageFragmentRoot( sourceFolder );
+    
+    IClasspathEntry[] oldEntries = null;
+    try {
+      oldEntries = javaProject.getRawClasspath();
+    } catch( JavaModelException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    IClasspathEntry[] newEntries = new IClasspathEntry[ oldEntries.length + 1 ];
+    System.arraycopy( oldEntries, 0, newEntries, 0, oldEntries.length );
+    newEntries[ oldEntries.length ] = JavaCore.newSourceEntry( root.getPath() );
+    try {
+      javaProject.setRawClasspath( newEntries, null );
+    } catch( JavaModelException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    
+    createProbeClass(root, probeName);
+  }
+
+  public void createProbeClass(IPackageFragmentRoot root, String probeName){
+    
+    String className = probeName + ".java";
+    ICompilationUnit icu = null;
+    
+    // Check if probe name is already used    
+    ICompilationUnit[] compilationUnits = null;
+    try {
+      compilationUnits = root.getPackageFragment( "" ).getCompilationUnits();
+    } catch( JavaModelException e4 ) {
+      // TODO Auto-generated catch block
+      e4.printStackTrace();
+    }
+    
+    boolean exists = false;
+    for ( ICompilationUnit cu : compilationUnits ){
+      if ( cu.getElementName().equals( className )){
+        icu = root.getPackageFragment( "" ).getCompilationUnit( className );
+        exists = true;
+        break;
+      }
+       
+    }
+    
+    if ( exists ){
+      IFile probeFile = ( IFile )icu.getResource();
+
+      IWorkbenchPage page = PlatformUI.getWorkbench()
+          .getActiveWorkbenchWindow()
+          .getActivePage();
+        IEditorDescriptor desc = PlatformUI.getWorkbench()
+          .getEditorRegistry()
+          .getDefaultEditor( probeFile.getName() );
+        try {
+          page.openEditor( new FileEditorInput( probeFile ), desc.getId() );
+        } catch( PartInitException e1 ) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+      return;
+    }
+    
+    addProbeToMonitoringTable(probeName);
+    
+    addProbeToCloudProject(probeName);
+    
+    String source = "public class " + probeName + " extends Probe{} ";
+    StringBuffer buffer = new StringBuffer();
+    buffer.append( source );
+    
+    try {
+      icu = root.getPackageFragment( "" )
+        .createCompilationUnit( className, buffer.toString(), false, null );
+    } catch( JavaModelException e3 ) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    try {
+      icu.createImport( "java.util.HashMap", null, null );
+      icu.createImport( "eu.celarcloud.jcatascopia.probepack.Probe", null, null );
+      icu.createImport( "eu.celarcloud.jcatascopia.probepack.ProbeMetric",
+                        null,
+                        null );
+      icu.createImport( "eu.celarcloud.jcatascopia.probepack.ProbePropertyType",
+                        null,
+                        null );
+      
+      IType probeType = icu.getAllTypes()[ 0 ];
+      probeType.createField( "private static int DEFAULT_SAMPLING_PERIOD = 20;",
+                             null,
+                             false,
+                             null );
+      probeType.createField( "private static String DEFAULT_PROBE_NAME = "
+                             + "\""
+                             + probeName
+                             + "\""
+                             + ";", null, false, null );
+      String constructorComments = "\n"
+                                   + "/* define metrics that will be collected as ProbeProperties."
+                                   + "\n"
+                                   + " * addProbeProperty (int id, String name, ProbePropertyType type,String units, String description)"
+                                   + "\n"
+                                   + " * e.g. addProbeProperty(0,\"cpuUsage\",ProbePropertyType.DOUBLE,\"%\",\"Current system cpu usage\");"
+                                   + "\n"
+                                   + "*/";
+      
+      probeType.createMethod( "public " + probeName + "(String name, int freq) {super(name, freq);"
+                                                        + constructorComments
+                                                        + "\n"
+                                                        + "}",
+                                                    null,
+                                                    false,
+                                                    null );
+      probeType.createMethod( "public " + probeName + "() {this(DEFAULT_PROBE_NAME, DEFAULT_SAMPLING_PERIOD);}",
+                                                           null,
+                                                           false,
+                                                           null );
+      probeType.createMethod( "@Override public ProbeMetric collect() { HashMap<Integer,Object> values = new HashMap<Integer,Object>();"
+                                                    + "/* add to HashMap the values for each defined metric e.g. values.put(0,71.32) */"
+                                                    + "return new ProbeMetric(values);}",
+                                                null,
+                                                false,
+                                                null );
+      probeType.createMethod( "@Override public String getDescription() {return \"Probe description\";}",
+                                                       null,
+                                                       false,
+                                                       null );
+      probeType.createMethod( "public static void main(String[] args) { " + probeName + " p = new " + probeName + "(); p.activate();}",
+                                             null,
+                                             false,
+                                             null );
+    } catch( JavaModelException e2 ) {
+      // TODO Auto-generated catch block
+      e2.printStackTrace();
+    }
+    
+    try {
+      formatCode( icu );
+    } catch( PartInitException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch( JavaModelException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    IFile probeFile = ( IFile )icu.getResource();
+
+    IWorkbenchPage page = PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow()
+        .getActivePage();
+      IEditorDescriptor desc = PlatformUI.getWorkbench()
+        .getEditorRegistry()
+        .getDefaultEditor( probeFile.getName() );
+      try {
+        page.openEditor( new FileEditorInput( probeFile ), desc.getId() );
+      } catch( PartInitException e1 ) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    
+  }
+  
+  void formatCode( ICompilationUnit unit )
+    throws JavaModelException, PartInitException
+  {
+    // Create working copy of the ICompilationUnit
+    unit.becomeWorkingCopy( null );
+    // Format
+    // take default Eclipse formatting options
+    Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
+    // initialize the compiler settings to be able to format 1.5 code
+    options.put( JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6 );
+    options.put( JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,
+                 JavaCore.VERSION_1_6 );
+    options.put( JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6 );
+    CodeFormatter formatter = ToolFactory.createCodeFormatter( options );
+    ISourceRange range = unit.getSourceRange();
+    TextEdit formatEdit = formatter.format( CodeFormatter.K_COMPILATION_UNIT,
+                                            unit.getSource(),
+                                            range.getOffset(),
+                                            range.getLength(),
+                                            0,
+                                            null );
+    if( formatEdit != null && formatEdit.hasChildren() ) {
+      unit.applyTextEdit( formatEdit, null );
+    } else {
+      // monitor.done();
+    }
+    unit.commitWorkingCopy( true, null );
+    // JavaUI.openInEditor(unit);
+  }
+  
+  public void addProbeToMonitoringTable( String probeName ){
+    CreateMonitorProbeFeature createMonitoringProbeFeature = new CreateMonitorProbeFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
+    
+    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+    deploymentArtifact.setName( probeName );
+    deploymentArtifact.setArtifactType( new QName( "MonitoringProbe" ) ); //$NON-NLS-1$
+    
+    createMonitoringProbeFeature.setContextObject( deploymentArtifact );
+    
+    CreateContext createContext = new CreateContext();
+    createContext.setTargetContainer( (ContainerShape) getSelectedPictogramElement() );
+    
+    if ( createMonitoringProbeFeature.canCreate( createContext ))
+      createMonitoringProbeFeature.create( createContext );
+    
+    refresh();
+  }
+
+  public void addProbeToCloudProject( String probeName ){
+                
+      // Add uploaded image to Project Artifacts folder
+      IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+      IEditorInput input = activePage.getActiveEditor().getEditorInput();
+      
+      IFile file = null;
+      if ( input instanceof ToscaDiagramEditorInput ){
+        file = ((ToscaDiagramEditorInput) input).getToscaFile();
+      }
+                
+      IProject project = file.getProject();
+      
+      String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Monitoring/" +  probeName; 
+      File tmp = new File( targetPath );
+      try {
+        tmp.createNewFile();
+      } catch( IOException e1 ) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+
+      IProgressMonitor monitor = null;
+      try {
+        CloudModel.getRoot().refresh( monitor );
+      } catch( ProblemException e2 ) {
+        e2.printStackTrace();
+      }
+      
+      // Refresh Palette Compartments
+      getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
+
   }
 }

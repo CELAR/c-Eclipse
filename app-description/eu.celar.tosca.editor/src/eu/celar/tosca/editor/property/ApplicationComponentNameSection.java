@@ -414,7 +414,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-//    this.initialInstancesText.setText( "1" ); //$NON-NLS-1$
     this.initialInstancesText.setLayoutData( gdInstances );
     this.initialInstancesText.addModifyListener( this );
     
@@ -425,13 +424,12 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     minInstancesLabel.setLayoutData( gdInstances );
-    this.minInstancesText = factory.createText( clientInstances, "1" ); //$NON-NLS-1$
+    this.minInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
     this.minInstancesText.setEditable( true );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-//    this.minInstancesText.setText( "1" ); //$NON-NLS-1$
     this.minInstancesText.setLayoutData( gdInstances );
     this.minInstancesText.addModifyListener( this );
     
@@ -441,15 +439,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     maxInstancesLabel.setLayoutData( gdInstances );
-    this.maxInstancesText = factory.createText( clientInstances, "1" ); //$NON-NLS-1$
+    this.maxInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
     this.maxInstancesText.setEditable( true );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-//    this.maxInstancesText.setText( "" ); //$NON-NLS-1$
     this.maxInstancesText.setLayoutData( gdInstances );
     this.maxInstancesText.addModifyListener( this );
+    
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
     toolkit.adapt( this.nameText, true, true );
@@ -490,18 +488,20 @@ public class ApplicationComponentNameSection extends GFPropertySection
       String initInstances =  Integer.toString( appComponent.getInitInstances() );
       this.initialInstancesText.setText( initInstances );
       
-      
       String minInstances = Integer.toString( appComponent.getMinInstances() );
       String maxInstances = ( (BigInteger)appComponent.getMaxInstances()).toString();
-      if( minInstances.compareTo( "0" ) == 0 //$NON-NLS-1$
-          && maxInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
+      
+      // Node has just been created
+      if( minInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
+          && maxInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
+          && this.nameText.getText().compareTo( "" ) == 0) //$NON-NLS-1$
       {
         return;
       }
       
-      if( minInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
+      if( minInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
         minInstances = ""; //$NON-NLS-1$
-      if( maxInstances.compareTo( "0" ) == 0 ) //$NON-NLS-1$
+      if( maxInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
         maxInstances = ""; //$NON-NLS-1$
 
       this.minInstancesText.setText( minInstances );
@@ -567,8 +567,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
       if( bo == null )
         return;
       
-    
-      
       final TNodeTemplateExtension nodeTemplate;
      
       if ( bo instanceof TDeploymentArtifact ){
@@ -602,7 +600,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
             protected void doExecute() {
               if (nodeTemplate != null) {
               	if ( ApplicationComponentNameSection.this.minInstancesText.getText().equals( "" ) ) //$NON-NLS-1$
-              		nodeTemplate.setMinInstances( 0 );
+              		nodeTemplate.setMinInstances( -1 ); 
               	else
               		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
               }
@@ -617,7 +615,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
             protected void doExecute() {
             	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 ) //$NON-NLS-1$
-            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(0) );
+            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(-1) );
             	else
             		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }

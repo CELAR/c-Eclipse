@@ -98,9 +98,10 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
           return new AddVirtualMachineFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
-        return new AddKeyPairFeature( this );;
-    } else if( context.getNewObject() instanceof MonitoringProbe ) {
-      return new AddMonitorProbeFeature( this );
+        return new AddKeyPairFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)
+        return new AddMonitorProbeFeature( this );
+      ;
     } else if( context.getNewObject() instanceof ResizingAction ) {
       return new AddResizingActionFeature( this );
     } // its a substitutional Service Template

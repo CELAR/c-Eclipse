@@ -154,7 +154,7 @@ public class CompositeMonitoring extends GFPropertySection
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if (tempNodeTemplate.getType().toString().equals( serviceTemplate.getSubstitutableNodeType().toString() ) )
       {
         substituteNode = tempNodeTemplate;
         break;
@@ -194,7 +194,7 @@ public class CompositeMonitoring extends GFPropertySection
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if (tempNodeTemplate.getType().toString().equals( serviceTemplate.getSubstitutableNodeType().toString() ))
       {
         substituteNode = tempNodeTemplate;
         break;

@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="target-definition" sequenceNumber="49">
+<?pde version="3.8"?><target name="target-definition" sequenceNumber="54">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.3.2.M20140221-1700"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.graphiti.feature.tools.feature.group" version="0.10.2.v20140217-1225"/>
-<unit id="org.eclipse.graphiti.sdk.plus.feature.feature.group" version="0.10.2.v20140217-1225"/>
 <unit id="org.eclipse.graphiti.sdk.feature.feature.group" version="0.10.2.v20140217-1225"/>
 <repository location="http://download.eclipse.org/releases/kepler"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.rcp.sdk.id" version="4.3.2.M20140221-1700"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="swift" version="1.7.0"/>
@@ -39,6 +29,10 @@
 <unit id="slf4j.api" version="1.7.5"/>
 <unit id="openstack-cinder" version="1.7.0"/>
 <repository location="http://localhost:8080/site"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="4.3.2.M20140221-1700"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.wst.web_ui.feature.feature.group" version="3.5.2.v201401062113-7O7QG3wEMkBS3Graz0gRCYqCz-PVayJqBmOpb93L"/>

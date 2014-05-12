@@ -1,9 +1,24 @@
 package eu.celar.ui.wizards;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -19,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import eu.celar.connectors.aws.EC2Client;
 import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
 import eu.celar.connectors.aws.operation.OperationExecuter;
+import eu.celar.core.model.CloudModel;
 //import eu.celar.connectors.openstack.OpenStackClient;
 //import eu.celar.connectors.openstack.operation.OpenStackOpDeployApplication;
 //import eu.celar.connectors.openstack.operation.OperationExecuter;
@@ -27,6 +43,7 @@ import eu.celar.core.model.ICloudProject;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.editor.ToscaDiagramEditor;
 
 /**
  * @author Nicholas Loulloudes
@@ -43,60 +60,81 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     setNeedsProgressMonitor( true );
     setForcePreviousAndNextButtons( true );
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.eclipse.jface.wizard.Wizard#performFinish()
    */
   @Override
   public boolean performFinish() {
+    
     try {
-      getContainer().run( false, false, new IRunnableWithProgress() {
-
-        @Override
-        public void run( final IProgressMonitor monitor )
-          throws InvocationTargetException, InterruptedException
-        {
-          EC2OpDeployApplication deployOperation = null;
-//          OpenStackOpDeployApplication deployOperation = null;
-          try {
-            monitor.beginTask( "Deploying VMIs", 2 );
-            deployOperation = new EC2OpDeployApplication( EC2Client.getEC2(),
-                                                          NewDeploymentWizard.this.deploymentFile );
-            
-//          deployOperation = new OpenStackOpDeployApplication( OpenStackClient.getInstance(),
-//          NewDeploymentWizard.this.deploymentFile );
-            if( deployOperation.getException() != null ) {
-              throw deployOperation.getException();
-            }
-            new OperationExecuter().execOp( deployOperation );
-          } catch( Exception e ) {
-            e.printStackTrace( );
-            
-          } finally {
-            monitor.done();
-          }
-        }
-      } );
-    } catch (final Exception ex) {
-      ex.printStackTrace();
-//      Display display = PlatformUI.getWorkbench().getDisplay();
-//      display.asyncExec( new Runnable() {
-//
-//        public void run() {
-//          IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
-//            .getActiveWorkbenchWindow();
-//          ProblemDialog.openProblem( workbenchWindow.getShell(),
-//                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_title"), //$NON-NLS-1$
-//                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_description"), //$NON-NLS-1$
-//                                     ex );
-//        }
-//      } );
-      return false;
+      exportCSAR();
+    } catch( IOException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    } catch( CoreException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
     }
-
+    
     return true;
   }
+
+//  /*
+//   * (non-Javadoc)
+//   * @see org.eclipse.jface.wizard.Wizard#performFinish()
+//   */
+//  @Override
+//  public boolean performFinish() {
+//    
+//    try {
+//      getContainer().run( false, false, new IRunnableWithProgress() {
+//
+//        @Override
+//        public void run( final IProgressMonitor monitor )
+//          throws InvocationTargetException, InterruptedException
+//        {
+//          EC2OpDeployApplication deployOperation = null;
+////          OpenStackOpDeployApplication deployOperation = null;
+//          try {
+//            monitor.beginTask( "Deploying VMIs", 2 );
+//            deployOperation = new EC2OpDeployApplication( EC2Client.getEC2(),
+//                                                          NewDeploymentWizard.this.deploymentFile );
+//            
+////          deployOperation = new OpenStackOpDeployApplication( OpenStackClient.getInstance(),
+////          NewDeploymentWizard.this.deploymentFile );
+//            if( deployOperation.getException() != null ) {
+//              throw deployOperation.getException();
+//            }
+//            new OperationExecuter().execOp( deployOperation );
+//          } catch( Exception e ) {
+//            e.printStackTrace( );
+//            
+//          } finally {
+//            monitor.done();
+//          }
+//        }
+//      } );
+//    } catch (final Exception ex) {
+//      ex.printStackTrace();
+////      Display display = PlatformUI.getWorkbench().getDisplay();
+////      display.asyncExec( new Runnable() {
+////
+////        public void run() {
+////          IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
+////            .getActiveWorkbenchWindow();
+////          ProblemDialog.openProblem( workbenchWindow.getShell(),
+////                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_title"), //$NON-NLS-1$
+////                                     Messages.getString("AddAttributeWizard.problem_granting_access_permission_description"), //$NON-NLS-1$
+////                                     ex );
+////        }
+////      } );
+//      return false;
+//    }
+//
+//    return true;
+//  }
 
   @Override
   public void addPages() {
@@ -186,6 +224,65 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // this.toscaModel = this.deploymentFile.getTOSCAModel();
     // }
     // }
+  }
+  
+  public void exportCSAR() throws IOException, CoreException{
+    
+    //Export monitoring probes to jar files
+    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+    IResource[] monitoringProbes = srcFolder.members();
+    
+    for (IResource monitoringProbeFile : monitoringProbes)
+      exportProbe((IFile) monitoringProbeFile);
+  }
+  
+  void exportProbe( IFile file ) throws IOException {
+    // Move project under active project's Monitoring Folder
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    IFolder monitoringFolder = activeProject.getFolder( "Monitoring" );
+    IPath jarFilePath = monitoringFolder.getRawLocation()
+      .append( file.getName() )
+      .removeFileExtension()
+      .addFileExtension( "jar" );
+    byte buffer[] = new byte[ 10240 ];
+    // Open archive file
+    FileOutputStream stream = new FileOutputStream( jarFilePath.toString() );
+    JarOutputStream out = new JarOutputStream( stream, new Manifest() );
+    // Add probe file archive entry
+    JarEntry jarAdd = new JarEntry( file.getName() );
+    out.putNextEntry( jarAdd );
+    // Write file to archive
+    FileInputStream in = new FileInputStream( file.getRawLocation().toString() );
+    while( true ) {
+      int nRead = in.read( buffer, 0, buffer.length );
+      if( nRead <= 0 )
+        break;
+      out.write( buffer, 0, nRead );
+    }
+    in.close();
+    // Add ProbePack.jar file archive entry
+    jarAdd = new JarEntry( "ProbePack.jar" );
+    out.putNextEntry( jarAdd );
+    // Write file to archive
+    in = new FileInputStream( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" );
+    while( true ) {
+      int nRead = in.read( buffer, 0, buffer.length );
+      if( nRead <= 0 )
+        break;
+      out.write( buffer, 0, nRead );
+    }
+    in.close();
+    out.close();
+    stream.close();
+    // Refresh Cloud Model
+    IProgressMonitor monitor = null;
+    try {
+      CloudModel.getRoot().refresh( monitor );
+    } catch( ProblemException e2 ) {
+      e2.printStackTrace();
+    }
   }
 
   /**

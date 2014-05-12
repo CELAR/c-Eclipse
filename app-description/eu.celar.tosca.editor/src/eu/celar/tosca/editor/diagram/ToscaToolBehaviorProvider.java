@@ -504,7 +504,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
           VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
-          vmi.setUID( "1" );
+          vmi.setUID( tempResource.getName() );
           vmi.setName( tempResource.getName() );
           vmi.setDescription( "h" );
           vmi.setURL( "h" );
@@ -608,14 +608,42 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   // Create Palette compartment for Monitoring Probes
   private void addMonitorProbeCompartment( List<IPaletteCompartmentEntry> ret )
   {
-    ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
-      .getMonitoringProbes();
+    
+  ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
+  .getMonitoringProbes();
+  
+  ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
+
+    // Add custom probes from project explorer
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    if( activeProject != null ) {
+      IFolder artifactsFolder = activeProject.getFolder( "/Monitoring" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = artifactsFolder.members();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+          mp.setUID( tempResource.getName() );
+          mp.setName( tempResource.getName() );
+          mp.setDescription( "h" );
+          mp.setURL( "h" );
+          // add new probe to monitoring list
+          mpsCopy.add( mp );
+        }
+      }
+    }
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Monitor Probes", null ); //$NON-NLS-1$
+    compartmentEntry.setInitiallyOpen( false );
     ret.add( compartmentEntry );
-    for( MonitoringProbe mp : mps ) {
+    for( MonitoringProbe mp : mpsCopy ) {
       // add new stack entry to new compartment
-      StackEntry stackEntry = new StackEntry( mp.getName(), mp.getName(), null );
+      StackEntry stackEntry = new StackEntry( mp.getUID(), mp.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
       compartmentEntry.setInitiallyOpen( false );
       // add all create-features to the new stack-entry
@@ -624,9 +652,14 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( ICreateFeature cf : createFeatures ) {
         if( cf instanceof CreateMonitorProbeFeature ) {
           CreateMonitorProbeFeature mpCF = ( CreateMonitorProbeFeature )cf;
-          mpCF.setContextObject( mp );
-          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getName(),
-                                                                                         mpCF.getDescription(),
+
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( mp.getUID() );
+          deploymentArtifact.setArtifactType( new QName( "MonitoringProbe" ) );
+          mpCF.setContextObject( deploymentArtifact );
+
+          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getUID(),
+                                                                                         mpCF.getName(),
                                                                                          mpCF.getCreateImageId(),
                                                                                          mpCF.getCreateLargeImageId(),
                                                                                          mpCF );
@@ -645,6 +678,46 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       }
     }
   }
+//  // Create Palette compartment for Monitoring Probes
+//  private void addMonitorProbeCompartment( List<IPaletteCompartmentEntry> ret )
+//  {
+//    ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
+//      .getMonitoringProbes();
+//    // add new compartment at the end of the existing compartments
+//    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Monitor Probes", null ); //$NON-NLS-1$
+//    ret.add( compartmentEntry );
+//    for( MonitoringProbe mp : mps ) {
+//      // add new stack entry to new compartment
+//      StackEntry stackEntry = new StackEntry( mp.getName(), mp.getName(), null );
+//      compartmentEntry.addToolEntry( stackEntry );
+//      compartmentEntry.setInitiallyOpen( false );
+//      // add all create-features to the new stack-entry
+//      IFeatureProvider featureProvider = getFeatureProvider();
+//      ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+//      for( ICreateFeature cf : createFeatures ) {
+//        if( cf instanceof CreateMonitorProbeFeature ) {
+//          CreateMonitorProbeFeature mpCF = ( CreateMonitorProbeFeature )cf;
+//          mpCF.setContextObject( mp );
+//          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getName(),
+//                                                                                         mpCF.getDescription(),
+//                                                                                         mpCF.getCreateImageId(),
+//                                                                                         mpCF.getCreateLargeImageId(),
+//                                                                                         mpCF );
+//          stackEntry.addCreationToolEntry( objectCreationToolEntry );
+//        }
+//      }
+//      // add all create-connection-features to the new stack-entry
+//      ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
+//      for( ICreateConnectionFeature cf : createConnectionFeatures ) {
+//        ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( mp.getName(),
+//                                                                                                   cf.getName(),
+//                                                                                                   cf.getCreateImageId(),
+//                                                                                                   cf.getCreateLargeImageId() );
+//        connectionCreationToolEntry.addCreateConnectionFeature( cf );
+//        stackEntry.addCreationToolEntry( connectionCreationToolEntry );
+//      }
+//    }
+//  }
 
   // Create Palette compartment for User Applications
   private void addUserAppsCompartment( final List<IPaletteCompartmentEntry> ret )
