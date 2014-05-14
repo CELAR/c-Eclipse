@@ -1,9 +1,12 @@
 package eu.celar.tosca.editor.property;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -13,7 +16,12 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
@@ -35,9 +43,23 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.reporting.ProblemException;
+import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
+import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
+
 
 public class MonitoringProbe {
-  public void createProbeProject(String probeName)
+  
+  String probeName;
+  
+  public MonitoringProbe( String probeName ){
+    this.probeName = probeName;
+  }
+  
+  public void createProbeProject()
       throws JavaModelException, PartInitException, IOException
     {
 
@@ -53,7 +75,7 @@ public class MonitoringProbe {
           
           IPackageFragmentRoot root = monitoringProbeProject.getPackageFragmentRoot( project.getFolder( "src" ) );       
           
-          createProbeClass(root, probeName);
+          createProbeClass(root);
           return;
         }
       } catch( CoreException e ) {
@@ -139,12 +161,12 @@ public class MonitoringProbe {
         e3.printStackTrace();
       }
       
-      createProbeClass(root, probeName);
+      createProbeClass( root );
     }
   
-  public void createProbeClass(IPackageFragmentRoot root, String probeName){
+  public void createProbeClass( IPackageFragmentRoot root ){
     
-    String className = probeName + ".java";
+    String className = this.probeName + ".java";
     ICompilationUnit icu = null;
     
     // Check if probe name is already used    
@@ -188,7 +210,7 @@ public class MonitoringProbe {
     
     //addProbeToCloudProject(probeName);
     
-    String source = "public class " + probeName + " extends Probe{} ";
+    String source = "public class " + this.probeName + " extends Probe{} ";
     StringBuffer buffer = new StringBuffer();
     buffer.append( source );
     
@@ -216,7 +238,7 @@ public class MonitoringProbe {
                              null );
       probeType.createField( "private static String DEFAULT_PROBE_NAME = "
                              + "\""
-                             + probeName
+                             + this.probeName
                              + "\""
                              + ";", null, false, null );
       String constructorComments = "\n"
@@ -228,14 +250,14 @@ public class MonitoringProbe {
                                    + "\n"
                                    + "*/";
       
-      probeType.createMethod( "public " + probeName + "(String name, int freq) {super(name, freq);"
+      probeType.createMethod( "public " + this.probeName + "(String name, int freq) {super(name, freq);"
                                                         + constructorComments
                                                         + "\n"
                                                         + "}",
                                                     null,
                                                     false,
                                                     null );
-      probeType.createMethod( "public " + probeName + "() {this(DEFAULT_PROBE_NAME, DEFAULT_SAMPLING_PERIOD);}",
+      probeType.createMethod( "public " + this.probeName + "() {this(DEFAULT_PROBE_NAME, DEFAULT_SAMPLING_PERIOD);}",
                                                            null,
                                                            false,
                                                            null );
@@ -249,7 +271,7 @@ public class MonitoringProbe {
                                                        null,
                                                        false,
                                                        null );
-      probeType.createMethod( "public static void main(String[] args) { " + probeName + " p = new " + probeName + "(); p.activate();}",
+      probeType.createMethod( "public static void main(String[] args) { " + this.probeName + " p = new " + this.probeName + "(); p.activate();}",
                                              null,
                                              false,
                                              null );
@@ -314,5 +336,43 @@ public class MonitoringProbe {
     // JavaUI.openInEditor(unit);
   }
   
+  public void addProbeToCloudProject( String probeName, IProject cloudProject ){
+    
+    // Add newly created probe to Monitoring folder
+    
+    IProject project = cloudProject;
+    
+    String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Monitoring/" +  probeName; 
+    File tmp = new File( targetPath );
+    try {
+      tmp.createNewFile();
+    } catch( IOException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+
+    IProgressMonitor monitor = null;
+    try {
+      CloudModel.getRoot().refresh( monitor );
+    } catch( ProblemException e2 ) {
+      e2.printStackTrace();
+    }
+  }
   
+  public void addProbeToMonitoringTable( String probeName, ContainerShape pictogramElement, IDiagramTypeProvider diagramTypeProvider ){
+    
+    CreateMonitorProbeFeature createMonitoringProbeFeature = new CreateMonitorProbeFeature( new ToscaFeatureProvider(diagramTypeProvider) );
+    
+    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+    deploymentArtifact.setName( probeName );
+    deploymentArtifact.setArtifactType( new QName( "MonitoringProbe" ) ); //$NON-NLS-1$
+    
+    createMonitoringProbeFeature.setContextObject( deploymentArtifact );
+    
+    CreateContext createContext = new CreateContext();
+    createContext.setTargetContainer( pictogramElement );
+    
+    if ( createMonitoringProbeFeature.canCreate( createContext ))
+      createMonitoringProbeFeature.create( createContext );
+  }
 }
