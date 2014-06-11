@@ -20,11 +20,12 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 
 import eu.celar.infosystem.model.base.ResizingAction;
+import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PoliciesType;
 import eu.celar.tosca.PoliciesType1;
-
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TPolicy;
+import eu.celar.tosca.TPolicyTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
@@ -63,6 +64,8 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     if( this.contextObject == null )
       return null;
     
+    String level = null;
+    
     ResizingAction ra = ( ResizingAction )this.contextObject;
     
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
@@ -75,12 +78,14 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     
     // Application Component
     if( parentObject instanceof TNodeTemplate ) {
+      level = "C";
       tNode = ( TNodeTemplate )parentObject;
     }
     
     else if ( parentObject instanceof TServiceTemplate ){
+      level = "G";
       tService = ( TServiceTemplate )parentObject;
-      if (tService.getName() == null){
+      if (tService.getSubstitutableNodeType() != null){
      // Composite Application Component
      
       // Find the substitute TNodeTemplate
@@ -93,7 +98,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
         .getTopologyTemplate()
         .getNodeTemplate()){
            
-        if (tempNodeTemplate.getType() ==  tService.getSubstitutableNodeType() )
+        if ( tempNodeTemplate.getId().toString().equals( tService.getId().toString()) )
         {
           substituteNode = tempNodeTemplate;
           break;
@@ -107,6 +112,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
       else{
      // Application
         
+        level = "A";
         final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )parentObject ).getBoundaryDefinitions() );        
         
         
@@ -131,14 +137,19 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
         
         final EList<TPolicy> policy = nodePolicyList.getPolicy();
         
-        final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+        final TPolicy newPolicy = createNewPolicy(level, ra.getName());
         
-        final String policyUniqueName = "G" + policy.size();
+//        final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+//        
+//        final String policyUniqueName = "G" + policy.size();
+//        
+//        newPolicy.setPolicyType( new QName("SYBLStrategy") );          
+//        
+////        newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
+//
+//        newPolicy.setName( "STRATEGY " + ra.getName() );
         
-        newPolicy.setPolicyType( new QName("SYBLStrategy") );          
         
-        newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
-
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
         editingDomain.getCommandStack()
           .execute( new RecordingCommand( editingDomain ) {
@@ -177,13 +188,16 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     
     final EList<TPolicy> policy = nodeTemplate.getPolicies().getPolicy();
     
-    final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+    final TPolicy newPolicy = createNewPolicy(level, ra.getName());
     
-    final String policyUniqueName = nodeTemplate.getId() + policy.size();
-    
-    newPolicy.setPolicyType( new QName("SYBLStrategy") );         
-    
-    newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
+//    final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+//    
+//    final String policyUniqueName = nodeTemplate.getId() + policy.size();
+//    
+//    newPolicy.setPolicyType( new QName("SYBLStrategy") );         
+//    
+////    newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + ra.getName() );
+//    newPolicy.setName( "STRATEGY " + ra.getName() );
     
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
     editingDomain.getCommandStack()
@@ -206,6 +220,52 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     };
   }
 
+  //level can be "C" for Application Component, "G" for Composite Component, "A" for Application
+  TPolicy createNewPolicy(String level, String policyName){
+
+    // Create Policy Template 
+    
+    final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
+    
+    QName policyTypeName = new QName( "http://www.example.org/SYBL", "Strategy" );
+    
+    newPolicyTemplate.setType( policyTypeName );
+    
+    String id = level + ( ( Integer )newPolicyTemplate.hashCode() ).toString();
+    
+    newPolicyTemplate.setId( id );
+    
+    // Add the new Policy Template to the TOSCA Definitions element
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
+        }
+      } );
+    
+    // Assign the created Policy Template to the new Policy
+    
+    TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+    
+    QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
+    
+    newPolicy.setPolicyType( policyTypeName );  
+    
+    newPolicy.setPolicyRef( qnamePolicyTemplate );
+    
+    newPolicy.setName( "STRATEGY " + policyName );
+    
+    return newPolicy;
+  }
+  
   private MessageConsole findConsole( String name ) {
     ConsolePlugin plugin = ConsolePlugin.getDefault();
     IConsoleManager conMan = plugin.getConsoleManager();

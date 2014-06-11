@@ -335,29 +335,29 @@ public class MonitoringProbe {
     unit.commitWorkingCopy( true, null );
     // JavaUI.openInEditor(unit);
   }
-  
-  public void addProbeToCloudProject( String probeName, IProject cloudProject ){
-    
-    // Add newly created probe to Monitoring folder
-    
-    IProject project = cloudProject;
-    
-    String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Monitoring/" +  probeName; 
-    File tmp = new File( targetPath );
-    try {
-      tmp.createNewFile();
-    } catch( IOException e1 ) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-
-    IProgressMonitor monitor = null;
-    try {
-      CloudModel.getRoot().refresh( monitor );
-    } catch( ProblemException e2 ) {
-      e2.printStackTrace();
-    }
-  }
+//  
+//  public void addProbeToCloudProject( String probeName, IProject cloudProject ){
+//    
+//    // Add a file for the newly created probe to Monitoring folder
+//    
+//    IProject project = cloudProject;
+//    
+//    String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Monitoring/" +  probeName; 
+//    File tmp = new File( targetPath );
+//    try {
+//      tmp.createNewFile();
+//    } catch( IOException e1 ) {
+//      // TODO Auto-generated catch block
+//      e1.printStackTrace();
+//    }
+//
+//    IProgressMonitor monitor = null;
+//    try {
+//      CloudModel.getRoot().refresh( monitor );
+//    } catch( ProblemException e2 ) {
+//      e2.printStackTrace();
+//    }
+//  }
   
   public void addProbeToMonitoringTable( String probeName, ContainerShape pictogramElement, IDiagramTypeProvider diagramTypeProvider ){
     

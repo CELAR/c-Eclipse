@@ -75,7 +75,7 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
       Map<String, Object> options = new HashMap<String, Object>();
       options.put( XMLResource.OPTION_XML_MAP, baseToscaMap );
       options.put( XMLResource.OPTION_XML_MAP, elasticityToscaMap );
-      options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //TODO Stalo "UTF-8"  //$NON-NLS-1$
+      options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); // TODO Stalo "UTF-8"  //$NON-NLS-1$
       try {
         this.resource.load( options );
         this.documentRoot = ( DocumentRoot )this.resource.getContents().get( 0 );        
@@ -210,7 +210,8 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     
     // Associate Boundary Definition with the Service Topology
     // Associate Service and Topology templates
-    this.serviceTemplate.setBoundaryDefinitions( this.boundaryDef );   
+    this.serviceTemplate.setBoundaryDefinitions( this.boundaryDef ); 
+    
     this.serviceTemplate.setTopologyTemplate( this.topologyTemplate );
     
     // Associate Service template with the Definition Type
@@ -219,10 +220,9 @@ public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicat
     // Finally- Add the Definition Type to the Document Root
     this.definitionsType.setId( "hi" ); //$NON-NLS-1$
     
-    this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );    //$NON-NLS-1$
+    //this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );    //$NON-NLS-1$    
     
     this.documentRoot.setDefinitions( this.definitionsType );
-    
     
 //    TPolicyType syblConstraint = ToscaFactory.eINSTANCE.createTPolicyType();
 //    syblConstraint.setName( "SYBLConstraint" );

@@ -44,33 +44,17 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated elasticity -->
       <package
-            uri="http://www.example.org/EnvironmentRequirementProperties"
-            class="eu.celar.tosca.hrequirements.Tosca_HRequirements_ExtensionsPackage"
-            genModel="model/elasticity.genmodel"/>
-   </extension>
-
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated elasticity -->
-      <parser
-            type="tosca_hrequirements_extensions"
-            class="eu.celar.tosca.hrequirements.util.Tosca_HRequirements_ExtensionsResourceFactoryImpl"/>
-   </extension>
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated elasticity -->
-      <package
-            uri="http://www.example.org/PolicyProperties"
-            class="eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsPackage"
+            uri="http://www.example.org/SYBL"
+            class="org.example.sybl.SyblPackage"
             genModel="model/elasticity.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <!-- @generated elasticity -->
       <parser
-            type="tosca_epolicy_extensions"
-            class="eu.celar.tosca.epolicies.util.Tosca_EPolicy_ExtensionsResourceFactoryImpl"/>
+            type="sybl"
+            class="org.example.sybl.util.SyblResourceFactoryImpl"/>
    </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated elasticity -->
       <package

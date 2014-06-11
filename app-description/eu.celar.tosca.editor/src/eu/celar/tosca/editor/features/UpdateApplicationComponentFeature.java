@@ -1,17 +1,9 @@
 /*******************************************************************************
- * <copyright>
- *
- * Copyright (c) 2005, 2010 SAP AG.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    SAP AG - initial API, implementation and documentation
- *
- * </copyright>
- *
+ * <copyright> Copyright (c) 2005, 2010 SAP AG. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors: SAP AG -
+ * initial API, implementation and documentation </copyright>
  *******************************************************************************/
 package eu.celar.tosca.editor.features;
 
@@ -29,18 +21,18 @@ import eu.celar.tosca.TNodeTemplate;
 
 public class UpdateApplicationComponentFeature extends AbstractUpdateFeature {
 
-	public UpdateApplicationComponentFeature(final IFeatureProvider fp) {
-		super(fp);
-	}
+  public UpdateApplicationComponentFeature( final IFeatureProvider fp ) {
+    super( fp );
+  }
 
-	@Override
+  @Override
   public boolean canUpdate( final IUpdateContext context ) {
     // return true, if linked business object is an EClass
     Object bo = getBusinessObjectForPictogramElement( context.getPictogramElement() );
     return ( bo instanceof TNodeTemplate );
   }
 
-	@Override
+  @Override
   public IReason updateNeeded( final IUpdateContext context ) {
     // retrieve name from pictogram model
     String pictogramName = null;
@@ -57,10 +49,8 @@ public class UpdateApplicationComponentFeature extends AbstractUpdateFeature {
     // retrieve name from business model
     String businessName = null;
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
-    if( bo instanceof TNodeTemplate ) {
-      TNodeTemplate tNode = ( TNodeTemplate )bo;
-      businessName = tNode.getName();
-    }
+    TNodeTemplate tNode = ( TNodeTemplate )bo;
+    businessName = tNode.getName();
     // update needed, if names are different
     boolean updateNameNeeded = ( ( pictogramName == null && businessName != null ) || ( pictogramName != null && !pictogramName.equals( businessName ) ) );
     if( updateNameNeeded ) {
@@ -70,16 +60,14 @@ public class UpdateApplicationComponentFeature extends AbstractUpdateFeature {
     }
   }
 
-	@Override
+  @Override
   public boolean update( final IUpdateContext context ) {
     // retrieve name from business model
     String businessName = null;
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
-    if( bo instanceof TNodeTemplate ) {
-      TNodeTemplate tNode = ( TNodeTemplate )bo;
-      businessName = tNode.getName();
-    }
+    TNodeTemplate tNode = ( TNodeTemplate )bo;
+    businessName = tNode.getName();
     // Set name in pictogram model
     if( pictogramElement instanceof ContainerShape ) {
       ContainerShape cs = ( ContainerShape )pictogramElement;

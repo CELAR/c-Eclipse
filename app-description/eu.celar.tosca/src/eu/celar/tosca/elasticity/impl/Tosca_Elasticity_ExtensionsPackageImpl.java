@@ -31,10 +31,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import eu.celar.tosca.hrequirements.Tosca_HRequirements_ExtensionsPackage;
-import eu.celar.tosca.hrequirements.impl.Tosca_HRequirements_ExtensionsPackageImpl;
-import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsPackage;
-import eu.celar.tosca.epolicies.impl.Tosca_EPolicy_ExtensionsPackageImpl;
+
+import org.example.sybl.SyblPackage;
+
+import org.example.sybl.impl.SyblPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -230,18 +230,15 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    Tosca_HRequirements_ExtensionsPackageImpl theTosca_HRequirements_ExtensionsPackage = (Tosca_HRequirements_ExtensionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Tosca_HRequirements_ExtensionsPackage.eNS_URI) instanceof Tosca_HRequirements_ExtensionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Tosca_HRequirements_ExtensionsPackage.eNS_URI) : Tosca_HRequirements_ExtensionsPackage.eINSTANCE);
-    Tosca_EPolicy_ExtensionsPackageImpl theTosca_EPolicy_ExtensionsPackage = (Tosca_EPolicy_ExtensionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Tosca_EPolicy_ExtensionsPackage.eNS_URI) instanceof Tosca_EPolicy_ExtensionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Tosca_EPolicy_ExtensionsPackage.eNS_URI) : Tosca_EPolicy_ExtensionsPackage.eINSTANCE);
+    SyblPackageImpl theSyblPackage = (SyblPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SyblPackage.eNS_URI) instanceof SyblPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SyblPackage.eNS_URI) : SyblPackage.eINSTANCE);
 
     // Create package meta-data objects
     theTosca_Elasticity_ExtensionsPackage.createPackageContents();
-    theTosca_HRequirements_ExtensionsPackage.createPackageContents();
-    theTosca_EPolicy_ExtensionsPackage.createPackageContents();
+    theSyblPackage.createPackageContents();
 
     // Initialize created meta-data
     theTosca_Elasticity_ExtensionsPackage.initializePackageContents();
-    theTosca_HRequirements_ExtensionsPackage.initializePackageContents();
-    theTosca_EPolicy_ExtensionsPackage.initializePackageContents();
+    theSyblPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
     theTosca_Elasticity_ExtensionsPackage.freeze();
@@ -424,50 +421,55 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTNodeTemplateExtension_Casmulti() {
+  public EAttribute getTNodeTemplateExtension_Casmulti()
+  {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(0);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTNodeTemplateExtension_InitInstances() {
+  public EAttribute getTNodeTemplateExtension_InitInstances()
+  {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(1);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTNodeTemplateExtension_X() {
+  public EAttribute getTNodeTemplateExtension_X()
+  {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(2);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTNodeTemplateExtension_Y() {
+  public EAttribute getTNodeTemplateExtension_Y()
+  {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(3);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getTNodeTemplateExtension_Ycsbmulti() {
+  public EAttribute getTNodeTemplateExtension_Ycsbmulti()
+  {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(4);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -477,7 +479,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     return tServiceTemplateExtensionEClass;
   }
 
-    /**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -487,7 +489,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(0);
   }
 
-    /**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -497,7 +499,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(1);
   }
 
-    /**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

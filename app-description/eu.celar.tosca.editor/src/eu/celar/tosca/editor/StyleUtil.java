@@ -29,6 +29,8 @@ public class StyleUtil {
   public static final int SOFT_DEPENDENCY_WIDTH = SOFT_DEPENDENCIES_COMP_WIDTH - 20;
   public static final int SOFT_DEPENDENCY_HEIGHT = 20;
   public static final int SOFT_DEPENDENCIES_INCREASE = 25;
+  public static final int COMPOSITE_APP_COMP_WIDTH = 400;
+  public static final int COMPOSITE_APP_COMP_HEIGHT = 240;
 
   public static Style getStyleForCommonValues( Diagram diagram ) {
     final String styleId = "COMMON-VALUES"; //$NON-NLS-1$

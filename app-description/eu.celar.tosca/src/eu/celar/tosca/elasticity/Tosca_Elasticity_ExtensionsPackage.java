@@ -706,49 +706,49 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   /**
    * The feature id for the '<em><b>Casmulti</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int TNODE_TEMPLATE_EXTENSION__CASMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 0;
+  int TNODE_TEMPLATE_EXTENSION__CASMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 0;
 
-		/**
+  /**
    * The feature id for the '<em><b>Init Instances</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 1;
+  int TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 1;
 
-		/**
+  /**
    * The feature id for the '<em><b>X</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int TNODE_TEMPLATE_EXTENSION__X = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
+  int TNODE_TEMPLATE_EXTENSION__X = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
 
-		/**
+  /**
    * The feature id for the '<em><b>Y</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int TNODE_TEMPLATE_EXTENSION__Y = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
+  int TNODE_TEMPLATE_EXTENSION__Y = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
 
-		/**
+  /**
    * The feature id for the '<em><b>Ycsbmulti</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int TNODE_TEMPLATE_EXTENSION__YCSBMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 4;
+  int TNODE_TEMPLATE_EXTENSION__YCSBMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 4;
 
-		/**
+  /**
    * The number of structural features of the '<em>TNode Template Extension</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -767,7 +767,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION = 8;
 
-    /**
+  /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -776,7 +776,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__DOCUMENTATION = ToscaPackage.TSERVICE_TEMPLATE__DOCUMENTATION;
 
-    /**
+  /**
    * The feature id for the '<em><b>Any</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -785,7 +785,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__ANY = ToscaPackage.TSERVICE_TEMPLATE__ANY;
 
-    /**
+  /**
    * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -794,7 +794,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__ANY_ATTRIBUTE = ToscaPackage.TSERVICE_TEMPLATE__ANY_ATTRIBUTE;
 
-    /**
+  /**
    * The feature id for the '<em><b>Tags</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -803,7 +803,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__TAGS = ToscaPackage.TSERVICE_TEMPLATE__TAGS;
 
-    /**
+  /**
    * The feature id for the '<em><b>Boundary Definitions</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -812,7 +812,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__BOUNDARY_DEFINITIONS = ToscaPackage.TSERVICE_TEMPLATE__BOUNDARY_DEFINITIONS;
 
-    /**
+  /**
    * The feature id for the '<em><b>Topology Template</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -821,7 +821,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__TOPOLOGY_TEMPLATE = ToscaPackage.TSERVICE_TEMPLATE__TOPOLOGY_TEMPLATE;
 
-    /**
+  /**
    * The feature id for the '<em><b>Plans</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -830,7 +830,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__PLANS = ToscaPackage.TSERVICE_TEMPLATE__PLANS;
 
-    /**
+  /**
    * The feature id for the '<em><b>Id</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -839,7 +839,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__ID = ToscaPackage.TSERVICE_TEMPLATE__ID;
 
-    /**
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -848,7 +848,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__NAME = ToscaPackage.TSERVICE_TEMPLATE__NAME;
 
-    /**
+  /**
    * The feature id for the '<em><b>Substitutable Node Type</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -857,7 +857,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__SUBSTITUTABLE_NODE_TYPE = ToscaPackage.TSERVICE_TEMPLATE__SUBSTITUTABLE_NODE_TYPE;
 
-    /**
+  /**
    * The feature id for the '<em><b>Target Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -866,7 +866,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__TARGET_NAMESPACE = ToscaPackage.TSERVICE_TEMPLATE__TARGET_NAMESPACE;
 
-    /**
+  /**
    * The feature id for the '<em><b>X</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -875,7 +875,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__X = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 0;
 
-    /**
+  /**
    * The feature id for the '<em><b>Y</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -884,7 +884,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   int TSERVICE_TEMPLATE_EXTENSION__Y = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 1;
 
-    /**
+  /**
    * The number of structural features of the '<em>TService Template Extension</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1176,59 +1176,59 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Casmulti</em>'.
    * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti()
    * @see #getTNodeTemplateExtension()
    * @generated
    */
-	EAttribute getTNodeTemplateExtension_Casmulti();
+  EAttribute getTNodeTemplateExtension_Casmulti();
 
-		/**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getInitInstances <em>Init Instances</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Init Instances</em>'.
    * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getInitInstances()
    * @see #getTNodeTemplateExtension()
    * @generated
    */
-	EAttribute getTNodeTemplateExtension_InitInstances();
+  EAttribute getTNodeTemplateExtension_InitInstances();
 
-		/**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getX <em>X</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>X</em>'.
    * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getX()
    * @see #getTNodeTemplateExtension()
    * @generated
    */
-	EAttribute getTNodeTemplateExtension_X();
+  EAttribute getTNodeTemplateExtension_X();
 
-		/**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getY <em>Y</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Y</em>'.
    * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getY()
    * @see #getTNodeTemplateExtension()
    * @generated
    */
-	EAttribute getTNodeTemplateExtension_Y();
+  EAttribute getTNodeTemplateExtension_Y();
 
-		/**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Ycsbmulti</em>'.
    * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti()
    * @see #getTNodeTemplateExtension()
    * @generated
    */
-	EAttribute getTNodeTemplateExtension_Ycsbmulti();
+  EAttribute getTNodeTemplateExtension_Ycsbmulti();
 
-		/**
+  /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension <em>TService Template Extension</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1238,7 +1238,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   EClass getTServiceTemplateExtension();
 
-    /**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension#getX <em>X</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1249,7 +1249,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   EAttribute getTServiceTemplateExtension_X();
 
-    /**
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension#getY <em>Y</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1260,7 +1260,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    */
   EAttribute getTServiceTemplateExtension_Y();
 
-    /**
+  /**
    * Returns the meta object for enum '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1548,44 +1548,44 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
     /**
      * The meta object literal for the '<em><b>Casmulti</b></em>' attribute feature.
      * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		EAttribute TNODE_TEMPLATE_EXTENSION__CASMULTI = eINSTANCE.getTNodeTemplateExtension_Casmulti();
+    EAttribute TNODE_TEMPLATE_EXTENSION__CASMULTI = eINSTANCE.getTNodeTemplateExtension_Casmulti();
 
-				/**
+    /**
      * The meta object literal for the '<em><b>Init Instances</b></em>' attribute feature.
      * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		EAttribute TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = eINSTANCE.getTNodeTemplateExtension_InitInstances();
+    EAttribute TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = eINSTANCE.getTNodeTemplateExtension_InitInstances();
 
-				/**
+    /**
      * The meta object literal for the '<em><b>X</b></em>' attribute feature.
      * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		EAttribute TNODE_TEMPLATE_EXTENSION__X = eINSTANCE.getTNodeTemplateExtension_X();
+    EAttribute TNODE_TEMPLATE_EXTENSION__X = eINSTANCE.getTNodeTemplateExtension_X();
 
-				/**
+    /**
      * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
      * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		EAttribute TNODE_TEMPLATE_EXTENSION__Y = eINSTANCE.getTNodeTemplateExtension_Y();
+    EAttribute TNODE_TEMPLATE_EXTENSION__Y = eINSTANCE.getTNodeTemplateExtension_Y();
 
-				/**
+    /**
      * The meta object literal for the '<em><b>Ycsbmulti</b></em>' attribute feature.
      * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		EAttribute TNODE_TEMPLATE_EXTENSION__YCSBMULTI = eINSTANCE.getTNodeTemplateExtension_Ycsbmulti();
+    EAttribute TNODE_TEMPLATE_EXTENSION__YCSBMULTI = eINSTANCE.getTNodeTemplateExtension_Ycsbmulti();
 
-				/**
+    /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl <em>TService Template Extension</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1595,7 +1595,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      */
     EClass TSERVICE_TEMPLATE_EXTENSION = eINSTANCE.getTServiceTemplateExtension();
 
-        /**
+    /**
      * The meta object literal for the '<em><b>X</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1603,7 +1603,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      */
     EAttribute TSERVICE_TEMPLATE_EXTENSION__X = eINSTANCE.getTServiceTemplateExtension_X();
 
-        /**
+    /**
      * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1611,7 +1611,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      */
     EAttribute TSERVICE_TEMPLATE_EXTENSION__Y = eINSTANCE.getTServiceTemplateExtension_Y();
 
-        /**
+    /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

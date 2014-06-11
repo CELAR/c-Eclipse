@@ -65,11 +65,12 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     // create Application Component
     TNodeTemplateExtension newClass = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
         
+    //newClass.setYcsbmulti( 1 );
+    //newClass.setCasmulti( 1 );
+    
     // initialize Application Component
     // Max or Min instances == 0 => nothing specified by user
     newClass.setInitInstances( DEFAULT_INIT_INSTANCES );
-    //newClass.setYcsbmulti( 1 );
-    //newClass.setCasmulti( 1 );
     newClass.setMinInstances( DEFAULT_MIN_INSTANCES );
     newClass.setMaxInstances(  BigInteger.valueOf( DEFAULT_MAX_INSTANCES ) );
     newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );

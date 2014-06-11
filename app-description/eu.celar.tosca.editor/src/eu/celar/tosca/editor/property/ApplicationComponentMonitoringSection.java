@@ -325,7 +325,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     }
 
     // Add newly created probe to Cloud project
-    mp.addProbeToCloudProject(probeName, project);
+    //mp.addProbeToCloudProject(probeName, project);
     
     // Refresh Palette Compartments
     getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();

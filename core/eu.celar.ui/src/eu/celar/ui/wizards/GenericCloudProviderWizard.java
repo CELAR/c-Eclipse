@@ -50,7 +50,7 @@ public class GenericCloudProviderWizard
    */
   @Override
   public String getWindowTitle() {
-    return "Generic VO";
+    return "Generic Cloud Provider";
   }
   
   public boolean init( final Object initialData ) {

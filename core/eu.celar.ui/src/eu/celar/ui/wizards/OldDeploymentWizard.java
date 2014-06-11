@@ -1,5 +1,12 @@
 package eu.celar.ui.wizards;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -7,6 +14,9 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
@@ -16,6 +26,7 @@ import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
 import eu.celar.connectors.aws.operation.OperationExecuter;
 import eu.celar.core.model.ICloudApplicationDescription;
 import eu.celar.core.model.ICloudDeploymentCreator;
+import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.Activator;
@@ -57,27 +68,48 @@ public abstract class OldDeploymentWizard extends Wizard implements IInitializab
     addPage( this.secondPage );
   }
   
+  public static String convertToXml( final DocumentRoot eObject )
+      throws IOException
+    {
+      XMLResourceImpl resource = new XMLResourceImpl();
+      XMLProcessor processor = new XMLProcessor();
+      resource.getDefaultSaveOptions()
+        .put( XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE );
+      resource.setEncoding( "UTF-8" ); //$NON-NLS-1$
+      resource.getContents().add( eObject );
+      return processor.saveToString( resource, null );
+    }
+
+  
   @Override
   public boolean performFinish() {
 	  
     //Convert Deployment file to String
-//    TOSCAModel toscaModel = this.deploymentFile.getTOSCAModel();
-	    
+    TOSCAModel toscaModel = this.deploymentFile.getTOSCAModel();
 //    EC2OpDeployApplication deployOperation = new EC2OpDeployApplication( EC2Client.getEC2(), toscaModel );
 //	new OperationExecuter().execOp( deployOperation );
 //	      localMonitor.worked( 1 );
-//	    
-//	    //Convert TOSCA Application Description file to String
-//	    BufferedReader br = null;
-//	    StringBuilder sb = new StringBuilder();
-//	    String line;
-//	    
+	    
+	    //Convert TOSCA Application Description file to String
+	    BufferedReader br = null;
+	    StringBuilder sb = new StringBuilder();
+	    String line;
+	    
 //	    try {
-//	      br = new BufferedReader(new InputStreamReader(this.deploymentFile.getContents()));
+//	      
+//	      //br = new BufferedReader(new InputStreamReader(this.deploymentFile.getContents()));
+//	      br = new BufferedReader(new InputStreamReader(convertToXml(toscaModel.getDocumentRoot())));
 //	    } catch( CoreException e1 ) {
 //	      e1.printStackTrace();
 //	    }
-//
+
+	    try {
+        this.deploymentString = convertToXml(toscaModel.getDocumentRoot());
+      } catch( IOException e1 ) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+	    
 //	    try {
 //	      while ((line = br.readLine()) != null) {
 //	          sb.append(line);
@@ -112,32 +144,40 @@ public abstract class OldDeploymentWizard extends Wizard implements IInitializab
 //	    else
 //	    	casMulti = 1;
 //	    
-//    //Deploy Cassandra application using HTTP
-//    URL url = null;
-//    HttpURLConnection connection = null;
-//    try {
-//      url = new URL ("http://83.212.116.50:8080/celar-server-api/deployment/deploy/?" + "casmulti=" + casMulti + "&ycsbmulti=" + ycsbMulti);
-//  
-//      connection = (HttpURLConnection) url.openConnection();
-//
-//      connection.setRequestMethod( "GET" );
-//      
-//      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//      String inputLine;
-//      while ((inputLine = in.readLine()) != null) {
-//          System.out.println(inputLine);
-//      }
-//      in.close();
-//      
-//      connection.disconnect();
-//      
-//    } catch( MalformedURLException e ) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    } catch( IOException e ) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
+    //Deploy Cassandra application using HTTP
+    URL url = null;
+    HttpURLConnection connection = null;
+    try {
+      //url = new URL ("http://83.212.116.50:8080/celar-server-api/deployment/deploy/?" + "casmulti=" + casMulti + "&ycsbmulti=" + ycsbMulti);
+      //connection.setRequestMethod( "GET" );
+      
+      url = new URL ("http://cs7649.in.cs.ucy.ac.cy/ToscaContainer/rest/cloud/actions/deploy");
+      
+      connection = (HttpURLConnection) url.openConnection();
+      
+      connection.setRequestMethod( "POST" );
+      
+      connection.setRequestProperty("Content-type", "text/xml; charset=utf-8");
+      
+      OutputStream reqStream = connection.getOutputStream();
+      reqStream.write(this.deploymentString.getBytes());
+      
+      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          System.out.println(inputLine);
+      }
+      in.close();
+      
+      connection.disconnect();
+      
+    } catch( MalformedURLException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     return true;
     

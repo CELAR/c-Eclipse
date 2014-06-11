@@ -40,9 +40,11 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PoliciesType;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TPolicy;
+import eu.celar.tosca.TPolicyTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
@@ -84,7 +86,7 @@ public class CompositeElasticity
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Elasticity Requirements Section
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
-    this.section.setText( "Application Component Elasticity Constraints" ); //$NON-NLS-1$
+    this.section.setText( "Composite Component Elasticity Constraints" ); //$NON-NLS-1$
     Composite client = toolkit.createComposite( this.section, SWT.WRAP );
     Composite client1 = toolkit.createComposite( client, SWT.WRAP );
     Composite client2 = toolkit.createComposite( client, SWT.WRAP );
@@ -327,7 +329,7 @@ public class CompositeElasticity
             .getTopologyTemplate()
             .getNodeTemplate()){
              
-            if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+            if ( tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
             {
               substituteNode = tempNodeTemplate;
               break;
@@ -359,13 +361,7 @@ public class CompositeElasticity
           
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
           
-          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
-          
-          final String policyUniqueName = nodeTemplate.getId() + policy.size();
-          
-          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
-          
-          newPolicy.setName( "C" + policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
+          final TPolicy newPolicy = createNewPolicy("Constraint", newElasticityConstraint);
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -384,6 +380,14 @@ public class CompositeElasticity
         }
       }
     } 
+    
+//  final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+//  
+//  final String policyUniqueName = nodeTemplate.getId() + policy.size();
+//  
+//  newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+//  
+//  newPolicy.setName( "C" + policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
   }
 
   void editDataStagingEntryRA ( final TPolicy selectedObject )
@@ -415,7 +419,7 @@ public class CompositeElasticity
             .getTopologyTemplate()
             .getNodeTemplate()){
              
-            if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+            if ( tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
             {
               substituteNode = tempNodeTemplate;
               break;
@@ -447,13 +451,7 @@ public class CompositeElasticity
           
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
           
-          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
-          
-          final String policyUniqueName = nodeTemplate.getId() + policy.size();
-          
-          newPolicy.setPolicyType( new QName("SYBLStrategy") );         
-          
-          newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
+          final TPolicy newPolicy = createNewPolicy("Strategy", newElasticityStrategy);
 
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
@@ -474,8 +472,61 @@ public class CompositeElasticity
         }
       }
     }
+    
+//  final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+//  
+//  final String policyUniqueName = nodeTemplate.getId() + policy.size();
+//  
+//  newPolicy.setPolicyType( new QName("SYBLStrategy") );         
+//  
+//  newPolicy.setName( "S" + policyUniqueName + ":STRATEGY " + newElasticityStrategy );
   }
 
+  //type is either "Constraint" or "Strategy"
+  TPolicy createNewPolicy(String type, String policyName){
+
+    // Create Policy Template 
+    
+    final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
+    
+    QName policyTypeName = new QName( "http://www.example.org/SYBL", type, null );
+    
+    newPolicyTemplate.setType( policyTypeName );
+    
+    String id = "G" + ( ( Integer )newPolicyTemplate.hashCode() ).toString();
+    
+    newPolicyTemplate.setId( id );
+    
+    // Add the new Policy Template to the TOSCA Definitions element
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
+        }
+      } );
+    
+    // Assign the created Policy Template to the new Policy
+    
+    TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+    
+    QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
+    
+    newPolicy.setPolicyType( policyTypeName );  
+    
+    newPolicy.setPolicyRef( qnamePolicyTemplate );
+    
+    newPolicy.setName( type.toUpperCase() + " " + policyName );
+    
+    return newPolicy;
+  }
   
   void addStrategyCondition( final TPolicy selectedObject ){
 
@@ -490,34 +541,36 @@ public class CompositeElasticity
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
- 
-    TServiceTemplate serviceTemplate = (TServiceTemplate) bo;
-    TNodeTemplate substituteNode = null;
+
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
-      .getDefinitions()
-      .getServiceTemplate()
-      .get( 0 )
-      .getTopologyTemplate()
-      .getNodeTemplate()){
-       
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
-      {
-        substituteNode = tempNodeTemplate;
-        break;
-      }
-              
-    }
-              
-    if ( substituteNode == null)
-      return;
     
-    TNodeTemplateExtension nodeTemplate = (TNodeTemplateExtension) substituteNode; 
+    
+//    TServiceTemplate serviceTemplate = (TServiceTemplate) bo;
+//    TNodeTemplate substituteNode = null;
+//    for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+//      .getDefinitions()
+//      .getServiceTemplate()
+//      .get( 0 )
+//      .getTopologyTemplate()
+//      .getNodeTemplate()){
+//       
+//      if (tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
+//      {
+//        substituteNode = tempNodeTemplate;
+//        break;
+//      }
+//              
+//    }
+//              
+//    if ( substituteNode == null)
+//      return;
+//    
+//    TNodeTemplateExtension nodeTemplate = (TNodeTemplateExtension) substituteNode; 
        
     ElasticityConditionDialog dialog;
     
-    dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                            model); //$NON-NLS-1$
+    dialog = new ElasticityConditionDialog( this.section.getShell(), "Composite Component",
+                                            model, selectedObject.getName()); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {
@@ -564,7 +617,7 @@ public class CompositeElasticity
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if (tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
       {
         substituteNode = tempNodeTemplate;
         break;
@@ -590,7 +643,7 @@ public class CompositeElasticity
         protected void doExecute() {
           for( TPolicy tempPolicy : policy )
           {
-            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+            if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
               if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
                 policy.remove( tempPolicy );
                 
@@ -649,7 +702,7 @@ public class CompositeElasticity
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if ( tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
       {
         substituteNode = tempNodeTemplate;
         break;
@@ -669,7 +722,7 @@ public class CompositeElasticity
     
     for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
     {
-      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+      if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
         this.appComponentResizingActions.add( tempPolicy );
     }
     
@@ -700,7 +753,7 @@ public class CompositeElasticity
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if ( tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
       {
         substituteNode = tempNodeTemplate;
         break;
@@ -720,7 +773,7 @@ public class CompositeElasticity
     
     for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
     {
-      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+      if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
         this.appComponentElasticityRequirements.add( tempPolicy );
     }
     
@@ -747,7 +800,7 @@ public class CompositeElasticity
       .getTopologyTemplate()
       .getNodeTemplate()){
        
-      if (tempNodeTemplate.getType() ==  serviceTemplate.getSubstitutableNodeType() )
+      if ( tempNodeTemplate.getId().toString().compareTo( serviceTemplate.getId().toString()) == 0 )
       {
         substituteNode = tempNodeTemplate;
         break;
@@ -773,7 +826,7 @@ public class CompositeElasticity
         protected void doExecute() {
           for( TPolicy tempPolicy : policy )
           {
-            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+            if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
               if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
                 policy.remove( tempPolicy );
                 

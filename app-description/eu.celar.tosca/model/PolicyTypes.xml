@@ -2,25 +2,23 @@
 <Definitions id="CELARPolicyTypes" name="CELARPolicyTypes"
   targetNamespace="http://www.example.com/Types/CELARPolicyTypes"
   xmlns="http://docs.oasis-open.org/tosca/ns/2011/12"
-  xmlns:eprop="http://www.example.org/PolicyProperties">
-  
-  <Import importType="http://www.w3.org/2001/XMLSchema"
-    namespace="http://www.example.org/PolicyProperties"/>
+  xmlns:sybl="http://www.example.org/SYBL"
+  xmlns:tns="http://www.example.com/Types/CELARPolicyTypes">
     
   <PolicyType name="ElasticityPolicy">
   	<documentation> Elasticity Policy </documentation>
   </PolicyType>
   
-  <PolicyType name="ElasticityConstraint">
+  <PolicyType name="Constraint">
   	<documentation> Elasticity Constraint </documentation>
-  	<DerivedFrom typeRef="ElasticityPolicy"/>
-  	<PropertiesDefinition element="eprop:ElasticityConstraintProperties"/>
+  	<DerivedFrom typeRef="tns:ElasticityPolicy"/>
+  	<PropertiesDefinition element="sybl:ConstraintProperties"/>
   </PolicyType>
   
-  <PolicyType name="ElasticityStrategy">
+  <PolicyType name="Strategy">
   	<documentation> Elasticity Strategy </documentation>
-  	<DerivedFrom typeRef="ElasticityPolicy"/>
-  	<PropertiesDefinition element="eprop:ElasticityStrategyProperties"/>
+  	<DerivedFrom typeRef="tns:ElasticityPolicy"/>
+  	<PropertiesDefinition element="sybl:StrategyProperties"/>
   </PolicyType>
   
  </Definitions>

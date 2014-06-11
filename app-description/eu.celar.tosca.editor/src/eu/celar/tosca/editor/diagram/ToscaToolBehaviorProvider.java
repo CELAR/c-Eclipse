@@ -15,6 +15,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -73,6 +75,7 @@ import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
+import eu.celar.tosca.editor.features.RenameCompositeComponentFeature;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
@@ -615,28 +618,32 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
 
     // Add custom probes from project explorer
-    IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    if( activeProject != null ) {
-      IFolder artifactsFolder = activeProject.getFolder( "/Monitoring" );
-      IResource[] artifactsResource = null;
-      try {
-        artifactsResource = artifactsFolder.members();
-      } catch( CoreException e ) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      for( IResource tempResource : artifactsResource ) {
-        if( tempResource instanceof IFile ) {
-          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-          mp.setUID( tempResource.getName() );
-          mp.setName( tempResource.getName() );
-          mp.setDescription( "h" );
-          mp.setURL( "h" );
-          // add new probe to monitoring list
-          mpsCopy.add( mp );
-        }
+
+  IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+  IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+
+  if( monitoringProbesProject.exists() ) {
+    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+    IResource[] artifactsResource = null;
+    try {
+      artifactsResource = srcFolder.members();
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    for( IResource tempResource : artifactsResource ) {
+      if( tempResource instanceof IFile ) {
+        MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+        mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
+        mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
+        mp.setDescription( "h" );
+        mp.setURL( "h" );
+        // add new probe to monitoring list
+        mpsCopy.add( mp );
       }
     }
+  }
+  
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Monitor Probes", null ); //$NON-NLS-1$
     compartmentEntry.setInitiallyOpen( false );
@@ -657,12 +664,13 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           deploymentArtifact.setName( mp.getUID() );
           deploymentArtifact.setArtifactType( new QName( "MonitoringProbe" ) );
           mpCF.setContextObject( deploymentArtifact );
-
-          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getUID(),
+          
+          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getName(),
                                                                                          mpCF.getName(),
                                                                                          mpCF.getCreateImageId(),
                                                                                          mpCF.getCreateLargeImageId(),
                                                                                          mpCF );
+          
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
@@ -797,10 +805,36 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<ResizingAction> ras = MockUpInfoSystem.getInstance()
       .getResizingActions();
+    
+    ArrayList<ResizingAction> rasCopy = ( ArrayList<ResizingAction> )ras.clone();
+    // Add custom images from project explorer
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    if( activeProject != null ) {
+      IFolder artifactsFolder = activeProject.getFolder( "/Artifacts/Reconfiguration Scripts" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = artifactsFolder.members();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          ResizingAction rat = InfoSystemFactory.eINSTANCE.createResizingAction();
+          rat.setUID( tempResource.getName() );
+          rat.setName( tempResource.getName() );
+          rat.setDescription( "h" );
+          rat.setURL( "h" );
+          // add new base vmi to images list
+          rasCopy.add( rat );
+        }
+      }
+    }
+    
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Elasticity Actions", null ); //$NON-NLS-1$
     ret.add( compartmentEntry );
-    for( ResizingAction ra : ras ) {
+    for( ResizingAction ra : rasCopy ) {
       // add new stack entry to new compartment
       StackEntry stackEntry = new StackEntry( ra.getName(), ra.getName(), null );
       compartmentEntry.addToolEntry( stackEntry );
@@ -881,11 +915,19 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public ICustomFeature getDoubleClickFeature( final IDoubleClickContext context )
   {
+
     ICustomFeature customFeature = new RenameApplicationComponentFeature( getFeatureProvider() );
     // canExecute() tests especially if the context contains a EClass
     if( customFeature.canExecute( context ) ) {
       return customFeature;
     }
+    
+    customFeature = new RenameCompositeComponentFeature( getFeatureProvider() );
+    // canExecute() tests especially if the context contains a EClass
+    if( customFeature.canExecute( context ) ) {
+      return customFeature;
+    }
+    
     return super.getDoubleClickFeature( context );
   }
 

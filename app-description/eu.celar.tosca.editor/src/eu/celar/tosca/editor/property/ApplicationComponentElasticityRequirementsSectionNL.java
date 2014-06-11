@@ -19,6 +19,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.jdt.internal.corext.refactoring.scripting.SelfEncapsulateRefactoringContribution;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -53,12 +54,12 @@ import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
-import eu.celar.tosca.epolicies.RelationLeftHandSideType;
-import eu.celar.tosca.epolicies.RelationRightHandSideType;
-import eu.celar.tosca.epolicies.TElasticityConstraintProperties;
-import eu.celar.tosca.epolicies.TRelationOperation;
-import eu.celar.tosca.epolicies.TRelationOperationType;
-import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
+//import eu.celar.tosca.epolicies.RelationLeftHandSideType;
+//import eu.celar.tosca.epolicies.RelationRightHandSideType;
+//import eu.celar.tosca.epolicies.TElasticityConstraintProperties;
+//import eu.celar.tosca.epolicies.TRelationOperation;
+//import eu.celar.tosca.epolicies.TRelationOperationType;
+//import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
 
 
 /** 
@@ -361,20 +362,20 @@ public class ApplicationComponentElasticityRequirementsSectionNL
           
           /////////////////////////////////////////////////////////////////////////////////////
           
-          TElasticityConstraintProperties elasticityConstraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
-          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
-
-          RelationLeftHandSideType leftHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationLeftHandSideType();
-          leftHandSideType.setMetric( "cpuUsage" );
-          
-          RelationRightHandSideType rightHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationRightHandSideType();
-          rightHandSideType.setNumber( "3" );
-          
-          relation.setRelationLeftHandSide( leftHandSideType );
-          relation.setRelationRightHandSide( rightHandSideType );
-          
-          relation.setType( TRelationOperationType.GREATER_THAN );
-          elasticityConstraint.setToEnforceSimpleConstraint( relation ); 
+//          TElasticityConstraintProperties elasticityConstraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
+//          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
+//
+//          RelationLeftHandSideType leftHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationLeftHandSideType();
+//          leftHandSideType.setMetric( "cpuUsage" );
+//          
+//          RelationRightHandSideType rightHandSideType = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createRelationRightHandSideType();
+//          rightHandSideType.setNumber( "3" );
+//          
+//          relation.setRelationLeftHandSide( leftHandSideType );
+//          relation.setRelationRightHandSide( rightHandSideType );
+//          
+//          relation.setType( TRelationOperationType.GREATER_THAN );
+//          elasticityConstraint.setToEnforceSimpleConstraint( relation ); 
                     
           QName qname = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ElasticityConstraint", null );
           newPolicy.setPolicyType( qname );
@@ -573,8 +574,8 @@ public class ApplicationComponentElasticityRequirementsSectionNL
     
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
-    dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                           model); //$NON-NLS-1$
+    dialog = new ElasticityConditionDialog( this.section.getShell(), "Application Component",
+                                           model, selectedObject.getName()); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {

@@ -236,7 +236,7 @@ public class CreateMonitorProbeFeature extends AbstractCreateFeature {
     }
     else if ( parentObject instanceof TServiceTemplate ){
       tService = ( TServiceTemplate )parentObject;
-      if (tService.getName() == null){
+      if (tService.getSubstitutableNodeType() != null){
      // Composite Application Component
      
       // Find the substitute TNodeTemplate
@@ -250,7 +250,7 @@ public class CreateMonitorProbeFeature extends AbstractCreateFeature {
         .getTopologyTemplate()
         .getNodeTemplate()){
         
-        if (tempNodeTemplate.getType().toString().equals( tService.getSubstitutableNodeType().toString()) )
+        if (tempNodeTemplate.getId().toString().equals( tService.getId().toString()) )
         {
           substituteNode = tempNodeTemplate;
           break;

@@ -6,14 +6,21 @@ package eu.celar.tosca.editor.features;
 
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.StyleUtil;
+import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
+import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
+import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
+import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
@@ -65,12 +72,20 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
                                                                       255 ) ) );
       // roundedRectangle.setForeground(manageColor( new ColorConstant( 255,
       // 255, 255 )) );
+//      roundedRectangle.setLineWidth( 1 );
+//      gaService.setLocationAndSize( roundedRectangle,
+//                                    0,
+//                                    0,
+//                                    StyleUtil.APP_COMPONENT_WIDTH * 3,
+//                                    StyleUtil.APP_COMPONENT_WIDTH * 2 );
+      
       roundedRectangle.setLineWidth( 1 );
       gaService.setLocationAndSize( roundedRectangle,
                                     0,
                                     0,
-                                    StyleUtil.APP_COMPONENT_WIDTH * 3,
-                                    StyleUtil.APP_COMPONENT_WIDTH * 2 );
+                                    StyleUtil.COMPOSITE_APP_COMP_WIDTH,
+                                    StyleUtil.COMPOSITE_APP_COMP_HEIGHT);
+      
       // if addedClass has no resource we add it to the resource of the diagram
       // in a real scenario the business model would have its own resource
       if( addedClass.eResource() == null ) {
@@ -81,8 +96,32 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
       containerShape.getGraphicsAlgorithm().setY( context.getY() );
       link( containerShape, addedClass );
     }
+    
+    
+    // SHAPE WITH TEXT
+    {
+      // create shape for text
+      final Shape shape = peCreateService.createShape( containerShape, false );
+      // create and set text graphics algorithm
+      final Text text = gaService.createPlainText( shape, addedClass.getName() );
+      
+      text.setStyle( StyleUtil.getStyleForTNodeTemplateText( getDiagram() ) );
+      gaService.setLocationAndSize( text,
+                                    0,
+                                    0,
+                                    StyleUtil.COMPOSITE_APP_COMP_WIDTH,
+                                    20 );
+      // create link and wire it
+      link( shape, addedClass );
+      final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+      directEditingInfo.setMainPictogramElement( containerShape );
+      directEditingInfo.setPictogramElement( shape );
+      directEditingInfo.setGraphicsAlgorithm( text );
+    }
+    
     // call the layout feature
     layoutPictogramElement( containerShape );
     return containerShape;
+    
   }
 }

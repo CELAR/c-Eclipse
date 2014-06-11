@@ -10,8 +10,15 @@ package eu.celar.tosca.editor.property;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.example.sybl.ConditionType;
+import org.example.sybl.Constraint;
+import org.example.sybl.SyblFactory;
+import org.example.sybl.SyblPackage;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -43,6 +50,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PoliciesType;
+import eu.celar.tosca.PropertiesDefinitionType;
+import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TPolicy;
@@ -55,7 +64,7 @@ import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
-import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
+//import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
 
 
 /** 
@@ -349,67 +358,13 @@ public class ApplicationComponentElasticityRequirementsSection
 
           }
           
-
-          
-          
           PoliciesType nodePolicyList = nodeTemplate.getPolicies();
           
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
           
-          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+          final TPolicy newPolicy = createNewPolicy("Constraint", newElasticityConstraint);
           
-          // Create Policy Template for the specified elasticity constraint
-          
-          final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
-          
-//          TElasticityConstraintProperties constraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
-//          
-//          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
-//          
-//          relation.setType( TRelationOperationType.GREATER_THAN );
-          
-//          constraint.setToEnforceSimpleConstraint( relation );
-          
-          newPolicyTemplate.setProperties( null );
-          
-          newPolicyTemplate.setId( "testPolicyTemplate" );
-          
-          // Add the new Policy Template to the TOSCA Definitions element
-          
-          final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-          
-          DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-          
-          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
-          editingDomain.getCommandStack()
-            .execute( new RecordingCommand( editingDomain ) {
-
-              @Override
-              protected void doExecute() {
-                model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
-              }
-            } );
-
-          
-          // Assign the created Policy Template to the new Policy
-          
-          QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
-          newPolicy.setPolicyRef( qnamePolicyTemplate );
-          
-          final QName qnamePolicyType = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ElasticityConstraint", null );
-          newPolicy.setPolicyType( qnamePolicyType );
-          
-
-          // TODO replace with above
-          final String policyUniqueName = nodeTemplate.getName() + policy.size();
-          
-          newPolicy.setPolicyType( new QName("SYBLConstraint") );          
-          
-          //newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
-          
-          newPolicy.setName( "CONSTRAINT " + newElasticityConstraint );
-
-          editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
+          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
@@ -426,8 +381,84 @@ public class ApplicationComponentElasticityRequirementsSection
         }
       }
     } 
-  }
+          
+//          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+//          
+////          PropertiesDefinitionType propertiesDefinition = ToscaFactory.eINSTANCE.createPropertiesDefinitionType();
+////          QName propertiesDefinitionType = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ConstraintProperties", null );
+////          propertiesDefinition.setType( propertiesDefinitionType );
+//          
+//          
+//          
+//          // Create Policy Template for the specified elasticity constraint
+//          
+//          final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
+//          
+//          QName policyTypeName = new QName( "http://www.example.org/SYBL", "Constraint", null );
+//          
+//          newPolicyTemplate.setType( policyTypeName );
+//          
+////          TElasticityConstraintProperties constraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
+////          
+////          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
+////          
+////          relation.setType( TRelationOperationType.GREATER_THAN );
+//          
+////          constraint.setToEnforceSimpleConstraint( relation );
+//          
+//          PropertiesType policyProperties = ToscaFactory.eINSTANCE.createPropertiesType();          
+//          ConditionType createConditionType = SyblFactory.eINSTANCE.createConditionType();
+//          
+//         // Entry e = FeatureMapUtil.createEntry( SyblPackage.eINSTANCE.getDocumentRoot(). );
+////          policyProperties.getAny().add( e );
+////          newPolicyTemplate.setProperties( policyProperties );          
+//          
+//          //Constraint c = SyblFactory.eINSTANCE.createConstraint();
+//          
+//
+//          
+//          newPolicyTemplate.setId( "testPolicyTemplate" );
+//          
+//          // Add the new Policy Template to the TOSCA Definitions element
+//          
+//          final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+//          
+//          DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+//          
+//          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+//          editingDomain.getCommandStack()
+//            .execute( new RecordingCommand( editingDomain ) {
+//
+//              @Override
+//              protected void doExecute() {
+//                model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
+//              }
+//            } );
+//
+//          
+//          // Assign the created Policy Template to the new Policy
+//          
+//          QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
+//          newPolicy.setPolicyRef( qnamePolicyTemplate );
+//          
+////          final QName qnamePolicyType = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ElasticityConstraint", null );
+////          newPolicy.setPolicyType( qnamePolicyType );
+//          
+//         
+//          newPolicy.setPolicyType( policyTypeName );  
+//
+//          
+//          //newPolicy.setPolicyType( new QName("SYBLConstraint") );          
+//          
+//          // TODO replace with above
+//          //final String policyUniqueName = nodeTemplate.getName() + policy.size();
+//          //newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
+//          
+//          newPolicy.setName( "CONSTRAINT " + newElasticityConstraint );
 
+
+  }  
+  
   void addElasticityStrategy(  )
   {
     FileDialog dialog = new FileDialog(this.section.getShell(), SWT.OPEN);
@@ -480,6 +511,8 @@ public class ApplicationComponentElasticityRequirementsSection
       
       //final String policyUniqueName = nodeTemplate.getId() + policy.size();
       final String policyUniqueName = nodeTemplate.getName() + policy.size();
+      
+      QName policyTypeName = new QName( "http://www.example.org/SYBL", "Strategy", null );
       
       newPolicy.setPolicyType( new QName("SYBLStrategy") );         
       
@@ -544,24 +577,14 @@ public class ApplicationComponentElasticityRequirementsSection
                   nodeTemplate.setPolicies( nodePolicyList );
                 }
               } );
-          }
+          }          
        
           PoliciesType nodePolicyList = nodeTemplate.getPolicies();
           
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
           
-          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+          final TPolicy newPolicy = createNewPolicy("Strategy", newElasticityStrategy);
           
-          //final String policyUniqueName = nodeTemplate.getId() + policy.size();
-          
-          final String policyUniqueName = nodeTemplate.getName() + policy.size();
-          
-          newPolicy.setPolicyType( new QName("SYBLStrategy") );         
-          
-          //newPolicy.setName( policyUniqueName + ":STRATEGY " + newElasticityStrategy );
-          
-          newPolicy.setName( "STRATEGY " + newElasticityStrategy );
-
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -581,8 +604,64 @@ public class ApplicationComponentElasticityRequirementsSection
         }
       }
     }
+    
+          
+
+        
+          //final String policyUniqueName = nodeTemplate.getId() + policy.size();
+          //final String policyUniqueName = nodeTemplate.getName() + policy.size();
+          //newPolicy.setName( policyUniqueName + ":STRATEGY " + newElasticityStrategy );
+
+
+
   }
 
+
+  //type is either "Constraint" or "Strategy"
+  TPolicy createNewPolicy(String type, String policyName){
+
+    // Create Policy Template 
+    
+    final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
+    
+    QName policyTypeName = new QName( "http://www.example.org/SYBL", type, null );
+    
+    newPolicyTemplate.setType( policyTypeName );
+    
+    String id = "C" + ( ( Integer )newPolicyTemplate.hashCode() ).toString();
+    
+    newPolicyTemplate.setId( id );
+    
+    // Add the new Policy Template to the TOSCA Definitions element
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
+        }
+      } );
+    
+    // Assign the created Policy Template to the new Policy
+    
+    TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
+    
+    QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
+    
+    newPolicy.setPolicyType( policyTypeName );  
+    
+    newPolicy.setPolicyRef( qnamePolicyTemplate );
+    
+    newPolicy.setName( type.toUpperCase() + " " + policyName );
+    
+    return newPolicy;
+  }
   
   void addStrategyCondition( final TPolicy selectedObject ){
 
@@ -598,8 +677,8 @@ public class ApplicationComponentElasticityRequirementsSection
     
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
-    dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                           model); //$NON-NLS-1$
+    dialog = new ElasticityConditionDialog( this.section.getShell(), "Application Component",
+                                           model, selectedObject.getName()); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {
@@ -658,7 +737,7 @@ public class ApplicationComponentElasticityRequirementsSection
         protected void doExecute() {
           for( TPolicy tempPolicy : policy )
           {
-            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+            if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
               if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
                 policy.remove( tempPolicy );
                 
@@ -724,7 +803,7 @@ public class ApplicationComponentElasticityRequirementsSection
     
     for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
     {
-      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+      if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
         this.appComponentResizingActions.add( tempPolicy );
     }
     
@@ -762,7 +841,7 @@ public class ApplicationComponentElasticityRequirementsSection
     
     for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
     {
-      if( tempPolicy.getPolicyType().toString().compareTo( "SYBLConstraint" ) == 0 ) //$NON-NLS-1$
+      if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
         this.appComponentElasticityRequirements.add( tempPolicy );
     }
     
@@ -801,7 +880,7 @@ public class ApplicationComponentElasticityRequirementsSection
         protected void doExecute() {
           for( TPolicy tempPolicy : policy )
           {
-            if( tempPolicy.getPolicyType().toString().compareTo( "SYBLStrategy" ) == 0 ) //$NON-NLS-1$
+            if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
               if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
                 policy.remove( tempPolicy );
                 

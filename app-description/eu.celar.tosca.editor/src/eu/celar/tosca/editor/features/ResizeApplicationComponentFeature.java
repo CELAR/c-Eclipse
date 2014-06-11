@@ -15,7 +15,7 @@ public class ResizeApplicationComponentFeature extends DefaultResizeShapeFeature
   @Override
   public boolean canResizeShape(IResizeShapeContext context) {
 
-    return false;
+     return false;
     
   }
 }

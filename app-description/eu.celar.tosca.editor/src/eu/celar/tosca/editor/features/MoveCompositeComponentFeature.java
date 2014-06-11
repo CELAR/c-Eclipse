@@ -16,9 +16,9 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 
 //Tests whether a service template can be moved
-public class MoveServiceTemplateFeature extends DefaultMoveShapeFeature {
+public class MoveCompositeComponentFeature extends DefaultMoveShapeFeature {
 
-  public MoveServiceTemplateFeature( final IFeatureProvider fp ) {
+  public MoveCompositeComponentFeature( final IFeatureProvider fp ) {
     super( fp );
   }
 

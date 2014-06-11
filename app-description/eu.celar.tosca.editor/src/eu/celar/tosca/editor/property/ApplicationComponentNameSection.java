@@ -492,12 +492,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
       String maxInstances = ( (BigInteger)appComponent.getMaxInstances()).toString();
       
       // Node has just been created
-      if( minInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
-          && maxInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
-          && this.nameText.getText().compareTo( "" ) == 0) //$NON-NLS-1$
-      {
-        return;
-      }
+//      if (appComponent.getName() == null)
+//        return;
+      
+//      if( minInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
+//          && maxInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
+//          && this.nameText.getText().compareTo( "" ) == 0) //$NON-NLS-1$
+//      {
+//        return;
+//      }
       
       if( minInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
         minInstances = ""; //$NON-NLS-1$
@@ -547,12 +550,16 @@ public class ApplicationComponentNameSection extends GFPropertySection
               break;
             } 
           }
-        this.imageText.setText( imageName == null
-                                                 ? "" : imageName ); //$NON-NLS-1$
-      }
 
+      }
+      this.imageText.setText( imageName == null
+          ? "" : imageName ); //$NON-NLS-1$
+
+      
+      if (!(bo instanceof TDeploymentArtifact))
+        refreshInstances();
     }
-    refreshInstances();
+
   }
 
   // Updates Application name or number of instances according the triggered
@@ -599,8 +606,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
             protected void doExecute() {
               if (nodeTemplate != null) {
-              	if ( ApplicationComponentNameSection.this.minInstancesText.getText().equals( "" ) ) //$NON-NLS-1$
-              		nodeTemplate.setMinInstances( -1 ); 
+              	if ( ApplicationComponentNameSection.this.minInstancesText.getText().equals( "" ) ){ //$NON-NLS-1$
+              		//nodeTemplate.setMinInstances( -1 ); 
+              	}
               	else
               		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
               }
@@ -614,8 +622,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 ) //$NON-NLS-1$
-            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(-1) );
+            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 ){ //$NON-NLS-1$
+            		//nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(-1) );
+            	}
             	else
             		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }

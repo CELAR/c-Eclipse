@@ -402,6 +402,9 @@ public class ToscaDiagramEditor extends DiagramEditor {
             //Add Relationships
             for (TServiceTemplate tst : serviceTemplates) { 
               
+              if ( tst.getTopologyTemplate() == null )
+                continue;
+              
               for (TRelationshipTemplate trt : tst.getTopologyTemplate().getRelationshipTemplate()) {    
                   
                SourceElementType se = trt.getSourceElement();

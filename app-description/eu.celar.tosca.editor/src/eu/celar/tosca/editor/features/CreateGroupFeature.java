@@ -50,10 +50,12 @@ public class CreateGroupFeature extends AbstractCreateFeature {
     // create substitutableNodeType
     TServiceTemplateExtension tService = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTServiceTemplateExtension();
     
+    String id = "G" + ( ( Integer )tService.hashCode() ).toString();
+    
     //set the Service Template as substitutable so that it can be composed into another Service Template
     QName qname = new QName("substituteNode");
     tService.setSubstitutableNodeType( qname );
-    tService.setId( "G" + ( ( Integer )tService.hashCode() ).toString() );
+    tService.setId( id );
     
     //Set X and Y required for reloading tosca model in tosca editor
     tService.setX(context.getX());
@@ -64,7 +66,9 @@ public class CreateGroupFeature extends AbstractCreateFeature {
     
     TNodeTemplateExtension newNodeTemplate = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
     newNodeTemplate.setType( qname );
-    newNodeTemplate.setId( "G" + ( ( Integer )newNodeTemplate.hashCode() ).toString() );   
+    
+    //newNodeTemplate.setId( "G" + ( ( Integer )newNodeTemplate.hashCode() ).toString() );    
+    newNodeTemplate.setId( id );   
     
     parentServiceTemplate.getTopologyTemplate().getNodeTemplate().add( newNodeTemplate );  
     
