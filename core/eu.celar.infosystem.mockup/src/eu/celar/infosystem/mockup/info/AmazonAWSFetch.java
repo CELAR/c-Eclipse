@@ -207,6 +207,14 @@ public class AmazonAWSFetch extends Job  {
    * @return A list with the available Software Dependencies
    */
   public ArrayList<SoftwareDependency> getSoftwareDependencies () {
+    
+    SoftwareDependency swd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
+    swd.setUID( "" );
+    swd.setName( "Decommission.sh" );
+    swd.setType( "" );        
+    swd.setDescription( "" );        
+    instance.software_dependencies.add( swd );
+    
     return instance.software_dependencies;
   }
   
@@ -228,6 +236,19 @@ public class AmazonAWSFetch extends Job  {
    * @return A list with the available User Applications
    */
   public ArrayList<UserApplication> getUserApplications () {
+    
+    UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
+    uA.setUID( "" );
+    uA.setName( "HaProxy.tar" );        
+    uA.setDescription( "" );        
+    instance.user_apps.add( uA ); 
+
+    uA = InfoSystemFactory.eINSTANCE.createUserApplication();
+    uA.setUID( "" );
+    uA.setName( "EventProcessing.war" );        
+    uA.setDescription( "" );        
+    instance.user_apps.add( uA ); 
+    
     return instance.user_apps;
   }
 

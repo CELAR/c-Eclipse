@@ -10,6 +10,13 @@ package eu.celar.tosca.editor.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -24,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
 
@@ -57,7 +65,7 @@ public class ElasticityConstraintDialog extends Dialog {
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
     shell.setText( "Add Elasticity Constraint" ); //$NON-NLS-1$
-    shell.setSize( 300, 170 );
+    shell.setSize( 300, 180 );
   }
 
   @Override
@@ -77,24 +85,12 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbGlobalElasticityReq.setEnabled( true );
     gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
-    if( this.component.compareTo( "Application" ) == 0 ) { //$NON-NLS-1$
-      List<ElasticityRequirementCategory> categories = ElasticityRequirementCategory.VALUES;
-      for( ElasticityRequirementCategory tempCat : categories ) {
-        this.cmbGlobalElasticityReq.add( tempCat.toString() );
-      }
-    } 
-    else if( this.component.compareTo( "Application Component" ) == 0 ) { //$NON-NLS-1$
-//      List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
-      ArrayList<MonitoringProbe> categories = MockUpInfoSystem.getInstance().getMonitoringProbes();
-      for( MonitoringProbe tempCat : categories )
-      {
-        this.cmbGlobalElasticityReq.add( tempCat.getName() );
-      }
-//      this.cmbGlobalElasticityReq.add( "Connections" );
-//      this.cmbGlobalElasticityReq.add( "Latency" );
-//      this.cmbGlobalElasticityReq.add( "Memory Usage" );
+    
+    ArrayList<MonitoringProbe> mps = getMetrics();
+    for (MonitoringProbe mp : mps){
+      this.cmbGlobalElasticityReq.add( mp.getName() );
     }
-
+    
     Composite valueComposite = new Composite( composite, SWT.NONE );
     gLayout = new GridLayout( 4, false );
     valueComposite.setLayout( gLayout );
@@ -129,9 +125,9 @@ public class ElasticityConstraintDialog extends Dialog {
         ElasticityConstraintDialog.this.newType = ElasticityConstraintDialog.this.cmbGlobalElasticityReq.getText();
         // set metric unit
         ElasticityConstraintDialog.this.unit = ""; //$NON-NLS-1$
-        if( ElasticityConstraintDialog.this.newType.compareTo( "ResponseTime" ) == 0 ) //$NON-NLS-1$
+        if( ElasticityConstraintDialog.this.newType.compareTo( "Response Time" ) == 0 ) //$NON-NLS-1$
         {
-          ElasticityConstraintDialog.this.unit = "s"; //$NON-NLS-1$
+          ElasticityConstraintDialog.this.unit = "ms"; //$NON-NLS-1$
         } else if( ElasticityConstraintDialog.this.newType.compareTo( "Bandwidth" ) == 0 ) //$NON-NLS-1$
         {
           ElasticityConstraintDialog.this.unit = "MB/s"; //$NON-NLS-1$
@@ -144,7 +140,7 @@ public class ElasticityConstraintDialog extends Dialog {
         } else if( ElasticityConstraintDialog.this.newType.compareTo( "Throughput" ) == 0 ) //$NON-NLS-1$
         {
           ElasticityConstraintDialog.this.unit = "s"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Memory Usage" ) == 0 ) //$NON-NLS-1$
+        } else if( ElasticityConstraintDialog.this.newType.compareTo( "CPU_Usage" ) == 0 ) //$NON-NLS-1$
         {
             ElasticityConstraintDialog.this.unit = "%"; //$NON-NLS-1$
           }else {
@@ -159,6 +155,41 @@ public class ElasticityConstraintDialog extends Dialog {
     return composite;
   }
 
+  public ArrayList<MonitoringProbe> getMetrics(){
+    
+    ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
+        .getMonitoringProbes();
+        
+        ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
+        
+    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+
+    if( monitoringProbesProject.exists() ) {
+      IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+      IResource[] artifactsResource = null;
+      try {
+        artifactsResource = srcFolder.members();
+      } catch( CoreException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      for( IResource tempResource : artifactsResource ) {
+        if( tempResource instanceof IFile ) {
+          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
+          mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
+          mp.setDescription( "h" );
+          mp.setURL( "h" );
+          // add new probe to monitoring list
+          mpsCopy.add( mp );
+        }
+      }
+    }
+    
+    return mpsCopy;
+  }
+  
   public String getElasticityConstraint() {
     return ElasticityConstraintDialog.this.elasticityRequirement;
   }

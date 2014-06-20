@@ -19,6 +19,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 
 import eu.celar.infosystem.model.base.MonitoringProbe;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.ImageProvider;
 import eu.celar.tosca.editor.StyleUtil;
 
@@ -36,10 +37,19 @@ public class AddMonitorProbeFeature extends AbstractFeature
     boolean isDiagramInstance = context.getTargetContainer() instanceof Diagram
                                                                                ? true
                                                                                : false;
-    if( context.getNewObject() instanceof MonitoringProbe && !isDiagramInstance )
+//    if( context.getNewObject() instanceof MonitoringProbe && !isDiagramInstance )
+//    {
+//      result = true;
+//    }
+    
+    boolean monitoringProbe = false;
+    monitoringProbe = context.getNewObject() instanceof TDeploymentArtifact && ((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0;
+  
+    if( monitoringProbe && !isDiagramInstance )
     {
       result = true;
     }
+    
     return result;
   }
 

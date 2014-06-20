@@ -6,7 +6,7 @@
 		<groupId>eu.celar.tycho</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0.qualifier</version>
-		<relativePath>../../eu.celar.tycho</relativePath>
+		<relativePath>..\..\eu.celar.tycho</relativePath>
 	</parent>
 
 	<artifactId>eu.celar.connectors.openstack.ui</artifactId>

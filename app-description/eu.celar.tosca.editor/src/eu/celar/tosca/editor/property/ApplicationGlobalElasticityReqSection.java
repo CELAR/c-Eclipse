@@ -477,8 +477,8 @@ public class ApplicationGlobalElasticityReqSection
     
     ElasticityConditionDialog dialog;
     
-    dialog = new ElasticityConditionDialog( this.section.getShell(),
-                                            model); //$NON-NLS-1$
+    dialog = new ElasticityConditionDialog( this.section.getShell(), "Application",
+                                            model, selectedObject.getName()); //$NON-NLS-1$
     String newElasticityCondition = null;
     
     if( dialog.open() == Window.OK ) {

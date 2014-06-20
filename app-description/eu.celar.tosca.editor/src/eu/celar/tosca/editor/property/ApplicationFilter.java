@@ -24,11 +24,13 @@ public class ApplicationFilter extends AbstractPropertySectionFilter {
   protected boolean accept( final PictogramElement pe ) {
     EObject bo = Graphiti.getLinkService()
       .getBusinessObjectForLinkedPictogramElement( pe );
+    
     if( bo instanceof TServiceTemplate
-        && ( ( TServiceTemplate )bo ).getName() != null )
+        && ( ( TServiceTemplate )bo ).getSubstitutableNodeType() == null )
     {
       return true;
     }
+    
     return false;
   }
 }

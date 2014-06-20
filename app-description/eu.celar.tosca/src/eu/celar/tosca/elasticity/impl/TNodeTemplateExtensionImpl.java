@@ -8,7 +8,9 @@ import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 import eu.celar.tosca.impl.TNodeTemplateImpl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -49,149 +51,149 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   /**
    * The default value of the '{@link #getCasmulti() <em>Casmulti</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getCasmulti()
    * @generated
    * @ordered
    */
-	protected static final int CASMULTI_EDEFAULT = 0;
+  protected static final int CASMULTI_EDEFAULT = 0;
 
-		/**
+  /**
    * The cached value of the '{@link #getCasmulti() <em>Casmulti</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getCasmulti()
    * @generated
    * @ordered
    */
-	protected int casmulti = CASMULTI_EDEFAULT;
+  protected int casmulti = CASMULTI_EDEFAULT;
 
-		/**
+  /**
    * This is true if the Casmulti attribute has been set.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	protected boolean casmultiESet;
+  protected boolean casmultiESet;
 
-		/**
+  /**
    * The default value of the '{@link #getInitInstances() <em>Init Instances</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getInitInstances()
    * @generated
    * @ordered
    */
-	protected static final int INIT_INSTANCES_EDEFAULT = 0;
+  protected static final int INIT_INSTANCES_EDEFAULT = 0;
 
-		/**
+  /**
    * The cached value of the '{@link #getInitInstances() <em>Init Instances</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getInitInstances()
    * @generated
    * @ordered
    */
-	protected int initInstances = INIT_INSTANCES_EDEFAULT;
+  protected int initInstances = INIT_INSTANCES_EDEFAULT;
 
-		/**
+  /**
    * This is true if the Init Instances attribute has been set.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	protected boolean initInstancesESet;
+  protected boolean initInstancesESet;
 
-		/**
+  /**
    * The default value of the '{@link #getX() <em>X</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getX()
    * @generated
    * @ordered
    */
-	protected static final int X_EDEFAULT = 0;
+  protected static final int X_EDEFAULT = 0;
 
-		/**
+  /**
    * The cached value of the '{@link #getX() <em>X</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getX()
    * @generated
    * @ordered
    */
-	protected int x = X_EDEFAULT;
+  protected int x = X_EDEFAULT;
 
-		/**
+  /**
    * This is true if the X attribute has been set.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	protected boolean xESet;
+  protected boolean xESet;
 
-		/**
+  /**
    * The default value of the '{@link #getY() <em>Y</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getY()
    * @generated
    * @ordered
    */
-	protected static final int Y_EDEFAULT = 0;
+  protected static final int Y_EDEFAULT = 0;
 
-		/**
+  /**
    * The cached value of the '{@link #getY() <em>Y</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getY()
    * @generated
    * @ordered
    */
-	protected int y = Y_EDEFAULT;
+  protected int y = Y_EDEFAULT;
 
-		/**
+  /**
    * This is true if the Y attribute has been set.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	protected boolean yESet;
+  protected boolean yESet;
 
-		/**
+  /**
    * The default value of the '{@link #getYcsbmulti() <em>Ycsbmulti</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getYcsbmulti()
    * @generated
    * @ordered
    */
-	protected static final int YCSBMULTI_EDEFAULT = 0;
+  protected static final int YCSBMULTI_EDEFAULT = 0;
 
-		/**
+  /**
    * The cached value of the '{@link #getYcsbmulti() <em>Ycsbmulti</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getYcsbmulti()
    * @generated
    * @ordered
    */
-	protected int ycsbmulti = YCSBMULTI_EDEFAULT;
+  protected int ycsbmulti = YCSBMULTI_EDEFAULT;
 
-		/**
+  /**
    * This is true if the Ycsbmulti attribute has been set.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	protected boolean ycsbmultiESet;
+  protected boolean ycsbmultiESet;
 
-		/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -214,19 +216,21 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getCasmulti() {
+  public int getCasmulti()
+  {
     return casmulti;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setCasmulti(int newCasmulti) {
+  public void setCasmulti(int newCasmulti)
+  {
     int oldCasmulti = casmulti;
     casmulti = newCasmulti;
     boolean oldCasmultiESet = casmultiESet;
@@ -235,12 +239,13 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI, oldCasmulti, casmulti, !oldCasmultiESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void unsetCasmulti() {
+  public void unsetCasmulti()
+  {
     int oldCasmulti = casmulti;
     boolean oldCasmultiESet = casmultiESet;
     casmulti = CASMULTI_EDEFAULT;
@@ -249,30 +254,33 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI, oldCasmulti, CASMULTI_EDEFAULT, oldCasmultiESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean isSetCasmulti() {
+  public boolean isSetCasmulti()
+  {
     return casmultiESet;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getInitInstances() {
+  public int getInitInstances()
+  {
     return initInstances;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setInitInstances(int newInitInstances) {
+  public void setInitInstances(int newInitInstances)
+  {
     int oldInitInstances = initInstances;
     initInstances = newInitInstances;
     boolean oldInitInstancesESet = initInstancesESet;
@@ -281,12 +289,13 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES, oldInitInstances, initInstances, !oldInitInstancesESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void unsetInitInstances() {
+  public void unsetInitInstances()
+  {
     int oldInitInstances = initInstances;
     boolean oldInitInstancesESet = initInstancesESet;
     initInstances = INIT_INSTANCES_EDEFAULT;
@@ -295,30 +304,33 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES, oldInitInstances, INIT_INSTANCES_EDEFAULT, oldInitInstancesESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean isSetInitInstances() {
+  public boolean isSetInitInstances()
+  {
     return initInstancesESet;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getX() {
+  public int getX()
+  {
     return x;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setX(int newX) {
+  public void setX(int newX)
+  {
     int oldX = x;
     x = newX;
     boolean oldXESet = xESet;
@@ -327,12 +339,13 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__X, oldX, x, !oldXESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void unsetX() {
+  public void unsetX()
+  {
     int oldX = x;
     boolean oldXESet = xESet;
     x = X_EDEFAULT;
@@ -341,30 +354,33 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__X, oldX, X_EDEFAULT, oldXESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean isSetX() {
+  public boolean isSetX()
+  {
     return xESet;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getY() {
+  public int getY()
+  {
     return y;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setY(int newY) {
+  public void setY(int newY)
+  {
     int oldY = y;
     y = newY;
     boolean oldYESet = yESet;
@@ -373,12 +389,13 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y, oldY, y, !oldYESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void unsetY() {
+  public void unsetY()
+  {
     int oldY = y;
     boolean oldYESet = yESet;
     y = Y_EDEFAULT;
@@ -387,30 +404,33 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y, oldY, Y_EDEFAULT, oldYESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean isSetY() {
+  public boolean isSetY()
+  {
     return yESet;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getYcsbmulti() {
+  public int getYcsbmulti()
+  {
     return ycsbmulti;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setYcsbmulti(int newYcsbmulti) {
+  public void setYcsbmulti(int newYcsbmulti)
+  {
     int oldYcsbmulti = ycsbmulti;
     ycsbmulti = newYcsbmulti;
     boolean oldYcsbmultiESet = ycsbmultiESet;
@@ -419,12 +439,13 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI, oldYcsbmulti, ycsbmulti, !oldYcsbmultiESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void unsetYcsbmulti() {
+  public void unsetYcsbmulti()
+  {
     int oldYcsbmulti = ycsbmulti;
     boolean oldYcsbmultiESet = ycsbmultiESet;
     ycsbmulti = YCSBMULTI_EDEFAULT;
@@ -433,22 +454,24 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI, oldYcsbmulti, YCSBMULTI_EDEFAULT, oldYcsbmultiESet));
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean isSetYcsbmulti() {
+  public boolean isSetYcsbmulti()
+  {
     return ycsbmultiESet;
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
     switch (featureID)
     {
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
@@ -465,13 +488,14 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     return super.eGet(featureID, resolve, coreType);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public void eSet(int featureID, Object newValue) {
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
     switch (featureID)
     {
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
@@ -493,13 +517,14 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     super.eSet(featureID, newValue);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public void eUnset(int featureID) {
+  @Override
+  public void eUnset(int featureID)
+  {
     switch (featureID)
     {
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
@@ -521,13 +546,14 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     super.eUnset(featureID);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public boolean eIsSet(int featureID) {
+  @Override
+  public boolean eIsSet(int featureID)
+  {
     switch (featureID)
     {
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
@@ -544,7 +570,7 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     return super.eIsSet(featureID);
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -601,13 +627,14 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     }
   }
 
-		/**
+  /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	@Override
-	public String toString() {
+  @Override
+  public String toString()
+  {
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());

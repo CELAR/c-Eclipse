@@ -5,9 +5,9 @@ package eu.celar.tosca.elasticity.util;
 import eu.celar.tosca.TBoundaryDefinitions;
 import eu.celar.tosca.TEntityTemplate;
 import eu.celar.tosca.TExtensibleElements;
-
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
+
 import eu.celar.tosca.elasticity.*;
 
 import org.eclipse.emf.common.notify.Adapter;

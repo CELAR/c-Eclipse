@@ -63,13 +63,16 @@ import eu.celar.tosca.editor.features.DeleteApplicationComponentFeature;
 import eu.celar.tosca.editor.features.DeleteDeploymentArtifactFeature;
 import eu.celar.tosca.editor.features.DeleteGroupFeature;
 import eu.celar.tosca.editor.features.DirectEditApplicationComponentFeature;
+import eu.celar.tosca.editor.features.DirectEditCompositeComponentFeature;
 import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveApplicationComponentFeature;
-import eu.celar.tosca.editor.features.MoveServiceTemplateFeature;
+import eu.celar.tosca.editor.features.MoveCompositeComponentFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
+import eu.celar.tosca.editor.features.RenameCompositeComponentFeature;
 import eu.celar.tosca.editor.features.ResizeApplicationComponentFeature;
 import eu.celar.tosca.editor.features.UpdateApplicationComponentFeature;
+import eu.celar.tosca.editor.features.UpdateCompositeComponentFeature;
 
 public class ToscaFeatureProvider extends DefaultFeatureProvider {
 
@@ -98,14 +101,16 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
           return new AddVirtualMachineFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
-        return new AddKeyPairFeature( this );;
-    } else if( context.getNewObject() instanceof MonitoringProbe ) {
-      return new AddMonitorProbeFeature( this );
+        return new AddKeyPairFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)
+        return new AddMonitorProbeFeature( this );
+      ;
     } else if( context.getNewObject() instanceof ResizingAction ) {
       return new AddResizingActionFeature( this );
-    } // its a substitutional Service Template
+    } 
+    // its a substitutional Service Template
     else if( context.getNewObject() instanceof TServiceTemplate
-             && ( ( TServiceTemplate )context.getNewObject() ).getName() == null )
+        && ( ( TServiceTemplate )context.getNewObject() ).getSubstitutableNodeType() != null )
     {
       return new AddGroupFeature( this );
     } else if( context.getNewObject() instanceof TServiceTemplate ) {
@@ -158,6 +163,9 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     if( bo instanceof TNodeTemplate ) {
       return new DirectEditApplicationComponentFeature( this );
     }
+    else if( bo instanceof TServiceTemplate ) {
+      return new DirectEditCompositeComponentFeature( this );
+    }
     return super.getDirectEditingFeature( context );
   }
 
@@ -181,6 +189,9 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       if( bo instanceof TNodeTemplate ) {
         return new UpdateApplicationComponentFeature( this );
       }
+      else if( bo instanceof TServiceTemplate ) {
+        return new UpdateCompositeComponentFeature( this );
+      }
     }
     return super.getUpdateFeature( context );
   }
@@ -195,7 +206,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       return new MoveApplicationComponentFeature( this );
     }
     if ( bo instanceof TServiceTemplate ){
-      return new MoveServiceTemplateFeature( this );
+      return new MoveCompositeComponentFeature( this );
     }
     return super.getMoveShapeFeature( context );
   }
@@ -205,6 +216,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   public ICustomFeature[] getCustomFeatures( ICustomContext context ) {
     return new ICustomFeature[]{
       new RenameApplicationComponentFeature( this ),
+      new RenameCompositeComponentFeature( this ),
     };
   }
 

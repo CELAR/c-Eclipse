@@ -55,6 +55,7 @@ import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.SourceElementType;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
@@ -311,6 +312,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
                         
+            Boolean substitute = false;
             ContainerShape containerShapeTST = null;
             
             for (TServiceTemplate tst : serviceTemplates) { 
@@ -319,7 +321,9 @@ public class ToscaDiagramEditor extends DiagramEditor {
                 //tst is a group component
                 TServiceTemplateExtension tstG = (TServiceTemplateExtension) tst;
                 addContainerElement (tst, containerShapeTST, tstG.getX(), tstG.getY());
+                substitute = true;
               }
+              
               else{
                 addContainerElement (tst, diagram, 0, 0);
                 containerShapeTST = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
@@ -336,8 +340,9 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
 
-                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) //$NON-NLS-1$
+                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) {//$NON-NLS-1$
                     continue;
+                  }
                   
                   TNodeTemplateExtension tnte = (TNodeTemplateExtension) tnt;
                   addContainerElement( tnt, containerShape, tnte.getX(), tnte.getY() );
@@ -355,10 +360,50 @@ public class ToscaDiagramEditor extends DiagramEditor {
                   }
  
                 }                
+                
+                if ( substitute ){
+                  //Composite Component Service Template
+                  //Add deployment artifacts to composite component's service template
+                  
+                  for (TServiceTemplate tempTst : serviceTemplates) { 
+                    for (TNodeTemplate tnt : tempTst.getTopologyTemplate().getNodeTemplate()) {
+  
+                          
+                          if ( tst.getSubstitutableNodeType() != null && tnt.getType().toString().equals( tst.getSubstitutableNodeType().toString()) ){
+                            //Found the service template that substitutes the specific node template
+                            
+                            ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                                .getPictogramElementForBusinessObject( tst ); 
+                            
+                            //Add Deployment Artifacts
+                            if ( tnt.getDeploymentArtifacts() != null && tnt.getDeploymentArtifacts().getDeploymentArtifact() != null ){
+                                for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
+
+                                          addContainerElement( tda, containerShapeTNT, 0, 0 );
+                                    
+                                }
+                            } 
+                            break;
+                          }
+                        
+                      
+                    }
+                  }
+                  substitute = false;
+                }
+                else{
+                  //Application Service Template
+                  //Add deployment artifacts to application's service template
+                  
+                }
+
             }
             
             //Add Relationships
             for (TServiceTemplate tst : serviceTemplates) { 
+              
+              if ( tst.getTopologyTemplate() == null )
+                continue;
               
               for (TRelationshipTemplate trt : tst.getTopologyTemplate().getRelationshipTemplate()) {    
                   
@@ -412,7 +457,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
   protected PictogramElement addContainerElement( final EObject element,
                                                   final ContainerShape parent, int x_axis, int y_axis )
   {
-        
+    
     final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
     
     AddContext context = new AddContext( new AreaContext(), element );
@@ -429,10 +474,19 @@ public class ToscaDiagramEditor extends DiagramEditor {
       
     if( canAdd ) {
       pictElement = addFeature.add( context );
-      featureProvider.link( pictElement, new Object[]{ element } );
+      
+      if (element instanceof TDeploymentArtifact && ((TDeploymentArtifact) element).getArtifactType().toString().compareTo( "MonitoringProbe" )==0){
+        //There is no pictogram element linked to the monitoring image
+        return pictElement;
+      }    
+      else{
+        featureProvider.link( pictElement, new Object[]{ element } );
+        return pictElement;
+      }
     }
     
-    return pictElement;
+    return null;
+
   }
   
   protected PictogramElement addRelationshipContainerElement( final EObject element,

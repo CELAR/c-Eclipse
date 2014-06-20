@@ -38,11 +38,11 @@ public class EC2OpDescribeImages extends AbstractEC2OpDescribeImages {
       Filter[] filters = new Filter[2];
       filters[0] = new Filter().withName( "name" ).withValues( "*apache*" );  
       filters[1] = new Filter().withName( "name" ).withValues( "*ubuntu*" );
-      
-     
+           
       DescribeImagesRequest request = new DescribeImagesRequest().withFilters( filters );
       DescribeImagesResult imageResult = this.ec2.describeImages(request);
       List<Image> images = imageResult.getImages();
+
       setResult( images );
     } catch( Exception ex ) {
       setException( ex );

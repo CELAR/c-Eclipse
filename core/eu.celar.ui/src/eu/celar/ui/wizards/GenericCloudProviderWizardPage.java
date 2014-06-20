@@ -54,7 +54,7 @@ public class GenericCloudProviderWizardPage
     mainComp.setLayout( new GridLayout( 2, false ) );
     
     Label nameLabel = new Label( mainComp, SWT.NULL );
-    nameLabel.setText( "&VO Name:" );
+    nameLabel.setText( "&Cloud Provider Name:" );
     gData = new GridData();
     nameLabel.setLayoutData( gData );
     

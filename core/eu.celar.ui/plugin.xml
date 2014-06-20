@@ -262,6 +262,14 @@
       <extension
             point="eu.celar.ui.newCloudProviderWizards">
          <wizard
+               class="eu.celar.ui.wizards.CELARCloudProviderWizard"
+               id="eu.celar.ui.wizards.CELARCloudProviderWizard"
+               name="CELAR Cloud Provider">
+         </wizard>
+      </extension>
+      <extension
+            point="eu.celar.ui.newCloudProviderWizards">
+         <wizard
                class="eu.celar.ui.wizards.GenericCloudProviderWizard"
                id="eu.celar.ui.wizards.GenericCloudProviderWizard"
                name="Generic Cloud Provider">

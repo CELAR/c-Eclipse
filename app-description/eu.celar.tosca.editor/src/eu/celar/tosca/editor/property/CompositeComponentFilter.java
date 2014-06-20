@@ -25,7 +25,7 @@ public class CompositeComponentFilter extends AbstractPropertySectionFilter {
     EObject bo = Graphiti.getLinkService()
       .getBusinessObjectForLinkedPictogramElement( pe );
     if( bo instanceof TServiceTemplate
-        && ( ( TServiceTemplate )bo ).getName() == null )
+        && ( ( TServiceTemplate )bo ).getSubstitutableNodeType() != null )
     {
       return true;
     }
