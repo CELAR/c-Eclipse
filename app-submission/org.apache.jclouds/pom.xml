@@ -98,7 +98,13 @@
                                 </artifact>                                
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-cinder:1.7.0</id>
-                                </artifact>
+                                </artifact>                         		
+                     			<artifact>
+                                    <id>com.sun.jersey:jersey-bundle:1.18</id>
+                                </artifact> 
+                                <artifact>
+                                    <id>com.sun.jersey.contribs:jersey-multipart:1.18</id>
+                                </artifact> 
                                 <!--  
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-trove:1.7.0</id>

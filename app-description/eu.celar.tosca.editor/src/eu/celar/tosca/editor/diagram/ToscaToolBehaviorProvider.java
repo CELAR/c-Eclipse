@@ -235,15 +235,15 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<TNodeTemplateExtension> appComponents = new ArrayList<TNodeTemplateExtension>();
     TNodeTemplateExtension applicationServerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
-    applicationServerComponent.setType( new QName( "ApplicationServer" ) );
+    applicationServerComponent.setType( new QName( "appserver" ) );
     applicationServerComponent.setName( "ApplicationServer" );
     appComponents.add( applicationServerComponent );
     TNodeTemplateExtension databaseServerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
-    databaseServerComponent.setType( new QName( "DatabaseServer" ) );
+    databaseServerComponent.setType( new QName( "dbserver" ) );
     databaseServerComponent.setName( "DatabaseServer" );
     appComponents.add( databaseServerComponent );
     TNodeTemplateExtension loadBalancerComponent = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createTNodeTemplateExtension();
-    loadBalancerComponent.setType( new QName( "LoadBalancer" ) );
+    loadBalancerComponent.setType( new QName( "loadbalancer" ) );
     loadBalancerComponent.setName( "LoadBalancer" );
     appComponents.add( loadBalancerComponent );
     // add new compartment at the end of the existing compartments
@@ -336,14 +336,14 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
           IFile file = ( IFile )tempResource;
-          if( !file.getFileExtension().equals( "sh" ) )
-            continue;
-          SoftwareDependency sd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
-          sd.setName( file.getName() );
-          sd.setURL( file.getFullPath().toString() );
-          sd.setDescription( file.getName() );
-          // add new keypair to list
-          deployScriptsList.add( sd );
+          if( file.getFileExtension() != null && !file.getFileExtension().equals( "sh" ) ){            
+            SoftwareDependency sd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
+            sd.setName( file.getName() );
+            sd.setURL( file.getFullPath().toString() );
+            sd.setDescription( file.getName() );
+            // add new keypair to list
+            deployScriptsList.add( sd );
+          }
         }
       }
       // add new compartment at the end of the existing compartments
@@ -393,14 +393,14 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
           IFile file = ( IFile )tempResource;
-          if( !file.getFileExtension().equals( "pub" ) )
-            continue;
-          KeyPair kp = InfoSystemFactory.eINSTANCE.createKeyPair();
-          kp.setName( file.getName() );
-          kp.setURL( file.getFullPath().toString() );
-          kp.setDescription( file.getName() );
-          // add new keypair to list
-          keyPairList.add( kp );
+          if ( file.getFileExtension() != null && file.getFileExtension().equals( "pub" ) ){
+            KeyPair kp = InfoSystemFactory.eINSTANCE.createKeyPair();
+            kp.setName( file.getName() );
+            kp.setURL( file.getFullPath().toString() );
+            kp.setDescription( file.getName() );
+            // add new keypair to list
+            keyPairList.add( kp );
+          }
         }
       }
       // add new compartment at the end of the existing compartments
@@ -636,10 +636,9 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
         mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
         mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
-        mp.setDescription( "h" );
-        mp.setURL( "h" );
+        mp.setDescription( "" );
         // add new probe to monitoring list
-        mpsCopy.add( mp );
+        mpsCopy.add( 0, mp );
       }
     }
   }

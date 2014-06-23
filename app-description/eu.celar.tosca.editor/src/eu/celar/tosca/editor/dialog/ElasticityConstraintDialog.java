@@ -46,8 +46,7 @@ public class ElasticityConstraintDialog extends Dialog {
   private CCombo cmbGlobalElasticityReq;
   private CCombo cmbOperator;
   private String component;
-  private Label unitLabel;
-
+ 
   private String unit;
   
   /**
@@ -88,11 +87,11 @@ public class ElasticityConstraintDialog extends Dialog {
     
     ArrayList<MonitoringProbe> mps = getMetrics();
     for (MonitoringProbe mp : mps){
-      this.cmbGlobalElasticityReq.add( mp.getName() );
+      this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
     }
     
     Composite valueComposite = new Composite( composite, SWT.NONE );
-    gLayout = new GridLayout( 4, false );
+    gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );
     
     Label valueLabel = new Label( valueComposite, SWT.LEAD );
@@ -111,46 +110,8 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbOperator.setText( this.cmbOperator.getItem( 0 ) );  
     
     this.valueText = new Text( valueComposite, SWT.BORDER );
-    gd = new GridData( 112, 20 );
-    this.valueText.setLayoutData( gd );
-    // metric unit label
-    this.unitLabel = new Label( valueComposite, SWT.NONE );
-    gd = new GridData( GridData.FILL_HORIZONTAL, 20 );
-    this.unitLabel.setLayoutData( gd );
-
-    this.cmbGlobalElasticityReq.setEditable( false );
-    this.cmbGlobalElasticityReq.addModifyListener( new ModifyListener() {
-
-      public void modifyText( final ModifyEvent e ) {
-        ElasticityConstraintDialog.this.newType = ElasticityConstraintDialog.this.cmbGlobalElasticityReq.getText();
-        // set metric unit
-        ElasticityConstraintDialog.this.unit = ""; //$NON-NLS-1$
-        if( ElasticityConstraintDialog.this.newType.compareTo( "Response Time" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConstraintDialog.this.unit = "ms"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Bandwidth" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConstraintDialog.this.unit = "MB/s"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Cost" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConstraintDialog.this.unit = "$"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Latency" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConstraintDialog.this.unit = "ms"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "Throughput" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConstraintDialog.this.unit = "s"; //$NON-NLS-1$
-        } else if( ElasticityConstraintDialog.this.newType.compareTo( "CPU_Usage" ) == 0 ) //$NON-NLS-1$
-        {
-            ElasticityConstraintDialog.this.unit = "%"; //$NON-NLS-1$
-          }else {
-          ElasticityConstraintDialog.this.unit = ""; //$NON-NLS-1$
-        }
-        String unitLabelText = "  ( " + ElasticityConstraintDialog.this.unit + " )"; //$NON-NLS-1$ //$NON-NLS-2$
-        ElasticityConstraintDialog.this.unitLabel.setText( unitLabelText );
-      }
-    } );
-  
+    gd = new GridData( 154, 20 );
+    this.valueText.setLayoutData( gd ); 
 
     return composite;
   }
@@ -179,10 +140,10 @@ public class ElasticityConstraintDialog extends Dialog {
           MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
           mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
           mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
-          mp.setDescription( "h" );
-          mp.setURL( "h" );
+          mp.setDescription( "" );
+          mp.setURL( "" );
           // add new probe to monitoring list
-          mpsCopy.add( mp );
+          mpsCopy.add( 0, mp );
         }
       }
     }
@@ -198,7 +159,7 @@ public class ElasticityConstraintDialog extends Dialog {
   @Override
   protected void okPressed() {
  
-    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText() + this.unit;
+    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
                                                                                              
     super.okPressed();
   }

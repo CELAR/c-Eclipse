@@ -135,15 +135,10 @@ public class ElasticityConditionDialog extends Dialog {
     //gData.grabExcessVerticalSpace = true;
     newConstraintComposite.setLayoutData( gData );
     
-
-   
-    
     Composite typeComposite = new Composite( newConstraintComposite, SWT.NONE );
     GridLayout gLayout = new GridLayout( 2, false );
     typeComposite.setLayout( gLayout );
     gData = new GridData( GridData.FILL_HORIZONTAL );
-    //gData.grabExcessHorizontalSpace = true;
-    //gData.grabExcessVerticalSpace = true;
     typeComposite.setLayoutData( gData );
     
     Label typeLabel = new Label( typeComposite, SWT.LEAD );
@@ -153,20 +148,18 @@ public class ElasticityConditionDialog extends Dialog {
     // Combo - GlobalElasticityReq
     this.cmbGlobalElasticityReq = new CCombo( typeComposite, SWT.BORDER );
     this.cmbGlobalElasticityReq.setEnabled( true );
-    gd = new GridData( 112, 20 );
+    gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
 
     ArrayList<MonitoringProbe> mps = getMetrics();
     for (MonitoringProbe mp : mps){
-      this.cmbGlobalElasticityReq.add( mp.getName() );
+      this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")");
     }
 
     Composite valueComposite = new Composite( newConstraintComposite, SWT.NONE );
-    gLayout = new GridLayout( 4, false );
+    gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );
     gData = new GridData( GridData.FILL_HORIZONTAL );
-    //gData.grabExcessHorizontalSpace = true;
-    //gData.grabExcessVerticalSpace = true;
     valueComposite.setLayoutData( gData );
     
     Label valueLabel = new Label( valueComposite, SWT.LEAD );
@@ -185,47 +178,20 @@ public class ElasticityConditionDialog extends Dialog {
     this.cmbOperator.setText( this.cmbOperator.getItem( 0 ) );  
     
     this.valueText = new Text( valueComposite, SWT.BORDER );
-    gd = new GridData( 112, 20 );
+    gd = new GridData( 154, 20 );
     this.valueText.setLayoutData( gd );
-    // metric unit label
-    this.unitLabel = new Label( valueComposite, SWT.NONE );
-    gd = new GridData( GridData.FILL_HORIZONTAL, 20 );
-    this.unitLabel.setLayoutData( gd );
 
     this.cmbGlobalElasticityReq.setEditable( false );
     this.cmbGlobalElasticityReq.addModifyListener( new ModifyListener() {
 
       public void modifyText( final ModifyEvent e ) {
         
-        ElasticityConditionDialog.this.cmbCondition.setEnabled( false );
-        ElasticityConditionDialog.this.cmbCondition2.setEnabled( false );
+        ElasticityConditionDialog.this.cmbCondition.setEnabled( true );
+        ElasticityConditionDialog.this.cmbCondition2.setEnabled( true );
         
         ElasticityConditionDialog.this.newType = ElasticityConditionDialog.this.cmbGlobalElasticityReq.getText();
-        // set metric unit
-        ElasticityConditionDialog.this.unit = ""; //$NON-NLS-1$
-        if( ElasticityConditionDialog.this.newType.compareTo( "ResponseTime" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConditionDialog.this.unit = "s"; //$NON-NLS-1$
-        } else if( ElasticityConditionDialog.this.newType.compareTo( "Bandwidth" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConditionDialog.this.unit = "MB/s"; //$NON-NLS-1$
-        } else if( ElasticityConditionDialog.this.newType.compareTo( "Cost" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConditionDialog.this.unit = "$"; //$NON-NLS-1$
-        } else if( ElasticityConditionDialog.this.newType.compareTo( "Latency" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConditionDialog.this.unit = "ms"; //$NON-NLS-1$
-        } else if( ElasticityConditionDialog.this.newType.compareTo( "Throughput" ) == 0 ) //$NON-NLS-1$
-        {
-          ElasticityConditionDialog.this.unit = "s"; //$NON-NLS-1$
-        } else if( ElasticityConditionDialog.this.newType.compareTo( "CPU_Usage" ) == 0 ) //$NON-NLS-1$
-        {
-            ElasticityConditionDialog.this.unit = "%"; //$NON-NLS-1$
-          }else {
-          ElasticityConditionDialog.this.unit = ""; //$NON-NLS-1$
-        }
-        String unitLabelText = "  ( " + ElasticityConditionDialog.this.unit + " )"; //$NON-NLS-1$ //$NON-NLS-2$
-        ElasticityConditionDialog.this.unitLabel.setText( unitLabelText );
+        
+    
       }
     } );
  
@@ -343,10 +309,10 @@ public class ElasticityConditionDialog extends Dialog {
           MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
           mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
           mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
-          mp.setDescription( "h" );
-          mp.setURL( "h" );
+          mp.setDescription( "" );
+          mp.setURL( "" );
           // add new probe to monitoring list
-          mpsCopy.add( mp );
+          mpsCopy.add( 0, mp );
         }
       }
     }
@@ -430,7 +396,7 @@ public class ElasticityConditionDialog extends Dialog {
     else if ( this.conditionSelected2 ){
     	ElasticityConditionDialog.this.condition = "CASE violated(" + this.cmbCondition2.getText().split( ":" )[0] + "):";
     }
-    else ElasticityConditionDialog.this.condition = "";
+    else ElasticityConditionDialog.this.condition = "CASE (" + this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText() + ")";
                                                                                              
     super.okPressed();
   }

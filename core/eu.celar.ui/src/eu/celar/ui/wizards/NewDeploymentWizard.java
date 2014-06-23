@@ -20,6 +20,13 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.http.*;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -70,7 +77,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private NewSubmissionWizardSecondPage secondPage = null;
   private TOSCAModel toscaModel;
   private String deploymentString;
-
+  private File csar;
+  
   public NewDeploymentWizard() {
     setNeedsProgressMonitor( true );
     setForcePreviousAndNextButtons( true );
@@ -103,7 +111,54 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
         
 
     
-    //Deploy application using HTTP / CELAR Manager API
+//    String resourceURI = "http://localhost:8080/ToscaContainer/rest/cloud/actions/deployCSAR"; //$NON-NLS-1$
+//    Client client = Client.create();
+//    WebResource wr = client.resource( resourceURI );
+//    
+//    FileDataBodyPart bodyPart = new FileDataBodyPart( "file", csar, MediaType.APPLICATION_OCTET_STREAM_TYPE); //$NON-NLS-1$
+//    FormDataMultiPart formPart = new FormDataMultiPart();
+//    
+//    formPart.bodyPart( bodyPart );
+//    
+//    
+//    ClientResponse response = wr.type( MediaType.MULTIPART_FORM_DATA ).accept( MediaType.TEXT_PLAIN )
+//      .post( ClientResponse.class, formPart );
+//    if( response.getStatus() != 201 ) {
+//      throw new RuntimeException( "Failed : HTTP error code : " //$NON-NLS-1$
+//                                  + response.getStatus() );
+//    }
+//    
+//    
+//    System.out.println( "Response from Server .... \n" ); //$NON-NLS-1$
+//    String output = response.getEntity( String.class );
+//    System.out.println( output );
+//    csar.delete();
+    
+    HttpClient client = new DefaultHttpClient();
+    HttpPost post = new HttpPost("http://cs7649.in.cs.ucy.ac.cy:8080/ToscaContainer/rest/cloud/actions/deployCSAR");
+
+    MultipartEntity entity = new MultipartEntity();
+    entity.addPart("file", new FileBody(this.csar));
+    post.setEntity(entity);
+
+    try {
+      HttpResponse response = client.execute(post);
+      if( response.getStatusLine().getStatusCode()!= 201 ) {
+      throw new RuntimeException( "Failed : HTTP error code : " //$NON-NLS-1$
+                                  + response.getStatusLine().getStatusCode() );
+    }
+    } catch( ClientProtocolException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    
+    
+//    //Deploy application using HTTP / CELAR Manager API
 //    URL url = null;
 //    HttpURLConnection connection = null;
 //    try {
@@ -313,7 +368,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     
     //Create CSAR
     
-    File csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\app.csar" ); //$NON-NLS-1$
+    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\app.csar" ); //$NON-NLS-1$
           
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
@@ -321,7 +376,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // File names
     String metaFile = "TOSCA.meta"; //$NON-NLS-1$
     String defFileName = "Application.tosca"; //$NON-NLS-1$
-    String keyFileName = "aws_id_rsa.pub"; //$NON-NLS-1$
+    String keyFileName = "celar.pub"; //$NON-NLS-1$
     
     // Create dummy TOSCA meta
     addToCSARFile( "TOSCA-Metadata", metaFile, getMetaContent( defFileName ), zos ); //$NON-NLS-1$
@@ -407,7 +462,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     throws FileNotFoundException, IOException
   {
 
-    System.out.println("Writing '" + dir + File.separator + fileName + "' to CSAR file"); //$NON-NLS-1$ //$NON-NLS-2$
+    System.out.println("Writing '" + dir + "/" + fileName + "' to CSAR file"); //$NON-NLS-1$ //$NON-NLS-2$
 
     String tmpDir = System.getenv("Temp") + File.separator ; //$NON-NLS-1$
         
@@ -427,7 +482,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     fos.close();
     
     FileInputStream fis = new FileInputStream(file);
-    ZipEntry zipEntry = new ZipEntry(dir + File.separator + fileName);
+    ZipEntry zipEntry = new ZipEntry(dir + "/" + fileName);
     zos.putNextEntry(zipEntry);
 
     byte[] bytes = new byte[1024];
@@ -451,7 +506,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     sb.append( "TOSCA-Meta-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "CSAR-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "Created-By: c-Eclipse\n\n" ); //$NON-NLS-1$
-    sb.append( "Name: Definitions/" + defFile+"\n"   ); //$NON-NLS-1$ //$NON-NLS-2$
+    sb.append( "Name: Definitions" + "/" + defFile+"\n"   ); //$NON-NLS-1$ //$NON-NLS-2$
     sb.append( "Content-Type: application/vnd.oasis.tosca.definitions\n" ); //$NON-NLS-1$
     return sb.toString();
     

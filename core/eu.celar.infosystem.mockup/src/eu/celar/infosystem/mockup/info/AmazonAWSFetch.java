@@ -17,10 +17,12 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.cloudwatch.model.Metric;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.model.Image;
 import com.amazonaws.services.ec2.model.InstanceType;
+import com.amazonaws.util.json.JSONArray;
+import com.amazonaws.util.json.JSONException;
+import com.amazonaws.util.json.JSONObject;
 
 import eu.celar.connectors.aws.AWSCloudProvider;
 import eu.celar.connectors.aws.EC2Client;
@@ -56,6 +58,10 @@ public class AmazonAWSFetch extends Job  {
   private ArrayList<MonitoringProbe> monitor_probes = new ArrayList<MonitoringProbe>();
   private ArrayList<ResizingAction> resize_actions = new ArrayList<ResizingAction>();
   private ArrayList<UserApplication> user_apps = new ArrayList<UserApplication>();
+  
+  private String metrics[] = null;
+  private String units[] = null;
+  
   /**
    * @param name
    */
@@ -126,11 +132,23 @@ public class AmazonAWSFetch extends Job  {
         System.out.println("Metrics Size: " + size); //$NON-NLS-1$
         this.monitor_probes = new ArrayList<MonitoringProbe>( size );
         
-        for( Metric metric : metricsOperation.getResult() ) {
-
-          MonitoringProbe probe = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-          probe.setName( metric.getMetricName() );                    
-          this.monitor_probes.add( probe );
+//        for( Metric metric : metricsOperation.getResult() ) {
+//
+//          MonitoringProbe probe = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+//          probe.setName( metric.getMetricName() );                    
+//          this.monitor_probes.add( probe );
+//        }
+        
+        //Add JCatascopia probe metrics
+        getMetricsInfo();
+        if (metrics != null ){
+          for (int i=0; i<metrics.length; i++){
+            MonitoringProbe probe = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+            probe.setUID( metrics[i] );
+            probe.setName( metrics[i] );
+            probe.setDescription( units[i] );
+            this.monitor_probes.add( probe );
+          }
         }
         
         localMonitor.worked( 2 );
@@ -235,20 +253,7 @@ public class AmazonAWSFetch extends Job  {
   /**
    * @return A list with the available User Applications
    */
-  public ArrayList<UserApplication> getUserApplications () {
-    
-    UserApplication uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-    uA.setUID( "" );
-    uA.setName( "HaProxy.tar" );        
-    uA.setDescription( "" );        
-    instance.user_apps.add( uA ); 
-
-    uA = InfoSystemFactory.eINSTANCE.createUserApplication();
-    uA.setUID( "" );
-    uA.setName( "EventProcessing.war" );        
-    uA.setDescription( "" );        
-    instance.user_apps.add( uA ); 
-    
+  public ArrayList<UserApplication> getUserApplications () {    
     return instance.user_apps;
   }
 
@@ -267,6 +272,30 @@ public class AmazonAWSFetch extends Job  {
     }
     
     return availTypes;
+  }
+  
+  public void getMetricsInfo() throws JSONException {
+
+    String output_json = getEntity();
+    JSONObject obj = new JSONObject( output_json );
+    JSONArray metrics_array = obj.getJSONArray( "metrics" ); //$NON-NLS-1$
+   
+    if( metrics_array != null ) {
+      metrics = new String[metrics_array.length()];
+      units = new String[metrics_array.length()];
+    }
+   
+    for (int i=0; i < metrics_array.length(); i++){
+      metrics[i] = metrics_array.getJSONObject( i ).getString( "name" ); //$NON-NLS-1$
+      units[i] = metrics_array.getJSONObject( i ).getString( "units" ); //$NON-NLS-1$
+      //System.out.println(metrics[i] + " " + units[i]);
+    }
+  }
+  
+  public String getEntity(){
+    
+    return "{\"metrics\":[{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:bytesSent\",\"name\":\"bytesSent\",\"units\":\"Bytes\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memFree\",\"name\":\"memFree\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:arch\",\"name\":\"arch\",\"units\":\"\",\"type\":\"STRING\",\"group\":\"StaticInfo\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memTotal\",\"name\":\"memTotal\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuTotal\",\"name\":\"cpuTotal\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"CPU\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memCache\",\"name\":\"memCache\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:requestThroughput\",\"name\":\"requestThroughput\",\"units\":\"req/s\",\"type\":\"DOUBLE\",\"group\":\"Tomcat\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:maxThreads\",\"name\":\"maxThreads\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:netPacketsOut\",\"name\":\"netPacketsOut\",\"units\":\"packets/s\",\"type\":\"DOUBLE\",\"group\":\"Network\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:errorCount\",\"name\":\"errorCount\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:netBytesIN\",\"name\":\"netBytesIN\",\"units\":\"bytes/s\",\"type\":\"DOUBLE\",\"group\":\"Network\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:diskUsed\",\"name\":\"diskUsed\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"Disk\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuIdle\",\"name\":\"cpuIdle\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"CPU\"},{\"metricID\":\"b9ba52a9826e4c48b1976fdecdc592ab:currentSessions\",\"name\":\"currentSessions\",\"units\":\"\",\"type\":\"INTEGER\",\"group\":\"HAProxy\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuIOwait\",\"name\":\"cpuIOwait\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"CPU\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memSwapFree\",\"name\":\"memSwapFree\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuUser\",\"name\":\"cpuUser\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"CPU\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:diskTotal\",\"name\":\"diskTotal\",\"units\":\"MB\",\"type\":\"LONG\",\"group\":\"Disk\"},{\"metricID\":\"b9ba52a9826e4c48b1976fdecdc592ab:servers\",\"name\":\"servers\",\"units\":\"\",\"type\":\"INTEGER\",\"group\":\"HAProxy\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:iotime\",\"name\":\"iotime\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"DiskStats\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memUsed\",\"name\":\"memUsed\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:requestCount\",\"name\":\"requestCount\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:currentThreadCount\",\"name\":\"currentThreadCount\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memUsedPercent\",\"name\":\"memUsedPercent\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"Memory\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:os\",\"name\":\"os\",\"units\":\"\",\"type\":\"STRING\",\"group\":\"StaticInfo\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:netPacketsIN\",\"name\":\"netPacketsIN\",\"units\":\"packets/s\",\"type\":\"DOUBLE\",\"group\":\"Network\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuNum\",\"name\":\"cpuNum\",\"units\":\"\",\"type\":\"STRING\",\"group\":\"StaticInfo\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:cpuSystem\",\"name\":\"cpuSystem\",\"units\":\"%\",\"type\":\"DOUBLE\",\"group\":\"CPU\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:btime\",\"name\":\"btime\",\"units\":\"\",\"type\":\"STRING\",\"group\":\"StaticInfo\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:processingTime\",\"name\":\"processingTime\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:memSwapTotal\",\"name\":\"memSwapTotal\",\"units\":\"KB\",\"type\":\"INTEGER\",\"group\":\"Memory\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:readkbps\",\"name\":\"readkbps\",\"units\":\"KB/s\",\"type\":\"DOUBLE\",\"group\":\"DiskStats\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:diskFree\",\"name\":\"diskFree\",\"units\":\"MB\",\"type\":\"LONG\",\"group\":\"Disk\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:currentThreadsBusy\",\"name\":\"currentThreadsBusy\",\"units\":\"\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"286cc7eff6df400f8121f3b16a8dd884:bytesReceived\",\"name\":\"bytesReceived\",\"units\":\"Bytes\",\"type\":\"LONG\",\"group\":\"Tomcat\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:writekbps\",\"name\":\"writekbps\",\"units\":\"KB/s\",\"type\":\"DOUBLE\",\"group\":\"DiskStats\"},{\"metricID\":\"912a98a72d0f47bc8768779a182ece60:netBytesOUT\",\"name\":\"netBytesOUT\",\"units\":\"bytes/s\",\"type\":\"DOUBLE\",\"group\":\"Network\"}]}";
+    
   }
 
   

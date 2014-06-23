@@ -11,4 +11,5 @@
   <artifactId>eu.celar.tosca.editor</artifactId>
   <packaging>eclipse-plugin</packaging>
   
+
 </project>
