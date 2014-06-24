@@ -43,7 +43,9 @@ import eu.celar.tosca.util.ToscaResourceFactoryImpl;
 
 
 
-public class TOSCAModel extends AbstractCloudContainer implements ICloudApplicationDescription{
+public class TOSCAModel extends AbstractCloudContainer
+  implements ICloudApplicationDescription
+{
   
   protected ToscaPackage toscaPackage = ToscaPackage.eINSTANCE;
   protected ToscaFactory toscaFactory = ToscaFactory.eINSTANCE;

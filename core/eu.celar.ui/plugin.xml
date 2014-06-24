@@ -13,7 +13,7 @@
             id="eu.celar.ui">
       </category>
       <view
-            name="CELAR Project View"
+            name="Cloud Project View"
             icon="icons/sample.gif"
             category="eu.celar.ui"
             class="eu.celar.ui.views.CloudProjectView"
