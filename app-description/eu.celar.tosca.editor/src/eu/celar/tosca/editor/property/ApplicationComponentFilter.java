@@ -14,6 +14,8 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TRelationshipTemplate;
+import eu.celar.tosca.TServiceTemplate;
 
 // Filters out all other object than TNodeTemplate (application component) for
 // displaying properties
@@ -31,6 +33,12 @@ public class ApplicationComponentFilter extends AbstractPropertySectionFilter {
       if ( artifact.getArtifactType().toString().equals( "VMI" ))
         return true;
     }
+    else if ( bo instanceof TDeploymentArtifact ){
+      TDeploymentArtifact artifact = ( TDeploymentArtifact ) bo;
+      if ( artifact.getArtifactType().toString().equals( "MonitoringProbe" ))
+        return true;
+    }
+    
     return false;
   }
 }

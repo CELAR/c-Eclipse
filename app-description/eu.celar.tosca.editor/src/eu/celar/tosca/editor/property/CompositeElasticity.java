@@ -650,6 +650,18 @@ public class CompositeElasticity
                 if ( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
                 
+                
+                //remove corresponding Policy Template
+                String removedPolicyId = tempPolicy.getPolicyRef().toString();
+                ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
+                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
+                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                    policyTemplate.remove( tempPolicyTemplate );
+                  }
+                }
+                
                 break;
               }
           }
@@ -832,6 +844,18 @@ public class CompositeElasticity
                 
                 if ( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
+                
+                
+                //remove corresponding Policy Template
+                String removedPolicyId = tempPolicy.getPolicyRef().toString();
+                ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
+                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
+                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                    policyTemplate.remove( tempPolicyTemplate );
+                  }
+                }
                 
                 break;
               }

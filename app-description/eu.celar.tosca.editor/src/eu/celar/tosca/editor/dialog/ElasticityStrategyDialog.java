@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -33,6 +34,7 @@ public class ElasticityStrategyDialog extends Dialog {
   protected String elasticityStrategy;
   private CCombo cmbStrategy;
   private CCombo cmbMetric;
+  private CCombo cmbElasticityAction;
   private String component;
   
   /**
@@ -50,7 +52,7 @@ public class ElasticityStrategyDialog extends Dialog {
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
     shell.setText( "Add Elasticity Strategy" );
-    shell.setSize( 300, 170 );
+    shell.setSize( 300, 250 );
   }
 
   @Override
@@ -59,11 +61,36 @@ public class ElasticityStrategyDialog extends Dialog {
     composite.setLayout( new GridLayout( 1, false ) );
     composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
+    // Choose from Supported Elasticity Actions Group
+    Group elasticityActionsGroup = new Group( composite, SWT.NONE );
+    elasticityActionsGroup.setLayout( new GridLayout( 1, false ) );
+    elasticityActionsGroup.setText( "&Select Strategy" );
+    GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true );
+    elasticityActionsGroup.setLayoutData( gData );
 
     // Combo - GlobalElasticityReq
-    this.cmbStrategy = new CCombo( composite, SWT.BORDER );
-    this.cmbStrategy.setEnabled( true );
+    this.cmbElasticityAction = new CCombo( elasticityActionsGroup, SWT.BORDER );
+    this.cmbElasticityAction.setEnabled( true );
     GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+    this.cmbElasticityAction.setLayoutData( gd );
+
+    this.cmbElasticityAction.add( "AddVM" );
+    this.cmbElasticityAction.add( "RemoveVM" );
+    this.cmbElasticityAction.setText( this.cmbElasticityAction.getItem( 0 ) );  
+    
+    this.cmbElasticityAction.setEditable( false );
+    
+    //Create New Strategy Group
+    Group customStrategyGroup = new Group( composite, SWT.NONE );
+    customStrategyGroup.setLayout( new GridLayout( 1, false ) );
+    customStrategyGroup.setText( "&Specify New Strategy" );
+    gData = new GridData( SWT.FILL, SWT.FILL, true, true );
+    customStrategyGroup.setLayoutData( gData );
+
+    // Combo - GlobalElasticityReq
+    this.cmbStrategy = new CCombo( customStrategyGroup, SWT.BORDER );
+    this.cmbStrategy.setEnabled( true );
+    gd = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbStrategy.setLayoutData( gd );
 
     this.cmbStrategy.add( "Maximize" );
@@ -74,8 +101,9 @@ public class ElasticityStrategyDialog extends Dialog {
         
     // Combo - Metric
 
-    this.cmbMetric = new CCombo( composite, SWT.BORDER );
+    this.cmbMetric = new CCombo( customStrategyGroup, SWT.BORDER );
     this.cmbMetric.setEnabled( true );
+    this.cmbMetric.setEditable( false );
     GridData gdMetric = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbMetric.setLayoutData( gdMetric );
     
@@ -110,8 +138,13 @@ public class ElasticityStrategyDialog extends Dialog {
   @Override
   protected void okPressed() {
 
-    ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText() + " (" + this.cmbMetric.getText() + ")";
-                                                                                             
+    if ( !(this.cmbMetric.getText().equals( "" )) ){
+      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText() + " (" + this.cmbMetric.getText() + ")";
+    } 
+    else{
+      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText();
+    }
+    
     super.okPressed();
   }
 }

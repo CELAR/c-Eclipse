@@ -728,7 +728,7 @@ public class ApplicationComponentElasticityRequirementsSection
     PoliciesType nodePolicyList = nodeTemplate.getPolicies();
     
     final EList<TPolicy> policy = nodePolicyList.getPolicy();
-
+    
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
@@ -739,10 +739,22 @@ public class ApplicationComponentElasticityRequirementsSection
           {
             if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
               if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
+
                 policy.remove( tempPolicy );
-                
+    
                 if ( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
+                
+                //remove corresponding Policy Template
+                String removedPolicyId = tempPolicy.getPolicyRef().toString();
+                ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
+                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
+                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                    policyTemplate.remove( tempPolicyTemplate );
+                  }
+                }
                 
                 break;
               }
@@ -752,6 +764,7 @@ public class ApplicationComponentElasticityRequirementsSection
 
     this.appComponentElasticityRequirements.remove( selectedObject );
     this.tableViewer.refresh();
+
   }
 
   // Return the selected Elasticity Requirement
@@ -886,6 +899,18 @@ public class ApplicationComponentElasticityRequirementsSection
                 
                 if ( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
+                
+                
+                //remove corresponding Policy Template
+                String removedPolicyId = tempPolicy.getPolicyRef().toString();
+                ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
+                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
+                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                    policyTemplate.remove( tempPolicyTemplate );
+                  }
+                }
                 
                 break;
               }

@@ -336,7 +336,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
           IFile file = ( IFile )tempResource;
-          if( file.getFileExtension() != null && !file.getFileExtension().equals( "sh" ) ){            
+          if( file.getFileExtension() != null && !(file.getFileExtension().equals( "pub" )) ){            
             SoftwareDependency sd = InfoSystemFactory.eINSTANCE.createSoftwareDependency();
             sd.setName( file.getName() );
             sd.setURL( file.getFullPath().toString() );

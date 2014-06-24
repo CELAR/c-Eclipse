@@ -307,6 +307,7 @@ public class CreateMonitorProbeFeature extends AbstractCreateFeature {
     addGraphicalRepresentation( context, deploymentArtifact );
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
+        
     // return newly created business object(s)
     return new Object[]{
       deploymentArtifact
