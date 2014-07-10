@@ -78,15 +78,21 @@
                         -->
                         <configuration>
                             <artifacts>
+                            
+                                <artifact>
+                                    <id>org.json:json:20090211</id>
+                                </artifact>
+                                
                                 <!-- jclouds dependencies -->
+								<!-- 
                                 <artifact>
                                     <id>org.apache.jclouds.driver:jclouds-slf4j:1.7.0</id>
                                 </artifact>
-								<!-- 
 								<artifact>
                                     <id>org.apache.jclouds.driver:jclouds-sshj:1.7.0</id>
                                 </artifact>
                                 -->
+                                <!--  
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-nova:1.7.0</id>
                                 </artifact>
@@ -104,8 +110,7 @@
                                 </artifact> 
                                 <artifact>
                                     <id>com.sun.jersey.contribs:jersey-multipart:1.18</id>
-                                </artifact> 
-                                <!--  
+                                </artifact>
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-trove:1.7.0</id>
                                 </artifact>
@@ -118,14 +123,17 @@
 								<artifact>
                                     <id>org.apache.jclouds.labs:openstack-neutron:1.7.0</id>
                                 </artifact>   
-                                -->
-                                <!-- 3rd party dependencies -->                                
+                               -->
+                               
+                                <!-- 3rd party dependencies -->
+                                <!-- 
 								<artifact>
                                     <id>ch.qos.logback:logback-classic:1.0.13</id>
                                 </artifact>                                                                                     
                                 <artifact>
                                     <id>mysql:mysql-connector-java:5.1.25</id>
                                 </artifact>                                
+                                 -->                                
                             </artifacts>
                         </configuration>
 
