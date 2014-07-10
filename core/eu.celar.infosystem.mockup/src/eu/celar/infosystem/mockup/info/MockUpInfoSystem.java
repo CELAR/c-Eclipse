@@ -27,9 +27,9 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 public class MockUpInfoSystem  {
   
   private static MockUpInfoSystem instance = null;
-  private AmazonAWSFetch resourceFetcher;
+//  private AmazonAWSFetch resourceFetcher;
 //  private OpenStackFetch resourceFetcher;
-//  private FetchJob resourceFetcher;
+  private FetchJob resourceFetcher;
   
   /**
    * @return The Mockup Information System
@@ -42,8 +42,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem () {
-//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
 //    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
@@ -57,8 +57,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem (IFile toscaFile) {
-//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
 //    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
@@ -68,22 +68,7 @@ public class MockUpInfoSystem  {
    */
   public ArrayList<VirtualMachineImage> getBaseMachineImages () {
     return this.resourceFetcher.getBaseMachineImages();
-  }
-  
-  /**
-   * @return A list of available custom machine images
-   */
-  public ArrayList<VirtualMachineImage> getCustomMachineImages () {
-    return this.resourceFetcher.getCustomMachineImages();
-  }
-  
-  
-  /**
-   * @return A list of available software dependencies
-   */
-  public ArrayList<SoftwareDependency> getSoftwareDependencies () {
-    return this.resourceFetcher.getSoftwareDependencies();
-  }
+  } 
   
   /**
    * @return A list of available monitoring probes
@@ -99,16 +84,10 @@ public class MockUpInfoSystem  {
     return this.resourceFetcher.getResizingActions();
   }
   
-  /**
-   * @return A list of available software dependencies
-   */
-  public ArrayList<UserApplication> getUserApplications () {
-    return this.resourceFetcher.getUserApplications();
-  }
   
-  // TODO - nickl Reflect this to the infosystem model
-  public ArrayList<String> getInstanceTypes () {
-    return this.resourceFetcher.getInstanceTypes();
-  }
+//  // TODO - nickl Reflect this to the infosystem model
+//  public ArrayList<String> getInstanceTypes () {
+//    return this.resourceFetcher.getInstanceTypes();
+//  }
   
 }
