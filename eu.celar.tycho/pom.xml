@@ -94,14 +94,19 @@
 
 	</build>
 
-  <modules>
+  <modules>  	
+  	<module>..${file.separator}app-submission${file.separator}eu.celar.connectors.openstack</module>
   	<module>..${file.separator}core${file.separator}eu.celar.core</module>
   	<module>..${file.separator}core${file.separator}eu.celar.core.reporting</module>
   	<module>..${file.separator}app-description${file.separator}eu.celar.tosca</module>
   	<module>..${file.separator}core${file.separator}eu.celar.infosystem.model</module>
   	<module>..${file.separator}core${file.separator}eu.celar.infosystem.mockup</module>
+  	<module>..${file.separator}app-submission${file.separator}com.amazon.aws</module>
   	<module>..${file.separator}core${file.separator}eu.celar.ui</module>
-  	<module>..${file.separator}app-description${file.separator}eu.celar.tosca.editor</module>  	
+  	<module>..${file.separator}app-description${file.separator}eu.celar.tosca.editor</module>
+  	<module>..${file.separator}app-submission${file.separator}eu.celar.connectors.aws</module>
+  	<module>..${file.separator}core${file.separator}eu.celar.connectors.aws.ui</module>
+  	<module>..${file.separator}app-submission${file.separator}eu.celar.connectors.openstack.ui</module>  	
   	<module>..${file.separator}eu.celar.tycho.feature</module>
   	<module>..${file.separator}eu.celar.tycho.target</module>
  	<module>..${file.separator}eu.celar.tycho.p2.updatesite</module>
