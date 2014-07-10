@@ -5,7 +5,7 @@
 		<groupId>eu.celar.tycho</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0.qualifier</version>
-		<relativePath>../../eu.celar.tycho</relativePath>
+		<relativePath>${project.basedir}</relativePath>
 	</parent>  
   
   <artifactId>eu.celar.connectors.aws</artifactId>

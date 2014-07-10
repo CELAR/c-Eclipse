@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/eu.celar.tycho.feature_1.0.0.qualifier.jar" id="eu.celar.tycho.feature" version="1.0.0.qualifier"/>
+</site>
