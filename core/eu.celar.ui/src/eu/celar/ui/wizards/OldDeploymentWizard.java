@@ -21,9 +21,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 
-import eu.celar.connectors.aws.EC2Client;
-import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
-import eu.celar.connectors.aws.operation.OperationExecuter;
 import eu.celar.core.model.ICloudApplicationDescription;
 import eu.celar.core.model.ICloudDeploymentCreator;
 import eu.celar.tosca.DocumentRoot;

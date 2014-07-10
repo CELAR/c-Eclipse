@@ -1,5 +1,11 @@
 package eu.celar.ui.wizards;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Dictionary;
 
 import org.eclipse.core.resources.IFile;
@@ -25,13 +31,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
 
   private IStructuredSelection selection;
   private NewSubmissionWizardFirstPage firstPage;
-  private NewSubmissionWizardSecondPage secondPage;
-  private CloudProviderSelectionWizardPage thirdPage;
-//  private String toscaString;
-  
-  //private File deploymentfile;
-  private IFile deploymentFile;
-//  private IFile toscaFile;
+  private CloudProviderSelectionWizardPage secondPage;
 
   @Override
   public void init( final IWorkbench workbench, final IStructuredSelection selection ) {
@@ -46,16 +46,11 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     this.firstPage.setTitle( Messages.getString( "NewSubmissionWizardFirstPage.pageTitle" ) ); //$NON-NLS-1$
     this.firstPage.setDescription( Messages.getString( "NewSubmissionWizardFirstPage.pageDescription" ) ); //$NON-NLS-1$
     
-    this.thirdPage = new CloudProviderSelectionWizardPage( true );
-    this.thirdPage.setTitle( "Cloud Provider Selection" ); //$NON-NLS-1$
-    this.thirdPage.setDescription( "Select the target Cloud Provider for the Application" );
+    this.secondPage = new CloudProviderSelectionWizardPage( true );
+    this.secondPage.setTitle( "Cloud Provider Selection" ); //$NON-NLS-1$
+    this.secondPage.setDescription( "Select the target Cloud Provider for the Application" );
     addPage( this.firstPage );
-    addPage( this.thirdPage );
-    
-//    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" )); //$NON-NLS-1$
-//    this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
-//    this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
-//    addPage( this.secondPage );
+    addPage( this.secondPage );
 
   }
   
@@ -86,73 +81,6 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
       // Create Application Deployment file
       createDeploymentFile( tosca );
     }
-       
-
-//    this.toscaFile = (IFile) selection;
-    
-    //Convert TOSCA Application Description file to String
-//    BufferedReader br = null;
-//    StringBuilder sb = new StringBuilder();
-//    String line;
-//    
-//    try {
-//      br = new BufferedReader(new InputStreamReader(this.toscaFile.getContents()));
-//    } catch( CoreException e1 ) {
-//      // TODO Auto-generated catch block
-//      e1.printStackTrace();
-//    }
-//
-//    try {
-//      while ((line = br.readLine()) != null) {
-//          sb.append(line);
-//      }
-//    } catch( IOException e1 ) {
-//      // TODO Auto-generated catch block
-//      e1.printStackTrace();
-//    }
-//    
-//    this.toscaString = sb.toString();
-    
-
-
-
-    
-//    
-//    //Send Application Description to CELAR Server over HTTP
-//    URL url = null;
-//    HttpURLConnection connection = null;
-//    try {
-//      url = new URL ("http://83.212.124.172:8080/celar-server-api/application/describe/");
-//
-//      String httpParameters = "description=" + URLEncoder.encode( toscaString, "UTF-8" );
-//      
-//      connection = (HttpURLConnection) url.openConnection();
-//      connection.setDoOutput( true );
-//      connection.setDoInput( true );
-//      connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//      connection.setRequestProperty("Content-Length", "" + Integer.toString(httpParameters.getBytes().length));
-//      connection.setRequestMethod( "POST" );
-//      
-//      OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-//      out.write(httpParameters);
-//      out.close();
-//      
-//      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//      String inputLine;
-//      while ((inputLine = in.readLine()) != null) {
-//          System.out.println(inputLine);
-//      }
-//      in.close();
-//      
-//      connection.disconnect();
-//      
-//    } catch( MalformedURLException e ) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    } catch( IOException e ) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
 
     return true;
     
@@ -176,30 +104,15 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     IFile file = project.getFile( "/Application Submissions/" + fileName ); //$NON-NLS-1$
     
     try {
-//      TOSCAModel toscaModel = resource.getTOSCAModel();
       IResource resourceName = resource.getResource();
       IFile toscaFile = (IFile) resourceName;
       
       DocumentRoot model = TOSCAModel.loadModelFromFile( toscaFile );
-      
-//      DocumentRoot model = resource.getTOSCAModel().getDocumentRoot();            
+                
       TOSCAModel.saveModelToFile( file, model );  
     } catch( Exception e ) {
       e.printStackTrace();
     }
-    
-
-    
-//    try {
-//      file.create( new ByteArrayInputStream( this.toscaString.getBytes() ),
-//                   false,
-//                   null );
-//      fileCreated = true;
-//    } catch( CoreException e1 ) {
-//      e1.printStackTrace();
-//    }
-    
-    this.deploymentFile = file;
     
     IProgressMonitor monitor = null;
     try {

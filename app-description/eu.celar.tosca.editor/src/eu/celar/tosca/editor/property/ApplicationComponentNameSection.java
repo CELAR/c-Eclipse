@@ -249,14 +249,14 @@ public class ApplicationComponentNameSection extends GFPropertySection
     this.cmbImageSize = new CCombo( client, SWT.BORDER );
     this.cmbImageSize.setEnabled( true );
     
-    // TODO - nickl For now use Amazon Flavors - get them from IS 
-    ArrayList<String> instanceTypes = MockUpInfoSystem.getInstance().getInstanceTypes();
-    for (String type : instanceTypes )
-      this.cmbImageSize.add(type);
+//    // TODO - nickl For now use Amazon Flavors - get them from IS 
+//    ArrayList<String> instanceTypes = MockUpInfoSystem.getInstance().getInstanceTypes();
+//    for (String type : instanceTypes )
+//      this.cmbImageSize.add(type);
     
-//    this.cmbImageSize.add( "Small" ); //$NON-NLS-1$
-//    this.cmbImageSize.add( "Medium" ); //$NON-NLS-1$
-//    this.cmbImageSize.add( "Large" ); //$NON-NLS-1$
+    this.cmbImageSize.add( "Small" ); //$NON-NLS-1$
+    this.cmbImageSize.add( "Medium" ); //$NON-NLS-1$
+    this.cmbImageSize.add( "Large" ); //$NON-NLS-1$
     this.cmbImageSize.setEditable( false );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;

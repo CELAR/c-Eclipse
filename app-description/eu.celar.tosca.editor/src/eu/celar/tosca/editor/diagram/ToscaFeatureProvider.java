@@ -71,6 +71,7 @@ import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
 import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
 import eu.celar.tosca.editor.features.RenameCompositeComponentFeature;
 import eu.celar.tosca.editor.features.ResizeApplicationComponentFeature;
+import eu.celar.tosca.editor.features.ResizeCompositeComponentFeature;
 import eu.celar.tosca.editor.features.UpdateApplicationComponentFeature;
 import eu.celar.tosca.editor.features.UpdateCompositeComponentFeature;
 
@@ -235,7 +236,10 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       Shape shape = context.getShape();
       Object bo = getBusinessObjectForPictogramElement(shape);
       if (bo instanceof TNodeTemplate) {
-          return new ResizeApplicationComponentFeature(this);
+        return new ResizeApplicationComponentFeature(this);
+      }
+      if (bo instanceof TServiceTemplate){
+        return new ResizeCompositeComponentFeature(this);
       }
       return super.getResizeShapeFeature(context);
   }

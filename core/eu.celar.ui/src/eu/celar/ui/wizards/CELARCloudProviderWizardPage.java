@@ -20,7 +20,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-import eu.celar.connectors.openstack.OpenStackCloudProvider;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.model.impl.GenericCloudProviderCreator;

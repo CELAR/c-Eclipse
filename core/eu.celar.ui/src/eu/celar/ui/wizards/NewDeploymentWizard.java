@@ -50,9 +50,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import eu.celar.connectors.aws.EC2Client;
-import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
-import eu.celar.connectors.aws.operation.OperationExecuter;
 import eu.celar.core.model.CloudModel;
 //import eu.celar.connectors.openstack.OpenStackClient;
 //import eu.celar.connectors.openstack.operation.OpenStackOpDeployApplication;
@@ -518,4 +515,64 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   public ICloudDeploymentService getDeploymentService() {
     return this.secondPage.getCloudDeploymentService();
   }
+  
+//  
+// public void exportCSAR() throws IOException, CoreException{
+//    
+//    //Export monitoring probes to jar files
+//    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+//    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+//    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+//    IResource[] monitoringProbes = srcFolder.members();
+//
+//    
+//    //Create CSAR
+//    
+//    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\app.csar" ); //$NON-NLS-1$
+//          
+//    FileOutputStream fos = new FileOutputStream( csar );
+//    ZipOutputStream zos = new ZipOutputStream( fos );
+//          
+//    // File names
+//    String metaFile = "TOSCA.meta"; //$NON-NLS-1$
+//    String defFileName = "Application.tosca"; //$NON-NLS-1$
+//
+//    
+//    // Create dummy TOSCA meta
+//    addToCSARFile( "TOSCA-Metadata", metaFile, getMetaContent( defFileName ), zos ); //$NON-NLS-1$
+//
+//
+//
+//     
+//
+//
+//    File typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\YCSB_Cassandra.xml" );
+//    String text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Definitions", defFileName, text, zos ); //$NON-NLS-1$
+//    
+//
+//     typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\CELAR-SpecificTypes-Definitions.xml" );
+//     text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Definitions", typesFile.getName().replaceFirst( ".xml", ".tosca" ), text, zos ); //$NON-NLS-1$
+//    
+//    typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\scripts\\Cassandra_Node.sh" );
+//    text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Scripts", typesFile.getName(), text, zos ); //$NON-NLS-1$
+//    
+//    typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\scripts\\Cassandra_SeedNode.sh" );
+//    text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Scripts", typesFile.getName(), text, zos ); //$NON-NLS-1$
+//    
+//    
+//    typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\scripts\\YCSB_Client.sh" );
+//    text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Scripts", typesFile.getName(), text, zos ); //$NON-NLS-1$
+//    
+//    typesFile = new File( "C:\\Users\\stalo.cs8526\\Desktop\\scripts\\README.txt" );
+//    text = Files.toString(typesFile, Charsets.UTF_8);
+//    addToCSARFile( "Scripts", typesFile.getName(), text, zos ); //$NON-NLS-1$
+//    
+//    zos.close();
+//    fos.close();
+//  }
 }
