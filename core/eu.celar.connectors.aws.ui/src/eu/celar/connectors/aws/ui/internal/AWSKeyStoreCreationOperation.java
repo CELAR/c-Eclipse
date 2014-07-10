@@ -22,7 +22,7 @@ import eu.celar.core.auth.IAuthenticationTokenDescription;
  * @author Moritz Post
  */
 public class AWSKeyStoreCreationOperation implements IRunnableWithProgress {
-
+  
   /**
    * The {@link IAuthenticationTokenDescription} to create the
    * {@link IAuthenticationToken} from
