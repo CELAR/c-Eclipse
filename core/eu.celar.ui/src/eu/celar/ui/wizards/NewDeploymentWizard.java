@@ -1,17 +1,10 @@
 package eu.celar.ui.wizards;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -20,7 +13,7 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.http.*;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -42,7 +35,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -50,9 +42,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import eu.celar.connectors.aws.EC2Client;
-import eu.celar.connectors.aws.operation.EC2OpDeployApplication;
-import eu.celar.connectors.aws.operation.OperationExecuter;
 import eu.celar.core.model.CloudModel;
 //import eu.celar.connectors.openstack.OpenStackClient;
 //import eu.celar.connectors.openstack.operation.OpenStackOpDeployApplication;
@@ -135,18 +124,18 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 //    csar.delete();
     
     HttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost("http://cs7649.in.cs.ucy.ac.cy:8080/ToscaContainer/rest/cloud/actions/deployCSAR");
+    HttpPost post = new HttpPost("http://localhost:8080/ToscaContainer/rest/cloud/actions/deployCSAR");
 
     MultipartEntity entity = new MultipartEntity();
     entity.addPart("file", new FileBody(this.csar));
     post.setEntity(entity);
 
     try {
-      HttpResponse response = client.execute(post);
-      if( response.getStatusLine().getStatusCode()!= 201 ) {
-      throw new RuntimeException( "Failed : HTTP error code : " //$NON-NLS-1$
-                                  + response.getStatusLine().getStatusCode() );
-    }
+      client.execute(post);
+//      if( response.getStatusLine().getStatusCode()!= 201 ) {
+//      throw new RuntimeException( "Failed : HTTP error code : " //$NON-NLS-1$
+//                                  + response.getStatusLine().getStatusCode() );
+//    }
     } catch( ClientProtocolException e ) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -357,18 +346,18 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   
   public void exportCSAR() throws IOException, CoreException{
     
-    //Export monitoring probes to jar files
-    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
-    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
-    IResource[] monitoringProbes = srcFolder.members();
-    
-    for (IResource monitoringProbeFile : monitoringProbes)
-      exportProbe((IFile) monitoringProbeFile);
+//    //Export monitoring probes to jar files
+//    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+//    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+//    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+//    IResource[] monitoringProbes = srcFolder.members();
+//    
+//    for (IResource monitoringProbeFile : monitoringProbes)
+//      exportProbe((IFile) monitoringProbeFile);
     
     //Create CSAR
     
-    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\app.csar" ); //$NON-NLS-1$
+    this.csar = new File( "/Users/nicholas/Desktop/app.csar" ); //$NON-NLS-1$
           
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
@@ -464,7 +453,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
     System.out.println("Writing '" + dir + "/" + fileName + "' to CSAR file"); //$NON-NLS-1$ //$NON-NLS-2$
 
-    String tmpDir = System.getenv("Temp") + File.separator ; //$NON-NLS-1$
+    String tmpDir = "/tmp" + File.separator ; //$NON-NLS-1$
         
     System.out.println(tmpDir);
     
