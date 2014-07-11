@@ -89,6 +89,7 @@
 						<manifestLocation>${manifest-location}</manifestLocation>
 					</configuration>
 				</plugin>
+				
 			</plugins>
 		</pluginManagement>
 
