@@ -125,7 +125,8 @@ public class EC2OpDeployApplication extends AbstractEC2OpDeployApplication {
                 runRequest.withKeyName( keypairName );
               }
               
-              this.result = this.ec2.runInstances(runRequest);       
+              this.result = this.ec2.runInstances(runRequest);
+              
             }
           }
         }

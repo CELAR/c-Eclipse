@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/eu.celar.tycho.feature_1.0.0.qualifier.jar" id="eu.celar.tycho.feature" version="1.0.0.qualifier">
+      <category name="eu.celar.ceclipse"/>
+   </feature>
+   <category-def name="eu.celar.ceclipse" label="c-Eclipse">
+      <description>
+         A Cloud Application Management Framework.
+      </description>
+   </category-def>
+</site>

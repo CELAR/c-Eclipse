@@ -222,7 +222,6 @@
                   style="push">
             </command>
          </menuContribution>
-         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.core.expressions.definitions">
