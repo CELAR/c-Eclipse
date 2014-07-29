@@ -34,7 +34,6 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
 
   private IStructuredSelection selection;
   private ApplicationDescriptionFirstPage firstPage;
-  private ApplicationDescriptionBasicPage basicPage;
   private IFile file;
 
   @Override
@@ -99,16 +98,13 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
     this.firstPage.setTitle( Messages.getString( "NewApplicationDescriptionFirstPage.pageTitle" ) ); //$NON-NLS-1$
     this.firstPage.setDescription( Messages.getString( "NewApplicationDescriptionFirstPage.pageDescription" ) ); //$NON-NLS-1$
     addPage( this.firstPage );
-    this.basicPage = new ApplicationDescriptionBasicPage( Messages.getString( "NewApplicationDescriptionBasicPage.pageName" ) ); //$NON-NLS-1$
-    this.basicPage.setTitle( Messages.getString( "NewApplicationDescriptionBasicPage.pageTitle" ) ); //$NON-NLS-1$
-    this.basicPage.setDescription( Messages.getString( "NewApplicationDescriptionBasicPage.pageDescription" ) ); //$NON-NLS-1$
-    addPage( this.basicPage );
   }
 
   @Override
   public boolean canFinish() {
-    return ( firstPage.isPageComplete() && basicPage.isPageComplete() );
-    // return super.canFinish();
+    //return ( firstPage.isPageComplete() && basicPage.isPageComplete() );
+    return firstPage.isPageComplete();
+    //return super.canFinish();
   }
 
   public boolean createFile() {
@@ -153,13 +149,8 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
 
   private void setInitialModel( final TOSCAResource toscaResource ) {
     toscaResource.setUpBasicTOSCAStructure();
-    String appName = this.basicPage.getApplicationName();
+    String appName = this.firstPage.getFileName().replace( ".tosca", "" );
     toscaResource.setApplicationName( appName );
-    //String optimizationPolicy = this.basicPage.getOptimizationPolicy();
-    //toscaResource.setOptimizationPolicy( optimizationPolicy );
-    List<TPolicy> constraintsList = this.basicPage.getGlobalElasticityConstraints();
-    toscaResource.setGlobalElasticityConstraints( constraintsList );
-
   }
 
   private void openFile() {

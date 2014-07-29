@@ -141,8 +141,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   public IDeleteFeature getDeleteFeature(IDeleteContext context){
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
-    if( bo instanceof TServiceTemplate
-        && ( ( TServiceTemplate )bo ).getName() == null ) {
+    if( bo instanceof TServiceTemplate ) {
       return new DeleteGroupFeature( this );
     }
     else if (bo instanceof TNodeTemplate){

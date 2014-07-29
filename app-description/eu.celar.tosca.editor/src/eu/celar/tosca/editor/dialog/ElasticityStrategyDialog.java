@@ -19,6 +19,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.example.sybl.SYBLSpecificationType;
+import org.example.sybl.Strategy;
+import org.example.sybl.SyblElasticityRequirementsDescription;
+import org.example.sybl.SyblFactory;
+import org.example.sybl.ToEnforceType;
 
 import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory;
 import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
@@ -132,6 +137,23 @@ public class ElasticityStrategyDialog extends Dialog {
    */
   public String getElasticityStrategy() {
     return ElasticityStrategyDialog.this.elasticityStrategy;
+  }
+  
+  public SyblElasticityRequirementsDescription getSYBLStrategy(){
+
+    SyblElasticityRequirementsDescription serd = SyblFactory.eINSTANCE.createSyblElasticityRequirementsDescription();
+    
+    Strategy propertiesStrategy = SyblFactory.eINSTANCE.createStrategy();
+    ToEnforceType strategyToEnforce = SyblFactory.eINSTANCE.createToEnforceType();
+    propertiesStrategy.setId( "hi" );
+    propertiesStrategy.setToEnforce( strategyToEnforce );
+    strategyToEnforce.setActionName( this.elasticityStrategy );
+    strategyToEnforce.setParameter( "hi2" );
+    SYBLSpecificationType sst = SyblFactory.eINSTANCE.createSYBLSpecificationType();
+    sst.getStrategy().add( propertiesStrategy );
+    serd.getSYBLSpecification().add( sst );
+    
+    return serd;
   }
 
   @SuppressWarnings("boxing")

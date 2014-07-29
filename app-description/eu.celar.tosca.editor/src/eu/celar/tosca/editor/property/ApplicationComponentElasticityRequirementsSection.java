@@ -1,9 +1,6 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium 
- * http://www.celarcloud.eu
- * 
- * Contributors:
- *      Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
@@ -11,11 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.example.sybl.ConditionType;
-import org.example.sybl.Constraint;
-import org.example.sybl.SyblFactory;
+import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblPackage;
+
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
@@ -50,7 +46,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PoliciesType;
-import eu.celar.tosca.PropertiesDefinitionType;
 import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
@@ -64,15 +59,13 @@ import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
-//import eu.celar.tosca.epolicies.Tosca_EPolicy_ExtensionsFactory;
 
-
-/** 
+/**
  * Application Component Properties - Elasticity Tab
  */
 public class ApplicationComponentElasticityRequirementsSection
   extends GFPropertySection implements ITabbedPropertyConstants
-  {
+{
 
   Composite client;
   Section section;
@@ -162,7 +155,6 @@ public class ApplicationComponentElasticityRequirementsSection
         // TODO Auto-generated method stub
       }
     } );
-    
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
     gd = new GridData();
@@ -186,10 +178,7 @@ public class ApplicationComponentElasticityRequirementsSection
     toolkit.adapt( this.table, true, true );
     toolkit.adapt( this.addButton, true, true );
     toolkit.adapt( this.removeButton, true, true );
-   
     this.section.setClient( client );
-    
-    
     // Application Component Elasticity Actions Section
     this.sectionRA = toolkit.createSection( parent, Section.TITLE_BAR );
     this.sectionRA.setText( "Elasticity Strategies" ); //$NON-NLS-1$
@@ -230,7 +219,6 @@ public class ApplicationComponentElasticityRequirementsSection
     nameColumnRA.setWidth( 100 );
     ColumnWeightData dataRA = new ColumnWeightData( 100 );
     tableLayoutRA.addColumnData( dataRA );
-    
     // Set the Elasticity Actions table viewer
     ResizingActionsProvider RAProvider = new ResizingActionsProvider();
     this.tableResizingActionsViewer = new TableViewer( this.tableResizingActions );
@@ -238,9 +226,8 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableResizingActionsViewer.setContentProvider( contentProviderRA );
     this.tableResizingActionsViewer.setLabelProvider( RAProvider.RAContentLabelProvider );
     this.tableResizingActionsViewer.setInput( this.appComponentResizingActions );
-    
     // Add Elasticity Strategy button
-    this.addButtonRA = new Button( clientRA2, SWT.PUSH);
+    this.addButtonRA = new Button( clientRA2, SWT.PUSH );
     this.addButtonRA.setText( "Add" ); //$NON-NLS-1$
     // Listener for Adding Elasticity Strategy button
     this.addButtonRA.addSelectionListener( new SelectionListener() {
@@ -259,7 +246,6 @@ public class ApplicationComponentElasticityRequirementsSection
     gdRA.widthHint = 60;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButtonRA.setLayoutData( gdRA );
-    
     this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
     this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
     // Listener for Remove Elasticity Strategy button
@@ -279,9 +265,6 @@ public class ApplicationComponentElasticityRequirementsSection
     gdRA.widthHint = 60;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButtonRA.setLayoutData( gdRA );
-    
-    
-    
     this.conditionButtonRA = new Button( clientRA2, SWT.PUSH );
     this.conditionButtonRA.setText( "Condition" ); //$NON-NLS-1$
     // Listener for Remove Elasticity Strategy button
@@ -301,27 +284,25 @@ public class ApplicationComponentElasticityRequirementsSection
     gdRA.widthHint = 60;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.conditionButtonRA.setLayoutData( gdRA );
-    
-
     // Add section components to the toolkit
     toolkit.adapt( this.tableResizingActions, true, true );
     toolkit.adapt( this.removeButtonRA, true, true );
     toolkit.adapt( this.addButtonRA, true, true );
-    //toolkit.adapt(  this.uploadButtonRA, true, true );
-    toolkit.adapt( this.conditionButtonRA, true, true);
+    // toolkit.adapt( this.uploadButtonRA, true, true );
+    toolkit.adapt( this.conditionButtonRA, true, true );
     this.sectionRA.setClient( clientRA );
   }
 
   // Add Application Component Elasticity Requirement
-  void editDataStagingEntry( final TPolicy selectedObject )
-  {
+  void editDataStagingEntry( final TPolicy selectedObject ) {
     ElasticityConstraintDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
       dialog = new ElasticityConstraintDialog( this.section.getShell(),
-                                                 "Application Component" ); //$NON-NLS-1$
+                                               "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityConstraint = dialog.getElasticityConstraint();
+        SyblElasticityRequirementsDescription newSYBLConstraint = dialog.getSYBLConstraint();
         if( newElasticityConstraint != null ) {
           // Add Application Component Elasticity Requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
@@ -330,22 +311,17 @@ public class ApplicationComponentElasticityRequirementsSection
             bo = Graphiti.getLinkService()
               .getBusinessObjectForLinkedPictogramElement( pe );
           }
-        
           final TNodeTemplateExtension nodeTemplate;
-          
-          if ( bo instanceof TDeploymentArtifact ){
-            PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-            
-            nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-          }
-          else { // bo instanceof TNodeTemplate
+          if( bo instanceof TDeploymentArtifact ) {
+            PictogramElement parentPE = Graphiti.getPeService()
+              .getPictogramElementParent( pe );
+            nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement( parentPE );
+          } else { // bo instanceof TNodeTemplate
             nodeTemplate = ( TNodeTemplateExtension )bo;
           }
-          
-          
-          if ( nodeTemplate.getPolicies() == null ){
+          if( nodeTemplate.getPolicies() == null ) {
             final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
-            
             TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
             editingDomain.getCommandStack()
               .execute( new RecordingCommand( editingDomain ) {
@@ -355,15 +331,11 @@ public class ApplicationComponentElasticityRequirementsSection
                   nodeTemplate.setPolicies( nodePolicyList );
                 }
               } );
-
           }
-          
           PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-          
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
-          
-          final TPolicy newPolicy = createNewPolicy("Constraint", newElasticityConstraint);
-          
+          final TPolicy newPolicy = createNewPolicy( "Constraint",
+                                                     newElasticityConstraint, newSYBLConstraint );
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -373,178 +345,24 @@ public class ApplicationComponentElasticityRequirementsSection
                 policy.add( newPolicy );
               }
             } );
-
           // Add Application Component Elasticity Requirement to temp list
           this.appComponentElasticityRequirements.add( newPolicy );
           this.tableViewer.refresh();
         } else {
         }
       }
-    } 
-          
-//          final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
-//          
-////          PropertiesDefinitionType propertiesDefinition = ToscaFactory.eINSTANCE.createPropertiesDefinitionType();
-////          QName propertiesDefinitionType = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ConstraintProperties", null );
-////          propertiesDefinition.setType( propertiesDefinitionType );
-//          
-//          
-//          
-//          // Create Policy Template for the specified elasticity constraint
-//          
-//          final TPolicyTemplate newPolicyTemplate = ToscaFactory.eINSTANCE.createTPolicyTemplate();
-//          
-//          QName policyTypeName = new QName( "http://www.example.org/SYBL", "Constraint", null );
-//          
-//          newPolicyTemplate.setType( policyTypeName );
-//          
-////          TElasticityConstraintProperties constraint = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTElasticityConstraintProperties();
-////          
-////          TRelationOperation relation = Tosca_EPolicy_ExtensionsFactory.eINSTANCE.createTRelationOperation();
-////          
-////          relation.setType( TRelationOperationType.GREATER_THAN );
-//          
-////          constraint.setToEnforceSimpleConstraint( relation );
-//          
-//          PropertiesType policyProperties = ToscaFactory.eINSTANCE.createPropertiesType();          
-//          ConditionType createConditionType = SyblFactory.eINSTANCE.createConditionType();
-//          
-//         // Entry e = FeatureMapUtil.createEntry( SyblPackage.eINSTANCE.getDocumentRoot(). );
-////          policyProperties.getAny().add( e );
-////          newPolicyTemplate.setProperties( policyProperties );          
-//          
-//          //Constraint c = SyblFactory.eINSTANCE.createConstraint();
-//          
-//
-//          
-//          newPolicyTemplate.setId( "testPolicyTemplate" );
-//          
-//          // Add the new Policy Template to the TOSCA Definitions element
-//          
-//          final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-//          
-//          DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-//          
-//          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
-//          editingDomain.getCommandStack()
-//            .execute( new RecordingCommand( editingDomain ) {
-//
-//              @Override
-//              protected void doExecute() {
-//                model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
-//              }
-//            } );
-//
-//          
-//          // Assign the created Policy Template to the new Policy
-//          
-//          QName qnamePolicyTemplate = new QName( newPolicyTemplate.getId() );
-//          newPolicy.setPolicyRef( qnamePolicyTemplate );
-//          
-////          final QName qnamePolicyType = new QName( "http://www.example.com/Types/CELARPolicyTypes", "ElasticityConstraint", null );
-////          newPolicy.setPolicyType( qnamePolicyType );
-//          
-//         
-//          newPolicy.setPolicyType( policyTypeName );  
-//
-//          
-//          //newPolicy.setPolicyType( new QName("SYBLConstraint") );          
-//          
-//          // TODO replace with above
-//          //final String policyUniqueName = nodeTemplate.getName() + policy.size();
-//          //newPolicy.setName( policyUniqueName + ":CONSTRAINT " + newElasticityConstraint );
-//          
-//          newPolicy.setName( "CONSTRAINT " + newElasticityConstraint );
-
-
-  }  
-  
-  void addElasticityStrategy(  )
-  {
-    FileDialog dialog = new FileDialog(this.section.getShell(), SWT.OPEN);
-    dialog.setText( "Select Elasticity Action File" );
-    //dialog.setFilterExtensions(new String [] {"*.html"});
-    //dialog.setFilterPath("c:\\temp");
-    String result = dialog.open();
-    if (result != null){
-      
-      String newElasticityStrategy = dialog.getFileName();
-      // Add Application Component Elasticity Requirement to TOSCA
-      PictogramElement pe = getSelectedPictogramElement();
-      Object bo = null;
-      if( pe != null ) {
-        bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement( pe );
-      }
-     
-      
-      final TNodeTemplateExtension nodeTemplate;
-      
-      if ( bo instanceof TDeploymentArtifact ){
-        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-        
-        nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-      }
-      else { // bo instanceof TNodeTemplate
-        nodeTemplate = ( TNodeTemplateExtension )bo;
-      }
-      
-      if ( nodeTemplate.getPolicies() == null ){
-        final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
-        
-        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-        editingDomain.getCommandStack()
-          .execute( new RecordingCommand( editingDomain ) {
-
-            @Override
-            protected void doExecute() {
-              nodeTemplate.setPolicies( nodePolicyList );
-            }
-          } );
-      }
-   
-      PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-      
-      final EList<TPolicy> policy = nodePolicyList.getPolicy();
-      
-      final TPolicy newPolicy = ToscaFactory.eINSTANCE.createTPolicy();
-      
-      //final String policyUniqueName = nodeTemplate.getId() + policy.size();
-      final String policyUniqueName = nodeTemplate.getName() + policy.size();
-      
-      QName policyTypeName = new QName( "http://www.example.org/SYBL", "Strategy", null );
-      
-      newPolicy.setPolicyType( new QName("SYBLStrategy") );         
-      
-      //newPolicy.setName( policyUniqueName + ":STRATEGY " + newElasticityStrategy );
-      
-      newPolicy.setName( "STRATEGY " + newElasticityStrategy );
-      
-      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-      editingDomain.getCommandStack()
-        .execute( new RecordingCommand( editingDomain ) {
-
-          @Override
-          protected void doExecute() {
-            policy.add( newPolicy );
-          }
-        } );
-
-      this.appComponentResizingActions.add( newPolicy );
-      this.tableResizingActionsViewer.refresh();
-       
     }
-    
   }
-  void editDataStagingEntryRA ( final TPolicy selectedObject )
-  {
+
+  void editDataStagingEntryRA( final TPolicy selectedObject ) {
     ElasticityStrategyDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
       dialog = new ElasticityStrategyDialog( this.section.getShell(),
-                                                 "Application Component"); //$NON-NLS-1$
+                                             "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityStrategy = dialog.getElasticityStrategy();
+        SyblElasticityRequirementsDescription newSYBLStrategy = dialog.getSYBLStrategy();
         if( newElasticityStrategy != null ) {
           // Add Application Component Elasticity Strategy to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
@@ -553,21 +371,17 @@ public class ApplicationComponentElasticityRequirementsSection
             bo = Graphiti.getLinkService()
               .getBusinessObjectForLinkedPictogramElement( pe );
           }
-          
           final TNodeTemplateExtension nodeTemplate;
-          
-          if ( bo instanceof TDeploymentArtifact ){
-            PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-            
-            nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-          }
-          else { // bo instanceof TNodeTemplate
+          if( bo instanceof TDeploymentArtifact ) {
+            PictogramElement parentPE = Graphiti.getPeService()
+              .getPictogramElementParent( pe );
+            nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement( parentPE );
+          } else { // bo instanceof TNodeTemplate
             nodeTemplate = ( TNodeTemplateExtension )bo;
           }
-          
-          if ( nodeTemplate.getPolicies() == null ){
+          if( nodeTemplate.getPolicies() == null ) {
             final PoliciesType nodePolicyList = ToscaFactory.eINSTANCE.createPoliciesType();
-            
             TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
             editingDomain.getCommandStack()
               .execute( new RecordingCommand( editingDomain ) {
@@ -577,14 +391,11 @@ public class ApplicationComponentElasticityRequirementsSection
                   nodeTemplate.setPolicies( nodePolicyList );
                 }
               } );
-          }          
-       
+          }
           PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-          
           final EList<TPolicy> policy = nodePolicyList.getPolicy();
-          
-          final TPolicy newPolicy = createNewPolicy("Strategy", newElasticityStrategy);
-          
+          final TPolicy newPolicy = createNewPolicy( "Strategy",
+                                                     newElasticityStrategy, newSYBLStrategy );
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -594,31 +405,18 @@ public class ApplicationComponentElasticityRequirementsSection
                 policy.add( newPolicy );
               }
             } );
-
           this.appComponentResizingActions.add( newPolicy );
           this.tableResizingActionsViewer.refresh();
-          
         } else {
-          
-          //Edit
+          // Edit
         }
       }
     }
-    
-          
-
-        
-          //final String policyUniqueName = nodeTemplate.getId() + policy.size();
-          //final String policyUniqueName = nodeTemplate.getName() + policy.size();
-          //newPolicy.setName( policyUniqueName + ":STRATEGY " + newElasticityStrategy );
-
-
-
   }
 
 
-  //type is either "Constraint" or "Strategy"
-  TPolicy createNewPolicy(String type, String policyName){
+  // type is either "Constraint" or "Strategy"
+  TPolicy createNewPolicy(String type, String policyName, SyblElasticityRequirementsDescription syblPolicy){
 
     // Create Policy Template 
     
@@ -631,13 +429,24 @@ public class ApplicationComponentElasticityRequirementsSection
     String id = "C" + ( ( Integer )newPolicyTemplate.hashCode() ).toString();
     
     newPolicyTemplate.setId( id );
+
     
+    // Set the Properties of the Policy Template    
+    
+    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();    
+  
+    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
+    Entry e = FeatureMapUtil.createEntry(     SyblPackage.eINSTANCE.getDocumentRoot_SYBLElasticityRequirementsDescription(),  syblPolicy );
+    properties.getAny().add( e );      
+    
+    newPolicyTemplate.setProperties( properties );
+        
     // Add the new Policy Template to the TOSCA Definitions element
     
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
     DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-    
+       
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
@@ -645,6 +454,7 @@ public class ApplicationComponentElasticityRequirementsSection
         @Override
         protected void doExecute() {
           model.getDocumentRoot().getDefinitions().getPolicyTemplate().add( newPolicyTemplate );
+          
         }
       } );
     
@@ -663,46 +473,69 @@ public class ApplicationComponentElasticityRequirementsSection
     return newPolicy;
   }
   
-  void addStrategyCondition( final TPolicy selectedObject ){
-
-    if( selectedObject == null ) 
+  void addStrategyCondition( final TPolicy selectedObject ) {
+    if( selectedObject == null )
       return;
-    
     TNodeTemplate nodeTemplate = null;
-    
-    if (getSelectedPictogramElement() != null) 
-      nodeTemplate = (TNodeTemplate) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-    
+    if( getSelectedPictogramElement() != null )
+      nodeTemplate = ( TNodeTemplate )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( getSelectedPictogramElement() );
     ElasticityConditionDialog dialog;
-    
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    
-    dialog = new ElasticityConditionDialog( this.section.getShell(), "Application Component",
-                                           model, selectedObject.getName()); //$NON-NLS-1$
+    dialog = new ElasticityConditionDialog( this.section.getShell(),
+                                            "Application Component",
+                                            model,
+                                            selectedObject.getName() ); //$NON-NLS-1$
     String newElasticityCondition = null;
-    
+    ConditionType policyCondition = null;
     if( dialog.open() == Window.OK ) {
       newElasticityCondition = dialog.getSelectedCondition();
+      policyCondition = dialog.getSYBLCondition();
     }
-      if( newElasticityCondition == null ) 
-        return;
-      
-      final String condition = newElasticityCondition;
-      
-      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
-      editingDomain.getCommandStack()
-        .execute( new RecordingCommand( editingDomain ) {
+    if( newElasticityCondition == null )
+      return;
+    final String condition = newElasticityCondition;
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
 
-          @Override
-          protected void doExecute() {
-            String[] strategy = selectedObject.getName().split("STRATEGY");
-            selectedObject.setName( strategy[0] + "STRATEGY " + condition + strategy[1]);
-          }
-        } );
-
-      this.tableResizingActionsViewer.refresh();
+        @Override
+        protected void doExecute() {
+          String[] strategy = selectedObject.getName().split( "STRATEGY" );
+          selectedObject.setName( strategy[ 0 ]
+                                  + "STRATEGY "
+                                  + condition
+                                  + strategy[ 1 ] );
+        }
+      } );
+    this.tableResizingActionsViewer.refresh();
+    
+    addPolicyCondition( selectedObject, policyCondition);
   }
   
+  void addPolicyCondition(final TPolicy selectedPolicy, final ConditionType policyCondition){
+    
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    EList<TPolicyTemplate> policyTemplates = model.getDocumentRoot().getDefinitions().getPolicyTemplate();
+    TPolicyTemplate policyTemplate = null;
+    for ( TPolicyTemplate tempPolicyTemplate : policyTemplates ){
+      if (tempPolicyTemplate.getId().toString().equals(selectedPolicy.getPolicyRef().toString())){
+        policyTemplate = tempPolicyTemplate;
+        break;
+      }      
+    }
+    
+    final SyblElasticityRequirementsDescription syblPolicy = (SyblElasticityRequirementsDescription) policyTemplate.getProperties().getAny().get(0).getValue();
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( policyTemplate );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          syblPolicy.getSYBLSpecification().get( 0 ).getStrategy().get( 0 ).setCondition( policyCondition );
+        }
+      } );
+  }
 
   // Remove the selected Application Component Elasticity Requirement from TOSCA
   void removeApplicationComponentElasticityRequirement( final TPolicy selectedObject )
@@ -713,58 +546,48 @@ public class ApplicationComponentElasticityRequirementsSection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    
     final TNodeTemplateExtension nodeTemplate;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-    }
-    else { // bo instanceof TNodeTemplate
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
       nodeTemplate = ( TNodeTemplateExtension )bo;
     }
-    
     PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-    
     final EList<TPolicy> policy = nodePolicyList.getPolicy();
-    
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
         @Override
         protected void doExecute() {
-          for( TPolicy tempPolicy : policy )
-          {
+          for( TPolicy tempPolicy : policy ) {
             if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
-              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
-
+              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 )
+              {
                 policy.remove( tempPolicy );
-    
-                if ( policy.size() == 0 )
+                if( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
-                
-                //remove corresponding Policy Template
+                // remove corresponding Policy Template
                 String removedPolicyId = tempPolicy.getPolicyRef().toString();
                 ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                DefinitionsType toscaDefinitions = model.getDocumentRoot()
+                  .getDefinitions();
                 final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
-                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
-                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                for( TPolicyTemplate tempPolicyTemplate : policyTemplate ) {
+                  if( tempPolicyTemplate.getId().equals( removedPolicyId ) ) {
                     policyTemplate.remove( tempPolicyTemplate );
                   }
                 }
-                
                 break;
               }
           }
         }
       } );
-
     this.appComponentElasticityRequirements.remove( selectedObject );
     this.tableViewer.refresh();
-
   }
 
   // Return the selected Elasticity Requirement
@@ -789,129 +612,102 @@ public class ApplicationComponentElasticityRequirementsSection
    * Get Application Component Elasticity Actions
    */
   public void getResizingActions() {
-    // initiate global elasticity requirement list with requirements from
-    // description wizard
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    
     final TNodeTemplateExtension appComponent;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
+      appComponent = ( TNodeTemplateExtension )bo;
     }
-    else { // bo instanceof TNodeTemplate
-    	appComponent = ( TNodeTemplateExtension )bo;
-    }
-    
     PoliciesType nodePolicyList = appComponent.getPolicies();
-    
     if( nodePolicyList == null )
       return;
-    
-    for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
-    {
+    for( TPolicy tempPolicy : nodePolicyList.getPolicy() ) {
       if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
         this.appComponentResizingActions.add( tempPolicy );
     }
-    
   }
 
-  
   /**
    * Get Application Component Elasticity Constraints
    */
   public void getElasticityConstraints() {
-    // initiate global elasticity requirement list with requirements from
-    // description wizard
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-    
     final TNodeTemplateExtension appComponent;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
+      appComponent = ( TNodeTemplateExtension )bo;
     }
-    else { // bo instanceof TNodeTemplate
-    	appComponent = ( TNodeTemplateExtension )bo;
-    }
-    
     PoliciesType nodePolicyList = appComponent.getPolicies();
-    
     if( nodePolicyList == null )
       return;
-    
-    for( TPolicy tempPolicy : nodePolicyList.getPolicy() )
-    {
+    for( TPolicy tempPolicy : nodePolicyList.getPolicy() ) {
       if( tempPolicy.getPolicyType().toString().contains( "Constraint" ) ) //$NON-NLS-1$
         this.appComponentElasticityRequirements.add( tempPolicy );
     }
-    
   }
-  
-  
+
   // Remove Application Component Elasticity Action
-  void removeApplicationComponentResizingAction( final TPolicy selectedObject ) {
+  void removeApplicationComponentResizingAction( final TPolicy selectedObject )
+  {
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
-     
     final TNodeTemplateExtension nodeTemplate;
-    
-    if ( bo instanceof TDeploymentArtifact ){
-      PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-      
-      nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-    }
-    else { // bo instanceof TNodeTemplate
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
       nodeTemplate = ( TNodeTemplateExtension )bo;
     }
-    
     PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-    
     final EList<TPolicy> policy = nodePolicyList.getPolicy();
-
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
         @Override
         protected void doExecute() {
-          for( TPolicy tempPolicy : policy )
-          {
+          for( TPolicy tempPolicy : policy ) {
             if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
-              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 ) {
+              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 )
+              {
                 policy.remove( tempPolicy );
-                
-                if ( policy.size() == 0 )
+                if( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
-                
-                
-                //remove corresponding Policy Template
+                // remove corresponding Policy Template
                 String removedPolicyId = tempPolicy.getPolicyRef().toString();
                 ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-                DefinitionsType toscaDefinitions = model.getDocumentRoot().getDefinitions();
+                DefinitionsType toscaDefinitions = model.getDocumentRoot()
+                  .getDefinitions();
                 final EList<TPolicyTemplate> policyTemplate = toscaDefinitions.getPolicyTemplate();
-                for ( TPolicyTemplate tempPolicyTemplate : policyTemplate ){
-                  if ( tempPolicyTemplate.getId().equals(removedPolicyId )){
+                for( TPolicyTemplate tempPolicyTemplate : policyTemplate ) {
+                  if( tempPolicyTemplate.getId().equals( removedPolicyId ) ) {
                     policyTemplate.remove( tempPolicyTemplate );
                   }
                 }
-                
                 break;
               }
           }
@@ -921,12 +717,11 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableResizingActionsViewer.refresh();
   }
 
-
   /*
-   *  Refresh Elasticity Tab(non-Javadoc)
-   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   * Refresh Elasticity Tab(non-Javadoc)
+   * @see
+   * org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
    */
-  
   @Override
   public void refresh() {
     // Refresh Elasticity Constraints
@@ -938,5 +733,4 @@ public class ApplicationComponentElasticityRequirementsSection
     getResizingActions();
     this.tableResizingActionsViewer.refresh();
   }
- 
 }

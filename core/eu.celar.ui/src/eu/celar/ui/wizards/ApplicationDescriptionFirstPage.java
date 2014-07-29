@@ -14,7 +14,6 @@ public class ApplicationDescriptionFirstPage extends WizardNewFileCreationPage {
                                           final IStructuredSelection selection )
   {
     super( pageName, selection );
-    setPageComplete( false );
   }
 
   public void createControl( Composite parent ) {

@@ -31,4 +31,5 @@
   		</tosca:Interface>
   	</tosca:Interfaces></tosca:NodeType>
   <tosca:ArtifactType name="ScriptArtifact"></tosca:ArtifactType>
+  <tosca:ArtifactType name="ImageArtifact"></tosca:ArtifactType>
 </tosca:Definitions>

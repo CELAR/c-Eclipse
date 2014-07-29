@@ -78,44 +78,7 @@ public class TOSCAResource extends ResourceCloudContainer implements ICloudAppli
   public void setApplicationName(final String name) {
     this.model.getServiceTemplate().setName( name );
   }
-  
-  public void setOptimizationPolicy( final String optimizationPolicy ){
-       
-    TBoundaryDefinitions boundaryDef = this.model.getServiceTemplate().getBoundaryDefinitions();
     
-    PoliciesType1 boundaryPolicies = this.toscaFactory.createPoliciesType1();
-        
-    boundaryDef.setPolicies( boundaryPolicies );
-    
-    //EList<TPolicy> policy = boundaryPolicies.getPolicy();
-        
-    //policy.add( this.toscaFactory.createTPolicy() );
-    
-    //policy.get( 0 ).setName( optimizationPolicy );  
-
-  }
-    
-  public void setGlobalElasticityConstraints(final List<TPolicy> constraintsList){
-    
-    if ( constraintsList.size() > 0 ){
-      
-      TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )this.model.getServiceTemplate().getBoundaryDefinitions();
-      
-      if ( boundaryDef.getPolicies() == null ){
-        
-        PoliciesType1 boundaryPolicyList = this.toscaFactory.createPoliciesType1();
-        
-        boundaryDef.setPolicies( boundaryPolicyList );
-        
-      }
-      
-      for (TPolicy constraint : constraintsList)
-        
-        boundaryDef.getPolicies().getPolicy().add( constraint );
-
-    }
-  }
-  
   public void setUpBasicTOSCAStructure() {
     this.model.setUpBasicStructure();
   }
