@@ -55,7 +55,6 @@ import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.SourceElementType;
 import eu.celar.tosca.TDeploymentArtifact;
-import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
@@ -136,7 +135,6 @@ public class ToscaDiagramEditor extends DiagramEditor {
     }
 
     super.init(site, finalInput);
-    
     // Refresh Palette Compartments
     getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
     

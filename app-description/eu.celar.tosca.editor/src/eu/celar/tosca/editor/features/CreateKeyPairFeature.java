@@ -45,7 +45,7 @@ public class CreateKeyPairFeature extends AbstractCreateFeature {
 
   // Creates the business object for the user application
   @Override
-  public Object[] create( final ICreateContext context ) {
+  public Object[] create( final ICreateContext context ) {    
     if( this.contextObject == null )
       return null;
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );

@@ -4,6 +4,8 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
@@ -21,7 +23,9 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import eu.celar.core.model.impl.ResourceCloudElement;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.StyleUtil;
 
 public class AddKeyPairFeature extends AbstractAddShapeFeature {
@@ -38,16 +42,12 @@ public class AddKeyPairFeature extends AbstractAddShapeFeature {
     super( fp );
   }
 
-  // Checks whether a VM Image can be added to the target object
+  // Checks whether a KeyPair can be added to the target object
   @Override
   public boolean canAdd( final IAddContext context ) {
     boolean result = false;
     boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
-//    if( context.getNewObject() instanceof VirtualMachineImage
-//        && !diagraminstance )
-//    {
-//      result = true;
-//    }
+
     if( context.getNewObject() instanceof TDeploymentArtifact
         && !diagraminstance )
     {
@@ -55,15 +55,31 @@ public class AddKeyPairFeature extends AbstractAddShapeFeature {
         .toString()
         .compareTo( "KeyPair" ) == 0 )
         result = true;
-    }
+    } else if (context.getNewObject() instanceof ResourceCloudElement && !diagraminstance) {
+      System.out.println("reseource_element");
+      ResourceCloudElement file = (ResourceCloudElement) context.getNewObject();
+      if (file.getResource().getFileExtension().equals( "pub" )){
+      
+        result = true;
+      }
+        
+    } 
     return result;
   }
 
-  // Adds a VM Image figure to the target object
+  // Adds a KeyPair figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
-
-    TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
+    
+    TDeploymentArtifact addedClass;
+    if (context.getNewObject() instanceof ResourceCloudElement) {
+      ResourceCloudElement ce = (ResourceCloudElement) context.getNewObject();      
+      addedClass = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+      addedClass.setName( ce.getName() );
+      addedClass.setArtifactType( new QName( "KeyPair" ) );
+    } else {
+      addedClass = ( TDeploymentArtifact )context.getNewObject();
+    }
     
     
     ContainerShape targetDiagram = ( ContainerShape )context.getTargetContainer();
