@@ -8,17 +8,24 @@
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
+import java.io.ObjectInputStream.GetField;
+
+import javax.xml.namespace.QName;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
@@ -26,20 +33,23 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
+import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
-import eu.celar.infosystem.model.base.MonitoringProbe;
+import eu.celar.core.model.impl.ResourceCloudElement;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.features.AddApplicationComponentFeature;
-import eu.celar.tosca.editor.features.AddBidirectionalRelationFeature;
+import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
 import eu.celar.tosca.editor.features.AddGroupFeature;
 import eu.celar.tosca.editor.features.AddKeyPairFeature;
 import eu.celar.tosca.editor.features.AddMonitorProbeFeature;
@@ -49,7 +59,6 @@ import eu.celar.tosca.editor.features.AddSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.AddUserApplicationFeature;
 import eu.celar.tosca.editor.features.AddVirtualMachineFeature;
 import eu.celar.tosca.editor.features.CreateApplicationComponentFeature;
-import eu.celar.tosca.editor.features.CreateBidirectionalRelationFeature;
 import eu.celar.tosca.editor.features.CreateDirectedRelationFeature;
 import eu.celar.tosca.editor.features.CreateGroupFeature;
 import eu.celar.tosca.editor.features.CreateKeyPairFeature;
@@ -68,7 +77,6 @@ import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveCompositeComponentFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
-import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
 import eu.celar.tosca.editor.features.RenameCompositeComponentFeature;
 import eu.celar.tosca.editor.features.ResizeApplicationComponentFeature;
 import eu.celar.tosca.editor.features.ResizeCompositeComponentFeature;
@@ -83,7 +91,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
 
   // Returns the add feature for the context
   @Override
-  public IAddFeature getAddFeature( final IAddContext context ) {
+  public IAddFeature getAddFeature( final IAddContext context ) {    
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
     } 
@@ -105,8 +113,12 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
         return new AddKeyPairFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)
         return new AddMonitorProbeFeature( this );
-      ;
-    } else if( context.getNewObject() instanceof ResizingAction ) {
+      
+    } else if( context.getNewObject() instanceof ResourceCloudElement) {
+            
+      return getIFileFeature(context);
+    }
+    else if( context.getNewObject() instanceof ResizingAction ) {
       return new AddResizingActionFeature( this );
     } 
     // its a substitutional Service Template
@@ -119,6 +131,39 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     } 
     return super.getAddFeature( context );
   }
+
+  /**
+   * @return
+   */
+  private AbstractAddShapeFeature getIFileFeature(final IAddContext context) {
+    ResourceCloudElement element = (ResourceCloudElement) context.getNewObject();
+    AbstractAddShapeFeature result = null;
+    
+    String extension = element.getResource().getFileExtension();
+    System.out.println(extension);
+
+    if (extension.equals( "pub" )) { //$NON-NLS-1$
+      // Call the Create User Application Feature to create a deployment artifact for the deployment script and add it to the artifacts list 
+      CreateKeyPairFeature createKPFeature = new CreateKeyPairFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
+      
+      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+      deploymentArtifact.setName( element.getName() );
+      deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );  
+      
+      createKPFeature.setContextObject( deploymentArtifact );
+      
+      CreateContext createContext = new CreateContext();
+      createContext.setTargetContainer( context.getTargetContainer()  );
+      
+      if ( createKPFeature.canCreate( createContext )){
+        createKPFeature.create( createContext );
+      }
+      
+    }
+    
+    return result;
+  }
+  
 
   // Initializes all create features
   @Override
@@ -141,8 +186,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   public IDeleteFeature getDeleteFeature(IDeleteContext context){
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
-    if( bo instanceof TServiceTemplate
-        && ( ( TServiceTemplate )bo ).getName() == null ) {
+    if( bo instanceof TServiceTemplate ) {
       return new DeleteGroupFeature( this );
     }
     else if (bo instanceof TNodeTemplate){
