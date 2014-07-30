@@ -10,15 +10,21 @@ package eu.celar.tosca.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
@@ -225,12 +231,11 @@ public class TOSCAModel extends AbstractCloudContainer
     //this.definitionsType.setTargetNamespace( "http://docs.oasis-open.org/tosca/ns/2011/12" );    //$NON-NLS-1$    
     
     this.documentRoot.setDefinitions( this.definitionsType );
+           
+    EMap<String, String> map = this.documentRoot.getXMLNSPrefixMap();
+    map.put( "sybl", "http://www.example.org/SYBL" );
+
     
-//    TPolicyType syblConstraint = ToscaFactory.eINSTANCE.createTPolicyType();
-//    syblConstraint.setName( "SYBLConstraint" );
-//    PropertiesDefinitionType valueProperty = ToscaFactory.eINSTANCE.createPropertiesDefinitionType();
-//    valueProperty.setElement( new QName("value") );
-//    this.definitionsType.getPolicyType().add( syblConstraint );
   }
   
    public TServiceTemplate getServiceTemplate(){
@@ -253,11 +258,12 @@ public class TOSCAModel extends AbstractCloudContainer
      Registry factoryRegistry = resourceSet.getResourceFactoryRegistry();
      Map<String, Object> map = factoryRegistry.getExtensionToFactoryMap();
      map.put( "tosca", //$NON-NLS-1$
-              new ToscaResourceFactoryImpl() );
+              new ToscaResourceFactoryImpl() );    
      this.resource = resourceSet.createResource( fileURI );
      if( toscaRoot != null ) {
        this.resource.getContents().add( toscaRoot );
      }
+
      // Setting XML encoding.. This could be changed later.
      Map<String, String> options = new HashMap<String, String>();
      options.put( XMLResource.OPTION_ENCODING, "UTF-8" );  //$NON-NLS-1$

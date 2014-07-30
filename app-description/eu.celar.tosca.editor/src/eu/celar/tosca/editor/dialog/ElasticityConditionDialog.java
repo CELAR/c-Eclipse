@@ -33,6 +33,15 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.example.sybl.BinaryRestriction;
+import org.example.sybl.ConditionType;
+import org.example.sybl.LeftHandSideType;
+import org.example.sybl.RightHandSideType;
+import org.example.sybl.SYBLSpecificationType;
+import org.example.sybl.Strategy;
+import org.example.sybl.SyblFactory;
+import org.example.sybl.ToEnforceType;
+import org.example.sybl.UnaryRestriction;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
@@ -74,6 +83,10 @@ public class ElasticityConditionDialog extends Dialog {
 
   private String strategyName;
   private Label strategyLabel;
+  
+  private String conditionLeft;
+  private String conditionRight;
+  private String conditionOperator;
   
   /**
    * @param parentShell
@@ -153,7 +166,16 @@ public class ElasticityConditionDialog extends Dialog {
 
     ArrayList<MonitoringProbe> mps = getMetrics();
     for (MonitoringProbe mp : mps){
-      this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")");
+      String metricsString = mp.getDescription();
+      if (metricsString.equals( "" )==false){
+      String[] metrics = (metricsString.substring( 1, metricsString.length()-1 )).split( "," );
+      for (String metric : metrics)
+        this.cmbGlobalElasticityReq.add(metric.substring( 1, metric.length()-1 ));
+      //this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
+      }
+      else{
+        this.cmbGlobalElasticityReq.add(mp.getName());
+      }
     }
 
     Composite valueComposite = new Composite( newConstraintComposite, SWT.NONE );
@@ -374,8 +396,7 @@ public class ElasticityConditionDialog extends Dialog {
 	  return constraints;
 
   }
-  
-  
+
   
   /**
    * Access to the List of Data Stage-In elements.
@@ -385,11 +406,34 @@ public class ElasticityConditionDialog extends Dialog {
   public String getSelectedCondition() {
     return ElasticityConditionDialog.this.condition;
   }
+  
+  public ConditionType getSYBLCondition() {
+    
+    ConditionType strategyCondition = SyblFactory.eINSTANCE.createConditionType();
+    BinaryRestriction br = SyblFactory.eINSTANCE.createBinaryRestriction();
+    br.setType( this.conditionOperator );
+    LeftHandSideType conditionLeft = SyblFactory.eINSTANCE.createLeftHandSideType();
+    conditionLeft.setMetric( this.conditionLeft );
+    br.setLeftHandSide( conditionLeft );
+    RightHandSideType conditionRight = SyblFactory.eINSTANCE.createRightHandSideType();
+    conditionRight.setNumber( this.conditionRight );
+    br.setRightHandSide( conditionRight );
+    UnaryRestriction ur = SyblFactory.eINSTANCE.createUnaryRestriction();
+    ur.setType( "hi4" );
+    strategyCondition.getBinaryRestrictionsConjunction().add( br );
+    strategyCondition.getUnaryRestrictionsConjunction().add( ur );
+    
+    return strategyCondition;
+
+  }
 
   @SuppressWarnings("boxing")
   @Override
   protected void okPressed() {
            
+    ElasticityConditionDialog.this.conditionLeft = this.cmbGlobalElasticityReq.getText();
+    ElasticityConditionDialog.this.conditionRight = this.valueText.getText();
+    ElasticityConditionDialog.this.conditionOperator = this.cmbOperator.getText();
     if ( this.conditionSelected ){
       ElasticityConditionDialog.this.condition = "CASE fulfilled(" + this.cmbCondition.getText().split( ":" )[0] + "):";
     }

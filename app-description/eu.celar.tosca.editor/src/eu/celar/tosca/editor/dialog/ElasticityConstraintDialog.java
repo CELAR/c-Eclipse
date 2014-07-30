@@ -29,6 +29,16 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.example.sybl.BinaryRestriction;
+import org.example.sybl.Constraint;
+import org.example.sybl.LeftHandSideType;
+import org.example.sybl.RightHandSideType;
+import org.example.sybl.SYBLSpecificationType;
+import org.example.sybl.Strategy;
+import org.example.sybl.SyblElasticityRequirementsDescription;
+import org.example.sybl.SyblFactory;
+import org.example.sybl.ToEnforceType;
+import org.example.sybl.ToEnforceType1;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
@@ -46,8 +56,10 @@ public class ElasticityConstraintDialog extends Dialog {
   private CCombo cmbGlobalElasticityReq;
   private CCombo cmbOperator;
   private String component;
- 
-  private String unit;
+  private String constraintLeft;
+  private String constraintRight;
+  private String constraintOperator;
+
   
   /**
    * @param parentShell
@@ -86,8 +98,18 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbGlobalElasticityReq.setLayoutData( gd );
     
     ArrayList<MonitoringProbe> mps = getMetrics();
+    
     for (MonitoringProbe mp : mps){
-      this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
+      String metricsString = mp.getDescription();
+      if (metricsString.equals( "" )==false){
+      String[] metrics = (metricsString.substring( 1, metricsString.length()-1 )).split( "," );
+      for (String metric : metrics)
+        this.cmbGlobalElasticityReq.add(metric.substring( 1, metric.length()-1 ));
+      //this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
+      }
+      else{
+        this.cmbGlobalElasticityReq.add(mp.getName());
+      }
     }
     
     Composite valueComposite = new Composite( composite, SWT.NONE );
@@ -154,11 +176,41 @@ public class ElasticityConstraintDialog extends Dialog {
   public String getElasticityConstraint() {
     return ElasticityConstraintDialog.this.elasticityRequirement;
   }
+  
+  public SyblElasticityRequirementsDescription getSYBLConstraint(){
+
+    SyblElasticityRequirementsDescription serd = SyblFactory.eINSTANCE.createSyblElasticityRequirementsDescription();
+    
+    Constraint propertiesConstraint = SyblFactory.eINSTANCE.createConstraint();
+    ToEnforceType1 constraintToEnforce = SyblFactory.eINSTANCE.createToEnforceType1();
+    propertiesConstraint.setId( "hi" );
+    propertiesConstraint.setToEnforce( constraintToEnforce );
+    
+    BinaryRestriction br = SyblFactory.eINSTANCE.createBinaryRestriction();
+    br.setType( this.constraintOperator );
+    LeftHandSideType constraintLeft = SyblFactory.eINSTANCE.createLeftHandSideType();
+    constraintLeft.setMetric( this.constraintLeft );
+    br.setLeftHandSide( constraintLeft );
+    RightHandSideType constraintRight = SyblFactory.eINSTANCE.createRightHandSideType();
+    constraintRight.setNumber( this.constraintRight );
+    br.setRightHandSide( constraintRight );
+    constraintToEnforce.getBinaryRestrictionsConjunction().add( br );
+    
+    SYBLSpecificationType sst = SyblFactory.eINSTANCE.createSYBLSpecificationType();
+    sst.getConstraint().add( propertiesConstraint );
+    serd.getSYBLSpecification().add( sst );
+    
+    return serd;
+  }
 
   @SuppressWarnings("boxing")
   @Override
   protected void okPressed() {
  
+    ElasticityConstraintDialog.this.constraintLeft = this.cmbGlobalElasticityReq.getText();
+    ElasticityConstraintDialog.this.constraintRight = this.valueText.getText();
+    ElasticityConstraintDialog.this.constraintOperator = this.cmbOperator.getText();
+    
     ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
                                                                                              
     super.okPressed();

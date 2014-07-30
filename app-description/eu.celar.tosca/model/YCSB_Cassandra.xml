@@ -18,21 +18,36 @@
   			artifactType="ns1:ScriptArtifact" interfaceName="lifecycle"
   			operationName="install" artifactRef="YCSB_Client_install">
   		</tosca:ImplementationArtifact>
-  	</tosca:ImplementationArtifacts></tosca:NodeTypeImplementation>
+  	</tosca:ImplementationArtifacts>
+  	<tosca:DeploymentArtifacts>
+  		<tosca:DeploymentArtifact name="YCSBImage"
+  			artifactType="ns1:ImageArtifact" artifactRef="YCSB_image">
+  		</tosca:DeploymentArtifact>
+  	</tosca:DeploymentArtifacts></tosca:NodeTypeImplementation>
   <tosca:NodeTypeImplementation nodeType="ns1:CassandraSeedNode" name="CassandraSeedNodeImplementation">
   	<tosca:ImplementationArtifacts>
   		<tosca:ImplementationArtifact
   			artifactType="ns1:ScriptArtifact" interfaceName="lifecycle"
   			operationName="install" artifactRef="Cassandra_Node_install">
   		</tosca:ImplementationArtifact>
-  	</tosca:ImplementationArtifacts></tosca:NodeTypeImplementation>
+  	</tosca:ImplementationArtifacts>
+  	<tosca:DeploymentArtifacts>
+  		<tosca:DeploymentArtifact name="CassandraSeedImage"
+  			artifactType="ns1:ImageArtifact" artifactRef="Cassandra_image">
+  		</tosca:DeploymentArtifact>
+  	</tosca:DeploymentArtifacts></tosca:NodeTypeImplementation>
   <tosca:NodeTypeImplementation nodeType="ns1:CassandraNode" name="CassandraNodeImplementation">
   	<tosca:ImplementationArtifacts>
   		<tosca:ImplementationArtifact
   			artifactType="ns1:ScriptArtifact" interfaceName="lifecycle"
   			operationName="install" artifactRef="Cassandra_SeedNode_install">
   		</tosca:ImplementationArtifact>
-  	</tosca:ImplementationArtifacts></tosca:NodeTypeImplementation>
+  	</tosca:ImplementationArtifacts>
+  	<tosca:DeploymentArtifacts>
+  		<tosca:DeploymentArtifact name="CassandraNodeImage"
+  			artifactType="ns1:ImageArtifact" artifactRef="Cassandra_image">
+  		</tosca:DeploymentArtifact>
+  	</tosca:DeploymentArtifacts></tosca:NodeTypeImplementation>
   <tosca:ArtifactTemplate type="ns1:ScriptArtifact" id="YCSB_Client_install">
   	<tosca:ArtifactReferences>
   		<tosca:ArtifactReference reference="Scripts/YCSB_Client.sh"></tosca:ArtifactReference>
@@ -46,4 +61,6 @@
   	<tosca:ArtifactReferences>
   		<tosca:ArtifactReference reference="Scripts/Cassandra_Node.sh"></tosca:ArtifactReference>
   	</tosca:ArtifactReferences></tosca:ArtifactTemplate>
+  <tosca:ArtifactTemplate type="ns1:ImageArtifact" id="Cassandra_image"></tosca:ArtifactTemplate>
+  <tosca:ArtifactTemplate type="ns1:ImageArtifact" id="YCSB_image"></tosca:ArtifactTemplate>
 </tosca:Definitions>
