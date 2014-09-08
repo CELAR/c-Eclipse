@@ -5,7 +5,6 @@
 package eu.celar.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -24,7 +23,6 @@ import org.eclipse.ui.ide.IDE;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
-import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ToscaDiagramCreator;
 import eu.celar.tosca.editor.ToscaFileService;

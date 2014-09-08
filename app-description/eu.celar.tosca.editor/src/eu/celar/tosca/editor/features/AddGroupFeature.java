@@ -6,18 +6,13 @@ package eu.celar.tosca.editor.features;
 
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.StyleUtil;
-import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
-import org.eclipse.graphiti.mm.algorithms.Ellipse;
-import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
-import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -27,8 +22,6 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 
 public class AddGroupFeature extends AbstractAddShapeFeature {
-
-  public static final int INVISIBLE_RECT_RIGHT = 6;
 
   public AddGroupFeature( IFeatureProvider fp ) {
     super( fp );
@@ -43,6 +36,15 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
   // Adds a group figure to the target object
   @Override
   public PictogramElement add( IAddContext context ) {
+    
+    int height = context.getHeight();
+    int width = context.getWidth();
+    
+    if (! (height > 0))
+      height = StyleUtil.APP_COMPONENT_WIDTH * 2;
+    if (! (width > 0))
+      width = StyleUtil.APP_COMPONENT_WIDTH * 3;
+    
     final TServiceTemplate addedClass = ( TServiceTemplate )context.getNewObject();
     final ContainerShape targetDiagram = context.getTargetContainer();
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
@@ -50,7 +52,7 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
     final ContainerShape containerShape = peCreateService.createContainerShape( targetDiagram,
                                                                                 true );
     final IGaService gaService = Graphiti.getGaService();
-    RoundedRectangle roundedRectangle;
+
     {
       // create invisible outer rectangle expanded by
       // the width needed for the anchor
@@ -58,33 +60,16 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( invisibleRectangle,
                                     context.getX(),
                                     context.getY(),
-                                    StyleUtil.APP_COMPONENT_WIDTH
-                                        * 3
-                                        + INVISIBLE_RECT_RIGHT,
-                                    StyleUtil.APP_COMPONENT_WIDTH * 2 );
-      // create and set visible rectangle inside invisible rectangle
-      roundedRectangle = gaService.createPlainRoundedRectangle( invisibleRectangle,
-                                                                5,
-                                                                5 );
-      // roundedRectangle.setStyle(StyleUtil.getStyleForEClass(getDiagram()));
-      roundedRectangle.setBackground( manageColor( new ColorConstant( 255,
+                                    width,
+                                    height );
+      
+      invisibleRectangle.setBackground( manageColor( new ColorConstant( 255,
                                                                       255,
                                                                       255 ) ) );
-      // roundedRectangle.setForeground(manageColor( new ColorConstant( 255,
-      // 255, 255 )) );
-//      roundedRectangle.setLineWidth( 1 );
-//      gaService.setLocationAndSize( roundedRectangle,
-//                                    0,
-//                                    0,
-//                                    StyleUtil.APP_COMPONENT_WIDTH * 3,
-//                                    StyleUtil.APP_COMPONENT_WIDTH * 2 );
       
-      roundedRectangle.setLineWidth( 1 );
-      gaService.setLocationAndSize( roundedRectangle,
-                                    0,
-                                    0,
-                                    StyleUtil.COMPOSITE_APP_COMP_WIDTH,
-                                    StyleUtil.COMPOSITE_APP_COMP_HEIGHT);
+      invisibleRectangle.setLineWidth( 1 );
+      invisibleRectangle.setLineVisible( true );
+      
       
       // if addedClass has no resource we add it to the resource of the diagram
       // in a real scenario the business model would have its own resource
@@ -92,8 +77,6 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
         getDiagram().eResource().getContents().add( addedClass );
       }
       // create link and wire it
-      containerShape.getGraphicsAlgorithm().setX( context.getX() );
-      containerShape.getGraphicsAlgorithm().setY( context.getY() );
       link( containerShape, addedClass );
     }
     
@@ -109,7 +92,7 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( text,
                                     0,
                                     0,
-                                    StyleUtil.COMPOSITE_APP_COMP_WIDTH,
+                                    width,
                                     20 );
       // create link and wire it
       link( shape, addedClass );

@@ -9,7 +9,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
@@ -24,6 +23,7 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 
 public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
 
@@ -54,41 +54,45 @@ public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
   // Adds a Service Template figure to the diagram
   @Override
   public PictogramElement add( final IAddContext context ) {
-    TServiceTemplate addedClass = ( TServiceTemplate )context.getNewObject();
+    TServiceTemplateExtension addedClass = ( TServiceTemplateExtension )context.getNewObject();
     Diagram targetDiagram = ( Diagram )context.getTargetContainer();
+    
+    int height = context.getHeight();
+    int width = context.getWidth();
+    
+    if (! (height > 0))
+      height = targetDiagram.getGraphicsAlgorithm().getHeight() - 10;
+    if (! (width > 0))
+      width = targetDiagram.getGraphicsAlgorithm().getWidth() - 10;
+    
+
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     ContainerShape containerShape = peCreateService.createContainerShape( targetDiagram,
                                                                           true );
 
-    
-    final int width = targetDiagram.getGraphicsAlgorithm().getWidth() - 10;
-    final int height = targetDiagram.getGraphicsAlgorithm().getHeight() - 10;
     IGaService gaService = Graphiti.getGaService();
     RoundedRectangle roundedRectangle; 
     {
-      final Rectangle invisibleRectangle = gaService.createInvisibleRectangle( containerShape );
-      gaService.setLocationAndSize( invisibleRectangle,
-                                    5,
-                                    5,
-                                    width,
-                                    height );
-      // create and set visible rectangle inside invisible rectangle
-      roundedRectangle = gaService.createPlainRoundedRectangle( invisibleRectangle,
-                                                                5,
-                                                                5 );
       
-      // create and set graphics algorithm
-      //roundedRectangle = gaService.createRoundedRectangle( containerShape, 5, 5 );
-      roundedRectangle.setForeground( manageColor( E_CLASS_FOREGROUND ) );
-      roundedRectangle.setBackground( manageColor( E_CLASS_BACKGROUND ) );
-      roundedRectangle.setLineWidth( 2 );
-   
-      gaService.setLocationAndSize( roundedRectangle,
-                                    0,
-                                    0,
-                                    width,
-                                    height );
+      
+    // create and set visible rectangle inside invisible rectangle
+    roundedRectangle = gaService.createPlainRoundedRectangle( containerShape,
+                                                              5,
+                                                              5 );
+    
+    // create and set graphics algorithm
+    //roundedRectangle = gaService.createRoundedRectangle( containerShape, 5, 5 );
+    roundedRectangle.setForeground( manageColor( E_CLASS_FOREGROUND ) );
+    roundedRectangle.setBackground( manageColor( E_CLASS_BACKGROUND ) );
+    roundedRectangle.setLineWidth( 2 );
+ 
+    gaService.setLocationAndSize( roundedRectangle,
+                                  5,
+                                  5,
+                                  width,
+                                  height );
+      
       if( addedClass.eResource() == null ) {
         getDiagram().eResource().getContents().add( addedClass );
       }

@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl#getHeight <em>Height</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl#getX <em>X</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl#getY <em>Y</em>}</li>
  * </ul>
@@ -44,6 +46,64 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
    * @generated
    */
   protected int eVirtualIndexBits0;
+
+  /**
+   * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getHeight()
+   * @generated
+   * @ordered
+   */
+  protected static final int HEIGHT_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getHeight()
+   * @generated
+   * @ordered
+   */
+  protected int height = HEIGHT_EDEFAULT;
+
+  /**
+   * This is true if the Height attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean heightESet;
+
+  /**
+   * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getWidth()
+   * @generated
+   * @ordered
+   */
+  protected static final int WIDTH_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getWidth()
+   * @generated
+   * @ordered
+   */
+  protected int width = WIDTH_EDEFAULT;
+
+  /**
+   * This is true if the Width attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean widthESet;
 
   /**
    * The default value of the '{@link #getX() <em>X</em>}' attribute.
@@ -122,6 +182,106 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
   protected EClass eStaticClass()
   {
     return Tosca_Elasticity_ExtensionsPackage.Literals.TSERVICE_TEMPLATE_EXTENSION;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getHeight()
+  {
+    return height;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setHeight(int newHeight)
+  {
+    int oldHeight = height;
+    height = newHeight;
+    boolean oldHeightESet = heightESet;
+    heightESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT, oldHeight, height, !oldHeightESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetHeight()
+  {
+    int oldHeight = height;
+    boolean oldHeightESet = heightESet;
+    height = HEIGHT_EDEFAULT;
+    heightESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT, oldHeight, HEIGHT_EDEFAULT, oldHeightESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetHeight()
+  {
+    return heightESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getWidth()
+  {
+    return width;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setWidth(int newWidth)
+  {
+    int oldWidth = width;
+    width = newWidth;
+    boolean oldWidthESet = widthESet;
+    widthESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH, oldWidth, width, !oldWidthESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetWidth()
+  {
+    int oldWidth = width;
+    boolean oldWidthESet = widthESet;
+    width = WIDTH_EDEFAULT;
+    widthESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH, oldWidth, WIDTH_EDEFAULT, oldWidthESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetWidth()
+  {
+    return widthESet;
   }
 
   /**
@@ -234,6 +394,10 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
   {
     switch (featureID)
     {
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT:
+        return getHeight();
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH:
+        return getWidth();
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__X:
         return getX();
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__Y:
@@ -252,6 +416,12 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
   {
     switch (featureID)
     {
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT:
+        setHeight((Integer)newValue);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH:
+        setWidth((Integer)newValue);
+        return;
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__X:
         setX((Integer)newValue);
         return;
@@ -272,6 +442,12 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
   {
     switch (featureID)
     {
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT:
+        unsetHeight();
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH:
+        unsetWidth();
+        return;
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__X:
         unsetX();
         return;
@@ -292,6 +468,10 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
   {
     switch (featureID)
     {
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__HEIGHT:
+        return isSetHeight();
+      case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__WIDTH:
+        return isSetWidth();
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__X:
         return isSetX();
       case Tosca_Elasticity_ExtensionsPackage.TSERVICE_TEMPLATE_EXTENSION__Y:
@@ -368,7 +548,11 @@ public class TServiceTemplateExtensionImpl extends TServiceTemplateImpl implemen
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (x: ");
+    result.append(" (height: ");
+    if (heightESet) result.append(height); else result.append("<unset>");
+    result.append(", width: ");
+    if (widthESet) result.append(width); else result.append("<unset>");
+    result.append(", x: ");
     if (xESet) result.append(x); else result.append("<unset>");
     result.append(", y: ");
     if (yESet) result.append(y); else result.append("<unset>");

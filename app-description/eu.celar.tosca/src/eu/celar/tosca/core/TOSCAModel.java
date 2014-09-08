@@ -43,6 +43,7 @@ import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.ToscaPackage;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
+import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 import eu.celar.tosca.util.ToscaResourceFactoryImpl;
@@ -59,7 +60,7 @@ public class TOSCAModel extends AbstractCloudContainer
   private File fileResource;
   private DocumentRoot documentRoot;
   private DefinitionsType definitionsType;
-  private TServiceTemplate serviceTemplate;
+  private TServiceTemplateExtension serviceTemplate;
   private TTopologyTemplate topologyTemplate;
   private TBoundaryDefinitionsExtension boundaryDef;
   public Resource resource;
@@ -86,9 +87,12 @@ public class TOSCAModel extends AbstractCloudContainer
       options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); // TODO Stalo "UTF-8"  //$NON-NLS-1$
       try {
         this.resource.load( options );
-        this.documentRoot = ( DocumentRoot )this.resource.getContents().get( 0 );        
-        this.serviceTemplate = this.documentRoot.getDefinitions().getServiceTemplate().get( 0 );
-        this.topologyTemplate = this.serviceTemplate.getTopologyTemplate();
+        this.documentRoot = ( DocumentRoot )this.resource.getContents().get( 0 ); 
+        
+        //this.serviceTemplate = (TServiceTemplateExtension) this.documentRoot.getDefinitions().getServiceTemplate().get( 0 );
+        //this.topologyTemplate = this.serviceTemplate.getTopologyTemplate();
+        this.topologyTemplate = this.documentRoot.getDefinitions().getServiceTemplate().get( 0 ).getTopologyTemplate();
+        
       } catch( IOException ioEx ) {
         if( ioEx instanceof IOWrappedException ) {
           IOWrappedException ioWEx = ( IOWrappedException )ioEx;
@@ -207,7 +211,7 @@ public class TOSCAModel extends AbstractCloudContainer
     this.definitionsType = this.toscaFactory.createDefinitionsType();
     
     // Create Service and Topology Templates
-    this.serviceTemplate = this.toscaFactory.createTServiceTemplate();
+    this.serviceTemplate = this.elasticityFactory.createTServiceTemplateExtension();
     this.serviceTemplate.setId( "hello" ); //$NON-NLS-1$
    
     

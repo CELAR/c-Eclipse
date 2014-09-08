@@ -260,13 +260,31 @@ public interface SyblPackage extends EPackage
   int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
 
   /**
+   * The feature id for the '<em><b>Constraint Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__CONSTRAINT_PROPERTIES = 3;
+
+  /**
+   * The feature id for the '<em><b>Strategy Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__STRATEGY_PROPERTIES = 4;
+
+  /**
    * The feature id for the '<em><b>SYBL Elasticity Requirements Description</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION = 3;
+  int DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION = 5;
 
   /**
    * The number of structural features of the '<em>Document Root</em>' class.
@@ -275,7 +293,7 @@ public interface SyblPackage extends EPackage
    * @generated
    * @ordered
    */
-  int DOCUMENT_ROOT_FEATURE_COUNT = 4;
+  int DOCUMENT_ROOT_FEATURE_COUNT = 6;
 
   /**
    * The meta object id for the '{@link org.example.sybl.impl.LeftHandSideTypeImpl <em>Left Hand Side Type</em>}' class.
@@ -841,6 +859,28 @@ public interface SyblPackage extends EPackage
   EReference getDocumentRoot_XSISchemaLocation();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.example.sybl.DocumentRoot#getConstraintProperties <em>Constraint Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Constraint Properties</em>'.
+   * @see org.example.sybl.DocumentRoot#getConstraintProperties()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_ConstraintProperties();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.example.sybl.DocumentRoot#getStrategyProperties <em>Strategy Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Strategy Properties</em>'.
+   * @see org.example.sybl.DocumentRoot#getStrategyProperties()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_StrategyProperties();
+
+  /**
    * Returns the meta object for the containment reference '{@link org.example.sybl.DocumentRoot#getSYBLElasticityRequirementsDescription <em>SYBL Elasticity Requirements Description</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1359,6 +1399,22 @@ public interface SyblPackage extends EPackage
      * @generated
      */
     EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Constraint Properties</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__CONSTRAINT_PROPERTIES = eINSTANCE.getDocumentRoot_ConstraintProperties();
+
+    /**
+     * The meta object literal for the '<em><b>Strategy Properties</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__STRATEGY_PROPERTIES = eINSTANCE.getDocumentRoot_StrategyProperties();
 
     /**
      * The meta object literal for the '<em><b>SYBL Elasticity Requirements Description</b></em>' containment reference feature.

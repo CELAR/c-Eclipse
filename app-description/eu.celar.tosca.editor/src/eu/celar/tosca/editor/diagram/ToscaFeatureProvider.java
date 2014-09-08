@@ -74,6 +74,7 @@ import eu.celar.tosca.editor.features.DeleteGroupFeature;
 import eu.celar.tosca.editor.features.DirectEditApplicationComponentFeature;
 import eu.celar.tosca.editor.features.DirectEditCompositeComponentFeature;
 import eu.celar.tosca.editor.features.LayoutApplicationComponentFeature;
+import eu.celar.tosca.editor.features.LayoutServiceTemplateFeature;
 import eu.celar.tosca.editor.features.MoveApplicationComponentFeature;
 import eu.celar.tosca.editor.features.MoveCompositeComponentFeature;
 import eu.celar.tosca.editor.features.RenameApplicationComponentFeature;
@@ -186,7 +187,8 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   public IDeleteFeature getDeleteFeature(IDeleteContext context){
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
-    if( bo instanceof TServiceTemplate ) {
+    if( bo instanceof TServiceTemplate  && (( ( TServiceTemplate )bo ).getSubstitutableNodeType() == null )) {
+      //TServiceTemplate representing Composite Component
       return new DeleteGroupFeature( this );
     }
     else if (bo instanceof TNodeTemplate){
@@ -221,6 +223,9 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     Object bo = getBusinessObjectForPictogramElement( pictogramElement );
     if( bo instanceof TNodeTemplate ) {
       return new LayoutApplicationComponentFeature( this );
+    }
+    if ( bo instanceof TServiceTemplate ){
+      return new LayoutServiceTemplateFeature( this );
     }
     return super.getLayoutFeature( context );
   }

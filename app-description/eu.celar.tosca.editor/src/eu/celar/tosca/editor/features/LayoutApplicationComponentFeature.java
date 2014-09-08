@@ -1,43 +1,29 @@
-/*******************************************************************************
- * <copyright>
- *
- * Copyright (c) 2005, 2010 SAP AG.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    SAP AG - initial API, implementation and documentation
- *
- * </copyright>
- *
- *******************************************************************************/
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
+ ************************************************************/
 package eu.celar.tosca.editor.features;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.editor.StyleUtil;
 
 
 public class LayoutApplicationComponentFeature extends AbstractLayoutFeature {
 
-	private static final int MIN_HEIGHT = 30;
-
-	private static final int MIN_WIDTH = 50;
+	private static final int MIN_HEIGHT = StyleUtil.APP_COMPONENT_HEIGHT;
 
 	public LayoutApplicationComponentFeature(final IFeatureProvider fp) {
 		super(fp);
@@ -45,7 +31,7 @@ public class LayoutApplicationComponentFeature extends AbstractLayoutFeature {
 
 	@Override
   public boolean canLayout(final ILayoutContext context) {
-		// return true, if pictogram element is linked to an EClass
+		// return true, if pictogram element is linked to a NodeTemplate
 		PictogramElement pe = context.getPictogramElement();
 		if (!(pe instanceof ContainerShape))
 			return false;
@@ -74,35 +60,17 @@ public class LayoutApplicationComponentFeature extends AbstractLayoutFeature {
 			anythingChanged = true;
 		}
 
-		// width of invisible rectangle
-		if (containerGa.getWidth() < MIN_WIDTH) {
-			containerGa.setWidth(MIN_WIDTH);
-			anythingChanged = true;
-		}
-
-		// width of visible rectangle (smaller than invisible rectangle)
-		int rectangleWidth = containerGa.getWidth() - AddApplicationComponentFeature.INVISIBLE_RECT_RIGHT;
-		if (rectangle.getWidth() != rectangleWidth) {
-			rectangle.setWidth(rectangleWidth);
-			anythingChanged = true;
-		}
-
-		// width of text and line (same as visible rectangle)
+		// image artifact
 		for (Shape shape : containerShape.getChildren()) {
-			GraphicsAlgorithm graphicsAlgorithm = shape.getGraphicsAlgorithm();
 			IGaService gaService = Graphiti.getGaService();
-			IDimension size = gaService.calculateSize(graphicsAlgorithm);
-			if (rectangleWidth != size.getWidth()) {
-				if (graphicsAlgorithm instanceof Polyline) {
-					Polyline polyline = (Polyline) graphicsAlgorithm;
-					Point secondPoint = polyline.getPoints().get(1);
-					Point newSecondPoint = gaService.createPoint(rectangleWidth, secondPoint.getY());
-					polyline.getPoints().set(1, newSecondPoint);
-					anythingChanged = true;
-				} else {
-					gaService.setWidth(graphicsAlgorithm, rectangleWidth);
-					anythingChanged = true;
-				}
+			if ((shape.getLink()!=null) && (shape.getLink().getBusinessObjects().get( 0 ) instanceof TDeploymentArtifact)){
+			  TDeploymentArtifact deploymentArtifact = (TDeploymentArtifact) shape.getLink().getBusinessObjects().get( 0 );
+			  if (deploymentArtifact.getArtifactType().toString().compareTo( "VMI" )==0){
+			    gaService.setLocation( shape.getGraphicsAlgorithm(),
+	                                    0,
+	                                    rectangle.getHeight() - 20  );
+			    anythingChanged = true;
+			  }
 			}
 		}
 

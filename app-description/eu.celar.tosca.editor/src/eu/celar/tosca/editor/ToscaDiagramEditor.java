@@ -318,12 +318,13 @@ public class ToscaDiagramEditor extends DiagramEditor {
               if ( tst.getSubstitutableNodeType() != null ){
                 //tst is a group component
                 TServiceTemplateExtension tstG = (TServiceTemplateExtension) tst;
-                addContainerElement (tst, containerShapeTST, tstG.getX(), tstG.getY());
+                addContainerElement (tst, containerShapeTST, tstG.getX(), tstG.getY(), tstG.getWidth(), tstG.getHeight());
                 substitute = true;
               }
               
               else{
-                addContainerElement (tst, diagram, 0, 0);
+                TServiceTemplateExtension tste = (TServiceTemplateExtension) tst;
+                addContainerElement (tst, diagram, 0, 0, tste.getWidth(), tste.getHeight());
                 containerShapeTST = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
                     .getPictogramElementForBusinessObject( tst );
               }
@@ -343,7 +344,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                   }
                   
                   TNodeTemplateExtension tnte = (TNodeTemplateExtension) tnt;
-                  addContainerElement( tnt, containerShape, tnte.getX(), tnte.getY() );
+                  addContainerElement( tnt, containerShape, tnte.getX(), tnte.getY(), tnte.getWidth(), tnte.getHeight() );
                   
                   ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
                       .getPictogramElementForBusinessObject( tnt ); 
@@ -352,7 +353,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                   if ( tnt.getDeploymentArtifacts() != null && tnt.getDeploymentArtifacts().getDeploymentArtifact() != null ){
                       for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
 
-                                addContainerElement( tda, containerShapeTNT, 0, 0 );
+                                addContainerElement( tda, containerShapeTNT, 0, 0, 0, 0 );
                     	  
                       }
                   }
@@ -377,7 +378,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                             if ( tnt.getDeploymentArtifacts() != null && tnt.getDeploymentArtifacts().getDeploymentArtifact() != null ){
                                 for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
 
-                                          addContainerElement( tda, containerShapeTNT, 0, 0 );
+                                          addContainerElement( tda, containerShapeTNT, 0, 0, 0, 0 );
                                     
                                 }
                             } 
@@ -453,7 +454,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
   }
   
   protected PictogramElement addContainerElement( final EObject element,
-                                                  final ContainerShape parent, int x_axis, int y_axis )
+                                                  final ContainerShape parent, int x_axis, int y_axis, int width, int height )
   {
     
     final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
@@ -463,6 +464,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
     context.setNewObject( element );    
     context.setTargetContainer( parent );
     context.setLocation(x_axis, y_axis);
+    context.setSize( width, height );
     PictogramElement pictElement = null;
     
     boolean canAdd  = false;

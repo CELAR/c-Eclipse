@@ -13,7 +13,9 @@ import eu.celar.tosca.TNodeTemplate;
  * The following features are supported:
  * <ul>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getInitInstances <em>Init Instances</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getX <em>X</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getY <em>Y</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}</li>
@@ -81,6 +83,60 @@ public interface TNodeTemplateExtension extends TNodeTemplate
   boolean isSetCasmulti();
 
   /**
+   * Returns the value of the '<em><b>Height</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Height</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Height</em>' attribute.
+   * @see #isSetHeight()
+   * @see #unsetHeight()
+   * @see #setHeight(int)
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getTNodeTemplateExtension_Height()
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+   *        extendedMetaData="kind='attribute' name='height'"
+   * @generated
+   */
+  int getHeight();
+
+  /**
+   * Sets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Height</em>' attribute.
+   * @see #isSetHeight()
+   * @see #unsetHeight()
+   * @see #getHeight()
+   * @generated
+   */
+  void setHeight(int value);
+
+  /**
+   * Unsets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetHeight()
+   * @see #getHeight()
+   * @see #setHeight(int)
+   * @generated
+   */
+  void unsetHeight();
+
+  /**
+   * Returns whether the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Height</em>' attribute is set.
+   * @see #unsetHeight()
+   * @see #getHeight()
+   * @see #setHeight(int)
+   * @generated
+   */
+  boolean isSetHeight();
+
+  /**
    * Returns the value of the '<em><b>Init Instances</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
@@ -133,6 +189,60 @@ public interface TNodeTemplateExtension extends TNodeTemplate
    * @generated
    */
   boolean isSetInitInstances();
+
+  /**
+   * Returns the value of the '<em><b>Width</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Width</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Width</em>' attribute.
+   * @see #isSetWidth()
+   * @see #unsetWidth()
+   * @see #setWidth(int)
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getTNodeTemplateExtension_Width()
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+   *        extendedMetaData="kind='attribute' name='width'"
+   * @generated
+   */
+  int getWidth();
+
+  /**
+   * Sets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Width</em>' attribute.
+   * @see #isSetWidth()
+   * @see #unsetWidth()
+   * @see #getWidth()
+   * @generated
+   */
+  void setWidth(int value);
+
+  /**
+   * Unsets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetWidth()
+   * @see #getWidth()
+   * @see #setWidth(int)
+   * @generated
+   */
+  void unsetWidth();
+
+  /**
+   * Returns whether the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Width</em>' attribute is set.
+   * @see #unsetWidth()
+   * @see #getWidth()
+   * @see #setWidth(int)
+   * @generated
+   */
+  boolean isSetWidth();
 
   /**
    * Returns the value of the '<em><b>X</b></em>' attribute.

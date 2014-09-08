@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.example.sybl.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.example.sybl.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.example.sybl.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.example.sybl.DocumentRoot#getConstraintProperties <em>Constraint Properties</em>}</li>
+ *   <li>{@link org.example.sybl.DocumentRoot#getStrategyProperties <em>Strategy Properties</em>}</li>
  *   <li>{@link org.example.sybl.DocumentRoot#getSYBLElasticityRequirementsDescription <em>SYBL Elasticity Requirements Description</em>}</li>
  * </ul>
  * </p>
@@ -81,6 +83,60 @@ public interface DocumentRoot extends EObject
    * @generated
    */
   EMap<String, String> getXSISchemaLocation();
+
+  /**
+   * Returns the value of the '<em><b>Constraint Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Constraint Properties</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Constraint Properties</em>' containment reference.
+   * @see #setConstraintProperties(Constraint)
+   * @see org.example.sybl.SyblPackage#getDocumentRoot_ConstraintProperties()
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='ConstraintProperties' namespace='##targetNamespace'"
+   * @generated
+   */
+  Constraint getConstraintProperties();
+
+  /**
+   * Sets the value of the '{@link org.example.sybl.DocumentRoot#getConstraintProperties <em>Constraint Properties</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Constraint Properties</em>' containment reference.
+   * @see #getConstraintProperties()
+   * @generated
+   */
+  void setConstraintProperties(Constraint value);
+
+  /**
+   * Returns the value of the '<em><b>Strategy Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Strategy Properties</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Strategy Properties</em>' containment reference.
+   * @see #setStrategyProperties(Strategy)
+   * @see org.example.sybl.SyblPackage#getDocumentRoot_StrategyProperties()
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='StrategyProperties' namespace='##targetNamespace'"
+   * @generated
+   */
+  Strategy getStrategyProperties();
+
+  /**
+   * Sets the value of the '{@link org.example.sybl.DocumentRoot#getStrategyProperties <em>Strategy Properties</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Strategy Properties</em>' containment reference.
+   * @see #getStrategyProperties()
+   * @generated
+   */
+  void setStrategyProperties(Strategy value);
 
   /**
    * Returns the value of the '<em><b>SYBL Elasticity Requirements Description</b></em>' containment reference.

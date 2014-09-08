@@ -27,39 +27,44 @@ public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
     TNodeTemplate deletedNodeTemplate = ( TNodeTemplate )deletedObject;
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     // Delete Policy Templates
-    for( TPolicy tempPolicy : deletedNodeTemplate.getPolicies().getPolicy() )
-      for( TPolicyTemplate tempPolicyTemplate : model.getDocumentRoot()
-        .getDefinitions()
-        .getPolicyTemplate() )
-      {
-        if( tempPolicy.getPolicyRef()
-          .toString()
-          .compareTo( tempPolicyTemplate.getId() ) == 0 )
+    if ( deletedNodeTemplate.getPolicies() != null )
+    {
+      for( TPolicy tempPolicy : deletedNodeTemplate.getPolicies().getPolicy() )
+        for( TPolicyTemplate tempPolicyTemplate : model.getDocumentRoot()
+          .getDefinitions()
+          .getPolicyTemplate() )
         {
-          model.getDocumentRoot()
-            .getDefinitions()
-            .getPolicyTemplate()
-            .remove( tempPolicyTemplate );
+          if( tempPolicy.getPolicyRef()
+            .toString()
+            .compareTo( tempPolicyTemplate.getId() ) == 0 )
+          {
+            model.getDocumentRoot()
+              .getDefinitions()
+              .getPolicyTemplate()
+              .remove( tempPolicyTemplate );
+          }
         }
-      }
+    }
     // Delete Relationships
     for( TServiceTemplate tempServiceTemplate : model.getDocumentRoot()
       .getDefinitions()
       .getServiceTemplate() )
     {
-      for( TRelationshipTemplate tempRelationshipTemplate : tempServiceTemplate.getTopologyTemplate()
-        .getRelationshipTemplate() )
-      {
-        if( tempRelationshipTemplate.getSourceElement()
-          .getRef()
-          .compareTo( deletedNodeTemplate.getId() ) == 0
-            || tempRelationshipTemplate.getTargetElement()
-              .getRef()
-              .compareTo( deletedNodeTemplate.getId() ) == 0 )
+      if ( tempServiceTemplate.getTopologyTemplate() != null ){
+        for( TRelationshipTemplate tempRelationshipTemplate : tempServiceTemplate.getTopologyTemplate()
+          .getRelationshipTemplate() )
         {
-          tempServiceTemplate.getTopologyTemplate()
-            .getRelationshipTemplate()
-            .remove( tempRelationshipTemplate );
+          if( tempRelationshipTemplate.getSourceElement()
+            .getRef()
+            .compareTo( deletedNodeTemplate.getId() ) == 0
+              || tempRelationshipTemplate.getTargetElement()
+                .getRef()
+                .compareTo( deletedNodeTemplate.getId() ) == 0 )
+          {
+            tempServiceTemplate.getTopologyTemplate()
+              .getRelationshipTemplate()
+              .remove( tempRelationshipTemplate );
+          }
         }
       }
     }

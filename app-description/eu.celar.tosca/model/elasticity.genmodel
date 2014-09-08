@@ -29,6 +29,8 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute sybl.ecore#//DocumentRoot/mixed"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference sybl.ecore#//DocumentRoot/xMLNSPrefixMap"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference sybl.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sybl.ecore#//DocumentRoot/constraintProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sybl.ecore#//DocumentRoot/strategyProperties"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sybl.ecore#//DocumentRoot/sYBLElasticityRequirementsDescription"/>
     </genClasses>
     <genClasses ecoreClass="sybl.ecore#//LeftHandSideType">
@@ -128,12 +130,16 @@
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/casmulti"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/initInstances"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/ycsbmulti"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TServiceTemplateExtension">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/y"/>
     </genClasses>

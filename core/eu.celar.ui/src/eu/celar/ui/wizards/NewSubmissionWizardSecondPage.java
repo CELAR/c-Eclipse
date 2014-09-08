@@ -23,7 +23,8 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
 
   protected NewSubmissionWizardSecondPage( String pageName ) {
     super( pageName );
-    setPageComplete(false);
+    //setPageComplete(false);
+    setPageComplete(true);
   }
 
   @Override
@@ -67,7 +68,8 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
       setPageComplete( true );
       getContainer().updateButtons();
     }
-    return result;
+    //return result;
+  return true;
   }
   
   @Override

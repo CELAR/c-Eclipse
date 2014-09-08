@@ -81,7 +81,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
       // Create Application Deployment file
       createDeploymentFile( tosca );
     }
-
+    
     return true;
     
   }

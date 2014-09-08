@@ -84,6 +84,8 @@
     			<attribute name="casmulti" type="int"></attribute>
     			<attribute name="x" type="int"></attribute>
     			<attribute name="y" type="int"></attribute>
+    			<attribute name="width" type="int"></attribute>
+    			<attribute name="height" type="int"></attribute>
     		</extension>
     	</complexContent>
     </complexType>
@@ -130,6 +132,8 @@
     		<extension base="tosca:tServiceTemplate">
     			<attribute name="x" type="int"></attribute>
     			<attribute name="y" type="int"></attribute>
+    			<attribute name="width" type="int"></attribute>
+    			<attribute name="height" type="int"></attribute>
     		</extension>
     	</complexContent>
     </complexType>

@@ -397,9 +397,29 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getDocumentRoot_SYBLElasticityRequirementsDescription()
+  public EReference getDocumentRoot_ConstraintProperties()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_StrategyProperties()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_SYBLElasticityRequirementsDescription()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -764,6 +784,8 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
     createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
     createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__CONSTRAINT_PROPERTIES);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__STRATEGY_PROPERTIES);
     createEReference(documentRootEClass, DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION);
 
     leftHandSideTypeEClass = createEClass(LEFT_HAND_SIDE_TYPE);
@@ -863,6 +885,8 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
     initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_ConstraintProperties(), this.getConstraint(), null, "constraintProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_StrategyProperties(), this.getStrategy(), null, "strategyProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_SYBLElasticityRequirementsDescription(), this.getSyblElasticityRequirementsDescription(), null, "sYBLElasticityRequirementsDescription", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     initEClass(leftHandSideTypeEClass, LeftHandSideType.class, "LeftHandSideType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -959,7 +983,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        source, 
        new String[] 
        {
-       "name", "Condition_._type",
+       "name", "Condition_._1_._type",
        "kind", "elementOnly"
        });		
     addAnnotation
@@ -983,7 +1007,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        source, 
        new String[] 
        {
-       "name", "Condition_._1_._type",
+       "name", "Condition_._type",
        "kind", "elementOnly"
        });		
     addAnnotation
@@ -1065,6 +1089,24 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
+       });		
+    addAnnotation
+      (getDocumentRoot_ConstraintProperties(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "ConstraintProperties",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getDocumentRoot_StrategyProperties(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "StrategyProperties",
+       "namespace", "##targetNamespace"
        });		
     addAnnotation
       (getDocumentRoot_SYBLElasticityRequirementsDescription(), 
@@ -1248,7 +1290,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        source, 
        new String[] 
        {
-       "name", "ToEnforce_._type",
+       "name", "ToEnforce_._1_._type",
        "kind", "empty"
        });		
     addAnnotation
@@ -1272,7 +1314,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        source, 
        new String[] 
        {
-       "name", "ToEnforce_._1_._type",
+       "name", "ToEnforce_._type",
        "kind", "elementOnly"
        });		
     addAnnotation

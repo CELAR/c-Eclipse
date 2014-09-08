@@ -713,13 +713,31 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TNODE_TEMPLATE_EXTENSION__CASMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Height</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__HEIGHT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>Init Instances</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 1;
+  int TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Width</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TNODE_TEMPLATE_EXTENSION__WIDTH = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>X</b></em>' attribute.
@@ -728,7 +746,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION__X = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 2;
+  int TNODE_TEMPLATE_EXTENSION__X = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -737,7 +755,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION__Y = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 3;
+  int TNODE_TEMPLATE_EXTENSION__Y = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Ycsbmulti</b></em>' attribute.
@@ -746,7 +764,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION__YCSBMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 4;
+  int TNODE_TEMPLATE_EXTENSION__YCSBMULTI = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 6;
 
   /**
    * The number of structural features of the '<em>TNode Template Extension</em>' class.
@@ -755,7 +773,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 5;
+  int TNODE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TNODE_TEMPLATE_FEATURE_COUNT + 7;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TServiceTemplateExtensionImpl <em>TService Template Extension</em>}' class.
@@ -867,13 +885,31 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int TSERVICE_TEMPLATE_EXTENSION__TARGET_NAMESPACE = ToscaPackage.TSERVICE_TEMPLATE__TARGET_NAMESPACE;
 
   /**
+   * The feature id for the '<em><b>Height</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TSERVICE_TEMPLATE_EXTENSION__HEIGHT = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Width</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TSERVICE_TEMPLATE_EXTENSION__WIDTH = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>X</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TSERVICE_TEMPLATE_EXTENSION__X = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 0;
+  int TSERVICE_TEMPLATE_EXTENSION__X = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -882,7 +918,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TSERVICE_TEMPLATE_EXTENSION__Y = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 1;
+  int TSERVICE_TEMPLATE_EXTENSION__Y = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 3;
 
   /**
    * The number of structural features of the '<em>TService Template Extension</em>' class.
@@ -891,7 +927,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TSERVICE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 2;
+  int TSERVICE_TEMPLATE_EXTENSION_FEATURE_COUNT = ToscaPackage.TSERVICE_TEMPLATE_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory <em>Application Component Elasticity Requirement Category</em>}' enum.
@@ -1185,6 +1221,17 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   EAttribute getTNodeTemplateExtension_Casmulti();
 
   /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Height</em>'.
+   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight()
+   * @see #getTNodeTemplateExtension()
+   * @generated
+   */
+  EAttribute getTNodeTemplateExtension_Height();
+
+  /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getInitInstances <em>Init Instances</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1194,6 +1241,17 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EAttribute getTNodeTemplateExtension_InitInstances();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Width</em>'.
+   * @see eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth()
+   * @see #getTNodeTemplateExtension()
+   * @generated
+   */
+  EAttribute getTNodeTemplateExtension_Width();
 
   /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getX <em>X</em>}'.
@@ -1237,6 +1295,28 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EClass getTServiceTemplateExtension();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension#getHeight <em>Height</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Height</em>'.
+   * @see eu.celar.tosca.elasticity.TServiceTemplateExtension#getHeight()
+   * @see #getTServiceTemplateExtension()
+   * @generated
+   */
+  EAttribute getTServiceTemplateExtension_Height();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension#getWidth <em>Width</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Width</em>'.
+   * @see eu.celar.tosca.elasticity.TServiceTemplateExtension#getWidth()
+   * @see #getTServiceTemplateExtension()
+   * @generated
+   */
+  EAttribute getTServiceTemplateExtension_Width();
 
   /**
    * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.TServiceTemplateExtension#getX <em>X</em>}'.
@@ -1554,12 +1634,28 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
     EAttribute TNODE_TEMPLATE_EXTENSION__CASMULTI = eINSTANCE.getTNodeTemplateExtension_Casmulti();
 
     /**
+     * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TNODE_TEMPLATE_EXTENSION__HEIGHT = eINSTANCE.getTNodeTemplateExtension_Height();
+
+    /**
      * The meta object literal for the '<em><b>Init Instances</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EAttribute TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES = eINSTANCE.getTNodeTemplateExtension_InitInstances();
+
+    /**
+     * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TNODE_TEMPLATE_EXTENSION__WIDTH = eINSTANCE.getTNodeTemplateExtension_Width();
 
     /**
      * The meta object literal for the '<em><b>X</b></em>' attribute feature.
@@ -1594,6 +1690,22 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EClass TSERVICE_TEMPLATE_EXTENSION = eINSTANCE.getTServiceTemplateExtension();
+
+    /**
+     * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TSERVICE_TEMPLATE_EXTENSION__HEIGHT = eINSTANCE.getTServiceTemplateExtension_Height();
+
+    /**
+     * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TSERVICE_TEMPLATE_EXTENSION__WIDTH = eINSTANCE.getTServiceTemplateExtension_Width();
 
     /**
      * The meta object literal for the '<em><b>X</b></em>' attribute feature.

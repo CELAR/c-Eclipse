@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.example.sybl.SyblPackage#getConditionType()
- * @model extendedMetaData="name='Condition_._type' kind='elementOnly'"
+ * @model extendedMetaData="name='Condition_._1_._type' kind='elementOnly'"
  * @generated
  */
 public interface ConditionType extends EObject

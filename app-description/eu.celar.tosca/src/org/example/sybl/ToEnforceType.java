@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.example.sybl.SyblPackage#getToEnforceType()
- * @model extendedMetaData="name='ToEnforce_._type' kind='empty'"
+ * @model extendedMetaData="name='ToEnforce_._1_._type' kind='empty'"
  * @generated
  */
 public interface ToEnforceType extends EObject

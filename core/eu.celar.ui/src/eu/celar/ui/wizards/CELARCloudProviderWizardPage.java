@@ -34,9 +34,7 @@ public class CELARCloudProviderWizardPage
     extends WizardPage {
   
   private GenericCloudProvider initialCloudProvider;
-  
-  private Text nameText;
-  
+    
   /** A pattern for matching the VO name */
   private Pattern cpNamePattern = Pattern.compile( "^[\\w.-]+$" ); //$NON-NLS-1$
   
@@ -209,7 +207,7 @@ public class CELARCloudProviderWizardPage
     
     IStatus result = Status.OK_STATUS;
     
-    String name = this.nameText.getText();
+    String name = this.cpNameText.getText();
     if ( ! validateVoName( name ) ) {
       result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "You have to specify a valid Cloud Provider name" );
     } else if ( ( this.initialCloudProvider == null )
@@ -230,8 +228,8 @@ public class CELARCloudProviderWizardPage
    * @param cp The  Cloud Provider whose attributes should be set to the page's controls.
    */
   protected void initVo( final GenericCloudProvider cp ) {
-    this.nameText.setText( cp != null ? cp.getName() : "" ); //$NON-NLS-1$
-    this.nameText.setEnabled( cp == null );
+    this.cpNameText.setText( cp != null ? cp.getName() : "" ); //$NON-NLS-1$
+    this.cpNameText.setEnabled( cp == null );
   }
   
   /**

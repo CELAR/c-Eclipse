@@ -434,7 +434,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_InitInstances()
+  public EAttribute getTNodeTemplateExtension_Height()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(1);
   }
@@ -444,7 +444,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_X()
+  public EAttribute getTNodeTemplateExtension_InitInstances()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(2);
   }
@@ -454,7 +454,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_Y()
+  public EAttribute getTNodeTemplateExtension_Width()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(3);
   }
@@ -464,9 +464,29 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_Ycsbmulti()
+  public EAttribute getTNodeTemplateExtension_X()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTNodeTemplateExtension_Y()
+  {
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTNodeTemplateExtension_Ycsbmulti()
+  {
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -484,7 +504,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTServiceTemplateExtension_X()
+  public EAttribute getTServiceTemplateExtension_Height()
   {
     return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(0);
   }
@@ -494,9 +514,29 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTServiceTemplateExtension_Y()
+  public EAttribute getTServiceTemplateExtension_Width()
   {
     return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTServiceTemplateExtension_X()
+  {
+    return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getTServiceTemplateExtension_Y()
+  {
+    return (EAttribute)tServiceTemplateExtensionEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -654,12 +694,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     tNodeTemplateExtensionEClass = createEClass(TNODE_TEMPLATE_EXTENSION);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__CASMULTI);
+    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__HEIGHT);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES);
+    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__WIDTH);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__X);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__Y);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__YCSBMULTI);
 
     tServiceTemplateExtensionEClass = createEClass(TSERVICE_TEMPLATE_EXTENSION);
+    createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__HEIGHT);
+    createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__WIDTH);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__X);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__Y);
 
@@ -744,12 +788,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     initEClass(tNodeTemplateExtensionEClass, TNodeTemplateExtension.class, "TNodeTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTNodeTemplateExtension_Casmulti(), theXMLTypePackage.getInt(), "casmulti", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTNodeTemplateExtension_Height(), theXMLTypePackage.getInt(), "height", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_InitInstances(), theXMLTypePackage.getInt(), "initInstances", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTNodeTemplateExtension_Width(), theXMLTypePackage.getInt(), "width", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_X(), theXMLTypePackage.getInt(), "x", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_Y(), theXMLTypePackage.getInt(), "y", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_Ycsbmulti(), theXMLTypePackage.getInt(), "ycsbmulti", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tServiceTemplateExtensionEClass, TServiceTemplateExtension.class, "TServiceTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getTServiceTemplateExtension_Height(), theXMLTypePackage.getInt(), "height", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTServiceTemplateExtension_Width(), theXMLTypePackage.getInt(), "width", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTServiceTemplateExtension_X(), theXMLTypePackage.getInt(), "x", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTServiceTemplateExtension_Y(), theXMLTypePackage.getInt(), "y", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1026,12 +1074,28 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "name", "casmulti"
        });		
     addAnnotation
+      (getTNodeTemplateExtension_Height(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "height"
+       });		
+    addAnnotation
       (getTNodeTemplateExtension_InitInstances(), 
        source, 
        new String[] 
        {
        "kind", "attribute",
        "name", "initInstances"
+       });		
+    addAnnotation
+      (getTNodeTemplateExtension_Width(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "width"
        });		
     addAnnotation
       (getTNodeTemplateExtension_X(), 
@@ -1064,6 +1128,22 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TServiceTemplateExtension",
        "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getTServiceTemplateExtension_Height(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "height"
+       });		
+    addAnnotation
+      (getTServiceTemplateExtension_Width(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "width"
        });		
     addAnnotation
       (getTServiceTemplateExtension_X(), 

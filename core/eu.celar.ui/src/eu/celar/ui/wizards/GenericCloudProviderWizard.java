@@ -23,8 +23,7 @@ public class GenericCloudProviderWizard
   private GenericCloudProvider initialVo;
   
   private GenericCloudProviderWizardPage cpPage;
-  
-//  private VoServiceSelectionPage servicePage;
+
   
   /* (non-Javadoc)
    * @see org.eclipse.jface.wizard.Wizard#addPages()
@@ -33,15 +32,12 @@ public class GenericCloudProviderWizard
   public void addPages() {
     
     this.cpPage = new GenericCloudProviderWizardPage();
-//    this.servicePage = new VoServiceSelectionPage();
     
     if ( this.initialVo != null ) {
       this.cpPage.setInitialVo( this.initialVo );
-//      this.servicePage.setInitialVo( this.initialVo );
     }
     
     addPage( this.cpPage );
-//    addPage( this.servicePage );
     
   }
   
@@ -71,10 +67,6 @@ public class GenericCloudProviderWizard
     GenericCloudProviderCreator creator = new GenericCloudProviderCreator();
     
     IStatus result = this.cpPage.apply( creator );
-    
-    if ( result.isOK() ) {
-//      result = this.servicePage.apply( creator );
-    }
     
     if ( result.isOK() ) {
       result = createVo( creator );

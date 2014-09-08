@@ -19,7 +19,9 @@ import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.example.sybl.Constraint;
 import org.example.sybl.DocumentRoot;
+import org.example.sybl.Strategy;
 import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblPackage;
 
@@ -33,6 +35,8 @@ import org.example.sybl.SyblPackage;
  *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getConstraintProperties <em>Constraint Properties</em>}</li>
+ *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getStrategyProperties <em>Strategy Properties</em>}</li>
  *   <li>{@link org.example.sybl.impl.DocumentRootImpl#getSYBLElasticityRequirementsDescription <em>SYBL Elasticity Requirements Description</em>}</li>
  * </ul>
  * </p>
@@ -130,6 +134,66 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  public Constraint getConstraintProperties()
+  {
+    return (Constraint)getMixed().get(SyblPackage.Literals.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetConstraintProperties(Constraint newConstraintProperties, NotificationChain msgs)
+  {
+    return ((FeatureMap.Internal)getMixed()).basicAdd(SyblPackage.Literals.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES, newConstraintProperties, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setConstraintProperties(Constraint newConstraintProperties)
+  {
+    ((FeatureMap.Internal)getMixed()).set(SyblPackage.Literals.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES, newConstraintProperties);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Strategy getStrategyProperties()
+  {
+    return (Strategy)getMixed().get(SyblPackage.Literals.DOCUMENT_ROOT__STRATEGY_PROPERTIES, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetStrategyProperties(Strategy newStrategyProperties, NotificationChain msgs)
+  {
+    return ((FeatureMap.Internal)getMixed()).basicAdd(SyblPackage.Literals.DOCUMENT_ROOT__STRATEGY_PROPERTIES, newStrategyProperties, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setStrategyProperties(Strategy newStrategyProperties)
+  {
+    ((FeatureMap.Internal)getMixed()).set(SyblPackage.Literals.DOCUMENT_ROOT__STRATEGY_PROPERTIES, newStrategyProperties);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public SyblElasticityRequirementsDescription getSYBLElasticityRequirementsDescription()
   {
     return (SyblElasticityRequirementsDescription)getMixed().get(SyblPackage.Literals.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION, true);
@@ -171,6 +235,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
       case SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case SyblPackage.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES:
+        return basicSetConstraintProperties(null, msgs);
+      case SyblPackage.DOCUMENT_ROOT__STRATEGY_PROPERTIES:
+        return basicSetStrategyProperties(null, msgs);
       case SyblPackage.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION:
         return basicSetSYBLElasticityRequirementsDescription(null, msgs);
     }
@@ -196,6 +264,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         if (coreType) return getXSISchemaLocation();
         else return getXSISchemaLocation().map();
+      case SyblPackage.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES:
+        return getConstraintProperties();
+      case SyblPackage.DOCUMENT_ROOT__STRATEGY_PROPERTIES:
+        return getStrategyProperties();
       case SyblPackage.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION:
         return getSYBLElasticityRequirementsDescription();
     }
@@ -220,6 +292,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return;
       case SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
+        return;
+      case SyblPackage.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES:
+        setConstraintProperties((Constraint)newValue);
+        return;
+      case SyblPackage.DOCUMENT_ROOT__STRATEGY_PROPERTIES:
+        setStrategyProperties((Strategy)newValue);
         return;
       case SyblPackage.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION:
         setSYBLElasticityRequirementsDescription((SyblElasticityRequirementsDescription)newValue);
@@ -246,6 +324,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return;
       case SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         getXSISchemaLocation().clear();
+        return;
+      case SyblPackage.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES:
+        setConstraintProperties((Constraint)null);
+        return;
+      case SyblPackage.DOCUMENT_ROOT__STRATEGY_PROPERTIES:
+        setStrategyProperties((Strategy)null);
         return;
       case SyblPackage.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION:
         setSYBLElasticityRequirementsDescription((SyblElasticityRequirementsDescription)null);
@@ -274,6 +358,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         EMap<String, String> xSISchemaLocation = (EMap<String, String>)eVirtualGet(SyblPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
         return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
+      case SyblPackage.DOCUMENT_ROOT__CONSTRAINT_PROPERTIES:
+        return getConstraintProperties() != null;
+      case SyblPackage.DOCUMENT_ROOT__STRATEGY_PROPERTIES:
+        return getStrategyProperties() != null;
       case SyblPackage.DOCUMENT_ROOT__SYBL_ELASTICITY_REQUIREMENTS_DESCRIPTION:
         return getSYBLElasticityRequirementsDescription() != null;
     }

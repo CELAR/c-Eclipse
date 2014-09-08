@@ -65,11 +65,14 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
     
     
     ContainerShape targetDiagram = ( ContainerShape )context.getTargetContainer();
+    int targetContainerHeight = targetDiagram.getGraphicsAlgorithm().getHeight();
+    int targetContainerWidth = targetDiagram.getGraphicsAlgorithm().getWidth();
+    
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     ContainerShape containerShape = peCreateService.createContainerShape( targetDiagram,
                                                                           true );
-    final int width = StyleUtil.APP_COMPONENT_WIDTH;
+    final int width = targetContainerWidth;
     final int height = 20;
     IGaService gaService = Graphiti.getGaService();
     RoundedRectangle roundedRectangle;
@@ -81,7 +84,7 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
       roundedRectangle.setLineWidth( 2 );
       gaService.setLocationAndSize( roundedRectangle,
                                     0,
-                                    StyleUtil.APP_COMPONENT_HEIGHT - 20,
+                                    targetContainerHeight - 20,
                                     width,
                                     height );
       if( addedClass.eResource() == null ) {

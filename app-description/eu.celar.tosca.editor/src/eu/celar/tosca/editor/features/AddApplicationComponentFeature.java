@@ -52,6 +52,15 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
   // Adds an application component figure to the target object
   @Override
   public PictogramElement add( final IAddContext context ) {
+    
+    int height = context.getHeight();
+    int width = context.getWidth();
+    
+    if (! (height > 0))
+      height = StyleUtil.APP_COMPONENT_HEIGHT;
+    if (! (width > 0))
+      width = StyleUtil.APP_COMPONENT_WIDTH;
+    
     final TNodeTemplateExtension addedClass = ( TNodeTemplateExtension )context.getNewObject();
     final ContainerShape targetDiagram = context.getTargetContainer();
     // CONTAINER SHAPE WITH ROUNDED RECTANGLE
@@ -67,9 +76,8 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( invisibleRectangle,
                                     context.getX(),
                                     context.getY(),
-                                    StyleUtil.APP_COMPONENT_WIDTH
-                                        + INVISIBLE_RECT_RIGHT,
-                                    StyleUtil.APP_COMPONENT_HEIGHT );
+                                    width,
+                                    height );
       // create and set visible rectangle inside invisible rectangle
       roundedRectangle = gaService.createPlainRoundedRectangle( invisibleRectangle,
                                                                 5,
@@ -78,8 +86,8 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( roundedRectangle,
                                     0,
                                     0,
-                                    StyleUtil.APP_COMPONENT_WIDTH,
-                                    StyleUtil.APP_COMPONENT_HEIGHT );
+                                    width,
+                                    height );
       
       if( addedClass.eResource() == null ) {
         getDiagram().eResource().getContents().add( addedClass );
@@ -97,10 +105,12 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
     // gaService.createPlainRectangle(roundedRectangle);
     roundedRectangleSD.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
     gaService.setLocationAndSize( roundedRectangleSD,
-                                  ( StyleUtil.APP_COMPONENT_WIDTH - StyleUtil.SOFT_DEPENDENCIES_COMP_WIDTH ) / 2,
+                                  ( width - StyleUtil.SOFT_DEPENDENCIES_COMP_WIDTH ) / 2,
                                   40,
                                   50,
                                   StyleUtil.SOFT_DEPENDENCIES_COMP_INIT_HEIGHT );
+
+    
     // SHAPE WITH LINE
     {
       // create shape for line
@@ -110,7 +120,7 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
                                                                new int[]{
                                                                  0,
                                                                  20,
-                                                                 StyleUtil.APP_COMPONENT_WIDTH,
+                                                                 width,
                                                                  20
                                                                } );
       polyline.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
@@ -125,7 +135,7 @@ public class AddApplicationComponentFeature extends AbstractAddShapeFeature {
       gaService.setLocationAndSize( text,
                                     0,
                                     0,
-                                    StyleUtil.APP_COMPONENT_WIDTH,
+                                    width,
                                     20 );
       // create link and wire it
       link( shape, addedClass );

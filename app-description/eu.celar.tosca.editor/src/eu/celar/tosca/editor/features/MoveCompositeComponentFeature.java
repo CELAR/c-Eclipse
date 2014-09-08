@@ -34,7 +34,7 @@ public class MoveCompositeComponentFeature extends DefaultMoveShapeFeature {
         canMove = true;
       }else{
         //it is the application service
-        canMove = false;
+        canMove = true;
       }
     }
 
