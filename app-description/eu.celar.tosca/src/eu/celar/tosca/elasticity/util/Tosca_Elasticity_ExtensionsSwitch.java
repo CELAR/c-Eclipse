@@ -85,6 +85,20 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT:
+      {
+        DocumentRoot documentRoot = (DocumentRoot)theEObject;
+        T result = caseDocumentRoot(documentRoot);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE:
+      {
+        ImageArtifactPropertiesType imageArtifactPropertiesType = (ImageArtifactPropertiesType)theEObject;
+        T result = caseImageArtifactPropertiesType(imageArtifactPropertiesType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1:
       {
         LoadHintsType1 loadHintsType1 = (LoadHintsType1)theEObject;
@@ -96,6 +110,13 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
       {
         MonitoringProbesType1 monitoringProbesType1 = (MonitoringProbesType1)theEObject;
         T result = caseMonitoringProbesType1(monitoringProbesType1);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case Tosca_Elasticity_ExtensionsPackage.NODE_PROPERTIES_TYPE:
+      {
+        NodePropertiesType nodePropertiesType = (NodePropertiesType)theEObject;
+        T result = caseNodePropertiesType(nodePropertiesType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -171,6 +192,38 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseDocumentRoot(DocumentRoot object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Image Artifact Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Image Artifact Properties Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImageArtifactPropertiesType(ImageArtifactPropertiesType object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Load Hints Type1</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -198,6 +251,22 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseMonitoringProbesType1(MonitoringProbesType1 object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Node Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Node Properties Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNodePropertiesType(NodePropertiesType object)
   {
     return null;
   }

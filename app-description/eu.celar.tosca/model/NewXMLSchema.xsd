@@ -139,4 +139,25 @@
     </complexType>
 
 
+
+    <complexType name="ImageArtifactPropertiesType">
+    	<sequence>
+    		<element name="Flavor" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ImageArtifactProperties"
+    	type="elasticity:ImageArtifactPropertiesType">
+    </element>
+
+
+    <complexType name="NodePropertiesType">
+    	<sequence>
+    		<element name="Flavor" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="NodeProperties"
+    	type="elasticity:NodePropertiesType">
+    </element>
 </schema>

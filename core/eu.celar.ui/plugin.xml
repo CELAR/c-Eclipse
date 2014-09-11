@@ -222,6 +222,15 @@
                   style="push">
             </command>
          </menuContribution>
+         <menuContribution
+               allPopups="false"
+               locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command
+                  commandId="org.eclipse.ui.edit.delete"
+                  label="Delete"
+                  style="push">
+            </command>
+         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.core.expressions.definitions">
@@ -283,5 +292,19 @@
                id="eu.celar.ui.wizards.GenericCloudProviderWizard"
                name="Generic Cloud Provider">
          </wizard>
+      </extension>
+      <extension
+            point="org.eclipse.ui.handlers">
+         <handler
+               commandId="org.eclipse.ui.edit.delete">
+            <activeWhen>
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="eu.celar.ui.views.CloudProjectView">
+                  </equals>
+               </with>
+            </activeWhen>
+         </handler>
       </extension>
 </plugin>

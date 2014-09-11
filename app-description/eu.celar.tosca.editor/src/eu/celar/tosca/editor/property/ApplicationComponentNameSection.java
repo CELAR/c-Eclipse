@@ -1,16 +1,12 @@
 /************************************************************
- * Copyright (C), 2013 CELAR Consortium 
- * http://www.celarcloud.eu
- * 
- * Contributors:
- *      Stalo Sofokleous - initial API and implementation
+ * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
+ * Stalo Sofokleous - initial API and implementation
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 import javax.xml.namespace.QName;
 
@@ -21,6 +17,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -53,7 +51,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.reporting.ProblemException;
-import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
+import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
@@ -61,11 +59,13 @@ import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ToscaDiagramEditorInput;
 import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
 import eu.celar.tosca.editor.features.CreateVMIFeature;
+import eu.celar.tosca.elasticity.NodePropertiesType;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 /**
- *  Application Component Properties - Main Tab
- *
+ * Application Component Properties - Main Tab
  */
 public class ApplicationComponentNameSection extends GFPropertySection
   implements ITabbedPropertyConstants, ModifyListener, SelectionListener
@@ -81,7 +81,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
   private CCombo cmbImageSize;
   private Button uploadImage;
   private Button keypairSelect;
-    
+
   @Override
   public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
@@ -89,9 +89,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     super.createControls( parent, tabbedPropertySheetPage );
     TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
-    
     // Application Component Properties Section\
-    
     // Application Name label
     Section section = toolkit.createSection( parent, Section.TITLE_BAR );
     section.setText( "Application Component Properties" ); //$NON-NLS-1$
@@ -111,17 +109,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.widthHint = 80;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     valueLabel.setLayoutData( gd );
-    
-    // Application Name text    
+    // Application Name text
     this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
-    this.nameText.setEditable( true );   
+    this.nameText.setEditable( true );
     gd = new GridData();
     gd.horizontalSpan = 2;
     gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.nameText.setLayoutData( gd );
-    
     // Application VM label
     CLabel imageLabel = factory.createCLabel( client, "VM Image:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -135,12 +131,10 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd = new GridData();
     gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;    
-    
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     // Application VM text
     this.imageText.setLayoutData( gd );
     this.imageText.addModifyListener( this );
-    
     // VM Upload Image Button
     this.uploadImage = new Button( client, SWT.PUSH );
     this.uploadImage.setText( " Add Image... " ); //$NON-NLS-1$
@@ -153,43 +147,34 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        
-        
-        FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
+        FileDialog dialog = new FileDialog( parent.getShell(), SWT.OPEN );
         dialog.setText( "Select Image File" ); //$NON-NLS-1$
-        //dialog.setFilterExtensions(new String [] {"*.html"});
-        //dialog.setFilterPath("c:\\temp");
+        // dialog.setFilterExtensions(new String [] {"*.html"});
+        // dialog.setFilterPath("c:\\temp");
         String result = dialog.open();
-        if (result != null){
-           
-          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
-          
+        if( result != null ) {
+          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName() );
           deploymentArtifact.setArtifactType( new QName( "VMI" ) ); //$NON-NLS-1$
-          
           createImageFeature.setContextObject( deploymentArtifact );
-          
           CreateContext createContext = new CreateContext();
-          createContext.setTargetContainer( (ContainerShape) getSelectedPictogramElement() );
-          
-          if ( createImageFeature.canCreate( createContext ))
+          createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );
+          if( createImageFeature.canCreate( createContext ) )
             createImageFeature.create( createContext );
-          
           refresh();
-                    
           // Add uploaded image to Project Artifacts folder
-          IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+          IWorkbenchPage activePage = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow()
+            .getActivePage();
           IEditorInput input = activePage.getActiveEditor().getEditorInput();
-          
           IFile file = null;
-          if ( input instanceof ToscaDiagramEditorInput ){
-            file = ((ToscaDiagramEditorInput) input).getToscaFile();
+          if( input instanceof ToscaDiagramEditorInput ) {
+            file = ( ( ToscaDiagramEditorInput )input ).getToscaFile();
           }
-                    
           IProject project = file.getProject();
-          
-          String targetPath =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" +  dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+          String targetPath = Platform.getLocation()
+                              + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           File tmp = new File( targetPath );
           try {
             tmp.createNewFile();
@@ -197,17 +182,17 @@ public class ApplicationComponentNameSection extends GFPropertySection
             // TODO Auto-generated catch block
             e1.printStackTrace();
           }
-
           IProgressMonitor monitor = null;
           try {
             CloudModel.getRoot().refresh( monitor );
           } catch( ProblemException e2 ) {
             e2.printStackTrace();
           }
-          
           // Refresh Palette Compartments
-          getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
-          
+          getDiagramTypeProvider().getFeatureProvider()
+            .getDiagramTypeProvider()
+            .getDiagramBehavior()
+            .refreshPalette();
         }
       }
 
@@ -216,27 +201,23 @@ public class ApplicationComponentNameSection extends GFPropertySection
         // TODO Auto-generated method stub
       }
     } );
-    
-    
-    //VM Description Label
+    // VM Description Label
     CLabel vmDecsrLabel = factory.createCLabel( client, "VM Description:" ); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 80;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
-    
     // VM Description text
-    valueLabel.setLayoutData( gd );
+    vmDecsrLabel.setLayoutData( gd );
     this.descrText = factory.createText( client, "" ); //$NON-NLS-1$
-    this.descrText.setEditable( false );   
+    this.descrText.setEditable( false );
     gd = new GridData();
     gd.horizontalSpan = 2;
     gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;       
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.descrText.setLayoutData( gd );
-    
     // VM Image Flavor label
     CLabel vmImageLabel = factory.createCLabel( client, "VM Type:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -244,29 +225,376 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 80;
     vmImageLabel.setLayoutData( gd );
-    
     // Combo - VM Image Flavor
     this.cmbImageSize = new CCombo( client, SWT.BORDER );
     this.cmbImageSize.setEnabled( true );
-    
-//    // TODO - nickl For now use Amazon Flavors - get them from IS 
-//    ArrayList<String> instanceTypes = MockUpInfoSystem.getInstance().getInstanceTypes();
-//    for (String type : instanceTypes )
-//      this.cmbImageSize.add(type);
-    
-    this.cmbImageSize.add( "Small" ); //$NON-NLS-1$
-    this.cmbImageSize.add( "Medium" ); //$NON-NLS-1$
-    this.cmbImageSize.add( "Large" ); //$NON-NLS-1$
+    // // TODO - nickl For now use Amazon Flavors - get them from IS
+    // ArrayList<String> instanceTypes =
+    // MockUpInfoSystem.getInstance().getInstanceTypes();
+    // for (String type : instanceTypes )
+    // this.cmbImageSize.add(type);
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:512 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:5" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:10" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:20" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:40" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:60" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:80" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:100" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
+    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
     this.cmbImageSize.setEditable( false );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     gd.horizontalSpan = 2;
-    gd.widthHint = 160;
+    gd.widthHint = 200;
     this.cmbImageSize.setLayoutData( gd );
-    this.cmbImageSize.addSelectionListener( this );
-    
-    
+    // Listener for Flavor
+    this.cmbImageSize.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        createNodeFlavorProperties( ApplicationComponentNameSection.this.cmbImageSize.getText() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
     // KeyPair Label
     CLabel keypairLabel = factory.createCLabel( client, "Keypair:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -274,17 +602,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gd.widthHint = 80;
     keypairLabel.setLayoutData( gd );
-    
     // KeyPair text
     this.keypairText = factory.createText( client, "" ); //$NON-NLS-1$
     this.keypairText.setEditable( true );
     gd = new GridData();
     gd.widthHint = 160;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;        
+    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.keypairText.setLayoutData( gd );
     this.keypairText.addModifyListener( this );
-    
     // Select KeyPair Button
     this.keypairSelect = new Button( client, SWT.PUSH );
     this.keypairSelect.setText( " Select... " ); //$NON-NLS-1$
@@ -297,71 +623,66 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
       @Override
       public void widgetSelected( final SelectionEvent e ) {
-        
-        
-        FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
+        FileDialog dialog = new FileDialog( parent.getShell(), SWT.OPEN );
         dialog.setText( "Select Keypair " ); //$NON-NLS-1$
-        dialog.setFilterExtensions(new String [] {"*.pub"}); // filter only pub keys //$NON-NLS-1$
-        //dialog.setFilterPath("c:\\temp");
+        dialog.setFilterExtensions( new String[]{
+          "*.pub"} ); // filter only pub keys //$NON-NLS-1$
+        // dialog.setFilterPath("c:\\temp");
         String result = dialog.open();
-        if (result != null){
-          
-          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
-          
+        if( result != null ) {
+          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName() );
-          deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );           //$NON-NLS-1$
+          deploymentArtifact.setArtifactType( new QName( "KeyPair" ) ); //$NON-NLS-1$
           createImageFeature.setContextObject( deploymentArtifact );
-          
           CreateContext createContext = new CreateContext();
-          createContext.setTargetContainer( (ContainerShape) getSelectedPictogramElement() );
-          
-          if ( createImageFeature.canCreate( createContext ))
+          createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );
+          if( createImageFeature.canCreate( createContext ) )
             createImageFeature.create( createContext );
-          
           refresh();
-                    
           // Add uploaded image to Project Artifacts folder
-          IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+          IWorkbenchPage activePage = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow()
+            .getActivePage();
           IEditorInput input = activePage.getActiveEditor().getEditorInput();
-          
           IFile file = null;
-          if ( input instanceof ToscaDiagramEditorInput ){
-            file = ((ToscaDiagramEditorInput) input).getToscaFile();
+          if( input instanceof ToscaDiagramEditorInput ) {
+            file = ( ( ToscaDiagramEditorInput )input ).getToscaFile();
           }
-                    
-          IProject project = file.getProject();                    
-          String target =  Platform.getLocation() + "/" + project.getName() + "/Artifacts/Deployment Scripts/" +  dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
-          
-          String source = dialog.getFilterPath() + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$
-               
+          IProject project = file.getProject();
+          String target = Platform.getLocation()
+                          + "/" + project.getName() + "/Artifacts/Deployment Scripts/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+          String source = dialog.getFilterPath()
+                          + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$
           File targetFile = new File( target );
-          if (!targetFile.exists()){
+          if( !targetFile.exists() ) {
             try {
-              new LocalFile(new File(source)).copy(new LocalFile(new File(target)), EFS.NONE, null);
+              new LocalFile( new File( source ) ).copy( new LocalFile( new File( target ) ),
+                                                        EFS.NONE,
+                                                        null );
             } catch( CoreException e1 ) {
               e1.printStackTrace();
-            }  
+            }
           }
-          
-//          File tmp = new File( targetPath );
-//          try {
-//            tmp.createNewFile();
-//            tmp.
-//          } catch( IOException e1 ) {
-//            // TODO Auto-generated catch block
-//            e1.printStackTrace();
-//          }
-
+          // File tmp = new File( targetPath );
+          // try {
+          // tmp.createNewFile();
+          // tmp.
+          // } catch( IOException e1 ) {
+          // // TODO Auto-generated catch block
+          // e1.printStackTrace();
+          // }
           IProgressMonitor monitor = null;
-          try {            
+          try {
             CloudModel.getRoot().refresh( monitor );
           } catch( ProblemException e2 ) {
             e2.printStackTrace();
           }
-          
           // Refresh Palette Compartments
-          getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
+          getDiagramTypeProvider().getFeatureProvider()
+            .getDiagramTypeProvider()
+            .getDiagramBehavior()
+            .refreshPalette();
           ApplicationComponentNameSection.this.keypairText.setText( dialog.getFileName() );
         }
       }
@@ -371,8 +692,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
         // TODO Auto-generated method stub
       }
     } );
-    
-    
     // Add section components to the toolkit
     toolkit.adapt( vmImageLabel, true, true );
     toolkit.adapt( this.cmbImageSize, true, true );
@@ -382,10 +701,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
     toolkit.adapt( this.imageText, true, true );
     toolkit.adapt( keypairLabel, true, true );
     toolkit.adapt( this.keypairText, true, true );
-    
+    toolkit.adapt( vmDecsrLabel, true, true );
+    toolkit.adapt( this.descrText, true, true);
     section.setClient( client );
-    
-    
     // Application Component Instances Section
     Section sectionInstances = toolkit.createSection( parent, Section.TITLE_BAR );
     sectionInstances.setText( "Number of Instances" ); //$NON-NLS-1$
@@ -399,10 +717,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     layoutInstances.marginHeight = 2;
     clientInstances.setLayout( layoutInstances );
     GridData gdInstances;
-    
-    
-    
-    CLabel initialInstancesLabel = factory.createCLabel( clientInstances, "Initial:" ); //$NON-NLS-1$
+    CLabel initialInstancesLabel = factory.createCLabel( clientInstances,
+                                                         "Initial:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -416,8 +732,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.widthHint = 160;
     this.initialInstancesText.setLayoutData( gdInstances );
     this.initialInstancesText.addModifyListener( this );
-    
-    
     CLabel minInstancesLabel = factory.createCLabel( clientInstances, "Min:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
@@ -432,7 +746,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.widthHint = 160;
     this.minInstancesText.setLayoutData( gdInstances );
     this.minInstancesText.addModifyListener( this );
-    
     CLabel maxInstancesLabel = factory.createCLabel( clientInstances, "Max:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
@@ -447,7 +760,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.widthHint = 160;
     this.maxInstancesText.setLayoutData( gdInstances );
     this.maxInstancesText.addModifyListener( this );
-    
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
     toolkit.adapt( this.nameText, true, true );
@@ -462,53 +774,34 @@ public class ApplicationComponentNameSection extends GFPropertySection
   }
 
   /*
-   *  Refresh values of max and min instances
+   * Refresh values of max and min instances
    */
   void refreshInstances() {
-    
     PictogramElement pe = getSelectedPictogramElement();
-    
     if( pe != null ) {
       Object bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
       if( bo == null )
         return;
-      
       TNodeTemplateExtension appComponent;
-      
-      if ( bo instanceof TDeploymentArtifact ){
-        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-        
-        appComponent =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-      }
-      else { // bo instanceof TNodeTemplate
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+          .getPictogramElementParent( pe );
+        appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
         appComponent = ( TNodeTemplateExtension )bo;
       }
-      
-      String initInstances =  Integer.toString( appComponent.getInitInstances() );
+      String initInstances = Integer.toString( appComponent.getInitInstances() );
       this.initialInstancesText.setText( initInstances );
-      
       String minInstances = Integer.toString( appComponent.getMinInstances() );
-      String maxInstances = ( (BigInteger)appComponent.getMaxInstances()).toString();
-      
-      // Node has just been created
-//      if (appComponent.getName() == null)
-//        return;
-      
-//      if( minInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
-//          && maxInstances.compareTo( "-1" ) == 0 //$NON-NLS-1$
-//          && this.nameText.getText().compareTo( "" ) == 0) //$NON-NLS-1$
-//      {
-//        return;
-//      }
-      
+      String maxInstances = ( ( BigInteger )appComponent.getMaxInstances() ).toString();
       if( minInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
         minInstances = ""; //$NON-NLS-1$
       if( maxInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
         maxInstances = ""; //$NON-NLS-1$
-
       this.minInstancesText.setText( minInstances );
-      this.maxInstancesText.setText( maxInstances ); 
+      this.maxInstancesText.setText( maxInstances );
     }
   }
 
@@ -519,47 +812,49 @@ public class ApplicationComponentNameSection extends GFPropertySection
     if( pe != null ) {
       final Object bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
-      
-      if ( bo == null )
+      if( bo == null )
         return;
-      
       TNodeTemplate appComponent;
-     
-      if ( bo instanceof TDeploymentArtifact ){
-        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-        
-        appComponent =  ( TNodeTemplate ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-      }
-      else { // bo instanceof TNodeTemplate
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+          .getPictogramElementParent( pe );
+        appComponent = ( TNodeTemplate )Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
         appComponent = ( TNodeTemplate )bo;
       }
-
       String name = appComponent.getName();
-      
       this.nameText.setText( name == null
-                                    ? "" : name ); //$NON-NLS-1$
+                                         ? "" : name ); //$NON-NLS-1$
       // set Image Artifact
       String imageName = null;
       TDeploymentArtifacts deploymentArtifacts = appComponent.getDeploymentArtifacts();
-      if( deploymentArtifacts != null ){
-          
-          for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
-          {
-            if( artifact.getArtifactType().toString().equals( "VMI" )){ //$NON-NLS-1$
-              imageName = artifact.getName();
-              break;
-            } 
+      if( deploymentArtifacts != null ) {
+        for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
+        {
+          if( artifact.getArtifactType().toString().equals( "VMI" ) ) { //$NON-NLS-1$
+            imageName = artifact.getName();
+            break;
           }
-
+        }
       }
       this.imageText.setText( imageName == null
-          ? "" : imageName ); //$NON-NLS-1$
-
+                                               ? "" : imageName ); //$NON-NLS-1$
       
-      if (!(bo instanceof TDeploymentArtifact))
+      // set VM Flavor
+      if ( appComponent.getProperties() != null ){
+        NodePropertiesType nodeProperties = (NodePropertiesType) appComponent.getProperties().getAny().get( 0 ).getValue();
+        String flavor = nodeProperties.getFlavor();
+        this.cmbImageSize.setText( flavor == null
+                                           ? "" : flavor ); //$NON-NLS-1$
+      }
+      else{
+        this.cmbImageSize.setText( "" );
+      }
+      
+      if( !( bo instanceof TDeploymentArtifact ) )
         refreshInstances();
     }
-
   }
 
   // Updates Application name or number of instances according the triggered
@@ -573,19 +868,15 @@ public class ApplicationComponentNameSection extends GFPropertySection
       // the filter assured, that it is a TNodeTemplate
       if( bo == null )
         return;
-      
       final TNodeTemplateExtension nodeTemplate;
-     
-      if ( bo instanceof TDeploymentArtifact ){
-        PictogramElement parentPE = Graphiti.getPeService().getPictogramElementParent( pe );
-        
-        nodeTemplate =  ( TNodeTemplateExtension ) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( parentPE );
-      }
-      else { // bo instanceof TNodeTemplate
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+          .getPictogramElementParent( pe );
+        nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
         nodeTemplate = ( TNodeTemplateExtension )bo;
       }
-      
-      
       // nameText Listener
       if( e.widget == this.nameText ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -597,7 +888,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
             }
           } );
       }
-      
       // minInstancesText Listener
       else if( e.widget == this.minInstancesText ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -605,14 +895,14 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              if (nodeTemplate != null) {
-              	if ( ApplicationComponentNameSection.this.minInstancesText.getText().equals( "" ) ){ //$NON-NLS-1$
-              		//nodeTemplate.setMinInstances( -1 ); 
-              	}
-              	else
-              		nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
+              if( nodeTemplate != null ) {
+                if( ApplicationComponentNameSection.this.minInstancesText.getText()
+                  .equals( "" ) ) { //$NON-NLS-1$
+                  // nodeTemplate.setMinInstances( -1 );
+                } else
+                  nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
               }
-            }              
+            }
           } );
       }
       // maxInstancesText Listener
@@ -622,113 +912,85 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-            	if ( ApplicationComponentNameSection.this.maxInstancesText.getText().compareTo("")==0 ){ //$NON-NLS-1$
-            		//nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf(-1) );
-            	}
-            	else
-            		nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
+              if( ApplicationComponentNameSection.this.maxInstancesText.getText()
+                .compareTo( "" ) == 0 ) { //$NON-NLS-1$
+                // nodeTemplate.setMaxInstances( ( BigInteger
+                // )BigInteger.valueOf(-1) );
+              } else
+                nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }
           } );
       }
       // initialInstancesText Listener
       else if( e.widget == this.initialInstancesText ) {
-    	  
-    	  if ( ApplicationComponentNameSection.this.initialInstancesText.getText().compareTo("")==0 ){ //$NON-NLS-1$
-  	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-  	        editingDomain.getCommandStack()
-  	          .execute( new RecordingCommand( editingDomain ) {
-
-  	            protected void doExecute() {
-  	            	nodeTemplate.setInitInstances( 1 );
-  	            }
-  	          } );
-    	  }
-    		  
-    	  else if ( nodeTemplate.getInitInstances() != Integer.parseInt(ApplicationComponentNameSection.this.initialInstancesText.getText() )){
-    	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-    	        editingDomain.getCommandStack()
-    	          .execute( new RecordingCommand( editingDomain ) {
-
-    	            protected void doExecute() {
-    	            	nodeTemplate.setInitInstances( Integer.parseInt(ApplicationComponentNameSection.this.initialInstancesText.getText()) );
-    	            }
-    	          } );
-    	  }
-    	  
-    	  
-    	  TransactionalEditingDomain editingDomain;
-        if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("ycsb") && nodeTemplate.getYcsbmulti()!=nodeTemplate.getInitInstances()){ //$NON-NLS-1$
-            editingDomain = TransactionUtil.getEditingDomain( bo );
-            editingDomain.getCommandStack()
-              .execute( new RecordingCommand( editingDomain ) {
-
-                protected void doExecute() {
-              
-            		 nodeTemplate.setYcsbmulti( nodeTemplate.getInitInstances() );
-
-            	
-                }
-              } );
-        }
-        else if ( nodeTemplate.getName()!=null && nodeTemplate.getName().toLowerCase().contains("cassandra") && nodeTemplate.getCasmulti()!=nodeTemplate.getInitInstances()){ //$NON-NLS-1$
-            editingDomain = TransactionUtil.getEditingDomain( bo );
-            editingDomain.getCommandStack()
-              .execute( new RecordingCommand( editingDomain ) {
-
-                protected void doExecute() {
-              
-                	nodeTemplate.setCasmulti( nodeTemplate.getInitInstances() );
-            	  
-            	
-                }
-              } );
-        }
-        
-
-      }
-    }
-  }
-
-  /* (non-Javadoc)
-   * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-   */
-  @Override
-  public void widgetSelected( final SelectionEvent e ) {
-
-    PictogramElement pe = getSelectedPictogramElement();
-    if( pe != null ) {
-      final Object bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
-      // the filter assured, that it is a TNodeTemplate
-      if( bo == null )
-        return;
-          
-      final TDeploymentArtifact deploymentArtifact;
-      
-      if( bo instanceof TDeploymentArtifact ) {
-        deploymentArtifact = (TDeploymentArtifact) bo;
-        
-        // nameText Listener
-        if( e.widget == this.cmbImageSize ) {
+        if( ApplicationComponentNameSection.this.initialInstancesText.getText()
+          .compareTo( "" ) == 0 ) { //$NON-NLS-1$
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
 
               protected void doExecute() {
-                deploymentArtifact.setArtifactType( QName.valueOf( ApplicationComponentNameSection.this.cmbImageSize.getText() ) );
+                nodeTemplate.setInitInstances( 1 );
+              }
+            } );
+        } else if( nodeTemplate.getInitInstances() != Integer.parseInt( ApplicationComponentNameSection.this.initialInstancesText.getText() ) )
+        {
+          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+          editingDomain.getCommandStack()
+            .execute( new RecordingCommand( editingDomain ) {
+
+              protected void doExecute() {
+                nodeTemplate.setInitInstances( Integer.parseInt( ApplicationComponentNameSection.this.initialInstancesText.getText() ) );
               }
             } );
         }
       }
-
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-   */
+  private void createNodeFlavorProperties( String flavor ) {
+    PictogramElement pe = getSelectedPictogramElement();
+    final TNodeTemplateExtension appComponent;
+    Object bo = Graphiti.getLinkService()
+      .getBusinessObjectForLinkedPictogramElement( pe );
+    if( bo == null )
+      return;
+    if( bo instanceof TDeploymentArtifact ) {
+      PictogramElement parentPE = Graphiti.getPeService()
+        .getPictogramElementParent( pe );
+      appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement( parentPE );
+    } else { // bo instanceof TNodeTemplate
+      appComponent = ( TNodeTemplateExtension )bo;
+    }
+    // Create Flavor Properties
+    NodePropertiesType nodeProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createNodePropertiesType();
+    nodeProperties.setFlavor( flavor );
+    // Set the Properties of the Policy Template
+    final PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();
+    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
+    Entry e = FeatureMapUtil.createEntry( Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_NodeProperties(),
+                                          nodeProperties );
+    properties.getAny().add( e );
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( appComponent );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          appComponent.setProperties( properties );
+        }
+      } );
+  }
+
   @Override
-  public void widgetDefaultSelected( final SelectionEvent e ) {
+  public void widgetSelected( SelectionEvent e ) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void widgetDefaultSelected( SelectionEvent e ) {
     // TODO Auto-generated method stub
     
   }

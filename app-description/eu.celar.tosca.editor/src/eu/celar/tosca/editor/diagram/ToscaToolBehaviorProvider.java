@@ -586,13 +586,32 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         compartmentEntry.addToolEntry( stackEntry );
         compartmentEntry.setInitiallyOpen( false );   
         
+        IFeatureProvider featureProvider = getFeatureProvider();
+        ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+        for( ICreateFeature cf : createFeatures ) {
+          if( cf instanceof CreateMonitorProbeFeature ) {
+            CreateMonitorProbeFeature mpCF = ( CreateMonitorProbeFeature )cf;
+
+            TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+            deploymentArtifact.setName( mp.getName() );
+            deploymentArtifact.setArtifactType( new QName( "MonitoringProbe" ) );
+            mpCF.setContextObject( deploymentArtifact );
+
+            ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( mp.getName(),
+                                                                                           mpCF.getName(),
+                                                                                           mpCF.getCreateImageId(),
+                                                                                           mpCF.getCreateLargeImageId(),
+                                                                                           mpCF );
+            stackEntry.addCreationToolEntry( objectCreationToolEntry );
+          }
+        }
+        
         String[] metrics = (metricsString.substring( 1, metricsString.length()-1 )).split( "," );
         for ( String metric : metrics){
-          String metricLabel = metric.substring( 1, metric.length()-1 );
-
+          String metricLabel = metric.replace( "\"", "" );
           // add all create-features to the new stack-entry
-          IFeatureProvider featureProvider = getFeatureProvider();
-          ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+          featureProvider = getFeatureProvider();
+          createFeatures = featureProvider.getCreateFeatures();
           for( ICreateFeature cf : createFeatures ) {
             if( cf instanceof CreateMonitorProbeFeature ) {
               CreateMonitorProbeFeature mpCF = ( CreateMonitorProbeFeature )cf;
@@ -615,7 +634,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         }
       }
       else{
-
+      // Custom Monitoring Probes
       // add all create-features to the new stack-entry
       IFeatureProvider featureProvider = getFeatureProvider();
       ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();

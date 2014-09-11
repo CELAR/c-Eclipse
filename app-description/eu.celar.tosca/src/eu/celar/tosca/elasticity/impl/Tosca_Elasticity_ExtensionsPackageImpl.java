@@ -8,10 +8,14 @@ import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCatego
 import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
 import eu.celar.tosca.elasticity.DataHintCategory;
 import eu.celar.tosca.elasticity.DataHintsType1;
+import eu.celar.tosca.elasticity.DocumentRoot;
 import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
+import eu.celar.tosca.elasticity.ImageArtifactProperties;
+import eu.celar.tosca.elasticity.ImageArtifactPropertiesType;
 import eu.celar.tosca.elasticity.LoadHintCategory;
 import eu.celar.tosca.elasticity.LoadHintsType1;
 import eu.celar.tosca.elasticity.MonitoringProbesType1;
+import eu.celar.tosca.elasticity.NodePropertiesType;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.TDataHint;
 import eu.celar.tosca.elasticity.TLoadHint;
@@ -56,6 +60,20 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass documentRootEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass imageArtifactPropertiesTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass loadHintsType1EClass = null;
 
   /**
@@ -64,6 +82,13 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * @generated
    */
   private EClass monitoringProbesType1EClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass nodePropertiesTypeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -274,6 +299,86 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getDocumentRoot()
+  {
+    return documentRootEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getDocumentRoot_Mixed()
+  {
+    return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_XMLNSPrefixMap()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_XSISchemaLocation()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_ImageArtifactProperties()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_NodeProperties()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getImageArtifactPropertiesType()
+  {
+    return imageArtifactPropertiesTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getImageArtifactPropertiesType_Flavor()
+  {
+    return (EAttribute)imageArtifactPropertiesTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getLoadHintsType1()
   {
     return loadHintsType1EClass;
@@ -307,6 +412,26 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
   public EReference getMonitoringProbesType1_MonitoringProbes()
   {
     return (EReference)monitoringProbesType1EClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getNodePropertiesType()
+  {
+    return nodePropertiesTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getNodePropertiesType_Flavor()
+  {
+    return (EAttribute)nodePropertiesTypeEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -672,11 +797,24 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     dataHintsType1EClass = createEClass(DATA_HINTS_TYPE1);
     createEReference(dataHintsType1EClass, DATA_HINTS_TYPE1__DATA_HINTS);
 
+    documentRootEClass = createEClass(DOCUMENT_ROOT);
+    createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__IMAGE_ARTIFACT_PROPERTIES);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__NODE_PROPERTIES);
+
+    imageArtifactPropertiesTypeEClass = createEClass(IMAGE_ARTIFACT_PROPERTIES_TYPE);
+    createEAttribute(imageArtifactPropertiesTypeEClass, IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR);
+
     loadHintsType1EClass = createEClass(LOAD_HINTS_TYPE1);
     createEReference(loadHintsType1EClass, LOAD_HINTS_TYPE1__LOAD_HINTS);
 
     monitoringProbesType1EClass = createEClass(MONITORING_PROBES_TYPE1);
     createEReference(monitoringProbesType1EClass, MONITORING_PROBES_TYPE1__MONITORING_PROBES);
+
+    nodePropertiesTypeEClass = createEClass(NODE_PROPERTIES_TYPE);
+    createEAttribute(nodePropertiesTypeEClass, NODE_PROPERTIES_TYPE__FLAVOR);
 
     tBoundaryDefinitionsExtensionEClass = createEClass(TBOUNDARY_DEFINITIONS_EXTENSION);
     createEReference(tBoundaryDefinitionsExtensionEClass, TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
@@ -747,8 +885,8 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    ToscaPackage theToscaPackage = (ToscaPackage)EPackage.Registry.INSTANCE.getEPackage(ToscaPackage.eNS_URI);
     XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    ToscaPackage theToscaPackage = (ToscaPackage)EPackage.Registry.INSTANCE.getEPackage(ToscaPackage.eNS_URI);
 
     // Create type parameters
 
@@ -766,11 +904,24 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEClass(dataHintsType1EClass, DataHintsType1.class, "DataHintsType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getDataHintsType1_DataHints(), this.getTDataHint(), null, "dataHints", null, 1, -1, DataHintsType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_ImageArtifactProperties(), this.getImageArtifactPropertiesType(), null, "imageArtifactProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_NodeProperties(), this.getNodePropertiesType(), null, "nodeProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+    initEClass(imageArtifactPropertiesTypeEClass, ImageArtifactPropertiesType.class, "ImageArtifactPropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getImageArtifactPropertiesType_Flavor(), theXMLTypePackage.getString(), "flavor", null, 1, 1, ImageArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(loadHintsType1EClass, LoadHintsType1.class, "LoadHintsType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getLoadHintsType1_LoadHints(), this.getTLoadHint(), null, "loadHints", null, 1, -1, LoadHintsType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(monitoringProbesType1EClass, MonitoringProbesType1.class, "MonitoringProbesType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMonitoringProbesType1_MonitoringProbes(), this.getTMonitoringProbe(), null, "monitoringProbes", null, 1, -1, MonitoringProbesType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(nodePropertiesTypeEClass, NodePropertiesType.class, "NodePropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getNodePropertiesType_Flavor(), theXMLTypePackage.getString(), "flavor", null, 1, 1, NodePropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tBoundaryDefinitionsExtensionEClass, TBoundaryDefinitionsExtension.class, "TBoundaryDefinitionsExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTBoundaryDefinitionsExtension_MonitoringProbes(), this.getMonitoringProbesType1(), null, "monitoringProbes", null, 0, 1, TBoundaryDefinitionsExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -913,6 +1064,56 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "namespace", "##targetNamespace"
        });		
     addAnnotation
+      (documentRootEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "",
+       "kind", "mixed"
+       });		
+    addAnnotation
+      (getDocumentRoot_Mixed(), 
+       source, 
+       new String[] 
+       {
+       "kind", "elementWildcard",
+       "name", ":mixed"
+       });		
+    addAnnotation
+      (getDocumentRoot_XMLNSPrefixMap(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "xmlns:prefix"
+       });		
+    addAnnotation
+      (getDocumentRoot_XSISchemaLocation(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "xsi:schemaLocation"
+       });		
+    addAnnotation
+      (getDocumentRoot_ImageArtifactProperties(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "ImageArtifactProperties",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getDocumentRoot_NodeProperties(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "NodeProperties",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
       (elasticityRequirementCategoryEEnum, 
        source, 
        new String[] 
@@ -926,6 +1127,23 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "ElasticityRequirementCategory:Object",
        "baseType", "ElasticityRequirementCategory"
+       });		
+    addAnnotation
+      (imageArtifactPropertiesTypeEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "ImageArtifactPropertiesType",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getImageArtifactPropertiesType_Flavor(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Flavor",
+       "namespace", "##targetNamespace"
        });		
     addAnnotation
       (loadHintCategoryEEnum, 
@@ -974,6 +1192,23 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "element",
        "name", "monitoringProbes",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (nodePropertiesTypeEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "NodePropertiesType",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getNodePropertiesType_Flavor(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Flavor",
        "namespace", "##targetNamespace"
        });		
     addAnnotation

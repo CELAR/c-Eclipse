@@ -4,6 +4,10 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -11,11 +15,19 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 
+import eu.celar.tosca.DefinitionsType;
+import eu.celar.tosca.PropertiesType;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.ImageArtifactPropertiesType;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 public class CreateVMIFeature extends AbstractCreateFeature {
 
@@ -54,11 +66,6 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     if( parentObject instanceof TNodeTemplate ) {
       tNode = ( TNodeTemplate )parentObject;
     }
-    
-//    VirtualMachineImage vmi = ( VirtualMachineImage )this.contextObject;
-//    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-//    deploymentArtifact.setName( vmi.getName() );
-//    deploymentArtifact.setArtifactType( new QName( "VMI" ) );
 
 
     if( tNode.getDeploymentArtifacts() == null ) {
@@ -101,7 +108,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
     deploymentArtifact.setName( tempDeploymentArtifact.getName() );
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
-    
+    deploymentArtifact.setArtifactRef( new QName (tNode.getName() + "Image" ));
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
@@ -119,11 +126,55 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     addGraphicalRepresentation( context, deploymentArtifact );
     /////////////////////////////////////////////
 
+    //Create Image Artifact Template
+    createArtifactTemplate(tNode.getName(), "not_specified");
+    
+    
+    
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
     // return newly created business object(s)
     return new Object[]{
       deploymentArtifact
     };
+  }
+  
+  private void createArtifactTemplate(String artifactName, String flavor){
+    
+    //Create Artifact Template
+    final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
+    
+    //Create Image Artifact Properties
+    ImageArtifactPropertiesType imageProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createImageArtifactPropertiesType();
+    imageProperties.setFlavor( flavor );
+    
+    // Set the Properties of the Policy Template    
+    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();   
+    
+    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
+    Entry e = FeatureMapUtil.createEntry(     Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ImageArtifactProperties(),  imageProperties );
+    properties.getAny().add( e );      
+    
+    artifactTemplate.setProperties( properties );
+    
+    artifactTemplate.setId( artifactName + "Image" );
+    
+    // Add the new Artifact Template to the TOSCA Definitions element
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+       
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot().getDefinitions().getArtifactTemplate().add( artifactTemplate );
+          
+        }
+      } );
+
   }
 }

@@ -111,7 +111,7 @@ public class ElasticityConstraintDialog extends Dialog {
         this.cmbGlobalElasticityReq.add(mp.getName());
       }
     }
-    
+
     Composite valueComposite = new Composite( composite, SWT.NONE );
     gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );

@@ -86,6 +86,16 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
         return createDataHintsType1Adapter();
       }
       @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
+      {
+        return createDocumentRootAdapter();
+      }
+      @Override
+      public Adapter caseImageArtifactPropertiesType(ImageArtifactPropertiesType object)
+      {
+        return createImageArtifactPropertiesTypeAdapter();
+      }
+      @Override
       public Adapter caseLoadHintsType1(LoadHintsType1 object)
       {
         return createLoadHintsType1Adapter();
@@ -94,6 +104,11 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
       public Adapter caseMonitoringProbesType1(MonitoringProbesType1 object)
       {
         return createMonitoringProbesType1Adapter();
+      }
+      @Override
+      public Adapter caseNodePropertiesType(NodePropertiesType object)
+      {
+        return createNodePropertiesTypeAdapter();
       }
       @Override
       public Adapter caseTBoundaryDefinitionsExtension(TBoundaryDefinitionsExtension object)
@@ -188,6 +203,36 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.DocumentRoot <em>Document Root</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.DocumentRoot
+   * @generated
+   */
+  public Adapter createDocumentRootAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType <em>Image Artifact Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.ImageArtifactPropertiesType
+   * @generated
+   */
+  public Adapter createImageArtifactPropertiesTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.LoadHintsType1 <em>Load Hints Type1</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -213,6 +258,21 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createMonitoringProbesType1Adapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.NodePropertiesType <em>Node Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.NodePropertiesType
+   * @generated
+   */
+  public Adapter createNodePropertiesTypeAdapter()
   {
     return null;
   }

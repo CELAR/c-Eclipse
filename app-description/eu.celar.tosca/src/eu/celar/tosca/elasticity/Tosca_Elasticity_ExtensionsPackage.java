@@ -247,6 +247,98 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int DATA_HINTS_TYPE1_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl <em>Document Root</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.impl.DocumentRootImpl
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDocumentRoot()
+   * @generated
+   */
+  int DOCUMENT_ROOT = 1;
+
+  /**
+   * The feature id for the '<em><b>Mixed</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__MIXED = 0;
+
+  /**
+   * The feature id for the '<em><b>XMLNS Prefix Map</b></em>' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__XMLNS_PREFIX_MAP = 1;
+
+  /**
+   * The feature id for the '<em><b>XSI Schema Location</b></em>' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
+
+  /**
+   * The feature id for the '<em><b>Image Artifact Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__IMAGE_ARTIFACT_PROPERTIES = 3;
+
+  /**
+   * The feature id for the '<em><b>Node Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT__NODE_PROPERTIES = 4;
+
+  /**
+   * The number of structural features of the '<em>Document Root</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DOCUMENT_ROOT_FEATURE_COUNT = 5;
+
+  /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl <em>Image Artifact Properties Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getImageArtifactPropertiesType()
+   * @generated
+   */
+  int IMAGE_ARTIFACT_PROPERTIES_TYPE = 2;
+
+  /**
+   * The feature id for the '<em><b>Flavor</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR = 0;
+
+  /**
+   * The number of structural features of the '<em>Image Artifact Properties Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMAGE_ARTIFACT_PROPERTIES_TYPE_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.LoadHintsType1Impl <em>Load Hints Type1</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -254,7 +346,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintsType1()
    * @generated
    */
-  int LOAD_HINTS_TYPE1 = 1;
+  int LOAD_HINTS_TYPE1 = 3;
 
   /**
    * The feature id for the '<em><b>Load Hints</b></em>' containment reference list.
@@ -282,7 +374,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getMonitoringProbesType1()
    * @generated
    */
-  int MONITORING_PROBES_TYPE1 = 2;
+  int MONITORING_PROBES_TYPE1 = 4;
 
   /**
    * The feature id for the '<em><b>Monitoring Probes</b></em>' containment reference list.
@@ -303,6 +395,34 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int MONITORING_PROBES_TYPE1_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.NodePropertiesTypeImpl <em>Node Properties Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.tosca.elasticity.impl.NodePropertiesTypeImpl
+   * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getNodePropertiesType()
+   * @generated
+   */
+  int NODE_PROPERTIES_TYPE = 5;
+
+  /**
+   * The feature id for the '<em><b>Flavor</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_PROPERTIES_TYPE__FLAVOR = 0;
+
+  /**
+   * The number of structural features of the '<em>Node Properties Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_PROPERTIES_TYPE_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl <em>TBoundary Definitions Extension</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -310,7 +430,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTBoundaryDefinitionsExtension()
    * @generated
    */
-  int TBOUNDARY_DEFINITIONS_EXTENSION = 3;
+  int TBOUNDARY_DEFINITIONS_EXTENSION = 6;
 
   /**
    * The feature id for the '<em><b>Properties</b></em>' containment reference.
@@ -392,7 +512,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTDataHint()
    * @generated
    */
-  int TDATA_HINT = 4;
+  int TDATA_HINT = 7;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -456,7 +576,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTLoadHint()
    * @generated
    */
-  int TLOAD_HINT = 5;
+  int TLOAD_HINT = 8;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -520,7 +640,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTMonitoringProbe()
    * @generated
    */
-  int TMONITORING_PROBE = 6;
+  int TMONITORING_PROBE = 9;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -575,7 +695,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTNodeTemplateExtension()
    * @generated
    */
-  int TNODE_TEMPLATE_EXTENSION = 7;
+  int TNODE_TEMPLATE_EXTENSION = 10;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -783,7 +903,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getTServiceTemplateExtension()
    * @generated
    */
-  int TSERVICE_TEMPLATE_EXTENSION = 8;
+  int TSERVICE_TEMPLATE_EXTENSION = 11;
 
   /**
    * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -937,7 +1057,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategory()
    * @generated
    */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 9;
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY = 12;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.ApplicationPolicyCategory <em>Application Policy Category</em>}' enum.
@@ -947,7 +1067,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategory()
    * @generated
    */
-  int APPLICATION_POLICY_CATEGORY = 10;
+  int APPLICATION_POLICY_CATEGORY = 13;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.DataHintCategory <em>Data Hint Category</em>}' enum.
@@ -957,7 +1077,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategory()
    * @generated
    */
-  int DATA_HINT_CATEGORY = 11;
+  int DATA_HINT_CATEGORY = 14;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.ElasticityRequirementCategory <em>Elasticity Requirement Category</em>}' enum.
@@ -967,7 +1087,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategory()
    * @generated
    */
-  int ELASTICITY_REQUIREMENT_CATEGORY = 12;
+  int ELASTICITY_REQUIREMENT_CATEGORY = 15;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.LoadHintCategory <em>Load Hint Category</em>}' enum.
@@ -977,7 +1097,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategory()
    * @generated
    */
-  int LOAD_HINT_CATEGORY = 13;
+  int LOAD_HINT_CATEGORY = 16;
 
   /**
    * The meta object id for the '<em>Application Component Elasticity Requirement Category Object</em>' data type.
@@ -987,7 +1107,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationComponentElasticityRequirementCategoryObject()
    * @generated
    */
-  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 14;
+  int APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 17;
 
   /**
    * The meta object id for the '<em>Application Policy Category Object</em>' data type.
@@ -997,7 +1117,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getApplicationPolicyCategoryObject()
    * @generated
    */
-  int APPLICATION_POLICY_CATEGORY_OBJECT = 15;
+  int APPLICATION_POLICY_CATEGORY_OBJECT = 18;
 
   /**
    * The meta object id for the '<em>Data Hint Category Object</em>' data type.
@@ -1007,7 +1127,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDataHintCategoryObject()
    * @generated
    */
-  int DATA_HINT_CATEGORY_OBJECT = 16;
+  int DATA_HINT_CATEGORY_OBJECT = 19;
 
   /**
    * The meta object id for the '<em>Elasticity Requirement Category Object</em>' data type.
@@ -1017,7 +1137,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getElasticityRequirementCategoryObject()
    * @generated
    */
-  int ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 17;
+  int ELASTICITY_REQUIREMENT_CATEGORY_OBJECT = 20;
 
   /**
    * The meta object id for the '<em>Load Hint Category Object</em>' data type.
@@ -1027,7 +1147,7 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getLoadHintCategoryObject()
    * @generated
    */
-  int LOAD_HINT_CATEGORY_OBJECT = 18;
+  int LOAD_HINT_CATEGORY_OBJECT = 21;
 
 
   /**
@@ -1050,6 +1170,92 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EReference getDataHintsType1_DataHints();
+
+  /**
+   * Returns the meta object for class '{@link eu.celar.tosca.elasticity.DocumentRoot <em>Document Root</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Document Root</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot
+   * @generated
+   */
+  EClass getDocumentRoot();
+
+  /**
+   * Returns the meta object for the attribute list '{@link eu.celar.tosca.elasticity.DocumentRoot#getMixed <em>Mixed</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Mixed</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot#getMixed()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EAttribute getDocumentRoot_Mixed();
+
+  /**
+   * Returns the meta object for the map '{@link eu.celar.tosca.elasticity.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the map '<em>XMLNS Prefix Map</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot#getXMLNSPrefixMap()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_XMLNSPrefixMap();
+
+  /**
+   * Returns the meta object for the map '{@link eu.celar.tosca.elasticity.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the map '<em>XSI Schema Location</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot#getXSISchemaLocation()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_XSISchemaLocation();
+
+  /**
+   * Returns the meta object for the containment reference '{@link eu.celar.tosca.elasticity.DocumentRoot#getImageArtifactProperties <em>Image Artifact Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Image Artifact Properties</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot#getImageArtifactProperties()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_ImageArtifactProperties();
+
+  /**
+   * Returns the meta object for the containment reference '{@link eu.celar.tosca.elasticity.DocumentRoot#getNodeProperties <em>Node Properties</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Node Properties</em>'.
+   * @see eu.celar.tosca.elasticity.DocumentRoot#getNodeProperties()
+   * @see #getDocumentRoot()
+   * @generated
+   */
+  EReference getDocumentRoot_NodeProperties();
+
+  /**
+   * Returns the meta object for class '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType <em>Image Artifact Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Image Artifact Properties Type</em>'.
+   * @see eu.celar.tosca.elasticity.ImageArtifactPropertiesType
+   * @generated
+   */
+  EClass getImageArtifactPropertiesType();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getFlavor <em>Flavor</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Flavor</em>'.
+   * @see eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getFlavor()
+   * @see #getImageArtifactPropertiesType()
+   * @generated
+   */
+  EAttribute getImageArtifactPropertiesType_Flavor();
 
   /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.LoadHintsType1 <em>Load Hints Type1</em>}'.
@@ -1092,6 +1298,27 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
    * @generated
    */
   EReference getMonitoringProbesType1_MonitoringProbes();
+
+  /**
+   * Returns the meta object for class '{@link eu.celar.tosca.elasticity.NodePropertiesType <em>Node Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Node Properties Type</em>'.
+   * @see eu.celar.tosca.elasticity.NodePropertiesType
+   * @generated
+   */
+  EClass getNodePropertiesType();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.NodePropertiesType#getFlavor <em>Flavor</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Flavor</em>'.
+   * @see eu.celar.tosca.elasticity.NodePropertiesType#getFlavor()
+   * @see #getNodePropertiesType()
+   * @generated
+   */
+  EAttribute getNodePropertiesType_Flavor();
 
   /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension <em>TBoundary Definitions Extension</em>}'.
@@ -1492,6 +1719,74 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
     EReference DATA_HINTS_TYPE1__DATA_HINTS = eINSTANCE.getDataHintsType1_DataHints();
 
     /**
+     * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.tosca.elasticity.impl.DocumentRootImpl
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Image Artifact Properties</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__IMAGE_ARTIFACT_PROPERTIES = eINSTANCE.getDocumentRoot_ImageArtifactProperties();
+
+    /**
+     * The meta object literal for the '<em><b>Node Properties</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__NODE_PROPERTIES = eINSTANCE.getDocumentRoot_NodeProperties();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl <em>Image Artifact Properties Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getImageArtifactPropertiesType()
+     * @generated
+     */
+    EClass IMAGE_ARTIFACT_PROPERTIES_TYPE = eINSTANCE.getImageArtifactPropertiesType();
+
+    /**
+     * The meta object literal for the '<em><b>Flavor</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR = eINSTANCE.getImageArtifactPropertiesType_Flavor();
+
+    /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.LoadHintsType1Impl <em>Load Hints Type1</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1526,6 +1821,24 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EReference MONITORING_PROBES_TYPE1__MONITORING_PROBES = eINSTANCE.getMonitoringProbesType1_MonitoringProbes();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.NodePropertiesTypeImpl <em>Node Properties Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.tosca.elasticity.impl.NodePropertiesTypeImpl
+     * @see eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl#getNodePropertiesType()
+     * @generated
+     */
+    EClass NODE_PROPERTIES_TYPE = eINSTANCE.getNodePropertiesType();
+
+    /**
+     * The meta object literal for the '<em><b>Flavor</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NODE_PROPERTIES_TYPE__FLAVOR = eINSTANCE.getNodePropertiesType_Flavor();
 
     /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl <em>TBoundary Definitions Extension</em>}' class.

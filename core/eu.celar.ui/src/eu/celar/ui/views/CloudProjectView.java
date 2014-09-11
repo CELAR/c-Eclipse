@@ -15,10 +15,13 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
@@ -48,6 +51,7 @@ public class CloudProjectView extends TreeControlViewPart  {
     
     this.partListener = new CloudProjectPartListener( this.editorActions );
     getSite().getPage().addPartListener( this.partListener );   
+        
   }
   
   /* (non-Javadoc)

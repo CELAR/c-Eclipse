@@ -22,8 +22,8 @@ public class StyleUtil {
   private static final IColorConstant T_NODE_TEMPLATE_FOREGROUND = new ColorConstant( 98,
                                                                                       131,
                                                                                       167 );
-  public static final int APP_COMPONENT_WIDTH = 166;
-  public static final int APP_COMPONENT_HEIGHT = 180;
+  public static final int APP_COMPONENT_WIDTH = 146;
+  public static final int APP_COMPONENT_HEIGHT = 160;
   public static final int SOFT_DEPENDENCIES_COMP_WIDTH = 140;
   public static final int SOFT_DEPENDENCIES_COMP_INIT_HEIGHT = 15;
   public static final int SOFT_DEPENDENCY_WIDTH = SOFT_DEPENDENCIES_COMP_WIDTH - 20;

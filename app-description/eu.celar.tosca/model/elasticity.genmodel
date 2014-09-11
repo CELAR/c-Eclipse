@@ -108,11 +108,24 @@
     <genClasses ecoreClass="extension.ecore#//DataHintsType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DataHintsType1/dataHints"/>
     </genClasses>
+    <genClasses ecoreClass="extension.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/imageArtifactProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/nodeProperties"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//ImageArtifactPropertiesType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ImageArtifactPropertiesType/flavor"/>
+    </genClasses>
     <genClasses ecoreClass="extension.ecore#//LoadHintsType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//LoadHintsType1/loadHints"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//MonitoringProbesType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//MonitoringProbesType1/monitoringProbes"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//NodePropertiesType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//NodePropertiesType/flavor"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TBoundaryDefinitionsExtension">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/monitoringProbes"/>

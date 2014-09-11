@@ -32,6 +32,24 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   DataHintsType1 createDataHintsType1();
 
   /**
+   * Returns a new object of class '<em>Document Root</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Document Root</em>'.
+   * @generated
+   */
+  DocumentRoot createDocumentRoot();
+
+  /**
+   * Returns a new object of class '<em>Image Artifact Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Image Artifact Properties Type</em>'.
+   * @generated
+   */
+  ImageArtifactPropertiesType createImageArtifactPropertiesType();
+
+  /**
    * Returns a new object of class '<em>Load Hints Type1</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,6 +66,15 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   MonitoringProbesType1 createMonitoringProbesType1();
+
+  /**
+   * Returns a new object of class '<em>Node Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Node Properties Type</em>'.
+   * @generated
+   */
+  NodePropertiesType createNodePropertiesType();
 
   /**
    * Returns a new object of class '<em>TBoundary Definitions Extension</em>'.

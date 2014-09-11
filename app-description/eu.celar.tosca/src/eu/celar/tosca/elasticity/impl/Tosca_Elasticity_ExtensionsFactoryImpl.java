@@ -66,8 +66,11 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
     switch (eClass.getClassifierID())
     {
       case Tosca_Elasticity_ExtensionsPackage.DATA_HINTS_TYPE1: return createDataHintsType1();
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT: return createDocumentRoot();
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE: return createImageArtifactPropertiesType();
       case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1: return createLoadHintsType1();
       case Tosca_Elasticity_ExtensionsPackage.MONITORING_PROBES_TYPE1: return createMonitoringProbesType1();
+      case Tosca_Elasticity_ExtensionsPackage.NODE_PROPERTIES_TYPE: return createNodePropertiesType();
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION: return createTBoundaryDefinitionsExtension();
       case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT: return createTDataHint();
       case Tosca_Elasticity_ExtensionsPackage.TLOAD_HINT: return createTLoadHint();
@@ -165,6 +168,28 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public DocumentRoot createDocumentRoot()
+  {
+    DocumentRootImpl documentRoot = new DocumentRootImpl();
+    return documentRoot;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ImageArtifactPropertiesType createImageArtifactPropertiesType()
+  {
+    ImageArtifactPropertiesTypeImpl imageArtifactPropertiesType = new ImageArtifactPropertiesTypeImpl();
+    return imageArtifactPropertiesType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public LoadHintsType1 createLoadHintsType1()
   {
     LoadHintsType1Impl loadHintsType1 = new LoadHintsType1Impl();
@@ -180,6 +205,17 @@ public class Tosca_Elasticity_ExtensionsFactoryImpl extends EFactoryImpl impleme
   {
     MonitoringProbesType1Impl monitoringProbesType1 = new MonitoringProbesType1Impl();
     return monitoringProbesType1;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NodePropertiesType createNodePropertiesType()
+  {
+    NodePropertiesTypeImpl nodePropertiesType = new NodePropertiesTypeImpl();
+    return nodePropertiesType;
   }
 
   /**
