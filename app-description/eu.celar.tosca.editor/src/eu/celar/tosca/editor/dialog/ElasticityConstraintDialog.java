@@ -43,7 +43,6 @@ import org.example.sybl.ToEnforceType1;
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.MonitoringProbe;
-import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
 
 public class ElasticityConstraintDialog extends Dialog {
 
@@ -102,10 +101,11 @@ public class ElasticityConstraintDialog extends Dialog {
     for (MonitoringProbe mp : mps){
       String metricsString = mp.getDescription();
       if (metricsString.equals( "" )==false){
-      String[] metrics = (metricsString.substring( 1, metricsString.length()-1 )).split( "," );
+        metricsString = metricsString.substring( 2, metricsString.length()-2 );
+        metricsString = metricsString.replace( "\"", "" );
+      String[] metrics = metricsString.split( "," );
       for (String metric : metrics)
-        this.cmbGlobalElasticityReq.add(metric.substring( 1, metric.length()-1 ));
-      //this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
+        this.cmbGlobalElasticityReq.add(metric);
       }
       else{
         this.cmbGlobalElasticityReq.add(mp.getName());

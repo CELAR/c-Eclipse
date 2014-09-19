@@ -5,6 +5,8 @@ package eu.celar.tosca.elasticity.impl;
 import eu.celar.tosca.elasticity.DocumentRoot;
 import eu.celar.tosca.elasticity.ImageArtifactPropertiesType;
 import eu.celar.tosca.elasticity.NodePropertiesType;
+import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -36,6 +38,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl#getImageArtifactProperties <em>Image Artifact Properties</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl#getNodeProperties <em>Node Properties</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl#getScriptArtifactProperties <em>Script Artifact Properties</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.DocumentRootImpl#getServiceProperties <em>Service Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -192,6 +196,66 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  public ScriptArtifactPropertiesType getScriptArtifactProperties()
+  {
+    return (ScriptArtifactPropertiesType)getMixed().get(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetScriptArtifactProperties(ScriptArtifactPropertiesType newScriptArtifactProperties, NotificationChain msgs)
+  {
+    return ((FeatureMap.Internal)getMixed()).basicAdd(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES, newScriptArtifactProperties, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setScriptArtifactProperties(ScriptArtifactPropertiesType newScriptArtifactProperties)
+  {
+    ((FeatureMap.Internal)getMixed()).set(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES, newScriptArtifactProperties);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ServicePropertiesType getServiceProperties()
+  {
+    return (ServicePropertiesType)getMixed().get(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SERVICE_PROPERTIES, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetServiceProperties(ServicePropertiesType newServiceProperties, NotificationChain msgs)
+  {
+    return ((FeatureMap.Internal)getMixed()).basicAdd(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SERVICE_PROPERTIES, newServiceProperties, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setServiceProperties(ServicePropertiesType newServiceProperties)
+  {
+    ((FeatureMap.Internal)getMixed()).set(Tosca_Elasticity_ExtensionsPackage.Literals.DOCUMENT_ROOT__SERVICE_PROPERTIES, newServiceProperties);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -207,6 +271,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return basicSetImageArtifactProperties(null, msgs);
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__NODE_PROPERTIES:
         return basicSetNodeProperties(null, msgs);
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES:
+        return basicSetScriptArtifactProperties(null, msgs);
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SERVICE_PROPERTIES:
+        return basicSetServiceProperties(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -234,6 +302,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return getImageArtifactProperties();
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__NODE_PROPERTIES:
         return getNodeProperties();
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES:
+        return getScriptArtifactProperties();
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SERVICE_PROPERTIES:
+        return getServiceProperties();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -262,6 +334,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return;
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__NODE_PROPERTIES:
         setNodeProperties((NodePropertiesType)newValue);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES:
+        setScriptArtifactProperties((ScriptArtifactPropertiesType)newValue);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SERVICE_PROPERTIES:
+        setServiceProperties((ServicePropertiesType)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -292,6 +370,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__NODE_PROPERTIES:
         setNodeProperties((NodePropertiesType)null);
         return;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES:
+        setScriptArtifactProperties((ScriptArtifactPropertiesType)null);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SERVICE_PROPERTIES:
+        setServiceProperties((ServicePropertiesType)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -320,6 +404,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         return getImageArtifactProperties() != null;
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__NODE_PROPERTIES:
         return getNodeProperties() != null;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES:
+        return getScriptArtifactProperties() != null;
+      case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT__SERVICE_PROPERTIES:
+        return getServiceProperties() != null;
     }
     return super.eIsSet(featureID);
   }

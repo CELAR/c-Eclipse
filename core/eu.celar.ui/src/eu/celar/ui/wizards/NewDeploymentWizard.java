@@ -96,7 +96,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private void openISbrowser() {
     URL ISbrowser = null;
     try {
-      ISbrowser = new URL( "http://www.google.com" );
+      ISbrowser = new URL( "http://snf-354013.vm.okeanos.grnet.gr:8080/webFrontend/application/version/deployment/?deplID=9876&tab=monitoring" );
     } catch( MalformedURLException e1 ) {
       // TODO Auto-generated catch block
       e1.printStackTrace();

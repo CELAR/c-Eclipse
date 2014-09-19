@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link eu.celar.tosca.elasticity.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.DocumentRoot#getImageArtifactProperties <em>Image Artifact Properties</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.DocumentRoot#getNodeProperties <em>Node Properties</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.DocumentRoot#getScriptArtifactProperties <em>Script Artifact Properties</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.DocumentRoot#getServiceProperties <em>Service Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -136,5 +138,59 @@ public interface DocumentRoot extends EObject
    * @generated
    */
   void setNodeProperties(NodePropertiesType value);
+
+  /**
+   * Returns the value of the '<em><b>Script Artifact Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Script Artifact Properties</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Script Artifact Properties</em>' containment reference.
+   * @see #setScriptArtifactProperties(ScriptArtifactPropertiesType)
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getDocumentRoot_ScriptArtifactProperties()
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='ScriptArtifactProperties' namespace='##targetNamespace'"
+   * @generated
+   */
+  ScriptArtifactPropertiesType getScriptArtifactProperties();
+
+  /**
+   * Sets the value of the '{@link eu.celar.tosca.elasticity.DocumentRoot#getScriptArtifactProperties <em>Script Artifact Properties</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Script Artifact Properties</em>' containment reference.
+   * @see #getScriptArtifactProperties()
+   * @generated
+   */
+  void setScriptArtifactProperties(ScriptArtifactPropertiesType value);
+
+  /**
+   * Returns the value of the '<em><b>Service Properties</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Service Properties</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Service Properties</em>' containment reference.
+   * @see #setServiceProperties(ServicePropertiesType)
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getDocumentRoot_ServiceProperties()
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='ServiceProperties' namespace='##targetNamespace'"
+   * @generated
+   */
+  ServicePropertiesType getServiceProperties();
+
+  /**
+   * Sets the value of the '{@link eu.celar.tosca.elasticity.DocumentRoot#getServiceProperties <em>Service Properties</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Service Properties</em>' containment reference.
+   * @see #getServiceProperties()
+   * @generated
+   */
+  void setServiceProperties(ServicePropertiesType value);
 
 } // DocumentRoot

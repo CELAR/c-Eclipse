@@ -20,13 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getCasmulti <em>Casmulti</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getHeight <em>Height</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getInitInstances <em>Init Instances</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getX <em>X</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getY <em>Y</em>}</li>
- *   <li>{@link eu.celar.tosca.elasticity.impl.TNodeTemplateExtensionImpl#getYcsbmulti <em>Ycsbmulti</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,35 +47,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
    * @generated
    */
   protected int eVirtualIndexBits0;
-
-  /**
-   * The default value of the '{@link #getCasmulti() <em>Casmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getCasmulti()
-   * @generated
-   * @ordered
-   */
-  protected static final int CASMULTI_EDEFAULT = 0;
-
-  /**
-   * The cached value of the '{@link #getCasmulti() <em>Casmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getCasmulti()
-   * @generated
-   * @ordered
-   */
-  protected int casmulti = CASMULTI_EDEFAULT;
-
-  /**
-   * This is true if the Casmulti attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean casmultiESet;
 
   /**
    * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
@@ -225,35 +194,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   protected boolean yESet;
 
   /**
-   * The default value of the '{@link #getYcsbmulti() <em>Ycsbmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getYcsbmulti()
-   * @generated
-   * @ordered
-   */
-  protected static final int YCSBMULTI_EDEFAULT = 0;
-
-  /**
-   * The cached value of the '{@link #getYcsbmulti() <em>Ycsbmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getYcsbmulti()
-   * @generated
-   * @ordered
-   */
-  protected int ycsbmulti = YCSBMULTI_EDEFAULT;
-
-  /**
-   * This is true if the Ycsbmulti attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean ycsbmultiESet;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -272,56 +212,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   protected EClass eStaticClass()
   {
     return Tosca_Elasticity_ExtensionsPackage.Literals.TNODE_TEMPLATE_EXTENSION;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public int getCasmulti()
-  {
-    return casmulti;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setCasmulti(int newCasmulti)
-  {
-    int oldCasmulti = casmulti;
-    casmulti = newCasmulti;
-    boolean oldCasmultiESet = casmultiESet;
-    casmultiESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI, oldCasmulti, casmulti, !oldCasmultiESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetCasmulti()
-  {
-    int oldCasmulti = casmulti;
-    boolean oldCasmultiESet = casmultiESet;
-    casmulti = CASMULTI_EDEFAULT;
-    casmultiESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI, oldCasmulti, CASMULTI_EDEFAULT, oldCasmultiESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetCasmulti()
-  {
-    return casmultiESet;
   }
 
   /**
@@ -579,63 +469,11 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getYcsbmulti()
-  {
-    return ycsbmulti;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setYcsbmulti(int newYcsbmulti)
-  {
-    int oldYcsbmulti = ycsbmulti;
-    ycsbmulti = newYcsbmulti;
-    boolean oldYcsbmultiESet = ycsbmultiESet;
-    ycsbmultiESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI, oldYcsbmulti, ycsbmulti, !oldYcsbmultiESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetYcsbmulti()
-  {
-    int oldYcsbmulti = ycsbmulti;
-    boolean oldYcsbmultiESet = ycsbmultiESet;
-    ycsbmulti = YCSBMULTI_EDEFAULT;
-    ycsbmultiESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI, oldYcsbmulti, YCSBMULTI_EDEFAULT, oldYcsbmultiESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetYcsbmulti()
-  {
-    return ycsbmultiESet;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
-        return getCasmulti();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__HEIGHT:
         return getHeight();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES:
@@ -646,8 +484,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
         return getX();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y:
         return getY();
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI:
-        return getYcsbmulti();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -662,9 +498,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
-        setCasmulti((Integer)newValue);
-        return;
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__HEIGHT:
         setHeight((Integer)newValue);
         return;
@@ -680,9 +513,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y:
         setY((Integer)newValue);
         return;
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI:
-        setYcsbmulti((Integer)newValue);
-        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -697,9 +527,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
-        unsetCasmulti();
-        return;
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__HEIGHT:
         unsetHeight();
         return;
@@ -715,9 +542,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y:
         unsetY();
         return;
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI:
-        unsetYcsbmulti();
-        return;
     }
     super.eUnset(featureID);
   }
@@ -732,8 +556,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__CASMULTI:
-        return isSetCasmulti();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__HEIGHT:
         return isSetHeight();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES:
@@ -744,8 +566,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
         return isSetX();
       case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__Y:
         return isSetY();
-      case Tosca_Elasticity_ExtensionsPackage.TNODE_TEMPLATE_EXTENSION__YCSBMULTI:
-        return isSetYcsbmulti();
     }
     return super.eIsSet(featureID);
   }
@@ -818,9 +638,7 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (casmulti: ");
-    if (casmultiESet) result.append(casmulti); else result.append("<unset>");
-    result.append(", height: ");
+    result.append(" (height: ");
     if (heightESet) result.append(height); else result.append("<unset>");
     result.append(", initInstances: ");
     if (initInstancesESet) result.append(initInstances); else result.append("<unset>");
@@ -830,8 +648,6 @@ public class TNodeTemplateExtensionImpl extends TNodeTemplateImpl implements TNo
     if (xESet) result.append(x); else result.append("<unset>");
     result.append(", y: ");
     if (yESet) result.append(y); else result.append("<unset>");
-    result.append(", ycsbmulti: ");
-    if (ycsbmultiESet) result.append(ycsbmulti); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

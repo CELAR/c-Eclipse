@@ -38,11 +38,13 @@ public class CreateDirectedRelationFeature
   public boolean canCreate( ICreateConnectionContext context ) {
     // return true if both anchors belong to a TNodeTemplate
     // and those TNodeTemplates are not identical
-    TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
-    TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
-    if( source != null && target != null && source != target ) {
-      return true;
-    }
+
+      TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
+      TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
+      if( source != null && target != null && source != target ) {
+        return true;
+      }
+    
     return false;
   }
 
@@ -61,6 +63,15 @@ public class CreateDirectedRelationFeature
   @Override
   public Connection create( ICreateConnectionContext context ) {
     Connection newConnection = null;
+
+//    Object sourceObj = getBusinessObjectForPictogramElement( context.getSourceAnchor().getParent() );
+//    Object targetObj = getBusinessObjectForPictogramElement( context.getTargetAnchor().getParent() );
+//    if ( sourceObj instanceof TNodeTemplate && targetObj instanceof TNodeTemplate ){
+//      
+//    }else if ( sourceObj instanceof TServiceTemplate && targetObj instanceof TServiceTemplate ){
+//      
+//    }
+      
     // get TNodeTemplates which should be connected
     TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
     TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
@@ -70,7 +81,6 @@ public class CreateDirectedRelationFeature
       newClass.setName( "Directed Relation" );
       newClass.setId( ( "R" + ( Integer )newClass.hashCode() ).toString() );
       newClass.setType( new QName("Directed") );
-//      newClass.setType( new QName("Peer - Peer") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
       se.setRef( source.getId() );
       newClass.setSourceElement( se );
@@ -106,7 +116,7 @@ public class CreateDirectedRelationFeature
     }
     return false;
   }
-
+  
   @Override
   public String getCreateImageId() {
     return ImageProvider.IMG_EREFERENCE;

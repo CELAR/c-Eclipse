@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getFlavor <em>Flavor</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,30 +23,30 @@ import org.eclipse.emf.ecore.EObject;
 public interface ImageArtifactPropertiesType extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Flavor</b></em>' attribute.
+   * Returns the value of the '<em><b>Description</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Flavor</em>' attribute isn't clear,
+   * If the meaning of the '<em>Description</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Flavor</em>' attribute.
-   * @see #setFlavor(String)
-   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getImageArtifactPropertiesType_Flavor()
+   * @return the value of the '<em>Description</em>' attribute.
+   * @see #setDescription(String)
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getImageArtifactPropertiesType_Description()
    * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-   *        extendedMetaData="kind='element' name='Flavor' namespace='##targetNamespace'"
+   *        extendedMetaData="kind='element' name='Description' namespace='##targetNamespace'"
    * @generated
    */
-  String getFlavor();
+  String getDescription();
 
   /**
-   * Sets the value of the '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getFlavor <em>Flavor</em>}' attribute.
+   * Sets the value of the '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getDescription <em>Description</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Flavor</em>' attribute.
-   * @see #getFlavor()
+   * @param value the new value of the '<em>Description</em>' attribute.
+   * @see #getDescription()
    * @generated
    */
-  void setFlavor(String value);
+  void setDescription(String value);
 
 } // ImageArtifactPropertiesType

@@ -12,13 +12,11 @@ import eu.celar.tosca.TNodeTemplate;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getHeight <em>Height</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getInitInstances <em>Init Instances</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getWidth <em>Width</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getX <em>X</em>}</li>
  *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getY <em>Y</em>}</li>
- *   <li>{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,60 +26,6 @@ import eu.celar.tosca.TNodeTemplate;
  */
 public interface TNodeTemplateExtension extends TNodeTemplate
 {
-  /**
-   * Returns the value of the '<em><b>Casmulti</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Casmulti</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Casmulti</em>' attribute.
-   * @see #isSetCasmulti()
-   * @see #unsetCasmulti()
-   * @see #setCasmulti(int)
-   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getTNodeTemplateExtension_Casmulti()
-   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
-   *        extendedMetaData="kind='attribute' name='casmulti'"
-   * @generated
-   */
-  int getCasmulti();
-
-  /**
-   * Sets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Casmulti</em>' attribute.
-   * @see #isSetCasmulti()
-   * @see #unsetCasmulti()
-   * @see #getCasmulti()
-   * @generated
-   */
-  void setCasmulti(int value);
-
-  /**
-   * Unsets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isSetCasmulti()
-   * @see #getCasmulti()
-   * @see #setCasmulti(int)
-   * @generated
-   */
-  void unsetCasmulti();
-
-  /**
-   * Returns whether the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getCasmulti <em>Casmulti</em>}' attribute is set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return whether the value of the '<em>Casmulti</em>' attribute is set.
-   * @see #unsetCasmulti()
-   * @see #getCasmulti()
-   * @see #setCasmulti(int)
-   * @generated
-   */
-  boolean isSetCasmulti();
-
   /**
    * Returns the value of the '<em><b>Height</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -351,59 +295,5 @@ public interface TNodeTemplateExtension extends TNodeTemplate
    * @generated
    */
   boolean isSetY();
-
-  /**
-   * Returns the value of the '<em><b>Ycsbmulti</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ycsbmulti</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Ycsbmulti</em>' attribute.
-   * @see #isSetYcsbmulti()
-   * @see #unsetYcsbmulti()
-   * @see #setYcsbmulti(int)
-   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getTNodeTemplateExtension_Ycsbmulti()
-   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
-   *        extendedMetaData="kind='attribute' name='ycsbmulti'"
-   * @generated
-   */
-  int getYcsbmulti();
-
-  /**
-   * Sets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Ycsbmulti</em>' attribute.
-   * @see #isSetYcsbmulti()
-   * @see #unsetYcsbmulti()
-   * @see #getYcsbmulti()
-   * @generated
-   */
-  void setYcsbmulti(int value);
-
-  /**
-   * Unsets the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isSetYcsbmulti()
-   * @see #getYcsbmulti()
-   * @see #setYcsbmulti(int)
-   * @generated
-   */
-  void unsetYcsbmulti();
-
-  /**
-   * Returns whether the value of the '{@link eu.celar.tosca.elasticity.TNodeTemplateExtension#getYcsbmulti <em>Ycsbmulti</em>}' attribute is set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return whether the value of the '<em>Ycsbmulti</em>' attribute is set.
-   * @see #unsetYcsbmulti()
-   * @see #getYcsbmulti()
-   * @see #setYcsbmulti(int)
-   * @generated
-   */
-  boolean isSetYcsbmulti();
 
 } // TNodeTemplateExtension

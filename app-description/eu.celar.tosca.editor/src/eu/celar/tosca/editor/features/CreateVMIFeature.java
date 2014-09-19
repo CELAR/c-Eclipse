@@ -139,14 +139,14 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     };
   }
   
-  private void createArtifactTemplate(String artifactName, String flavor){
+  private void createArtifactTemplate(String nodeName, String description){
     
     //Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
     
     //Create Image Artifact Properties
     ImageArtifactPropertiesType imageProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createImageArtifactPropertiesType();
-    imageProperties.setFlavor( flavor );
+    imageProperties.setDescription( description );
     
     // Set the Properties of the Policy Template    
     PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();   
@@ -157,7 +157,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     
     artifactTemplate.setProperties( properties );
     
-    artifactTemplate.setId( artifactName + "Image" );
+    artifactTemplate.setId( nodeName + "Image" );
     
     // Add the new Artifact Template to the TOSCA Definitions element
     

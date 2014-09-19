@@ -10,38 +10,38 @@ package eu.celar.tosca.core;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLMapImpl;
+import org.example.sybl.SyblPackage;
 
 import eu.celar.core.model.ICloudApplicationDescription;
 import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.impl.AbstractCloudContainer;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.PropertiesType1;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.ToscaPackage;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
@@ -81,17 +81,23 @@ public class TOSCAModel extends AbstractCloudContainer
       baseToscaMap.setNoNamespacePackage( ToscaPackage.eINSTANCE );      
       XMLMapImpl elasticityToscaMap = new XMLMapImpl();
       elasticityToscaMap.setNoNamespacePackage( Tosca_Elasticity_ExtensionsPackage.eINSTANCE );
+      
+      XMLMapImpl syblMap = new XMLMapImpl();
+      syblMap.setNoNamespacePackage( SyblPackage.eINSTANCE );
+      
       Map<String, Object> options = new HashMap<String, Object>();
       options.put( XMLResource.OPTION_XML_MAP, baseToscaMap );
       options.put( XMLResource.OPTION_XML_MAP, elasticityToscaMap );
+      
+      options.put( XMLResource.OPTION_XML_MAP , syblMap );
+      
       options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); // TODO Stalo "UTF-8"  //$NON-NLS-1$
       try {
         this.resource.load( options );
         this.documentRoot = ( DocumentRoot )this.resource.getContents().get( 0 ); 
         
-        //this.serviceTemplate = (TServiceTemplateExtension) this.documentRoot.getDefinitions().getServiceTemplate().get( 0 );
-        //this.topologyTemplate = this.serviceTemplate.getTopologyTemplate();
-        this.topologyTemplate = this.documentRoot.getDefinitions().getServiceTemplate().get( 0 ).getTopologyTemplate();
+        this.serviceTemplate = (TServiceTemplateExtension) this.documentRoot.getDefinitions().getServiceTemplate().get( 0 );
+        this.topologyTemplate = this.serviceTemplate.getTopologyTemplate();
         
       } catch( IOException ioEx ) {
         if( ioEx instanceof IOWrappedException ) {
@@ -115,9 +121,16 @@ public class TOSCAModel extends AbstractCloudContainer
       baseToscaMap.setNoNamespacePackage( ToscaPackage.eINSTANCE );      
       XMLMapImpl elasticityToscaMap = new XMLMapImpl();
       elasticityToscaMap.setNoNamespacePackage( Tosca_Elasticity_ExtensionsPackage.eINSTANCE );
+      
+      XMLMapImpl syblMap = new XMLMapImpl();
+      syblMap.setNoNamespacePackage( SyblPackage.eINSTANCE );
+      
       Map<String, Object> options = new HashMap<String, Object>();
       options.put( XMLResource.OPTION_XML_MAP, baseToscaMap );
       options.put( XMLResource.OPTION_XML_MAP, elasticityToscaMap );
+      
+      options.put( XMLResource.OPTION_XML_MAP , syblMap );
+      
       options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //TODO Stalo "UTF-8"  //$NON-NLS-1$
       try {
         resourceA.load( options );
@@ -219,6 +232,22 @@ public class TOSCAModel extends AbstractCloudContainer
     
     // Create the Boundary Definition for Elasticity
     this.boundaryDef = this.elasticityFactory.createTBoundaryDefinitionsExtension();
+    
+    //Add service version number
+    //Create Service Artifact Properties
+    ServicePropertiesType serviceProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createServicePropertiesType();
+    serviceProperties.setVersion( "1.0" );
+    
+    // Set the Properties of the Boundary Definitions 
+    // TODO Stalo replace PropertisType1 with PropertiesType
+    PropertiesType1 properties = ToscaFactory.eINSTANCE.createPropertiesType1();   
+    
+    // Add the Service Properties to the FeatureMap of the Boundary Definition's Properties element
+    FeatureMap.Entry e = FeatureMapUtil.createEntry(     Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ServiceProperties(),  serviceProperties );
+    properties.getAny().add( e );      
+    
+    
+    this.boundaryDef.setProperties( properties );
     
     // Associate Boundary Definition with the Service Topology
     // Associate Service and Topology templates

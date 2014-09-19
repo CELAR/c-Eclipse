@@ -1,6 +1,7 @@
 package eu.celar.ui.wizards;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,6 +12,7 @@ import java.util.Dictionary;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -32,6 +34,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   private IStructuredSelection selection;
   private NewSubmissionWizardFirstPage firstPage;
   private CloudProviderSelectionWizardPage secondPage;
+  private IFile toscaFile;
 
   @Override
   public void init( final IWorkbench workbench, final IStructuredSelection selection ) {
@@ -77,7 +80,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     if( obj instanceof TOSCAResource )  {
       
       TOSCAResource tosca = (TOSCAResource) obj;
-      
+
       // Create Application Deployment file
       createDeploymentFile( tosca );
     }
@@ -105,9 +108,9 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     
     try {
       IResource resourceName = resource.getResource();
-      IFile toscaFile = (IFile) resourceName;
+      this.toscaFile = (IFile) resourceName;
       
-      DocumentRoot model = TOSCAModel.loadModelFromFile( toscaFile );
+      DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
                 
       TOSCAModel.saveModelToFile( file, model );  
     } catch( Exception e ) {
@@ -122,7 +125,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     }
     return fileCreated;
   }
-  
+    
 //  // Validates TOSCA file before passing it to CELAR Server
 //  boolean validateTOSCA() throws IOException, SAXException{
 //    // 1. Specify you want a factory for RELAX NG

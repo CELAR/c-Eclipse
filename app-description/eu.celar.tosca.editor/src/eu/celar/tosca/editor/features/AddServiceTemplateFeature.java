@@ -8,10 +8,12 @@ import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -23,10 +25,12 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.editor.StyleUtil;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 
 public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
 
+  public static final int INVISIBLE_RECT_RIGHT = 6;
   private static final IColorConstant E_CLASS_TEXT_FOREGROUND = IColorConstant.BLACK;
   private static final IColorConstant E_CLASS_FOREGROUND = new ColorConstant( 98,
                                                                               131,
@@ -82,7 +86,6 @@ public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
                                                               5 );
     
     // create and set graphics algorithm
-    //roundedRectangle = gaService.createRoundedRectangle( containerShape, 5, 5 );
     roundedRectangle.setForeground( manageColor( E_CLASS_FOREGROUND ) );
     roundedRectangle.setBackground( manageColor( E_CLASS_BACKGROUND ) );
     roundedRectangle.setLineWidth( 2 );
@@ -134,6 +137,7 @@ public class AddServiceTemplateFeature extends AbstractAddShapeFeature {
       directEditingInfo.setPictogramElement(shape);
       directEditingInfo.setGraphicsAlgorithm(text);
     }
+    
     return containerShape;
   }
 }

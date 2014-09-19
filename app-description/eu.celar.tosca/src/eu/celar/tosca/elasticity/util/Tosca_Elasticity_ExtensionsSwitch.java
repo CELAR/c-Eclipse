@@ -78,13 +78,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   {
     switch (classifierID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.DATA_HINTS_TYPE1:
-      {
-        DataHintsType1 dataHintsType1 = (DataHintsType1)theEObject;
-        T result = caseDataHintsType1(dataHintsType1);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case Tosca_Elasticity_ExtensionsPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
@@ -96,13 +89,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
       {
         ImageArtifactPropertiesType imageArtifactPropertiesType = (ImageArtifactPropertiesType)theEObject;
         T result = caseImageArtifactPropertiesType(imageArtifactPropertiesType);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1:
-      {
-        LoadHintsType1 loadHintsType1 = (LoadHintsType1)theEObject;
-        T result = caseLoadHintsType1(loadHintsType1);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -120,27 +106,25 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE:
+      {
+        ScriptArtifactPropertiesType scriptArtifactPropertiesType = (ScriptArtifactPropertiesType)theEObject;
+        T result = caseScriptArtifactPropertiesType(scriptArtifactPropertiesType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE:
+      {
+        ServicePropertiesType servicePropertiesType = (ServicePropertiesType)theEObject;
+        T result = caseServicePropertiesType(servicePropertiesType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case Tosca_Elasticity_ExtensionsPackage.TBOUNDARY_DEFINITIONS_EXTENSION:
       {
         TBoundaryDefinitionsExtension tBoundaryDefinitionsExtension = (TBoundaryDefinitionsExtension)theEObject;
         T result = caseTBoundaryDefinitionsExtension(tBoundaryDefinitionsExtension);
         if (result == null) result = caseTBoundaryDefinitions(tBoundaryDefinitionsExtension);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT:
-      {
-        TDataHint tDataHint = (TDataHint)theEObject;
-        T result = caseTDataHint(tDataHint);
-        if (result == null) result = caseTExtensibleElements(tDataHint);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case Tosca_Elasticity_ExtensionsPackage.TLOAD_HINT:
-      {
-        TLoadHint tLoadHint = (TLoadHint)theEObject;
-        T result = caseTLoadHint(tLoadHint);
-        if (result == null) result = caseTExtensibleElements(tLoadHint);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -176,22 +160,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Data Hints Type1</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Data Hints Type1</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseDataHintsType1(DataHintsType1 object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -219,22 +187,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseImageArtifactPropertiesType(ImageArtifactPropertiesType object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Load Hints Type1</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Load Hints Type1</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseLoadHintsType1(LoadHintsType1 object)
   {
     return null;
   }
@@ -272,6 +224,38 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Script Artifact Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Script Artifact Properties Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseScriptArtifactPropertiesType(ScriptArtifactPropertiesType object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Service Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Service Properties Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseServicePropertiesType(ServicePropertiesType object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>TBoundary Definitions Extension</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -283,38 +267,6 @@ public class Tosca_Elasticity_ExtensionsSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseTBoundaryDefinitionsExtension(TBoundaryDefinitionsExtension object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>TData Hint</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>TData Hint</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTDataHint(TDataHint object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>TLoad Hint</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>TLoad Hint</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTLoadHint(TLoadHint object)
   {
     return null;
   }

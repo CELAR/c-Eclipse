@@ -14,23 +14,7 @@
 	<!--  <import schemaLocation="EnvironmentRequirementProperties.xsd" namespace="http://www.example.org/EnvironmentRequirementProperties"></import>
 	-->
 	
-	<complexType name="TDataHint">
-    	<complexContent>
-    		<extension base="tosca:tExtensibleElements">
-    			<attribute name="Name" type="string"></attribute>
-    			<attribute name="Value" type="string"></attribute>
-    		</extension>
-    	</complexContent>
-    </complexType>
     
-    <complexType name="TLoadHint">
-    	<complexContent>
-    		<extension base="tosca:tExtensibleElements">
-    			<attribute name="Name" type="string"></attribute>
-    			<attribute name="Value" type="string"></attribute>
-    		</extension>
-    	</complexContent>
-    </complexType>
 
     <complexType name="TBoundaryDefinitionsExtension">
     	<complexContent>
@@ -42,37 +26,9 @@
     	</complexContent>
     </complexType>
     
-    <simpleType name="ElasticityRequirementCategory">
-    	<restriction base="string">
-    		<enumeration value="Cost"></enumeration>
-    		<enumeration value="Throughput"></enumeration>
-    		<enumeration value="Latency"></enumeration>
-    		<enumeration value="ResponseTime"></enumeration>
-    		<enumeration value="Bandwidth"></enumeration>
-    	</restriction>
-    </simpleType>
 
-	<simpleType name="ApplicationComponentElasticityRequirementCategory">
-    	<restriction base="string">
-    		<enumeration value="ResponseTime"></enumeration>
-    		<enumeration value="Cost"></enumeration>
-    		<enumeration value="Throughput"></enumeration>
-    	</restriction>
-    </simpleType>
     
-    <simpleType name="DataHintCategory">
-    	<restriction base="string">
-    		<enumeration value="JSON"></enumeration>
-    		<enumeration value="XML"></enumeration>
-    	</restriction>
-    </simpleType>
     
-    <simpleType name="LoadHintCategory">
-    	<restriction base="string">
-    		<enumeration value="Read Heavy"></enumeration>
-    		<enumeration value="Write Heavy"></enumeration>
-    	</restriction>
-    </simpleType>
 
  
     <complexType name="TNodeTemplateExtension">
@@ -80,8 +36,6 @@
     		<extension base="tosca:tNodeTemplate">
     			<sequence></sequence>
     			<attribute name="initInstances" type="int"></attribute>
-    			<attribute name="ycsbmulti" type="int"></attribute>
-    			<attribute name="casmulti" type="int"></attribute>
     			<attribute name="x" type="int"></attribute>
     			<attribute name="y" type="int"></attribute>
     			<attribute name="width" type="int"></attribute>
@@ -94,17 +48,7 @@
 
     <attributeGroup name="NewAttributeGroup"></attributeGroup>
 
-    <complexType name="DataHintsType1">
-    	<sequence>
-    		<element name="dataHints" type="elasticity:TDataHint" maxOccurs="unbounded" minOccurs="1"></element>
-    	</sequence>
-    </complexType>
 
-    <complexType name="LoadHintsType1">
-    	<sequence>
-    		<element name="loadHints" type="elasticity:TLoadHint" maxOccurs="unbounded" minOccurs="1"></element>
-    	</sequence>
-    </complexType>
 
     <complexType name="MonitoringProbesType1">
     	<sequence>
@@ -120,12 +64,6 @@
     	</complexContent>
     </complexType>
 
-    <simpleType name="ApplicationPolicyCategory">
-    	<restriction base="string">
-    	    <enumeration value="Minimize Cost"></enumeration>
-    		<enumeration value="Maximize Throughput"></enumeration>
-    	</restriction>
-    </simpleType>
 
     <complexType name="TServiceTemplateExtension">
     	<complexContent>
@@ -142,7 +80,7 @@
 
     <complexType name="ImageArtifactPropertiesType">
     	<sequence>
-    		<element name="Flavor" type="string"></element>
+    		<element name="Description" type="string"></element>
     	</sequence>
     </complexType>
 
@@ -159,5 +97,26 @@
 
     <element name="NodeProperties"
     	type="elasticity:NodePropertiesType">
+    </element>
+
+    <complexType name="ScriptArtifactPropertiesType">
+    	<sequence>
+    		<element name="Language" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ScriptArtifactProperties"
+    	type="elasticity:ScriptArtifactPropertiesType">
+    </element>
+
+
+    <complexType name="ServicePropertiesType">
+    	<sequence>
+    		<element name="Version" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ServiceProperties"
+    	type="elasticity:ServicePropertiesType">
     </element>
 </schema>

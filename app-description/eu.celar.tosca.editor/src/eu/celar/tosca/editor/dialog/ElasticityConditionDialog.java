@@ -52,7 +52,6 @@ import eu.celar.tosca.TBoundaryDefinitions;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.ToscaModelLayer;
-import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 
 public class ElasticityConditionDialog extends Dialog {
@@ -168,10 +167,11 @@ public class ElasticityConditionDialog extends Dialog {
     for (MonitoringProbe mp : mps){
       String metricsString = mp.getDescription();
       if (metricsString.equals( "" )==false){
-      String[] metrics = (metricsString.substring( 1, metricsString.length()-1 )).split( "," );
+        metricsString = metricsString.substring( 2, metricsString.length()-2 );
+        metricsString = metricsString.replace( "\"", "" );
+      String[] metrics = metricsString.split( "," );
       for (String metric : metrics)
-        this.cmbGlobalElasticityReq.add(metric.substring( 1, metric.length()-1 ));
-      //this.cmbGlobalElasticityReq.add( mp.getName() + " (" + mp.getDescription() + ")" );
+        this.cmbGlobalElasticityReq.add(metric);
       }
       else{
         this.cmbGlobalElasticityReq.add(mp.getName());

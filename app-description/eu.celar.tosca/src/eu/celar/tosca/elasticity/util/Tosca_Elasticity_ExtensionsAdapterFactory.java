@@ -81,11 +81,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
     new Tosca_Elasticity_ExtensionsSwitch<Adapter>()
     {
       @Override
-      public Adapter caseDataHintsType1(DataHintsType1 object)
-      {
-        return createDataHintsType1Adapter();
-      }
-      @Override
       public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
@@ -94,11 +89,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
       public Adapter caseImageArtifactPropertiesType(ImageArtifactPropertiesType object)
       {
         return createImageArtifactPropertiesTypeAdapter();
-      }
-      @Override
-      public Adapter caseLoadHintsType1(LoadHintsType1 object)
-      {
-        return createLoadHintsType1Adapter();
       }
       @Override
       public Adapter caseMonitoringProbesType1(MonitoringProbesType1 object)
@@ -111,19 +101,19 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
         return createNodePropertiesTypeAdapter();
       }
       @Override
+      public Adapter caseScriptArtifactPropertiesType(ScriptArtifactPropertiesType object)
+      {
+        return createScriptArtifactPropertiesTypeAdapter();
+      }
+      @Override
+      public Adapter caseServicePropertiesType(ServicePropertiesType object)
+      {
+        return createServicePropertiesTypeAdapter();
+      }
+      @Override
       public Adapter caseTBoundaryDefinitionsExtension(TBoundaryDefinitionsExtension object)
       {
         return createTBoundaryDefinitionsExtensionAdapter();
-      }
-      @Override
-      public Adapter caseTDataHint(TDataHint object)
-      {
-        return createTDataHintAdapter();
-      }
-      @Override
-      public Adapter caseTLoadHint(TLoadHint object)
-      {
-        return createTLoadHintAdapter();
       }
       @Override
       public Adapter caseTMonitoringProbe(TMonitoringProbe object)
@@ -188,21 +178,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
 
 
   /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.DataHintsType1 <em>Data Hints Type1</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.DataHintsType1
-   * @generated
-   */
-  public Adapter createDataHintsType1Adapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.DocumentRoot <em>Document Root</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -228,21 +203,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createImageArtifactPropertiesTypeAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.LoadHintsType1 <em>Load Hints Type1</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.LoadHintsType1
-   * @generated
-   */
-  public Adapter createLoadHintsType1Adapter()
   {
     return null;
   }
@@ -278,6 +238,36 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.ScriptArtifactPropertiesType <em>Script Artifact Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.ScriptArtifactPropertiesType
+   * @generated
+   */
+  public Adapter createScriptArtifactPropertiesTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.ServicePropertiesType <em>Service Properties Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.tosca.elasticity.ServicePropertiesType
+   * @generated
+   */
+  public Adapter createServicePropertiesTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension <em>TBoundary Definitions Extension</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -288,36 +278,6 @@ public class Tosca_Elasticity_ExtensionsAdapterFactory extends AdapterFactoryImp
    * @generated
    */
   public Adapter createTBoundaryDefinitionsExtensionAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TDataHint <em>TData Hint</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.TDataHint
-   * @generated
-   */
-  public Adapter createTDataHintAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link eu.celar.tosca.elasticity.TLoadHint <em>TLoad Hint</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see eu.celar.tosca.elasticity.TLoadHint
-   * @generated
-   */
-  public Adapter createTLoadHintAdapter()
   {
     return null;
   }

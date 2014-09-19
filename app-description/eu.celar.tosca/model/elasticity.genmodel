@@ -76,50 +76,17 @@
   </genPackages>
   <genPackages prefix="Tosca_Elasticity_Extensions" basePackage="eu.celar.tosca" resource="XML"
       disposableProviderFactory="true" ecorePackage="extension.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//ApplicationComponentElasticityRequirementCategory">
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/ResponseTime"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/Cost"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationComponentElasticityRequirementCategory/Throughput"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//ApplicationPolicyCategory">
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationPolicyCategory/MinimizeCost"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ApplicationPolicyCategory/MaximizeThroughput"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//DataHintCategory">
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//DataHintCategory/JSON"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//DataHintCategory/XML"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//ElasticityRequirementCategory">
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ElasticityRequirementCategory/Cost"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ElasticityRequirementCategory/Throughput"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ElasticityRequirementCategory/Latency"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ElasticityRequirementCategory/ResponseTime"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//ElasticityRequirementCategory/Bandwidth"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="extension.ecore#//LoadHintCategory">
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//LoadHintCategory/ReadHeavy"/>
-      <genEnumLiterals ecoreEnumLiteral="extension.ecore#//LoadHintCategory/WriteHeavy"/>
-    </genEnums>
-    <genDataTypes ecoreDataType="extension.ecore#//ApplicationComponentElasticityRequirementCategoryObject"/>
-    <genDataTypes ecoreDataType="extension.ecore#//ApplicationPolicyCategoryObject"/>
-    <genDataTypes ecoreDataType="extension.ecore#//DataHintCategoryObject"/>
-    <genDataTypes ecoreDataType="extension.ecore#//ElasticityRequirementCategoryObject"/>
-    <genDataTypes ecoreDataType="extension.ecore#//LoadHintCategoryObject"/>
-    <genClasses ecoreClass="extension.ecore#//DataHintsType1">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DataHintsType1/dataHints"/>
-    </genClasses>
     <genClasses ecoreClass="extension.ecore#//DocumentRoot">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//DocumentRoot/mixed"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/xMLNSPrefixMap"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/xSISchemaLocation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/imageArtifactProperties"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/nodeProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/scriptArtifactProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//DocumentRoot/serviceProperties"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//ImageArtifactPropertiesType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ImageArtifactPropertiesType/flavor"/>
-    </genClasses>
-    <genClasses ecoreClass="extension.ecore#//LoadHintsType1">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//LoadHintsType1/loadHints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ImageArtifactPropertiesType/description"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//MonitoringProbesType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//MonitoringProbesType1/monitoringProbes"/>
@@ -127,28 +94,24 @@
     <genClasses ecoreClass="extension.ecore#//NodePropertiesType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//NodePropertiesType/flavor"/>
     </genClasses>
+    <genClasses ecoreClass="extension.ecore#//ScriptArtifactPropertiesType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ScriptArtifactPropertiesType/language"/>
+    </genClasses>
+    <genClasses ecoreClass="extension.ecore#//ServicePropertiesType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ServicePropertiesType/version"/>
+    </genClasses>
     <genClasses ecoreClass="extension.ecore#//TBoundaryDefinitionsExtension">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/monitoringProbes"/>
-    </genClasses>
-    <genClasses ecoreClass="extension.ecore#//TDataHint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TDataHint/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TDataHint/value"/>
-    </genClasses>
-    <genClasses ecoreClass="extension.ecore#//TLoadHint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TLoadHint/value"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TMonitoringProbe">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TMonitoringProbe/name"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TNodeTemplateExtension">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/casmulti"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/initInstances"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TNodeTemplateExtension/ycsbmulti"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TServiceTemplateExtension">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//TServiceTemplateExtension/height"/>

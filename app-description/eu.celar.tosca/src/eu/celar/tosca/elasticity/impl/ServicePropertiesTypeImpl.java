@@ -2,32 +2,30 @@
  */
 package eu.celar.tosca.elasticity.impl;
 
-import eu.celar.tosca.elasticity.TDataHint;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
-
-import eu.celar.tosca.impl.TExtensibleElementsImpl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>TData Hint</b></em>'.
+ * An implementation of the model object '<em><b>Service Properties Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.impl.TDataHintImpl#getName <em>Name</em>}</li>
- *   <li>{@link eu.celar.tosca.elasticity.impl.TDataHintImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.ServicePropertiesTypeImpl#getVersion <em>Version</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
+public class ServicePropertiesTypeImpl extends EObjectImpl implements ServicePropertiesType
 {
   /**
    * An array of objects representing the values of non-primitive features.
@@ -46,31 +44,21 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   protected int eVirtualIndexBits0;
 
   /**
-   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getName()
+   * @see #getVersion()
    * @generated
    * @ordered
    */
-  protected static final String NAME_EDEFAULT = null;
-
-  /**
-   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getValue()
-   * @generated
-   * @ordered
-   */
-  protected static final String VALUE_EDEFAULT = null;
+  protected static final String VERSION_EDEFAULT = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TDataHintImpl()
+  protected ServicePropertiesTypeImpl()
   {
     super();
   }
@@ -83,7 +71,7 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   @Override
   protected EClass eStaticClass()
   {
-    return Tosca_Elasticity_ExtensionsPackage.Literals.TDATA_HINT;
+    return Tosca_Elasticity_ExtensionsPackage.Literals.SERVICE_PROPERTIES_TYPE;
   }
 
   /**
@@ -91,9 +79,9 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getName()
+  public String getVersion()
   {
-    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME, NAME_EDEFAULT);
+    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION, VERSION_EDEFAULT);
   }
 
   /**
@@ -101,35 +89,12 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setName(String newName)
+  public void setVersion(String newVersion)
   {
-    String name = newName;
-    Object oldName = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME, name);
+    String version = newVersion;
+    Object oldVersion = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION, version);
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME, oldName == EVIRTUAL_NO_VALUE ? NAME_EDEFAULT : oldName, name));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getValue()
-  {
-    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE, VALUE_EDEFAULT);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setValue(String newValue)
-  {
-    String value = newValue;
-    Object oldValue = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE, value);
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE, oldValue == EVIRTUAL_NO_VALUE ? VALUE_EDEFAULT : oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION, oldVersion == EVIRTUAL_NO_VALUE ? VERSION_EDEFAULT : oldVersion, version));
   }
 
   /**
@@ -142,10 +107,8 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME:
-        return getName();
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE:
-        return getValue();
+      case Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION:
+        return getVersion();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -160,11 +123,8 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME:
-        setName((String)newValue);
-        return;
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE:
-        setValue((String)newValue);
+      case Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION:
+        setVersion((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -180,11 +140,8 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE:
-        setValue(VALUE_EDEFAULT);
+      case Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION:
+        setVersion(VERSION_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -200,12 +157,9 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME:
-        String name = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME, NAME_EDEFAULT);
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE:
-        String value = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE, VALUE_EDEFAULT);
-        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+      case Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION:
+        String version = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION, VERSION_EDEFAULT);
+        return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
     }
     return super.eIsSet(featureID);
   }
@@ -278,12 +232,10 @@ public class TDataHintImpl extends TExtensibleElementsImpl implements TDataHint
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
-    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__NAME, NAME_EDEFAULT));
-    result.append(", value: ");
-    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.TDATA_HINT__VALUE, VALUE_EDEFAULT));
+    result.append(" (version: ");
+    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SERVICE_PROPERTIES_TYPE__VERSION, VERSION_EDEFAULT));
     result.append(')');
     return result.toString();
   }
 
-} //TDataHintImpl
+} //ServicePropertiesTypeImpl

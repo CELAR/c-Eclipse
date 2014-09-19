@@ -23,15 +23,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   Tosca_Elasticity_ExtensionsFactory eINSTANCE = eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>Data Hints Type1</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Data Hints Type1</em>'.
-   * @generated
-   */
-  DataHintsType1 createDataHintsType1();
-
-  /**
    * Returns a new object of class '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,15 +39,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   ImageArtifactPropertiesType createImageArtifactPropertiesType();
-
-  /**
-   * Returns a new object of class '<em>Load Hints Type1</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Load Hints Type1</em>'.
-   * @generated
-   */
-  LoadHintsType1 createLoadHintsType1();
 
   /**
    * Returns a new object of class '<em>Monitoring Probes Type1</em>'.
@@ -77,6 +59,24 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
   NodePropertiesType createNodePropertiesType();
 
   /**
+   * Returns a new object of class '<em>Script Artifact Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Script Artifact Properties Type</em>'.
+   * @generated
+   */
+  ScriptArtifactPropertiesType createScriptArtifactPropertiesType();
+
+  /**
+   * Returns a new object of class '<em>Service Properties Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Service Properties Type</em>'.
+   * @generated
+   */
+  ServicePropertiesType createServicePropertiesType();
+
+  /**
    * Returns a new object of class '<em>TBoundary Definitions Extension</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -84,24 +84,6 @@ public interface Tosca_Elasticity_ExtensionsFactory extends EFactory
    * @generated
    */
   TBoundaryDefinitionsExtension createTBoundaryDefinitionsExtension();
-
-  /**
-   * Returns a new object of class '<em>TData Hint</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>TData Hint</em>'.
-   * @generated
-   */
-  TDataHint createTDataHint();
-
-  /**
-   * Returns a new object of class '<em>TLoad Hint</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>TLoad Hint</em>'.
-   * @generated
-   */
-  TLoadHint createTLoadHint();
 
   /**
    * Returns a new object of class '<em>TMonitoring Probe</em>'.

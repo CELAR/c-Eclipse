@@ -51,10 +51,10 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     layout.horizontalAlignment = GridData.FILL;
     layout.horizontalSpan = 2;
     this.cmbCloudProvider.setLayoutData( layout );
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
-//    
+    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
+    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
+    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
+    
     this.cmbCloudProvider.setEditable( false );
     
     this.cmbCloudProvider.addModifyListener( this );

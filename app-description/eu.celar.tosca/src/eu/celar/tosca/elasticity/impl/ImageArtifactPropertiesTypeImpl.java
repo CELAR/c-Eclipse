@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl#getFlavor <em>Flavor</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -44,14 +44,14 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
   protected int eVirtualIndexBits0;
 
   /**
-   * The default value of the '{@link #getFlavor() <em>Flavor</em>}' attribute.
+   * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFlavor()
+   * @see #getDescription()
    * @generated
    * @ordered
    */
-  protected static final String FLAVOR_EDEFAULT = null;
+  protected static final String DESCRIPTION_EDEFAULT = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,9 +79,9 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getFlavor()
+  public String getDescription()
   {
-    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR, FLAVOR_EDEFAULT);
+    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, DESCRIPTION_EDEFAULT);
   }
 
   /**
@@ -89,12 +89,12 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setFlavor(String newFlavor)
+  public void setDescription(String newDescription)
   {
-    String flavor = newFlavor;
-    Object oldFlavor = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR, flavor);
+    String description = newDescription;
+    Object oldDescription = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, description);
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR, oldFlavor == EVIRTUAL_NO_VALUE ? FLAVOR_EDEFAULT : oldFlavor, flavor));
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, oldDescription == EVIRTUAL_NO_VALUE ? DESCRIPTION_EDEFAULT : oldDescription, description));
   }
 
   /**
@@ -107,8 +107,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR:
-        return getFlavor();
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
+        return getDescription();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -123,8 +123,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR:
-        setFlavor((String)newValue);
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
+        setDescription((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -140,8 +140,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR:
-        setFlavor(FLAVOR_EDEFAULT);
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
+        setDescription(DESCRIPTION_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -157,9 +157,9 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR:
-        String flavor = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR, FLAVOR_EDEFAULT);
-        return FLAVOR_EDEFAULT == null ? flavor != null : !FLAVOR_EDEFAULT.equals(flavor);
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
+        String description = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, DESCRIPTION_EDEFAULT);
+        return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
     }
     return super.eIsSet(featureID);
   }
@@ -232,8 +232,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (flavor: ");
-    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR, FLAVOR_EDEFAULT));
+    result.append(" (description: ");
+    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, DESCRIPTION_EDEFAULT));
     result.append(')');
     return result.toString();
   }

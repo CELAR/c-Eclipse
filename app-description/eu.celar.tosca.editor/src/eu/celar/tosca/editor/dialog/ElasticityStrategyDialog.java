@@ -25,10 +25,6 @@ import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblFactory;
 import org.example.sybl.ToEnforceType;
 
-import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory;
-import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
-
-
 public class ElasticityStrategyDialog extends Dialog {
 
   protected Text typeText;
@@ -112,21 +108,22 @@ public class ElasticityStrategyDialog extends Dialog {
     GridData gdMetric = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbMetric.setLayoutData( gdMetric );
     
-    if( this.component.compareTo( "Application" ) == 0 ) {
-      List<ElasticityRequirementCategory> categories = ElasticityRequirementCategory.VALUES;
-      for( ElasticityRequirementCategory tempCat : categories ) {
-        this.cmbMetric.add( tempCat.toString() );
-      }
-    } 
-    else if( this.component.compareTo( "Application Component" ) == 0 ) {
-      List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
-      for( ApplicationComponentElasticityRequirementCategory tempCat : categories )
-      {
-        this.cmbMetric.add( tempCat.toString() );
-      }
-      this.cmbMetric.add( "Latency" );
-    }
+//    if( this.component.compareTo( "Application" ) == 0 ) {
+//      List<ElasticityRequirementCategory> categories = ElasticityRequirementCategory.VALUES;
+//      for( ElasticityRequirementCategory tempCat : categories ) {
+//        this.cmbMetric.add( tempCat.toString() );
+//      }
+//    } 
+//    else if( this.component.compareTo( "Application Component" ) == 0 ) {
+//      List<ApplicationComponentElasticityRequirementCategory> categories = ApplicationComponentElasticityRequirementCategory.VALUES;
+//      for( ApplicationComponentElasticityRequirementCategory tempCat : categories )
+//      {
+//        this.cmbMetric.add( tempCat.toString() );
+//      }
+//      this.cmbMetric.add( "Latency" );
+//    }
 
+    this.cmbMetric.add( "Latency" );
     return composite;
   }
 

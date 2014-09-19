@@ -4,21 +4,13 @@ package eu.celar.tosca.elasticity.impl;
 
 import eu.celar.tosca.ToscaPackage;
 
-import eu.celar.tosca.elasticity.ApplicationComponentElasticityRequirementCategory;
-import eu.celar.tosca.elasticity.ApplicationPolicyCategory;
-import eu.celar.tosca.elasticity.DataHintCategory;
-import eu.celar.tosca.elasticity.DataHintsType1;
 import eu.celar.tosca.elasticity.DocumentRoot;
-import eu.celar.tosca.elasticity.ElasticityRequirementCategory;
-import eu.celar.tosca.elasticity.ImageArtifactProperties;
 import eu.celar.tosca.elasticity.ImageArtifactPropertiesType;
-import eu.celar.tosca.elasticity.LoadHintCategory;
-import eu.celar.tosca.elasticity.LoadHintsType1;
 import eu.celar.tosca.elasticity.MonitoringProbesType1;
 import eu.celar.tosca.elasticity.NodePropertiesType;
+import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
-import eu.celar.tosca.elasticity.TDataHint;
-import eu.celar.tosca.elasticity.TLoadHint;
 import eu.celar.tosca.elasticity.TMonitoringProbe;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
@@ -27,8 +19,6 @@ import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -53,13 +43,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass dataHintsType1EClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass documentRootEClass = null;
 
   /**
@@ -68,13 +51,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * @generated
    */
   private EClass imageArtifactPropertiesTypeEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass loadHintsType1EClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -95,21 +71,21 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass scriptArtifactPropertiesTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass servicePropertiesTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass tBoundaryDefinitionsExtensionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass tDataHintEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass tLoadHintEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -131,76 +107,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * @generated
    */
   private EClass tServiceTemplateExtensionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum applicationComponentElasticityRequirementCategoryEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum applicationPolicyCategoryEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum dataHintCategoryEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum elasticityRequirementCategoryEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum loadHintCategoryEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EDataType applicationComponentElasticityRequirementCategoryObjectEDataType = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EDataType applicationPolicyCategoryObjectEDataType = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EDataType dataHintCategoryObjectEDataType = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EDataType elasticityRequirementCategoryObjectEDataType = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EDataType loadHintCategoryObjectEDataType = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -279,26 +185,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getDataHintsType1()
-  {
-    return dataHintsType1EClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getDataHintsType1_DataHints()
-  {
-    return (EReference)dataHintsType1EClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -359,6 +245,26 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getDocumentRoot_ScriptArtifactProperties()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getDocumentRoot_ServiceProperties()
+  {
+    return (EReference)documentRootEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getImageArtifactPropertiesType()
   {
     return imageArtifactPropertiesTypeEClass;
@@ -369,29 +275,9 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getImageArtifactPropertiesType_Flavor()
+  public EAttribute getImageArtifactPropertiesType_Description()
   {
     return (EAttribute)imageArtifactPropertiesTypeEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getLoadHintsType1()
-  {
-    return loadHintsType1EClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getLoadHintsType1_LoadHints()
-  {
-    return (EReference)loadHintsType1EClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -439,6 +325,46 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getScriptArtifactPropertiesType()
+  {
+    return scriptArtifactPropertiesTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getScriptArtifactPropertiesType_Language()
+  {
+    return (EAttribute)scriptArtifactPropertiesTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getServicePropertiesType()
+  {
+    return servicePropertiesTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getServicePropertiesType_Version()
+  {
+    return (EAttribute)servicePropertiesTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getTBoundaryDefinitionsExtension()
   {
     return tBoundaryDefinitionsExtensionEClass;
@@ -452,66 +378,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
   public EReference getTBoundaryDefinitionsExtension_MonitoringProbes()
   {
     return (EReference)tBoundaryDefinitionsExtensionEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getTDataHint()
-  {
-    return tDataHintEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getTDataHint_Name()
-  {
-    return (EAttribute)tDataHintEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getTDataHint_Value()
-  {
-    return (EAttribute)tDataHintEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getTLoadHint()
-  {
-    return tLoadHintEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getTLoadHint_Name()
-  {
-    return (EAttribute)tLoadHintEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getTLoadHint_Value()
-  {
-    return (EAttribute)tLoadHintEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -549,7 +415,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_Casmulti()
+  public EAttribute getTNodeTemplateExtension_Height()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(0);
   }
@@ -559,7 +425,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_Height()
+  public EAttribute getTNodeTemplateExtension_InitInstances()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(1);
   }
@@ -569,7 +435,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_InitInstances()
+  public EAttribute getTNodeTemplateExtension_Width()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(2);
   }
@@ -579,7 +445,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_Width()
+  public EAttribute getTNodeTemplateExtension_X()
   {
     return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(3);
   }
@@ -589,29 +455,9 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getTNodeTemplateExtension_X()
-  {
-    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(4);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EAttribute getTNodeTemplateExtension_Y()
   {
-    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(5);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getTNodeTemplateExtension_Ycsbmulti()
-  {
-    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(6);
+    return (EAttribute)tNodeTemplateExtensionEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -669,106 +515,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public EEnum getApplicationComponentElasticityRequirementCategory()
-  {
-    return applicationComponentElasticityRequirementCategoryEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EEnum getApplicationPolicyCategory()
-  {
-    return applicationPolicyCategoryEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EEnum getDataHintCategory()
-  {
-    return dataHintCategoryEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EEnum getElasticityRequirementCategory()
-  {
-    return elasticityRequirementCategoryEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EEnum getLoadHintCategory()
-  {
-    return loadHintCategoryEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EDataType getApplicationComponentElasticityRequirementCategoryObject()
-  {
-    return applicationComponentElasticityRequirementCategoryObjectEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EDataType getApplicationPolicyCategoryObject()
-  {
-    return applicationPolicyCategoryObjectEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EDataType getDataHintCategoryObject()
-  {
-    return dataHintCategoryObjectEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EDataType getElasticityRequirementCategoryObject()
-  {
-    return elasticityRequirementCategoryObjectEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EDataType getLoadHintCategoryObject()
-  {
-    return loadHintCategoryObjectEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Tosca_Elasticity_ExtensionsFactory getTosca_Elasticity_ExtensionsFactory()
   {
     return (Tosca_Elasticity_ExtensionsFactory)getEFactoryInstance();
@@ -794,21 +540,17 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     isCreated = true;
 
     // Create classes and their features
-    dataHintsType1EClass = createEClass(DATA_HINTS_TYPE1);
-    createEReference(dataHintsType1EClass, DATA_HINTS_TYPE1__DATA_HINTS);
-
     documentRootEClass = createEClass(DOCUMENT_ROOT);
     createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
     createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     createEReference(documentRootEClass, DOCUMENT_ROOT__IMAGE_ARTIFACT_PROPERTIES);
     createEReference(documentRootEClass, DOCUMENT_ROOT__NODE_PROPERTIES);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__SCRIPT_ARTIFACT_PROPERTIES);
+    createEReference(documentRootEClass, DOCUMENT_ROOT__SERVICE_PROPERTIES);
 
     imageArtifactPropertiesTypeEClass = createEClass(IMAGE_ARTIFACT_PROPERTIES_TYPE);
-    createEAttribute(imageArtifactPropertiesTypeEClass, IMAGE_ARTIFACT_PROPERTIES_TYPE__FLAVOR);
-
-    loadHintsType1EClass = createEClass(LOAD_HINTS_TYPE1);
-    createEReference(loadHintsType1EClass, LOAD_HINTS_TYPE1__LOAD_HINTS);
+    createEAttribute(imageArtifactPropertiesTypeEClass, IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION);
 
     monitoringProbesType1EClass = createEClass(MONITORING_PROBES_TYPE1);
     createEReference(monitoringProbesType1EClass, MONITORING_PROBES_TYPE1__MONITORING_PROBES);
@@ -816,48 +558,30 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     nodePropertiesTypeEClass = createEClass(NODE_PROPERTIES_TYPE);
     createEAttribute(nodePropertiesTypeEClass, NODE_PROPERTIES_TYPE__FLAVOR);
 
+    scriptArtifactPropertiesTypeEClass = createEClass(SCRIPT_ARTIFACT_PROPERTIES_TYPE);
+    createEAttribute(scriptArtifactPropertiesTypeEClass, SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE);
+
+    servicePropertiesTypeEClass = createEClass(SERVICE_PROPERTIES_TYPE);
+    createEAttribute(servicePropertiesTypeEClass, SERVICE_PROPERTIES_TYPE__VERSION);
+
     tBoundaryDefinitionsExtensionEClass = createEClass(TBOUNDARY_DEFINITIONS_EXTENSION);
     createEReference(tBoundaryDefinitionsExtensionEClass, TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
-
-    tDataHintEClass = createEClass(TDATA_HINT);
-    createEAttribute(tDataHintEClass, TDATA_HINT__NAME);
-    createEAttribute(tDataHintEClass, TDATA_HINT__VALUE);
-
-    tLoadHintEClass = createEClass(TLOAD_HINT);
-    createEAttribute(tLoadHintEClass, TLOAD_HINT__NAME);
-    createEAttribute(tLoadHintEClass, TLOAD_HINT__VALUE);
 
     tMonitoringProbeEClass = createEClass(TMONITORING_PROBE);
     createEAttribute(tMonitoringProbeEClass, TMONITORING_PROBE__NAME);
 
     tNodeTemplateExtensionEClass = createEClass(TNODE_TEMPLATE_EXTENSION);
-    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__CASMULTI);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__HEIGHT);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__INIT_INSTANCES);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__WIDTH);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__X);
     createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__Y);
-    createEAttribute(tNodeTemplateExtensionEClass, TNODE_TEMPLATE_EXTENSION__YCSBMULTI);
 
     tServiceTemplateExtensionEClass = createEClass(TSERVICE_TEMPLATE_EXTENSION);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__HEIGHT);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__WIDTH);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__X);
     createEAttribute(tServiceTemplateExtensionEClass, TSERVICE_TEMPLATE_EXTENSION__Y);
-
-    // Create enums
-    applicationComponentElasticityRequirementCategoryEEnum = createEEnum(APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY);
-    applicationPolicyCategoryEEnum = createEEnum(APPLICATION_POLICY_CATEGORY);
-    dataHintCategoryEEnum = createEEnum(DATA_HINT_CATEGORY);
-    elasticityRequirementCategoryEEnum = createEEnum(ELASTICITY_REQUIREMENT_CATEGORY);
-    loadHintCategoryEEnum = createEEnum(LOAD_HINT_CATEGORY);
-
-    // Create data types
-    applicationComponentElasticityRequirementCategoryObjectEDataType = createEDataType(APPLICATION_COMPONENT_ELASTICITY_REQUIREMENT_CATEGORY_OBJECT);
-    applicationPolicyCategoryObjectEDataType = createEDataType(APPLICATION_POLICY_CATEGORY_OBJECT);
-    dataHintCategoryObjectEDataType = createEDataType(DATA_HINT_CATEGORY_OBJECT);
-    elasticityRequirementCategoryObjectEDataType = createEDataType(ELASTICITY_REQUIREMENT_CATEGORY_OBJECT);
-    loadHintCategoryObjectEDataType = createEDataType(LOAD_HINT_CATEGORY_OBJECT);
   }
 
   /**
@@ -894,28 +618,22 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     // Add supertypes to classes
     tBoundaryDefinitionsExtensionEClass.getESuperTypes().add(theToscaPackage.getTBoundaryDefinitions());
-    tDataHintEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
-    tLoadHintEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
     tMonitoringProbeEClass.getESuperTypes().add(theToscaPackage.getTExtensibleElements());
     tNodeTemplateExtensionEClass.getESuperTypes().add(theToscaPackage.getTNodeTemplate());
     tServiceTemplateExtensionEClass.getESuperTypes().add(theToscaPackage.getTServiceTemplate());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(dataHintsType1EClass, DataHintsType1.class, "DataHintsType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getDataHintsType1_DataHints(), this.getTDataHint(), null, "dataHints", null, 1, -1, DataHintsType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_ImageArtifactProperties(), this.getImageArtifactPropertiesType(), null, "imageArtifactProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_NodeProperties(), this.getNodePropertiesType(), null, "nodeProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_ScriptArtifactProperties(), this.getScriptArtifactPropertiesType(), null, "scriptArtifactProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_ServiceProperties(), this.getServicePropertiesType(), null, "serviceProperties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     initEClass(imageArtifactPropertiesTypeEClass, ImageArtifactPropertiesType.class, "ImageArtifactPropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getImageArtifactPropertiesType_Flavor(), theXMLTypePackage.getString(), "flavor", null, 1, 1, ImageArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(loadHintsType1EClass, LoadHintsType1.class, "LoadHintsType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getLoadHintsType1_LoadHints(), this.getTLoadHint(), null, "loadHints", null, 1, -1, LoadHintsType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getImageArtifactPropertiesType_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, ImageArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(monitoringProbesType1EClass, MonitoringProbesType1.class, "MonitoringProbesType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMonitoringProbesType1_MonitoringProbes(), this.getTMonitoringProbe(), null, "monitoringProbes", null, 1, -1, MonitoringProbesType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -923,66 +641,30 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
     initEClass(nodePropertiesTypeEClass, NodePropertiesType.class, "NodePropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getNodePropertiesType_Flavor(), theXMLTypePackage.getString(), "flavor", null, 1, 1, NodePropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(scriptArtifactPropertiesTypeEClass, ScriptArtifactPropertiesType.class, "ScriptArtifactPropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getScriptArtifactPropertiesType_Language(), theXMLTypePackage.getString(), "language", null, 1, 1, ScriptArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(servicePropertiesTypeEClass, ServicePropertiesType.class, "ServicePropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getServicePropertiesType_Version(), theXMLTypePackage.getString(), "version", null, 1, 1, ServicePropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(tBoundaryDefinitionsExtensionEClass, TBoundaryDefinitionsExtension.class, "TBoundaryDefinitionsExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTBoundaryDefinitionsExtension_MonitoringProbes(), this.getMonitoringProbesType1(), null, "monitoringProbes", null, 0, 1, TBoundaryDefinitionsExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(tDataHintEClass, TDataHint.class, "TDataHint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getTDataHint_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TDataHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getTDataHint_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TDataHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(tLoadHintEClass, TLoadHint.class, "TLoadHint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getTLoadHint_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TLoadHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getTLoadHint_Value(), theXMLTypePackage.getString(), "value", null, 0, 1, TLoadHint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tMonitoringProbeEClass, TMonitoringProbe.class, "TMonitoringProbe", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTMonitoringProbe_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TMonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tNodeTemplateExtensionEClass, TNodeTemplateExtension.class, "TNodeTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getTNodeTemplateExtension_Casmulti(), theXMLTypePackage.getInt(), "casmulti", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_Height(), theXMLTypePackage.getInt(), "height", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_InitInstances(), theXMLTypePackage.getInt(), "initInstances", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_Width(), theXMLTypePackage.getInt(), "width", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_X(), theXMLTypePackage.getInt(), "x", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTNodeTemplateExtension_Y(), theXMLTypePackage.getInt(), "y", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getTNodeTemplateExtension_Ycsbmulti(), theXMLTypePackage.getInt(), "ycsbmulti", null, 0, 1, TNodeTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tServiceTemplateExtensionEClass, TServiceTemplateExtension.class, "TServiceTemplateExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTServiceTemplateExtension_Height(), theXMLTypePackage.getInt(), "height", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTServiceTemplateExtension_Width(), theXMLTypePackage.getInt(), "width", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTServiceTemplateExtension_X(), theXMLTypePackage.getInt(), "x", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getTServiceTemplateExtension_Y(), theXMLTypePackage.getInt(), "y", null, 0, 1, TServiceTemplateExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    // Initialize enums and add enum literals
-    initEEnum(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.class, "ApplicationComponentElasticityRequirementCategory");
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.RESPONSE_TIME);
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.COST);
-    addEEnumLiteral(applicationComponentElasticityRequirementCategoryEEnum, ApplicationComponentElasticityRequirementCategory.THROUGHPUT);
-
-    initEEnum(applicationPolicyCategoryEEnum, ApplicationPolicyCategory.class, "ApplicationPolicyCategory");
-    addEEnumLiteral(applicationPolicyCategoryEEnum, ApplicationPolicyCategory.MINIMIZE_COST);
-    addEEnumLiteral(applicationPolicyCategoryEEnum, ApplicationPolicyCategory.MAXIMIZE_THROUGHPUT);
-
-    initEEnum(dataHintCategoryEEnum, DataHintCategory.class, "DataHintCategory");
-    addEEnumLiteral(dataHintCategoryEEnum, DataHintCategory.JSON);
-    addEEnumLiteral(dataHintCategoryEEnum, DataHintCategory.XML);
-
-    initEEnum(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.class, "ElasticityRequirementCategory");
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.COST);
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.THROUGHPUT);
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.LATENCY);
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.RESPONSE_TIME);
-    addEEnumLiteral(elasticityRequirementCategoryEEnum, ElasticityRequirementCategory.BANDWIDTH);
-
-    initEEnum(loadHintCategoryEEnum, LoadHintCategory.class, "LoadHintCategory");
-    addEEnumLiteral(loadHintCategoryEEnum, LoadHintCategory.READ_HEAVY);
-    addEEnumLiteral(loadHintCategoryEEnum, LoadHintCategory.WRITE_HEAVY);
-
-    // Initialize data types
-    initEDataType(applicationComponentElasticityRequirementCategoryObjectEDataType, ApplicationComponentElasticityRequirementCategory.class, "ApplicationComponentElasticityRequirementCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(applicationPolicyCategoryObjectEDataType, ApplicationPolicyCategory.class, "ApplicationPolicyCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(dataHintCategoryObjectEDataType, DataHintCategory.class, "DataHintCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(elasticityRequirementCategoryObjectEDataType, ElasticityRequirementCategory.class, "ElasticityRequirementCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(loadHintCategoryObjectEDataType, LoadHintCategory.class, "LoadHintCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -1001,68 +683,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
   protected void createExtendedMetaDataAnnotations()
   {
     String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
-    addAnnotation
-      (applicationComponentElasticityRequirementCategoryEEnum, 
-       source, 
-       new String[] 
-       {
-       "name", "ApplicationComponentElasticityRequirementCategory"
-       });		
-    addAnnotation
-      (applicationComponentElasticityRequirementCategoryObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ApplicationComponentElasticityRequirementCategory:Object",
-       "baseType", "ApplicationComponentElasticityRequirementCategory"
-       });		
-    addAnnotation
-      (applicationPolicyCategoryEEnum, 
-       source, 
-       new String[] 
-       {
-       "name", "ApplicationPolicyCategory"
-       });		
-    addAnnotation
-      (applicationPolicyCategoryObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ApplicationPolicyCategory:Object",
-       "baseType", "ApplicationPolicyCategory"
-       });		
-    addAnnotation
-      (dataHintCategoryEEnum, 
-       source, 
-       new String[] 
-       {
-       "name", "DataHintCategory"
-       });		
-    addAnnotation
-      (dataHintCategoryObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "DataHintCategory:Object",
-       "baseType", "DataHintCategory"
-       });		
-    addAnnotation
-      (dataHintsType1EClass, 
-       source, 
-       new String[] 
-       {
-       "name", "DataHintsType1",
-       "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getDataHintsType1_DataHints(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "dataHints",
-       "namespace", "##targetNamespace"
-       });		
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -1114,19 +734,22 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "namespace", "##targetNamespace"
        });		
     addAnnotation
-      (elasticityRequirementCategoryEEnum, 
+      (getDocumentRoot_ScriptArtifactProperties(), 
        source, 
        new String[] 
        {
-       "name", "ElasticityRequirementCategory"
+       "kind", "element",
+       "name", "ScriptArtifactProperties",
+       "namespace", "##targetNamespace"
        });		
     addAnnotation
-      (elasticityRequirementCategoryObjectEDataType, 
+      (getDocumentRoot_ServiceProperties(), 
        source, 
        new String[] 
        {
-       "name", "ElasticityRequirementCategory:Object",
-       "baseType", "ElasticityRequirementCategory"
+       "kind", "element",
+       "name", "ServiceProperties",
+       "namespace", "##targetNamespace"
        });		
     addAnnotation
       (imageArtifactPropertiesTypeEClass, 
@@ -1137,44 +760,12 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "elementOnly"
        });		
     addAnnotation
-      (getImageArtifactPropertiesType_Flavor(), 
+      (getImageArtifactPropertiesType_Description(), 
        source, 
        new String[] 
        {
        "kind", "element",
-       "name", "Flavor",
-       "namespace", "##targetNamespace"
-       });		
-    addAnnotation
-      (loadHintCategoryEEnum, 
-       source, 
-       new String[] 
-       {
-       "name", "LoadHintCategory"
-       });		
-    addAnnotation
-      (loadHintCategoryObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "LoadHintCategory:Object",
-       "baseType", "LoadHintCategory"
-       });		
-    addAnnotation
-      (loadHintsType1EClass, 
-       source, 
-       new String[] 
-       {
-       "name", "LoadHintsType1",
-       "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getLoadHintsType1_LoadHints(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "loadHints",
+       "name", "Description",
        "namespace", "##targetNamespace"
        });		
     addAnnotation
@@ -1212,6 +803,40 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "namespace", "##targetNamespace"
        });		
     addAnnotation
+      (scriptArtifactPropertiesTypeEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "ScriptArtifactPropertiesType",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getScriptArtifactPropertiesType_Language(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Language",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (servicePropertiesTypeEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "ServicePropertiesType",
+       "kind", "elementOnly"
+       });		
+    addAnnotation
+      (getServicePropertiesType_Version(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Version",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
       (tBoundaryDefinitionsExtensionEClass, 
        source, 
        new String[] 
@@ -1227,54 +852,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "monitoringProbes",
        "namespace", "##targetNamespace"
-       });		
-    addAnnotation
-      (tDataHintEClass, 
-       source, 
-       new String[] 
-       {
-       "name", "TDataHint",
-       "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getTDataHint_Name(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "Name"
-       });		
-    addAnnotation
-      (getTDataHint_Value(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "Value"
-       });		
-    addAnnotation
-      (tLoadHintEClass, 
-       source, 
-       new String[] 
-       {
-       "name", "TLoadHint",
-       "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getTLoadHint_Name(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "Name"
-       });		
-    addAnnotation
-      (getTLoadHint_Value(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "Value"
        });		
     addAnnotation
       (tMonitoringProbeEClass, 
@@ -1299,14 +876,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TNodeTemplateExtension",
        "kind", "elementOnly"
-       });		
-    addAnnotation
-      (getTNodeTemplateExtension_Casmulti(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "casmulti"
        });		
     addAnnotation
       (getTNodeTemplateExtension_Height(), 
@@ -1347,14 +916,6 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "y"
-       });		
-    addAnnotation
-      (getTNodeTemplateExtension_Ycsbmulti(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "ycsbmulti"
        });		
     addAnnotation
       (tServiceTemplateExtensionEClass, 

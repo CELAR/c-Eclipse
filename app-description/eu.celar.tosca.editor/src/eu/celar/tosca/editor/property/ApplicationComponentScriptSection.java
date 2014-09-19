@@ -44,7 +44,7 @@ import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
 import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
-import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
+import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 
 
@@ -220,8 +220,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
 
     
     }
-    
-    
+
   }
   
   // Creates the Application Deployment file
@@ -248,7 +247,7 @@ public class ApplicationComponentScriptSection extends GFPropertySection
       }
     }
     
-    String fileName = appComponent.getName() + " Deployment";  
+    String fileName = appComponent.getName() + "Deployment";  
         
      file = activeProject.getFile( new Path("/Artifacts/Deployment Scripts/" +  fileName));
      try {
@@ -269,23 +268,24 @@ public class ApplicationComponentScriptSection extends GFPropertySection
  
       // Refresh Palette Compartments
       getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
-          
-      // Call the Create User Application Feature to create a deployment artifact for the deployment script and add it to the artifacts list 
-      CreateUserApplicationFeature createUAFeature = new CreateUserApplicationFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
       
-      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-      deploymentArtifact.setName( fileName );
-      deploymentArtifact.setArtifactType( new QName( "UA" ) );  
-      
-      createUAFeature.setContextObject( deploymentArtifact );
-      
-      CreateContext createContext = new CreateContext();
-      createContext.setTargetContainer( (ContainerShape) pe );
-      
-      if ( createUAFeature.canCreate( createContext ))
-        createUAFeature.create( createContext );
+    // Call the Create User Application Feature to create a deployment artifact for the deployment script and add it to the artifacts list 
+    CreateSoftwareDependencyFeature createSDFeature = new CreateSoftwareDependencyFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
+    
+    TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+    deploymentArtifact.setName( fileName );
+    deploymentArtifact.setArtifactType( new QName( "SD" ) );  
+    
+    createSDFeature.setContextObject( deploymentArtifact );
+    
+    CreateContext createContext = new CreateContext();
+    createContext.setTargetContainer( (ContainerShape) pe );
+    
+    if ( createSDFeature.canCreate( createContext ))
+      createSDFeature.create( createContext );
    
     return file;
     
   }
+
 }

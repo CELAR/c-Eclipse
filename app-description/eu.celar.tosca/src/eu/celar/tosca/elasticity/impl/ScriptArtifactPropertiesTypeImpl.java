@@ -2,38 +2,30 @@
  */
 package eu.celar.tosca.elasticity.impl;
 
-import eu.celar.tosca.elasticity.LoadHintsType1;
-import eu.celar.tosca.elasticity.TLoadHint;
+import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Load Hints Type1</b></em>'.
+ * An implementation of the model object '<em><b>Script Artifact Properties Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link eu.celar.tosca.elasticity.impl.LoadHintsType1Impl#getLoadHints <em>Load Hints</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.ScriptArtifactPropertiesTypeImpl#getLanguage <em>Language</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
+public class ScriptArtifactPropertiesTypeImpl extends EObjectImpl implements ScriptArtifactPropertiesType
 {
   /**
    * An array of objects representing the values of non-primitive features.
@@ -52,11 +44,21 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
   protected int eVirtualIndexBits0;
 
   /**
+   * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLanguage()
+   * @generated
+   * @ordered
+   */
+  protected static final String LANGUAGE_EDEFAULT = null;
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LoadHintsType1Impl()
+  protected ScriptArtifactPropertiesTypeImpl()
   {
     super();
   }
@@ -69,7 +71,7 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
   @Override
   protected EClass eStaticClass()
   {
-    return Tosca_Elasticity_ExtensionsPackage.Literals.LOAD_HINTS_TYPE1;
+    return Tosca_Elasticity_ExtensionsPackage.Literals.SCRIPT_ARTIFACT_PROPERTIES_TYPE;
   }
 
   /**
@@ -77,15 +79,9 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
-  public EList<TLoadHint> getLoadHints()
+  public String getLanguage()
   {
-    EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
-    if (loadHints == null)
-    {
-      eVirtualSet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS, loadHints = new EObjectContainmentEList<TLoadHint>(TLoadHint.class, this, Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS));
-    }
-    return loadHints;
+    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE, LANGUAGE_EDEFAULT);
   }
 
   /**
@@ -93,15 +89,12 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public void setLanguage(String newLanguage)
   {
-    switch (featureID)
-    {
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-        return ((InternalEList<?>)getLoadHints()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    String language = newLanguage;
+    Object oldLanguage = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE, language);
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE, oldLanguage == EVIRTUAL_NO_VALUE ? LANGUAGE_EDEFAULT : oldLanguage, language));
   }
 
   /**
@@ -114,8 +107,8 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-        return getLoadHints();
+      case Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE:
+        return getLanguage();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -125,15 +118,13 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-        getLoadHints().clear();
-        getLoadHints().addAll((Collection<? extends TLoadHint>)newValue);
+      case Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE:
+        setLanguage((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -149,8 +140,8 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-        getLoadHints().clear();
+      case Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE:
+        setLanguage(LANGUAGE_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -161,15 +152,14 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
     {
-      case Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS:
-        EList<TLoadHint> loadHints = (EList<TLoadHint>)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.LOAD_HINTS_TYPE1__LOAD_HINTS);
-        return loadHints != null && !loadHints.isEmpty();
+      case Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE:
+        String language = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE, LANGUAGE_EDEFAULT);
+        return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
     }
     return super.eIsSet(featureID);
   }
@@ -231,4 +221,21 @@ public class LoadHintsType1Impl extends EObjectImpl implements LoadHintsType1
     }
   }
 
-} //LoadHintsType1Impl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (language: ");
+    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.SCRIPT_ARTIFACT_PROPERTIES_TYPE__LANGUAGE, LANGUAGE_EDEFAULT));
+    result.append(')');
+    return result.toString();
+  }
+
+} //ScriptArtifactPropertiesTypeImpl
