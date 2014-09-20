@@ -41,9 +41,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import eu.celar.core.model.CloudModel;
-// import eu.celar.connectors.openstack.OpenStackClient;
-// import eu.celar.connectors.openstack.operation.OpenStackOpDeployApplication;
-// import eu.celar.connectors.openstack.operation.OperationExecuter;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.core.reporting.ProblemException;
@@ -59,7 +56,6 @@ import org.eclipse.ui.browser.IWebBrowser;
  */
 public class NewDeploymentWizard extends Wizard implements INewWizard {
 
-  private List<ICloudDeploymentService> deploymentServices = null;
   private TOSCAResource deploymentFile = null;
   private IStructuredSelection selection = null;
   private NewSubmissionWizardSecondPage secondPage = null;
@@ -78,15 +74,15 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   @Override
   public boolean performFinish() {
     // Export CSAR file
-//    try {
-//      exportCSAR();
-//    } catch( IOException e1 ) {
-//      // TODO Auto-generated catch block
-//      e1.printStackTrace();
-//    } catch( CoreException e1 ) {
-//      // TODO Auto-generated catch block
-//      e1.printStackTrace();
-//    }
+    try {
+      exportCSAR();
+    } catch( IOException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    } catch( CoreException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
     // Open IS browser in c-Eclipse
     openISbrowser();
     return true;
@@ -127,7 +123,6 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
   @Override
   public void addPages() {
-    this.deploymentServices = new ArrayList<ICloudDeploymentService>();
     this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" ) ); //$NON-NLS-1$
     this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
     this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
@@ -155,27 +150,32 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       this.deploymentFile = ( TOSCAResource )obj;
       this.toscaModel = this.deploymentFile.getTOSCAModel();
     }
-//     if (obj instanceof IFile){
-//     IFile file = (IFile) obj;
-//     ICloudElement element = CloudModel.getRoot().findElement( file );
-//    
-//     if( element instanceof TOSCAResource ) {
-//     this.deploymentFile = ( TOSCAResource )element;
-//     this.toscaModel = this.deploymentFile.getTOSCAModel();
-//     }
-//     }
+     if (obj instanceof IFile){
+     IFile file = (IFile) obj;
+     ICloudElement element = CloudModel.getRoot().findElement( file );
+    
+     if( element instanceof TOSCAResource ) {
+     this.deploymentFile = ( TOSCAResource )element;
+     this.toscaModel = this.deploymentFile.getTOSCAModel();
+     }
+     }
+     
   }
 
   public void exportCSAR() throws IOException, CoreException {
+    
     // Export monitoring probes to jar files
-    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
-    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
-    IResource[] monitoringProbes = srcFolder.members();
-    for( IResource monitoringProbeFile : monitoringProbes )
-      exportProbe( ( IFile )monitoringProbeFile );
+//    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+//    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
+//    IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+//    IResource[] monitoringProbes = srcFolder.members();  
+//    for( IResource monitoringProbeFile : monitoringProbes )
+//      exportProbe( ( IFile )monitoringProbeFile );
+    
     // Create CSAR
-    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\app.csar" );
+    String csarName = this.deploymentFile.getName();
+    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\" + csarName.replace( "tosca", "csar" ) );
+
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
     // File names

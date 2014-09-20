@@ -95,35 +95,58 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     String fileName = this.firstPage.getFileName();
     IPath path = new Path( fileName );
     fileName = path.removeFileExtension()
-      .addFileExtension( "deployment" ) //$NON-NLS-1$
+      .addFileExtension( "tosca" ) //$NON-NLS-1$
       .lastSegment();
     
     this.firstPage.setFileName( fileName );
     
-    boolean fileCreated = false;
-       
-    IProject project = resource.getProject().getResource().getProject();
-    
-    IFile file = project.getFile( "/Application Submissions/" + fileName ); //$NON-NLS-1$
-    
-    try {
-      IResource resourceName = resource.getResource();
-      this.toscaFile = (IFile) resourceName;
-      
-      DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
-                
-      TOSCAModel.saveModelToFile( file, model );  
-    } catch( Exception e ) {
-      e.printStackTrace();
-    }
+    //////////////////////////////////////////////
     
     IProgressMonitor monitor = null;
+    IProject project = resource.getProject().getResource().getProject();
+    String cloudProjectPath = project.getFullPath().segment( 0 );
+
+    try {
+      resource.getResource().copy( new Path("/"+cloudProjectPath+ "/Application Submissions/" + fileName), true, monitor );
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     try {
       CloudModel.getRoot().refresh( monitor );
     } catch( ProblemException e ) {
       e.printStackTrace();
     }
-    return fileCreated;
+    
+    return true;
+    
+    /////////////////////////////////////////////
+//    
+//    boolean fileCreated = false;
+//       
+//    IProject project = resource.getProject().getResource().getProject();
+//    
+//    IFile file = project.getFile( "/Application Submissions/" + fileName ); //$NON-NLS-1$
+//    
+//    try {
+//      IResource resourceName = resource.getResource();
+//      this.toscaFile = (IFile) resourceName;
+//      
+//      DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
+//                
+//      TOSCAModel.saveModelToFile( file, model );  
+//    } catch( Exception e ) {
+//      e.printStackTrace();
+//    }
+//    
+//    IProgressMonitor monitor = null;
+//    try {
+//      CloudModel.getRoot().refresh( monitor );
+//    } catch( ProblemException e ) {
+//      e.printStackTrace();
+//    }
+//    return fileCreated;
   }
     
 //  // Validates TOSCA file before passing it to CELAR Server
