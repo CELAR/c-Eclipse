@@ -4,14 +4,8 @@
   
   <groupId>eu.celar.cEclipse</groupId>
   <artifactId>c-Eclipse-pom</artifactId>
-  <version>0.1-SNAPSHOT</version>
   <name>CELAR c-Eclipse main POM</name>
 
-  <parent>
-    <groupId>eu.celar</groupId>
-    <artifactId>distribution</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
 
   <url>https://github.com/CELAR/c-Eclipse</url>
 
@@ -22,10 +16,8 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>app-description</module>
-    <module>app-submission</module>
-    <module>core</module>
-    <module>service-dsl</module>
+
+  <module>eu.celar.tycho</module>
   </modules>
 
   <issueManagement>
@@ -38,5 +30,6 @@
     <developerConnection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</developerConnection>
   </scm>
 
+  <version>1.0.0.qualifier</version>
 </project>
 

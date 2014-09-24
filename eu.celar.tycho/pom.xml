@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.celar.tycho</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.0.qualifier</version>
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -18,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
   
+	
   	<!-- 
   <repositories>
     <repository>
@@ -95,6 +95,7 @@
 
 	</build>
 
+<!-- 
   <modules>  	
   	<module>..${file.separator}core${file.separator}eu.celar.core</module>
   	<module>..${file.separator}core${file.separator}eu.celar.core.reporting</module>
@@ -108,5 +109,23 @@
  	<module>..${file.separator}eu.celar.tycho.p2.updatesite</module>
   </modules>
   
+   -->
  
+	<modules>
+		<module>../core/eu.celar.core</module>
+		<module>../core/eu.celar.core.reporting</module>
+		<module>../core/eu.celar.infosystem.mockup</module>
+		<module>../core/eu.celar.infosystem.model</module>
+		<module>../app-description/eu.celar.tosca</module>
+		<module>../app-description/eu.celar.tosca.editor</module>
+		<module>../eu.celar.tycho.feature</module>
+		<module>../eu.celar.tycho.p2.updatesite</module>
+		<module>../eu.celar.tycho.target</module>
+		<module>../core/eu.celar.ui</module>
+	</modules>
+	<parent>
+		<groupId>eu.celar.cEclipse</groupId>
+		<artifactId>c-Eclipse-pom</artifactId>
+		<version>1.0.0.qualifier</version>
+	</parent>
 </project> 
