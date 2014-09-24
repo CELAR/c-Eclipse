@@ -127,6 +127,6 @@
 		<groupId>eu.celar.cEclipse</groupId>
 		<artifactId>c-Eclipse-pom</artifactId>
 		<version>1.0.0.qualifier</version>
-		<relativePath>..</relativePath>
+		<relativePath>../</relativePath>
 	</parent>
 </project> 
