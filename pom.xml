@@ -15,10 +15,6 @@
 
   <packaging>pom</packaging>
 
-  <modules>
-
-  <module>eu.celar.tycho</module>
-  </modules>
 
   <issueManagement>
     <system>GitHub Issues</system>
@@ -31,5 +27,8 @@
   </scm>
 
   <version>1.0.0.qualifier</version>
+  <modules>
+  	<module>eu.celar.tycho</module>
+  </modules>
 </project>
 
