@@ -5,7 +5,7 @@
 	<groupId>eu.celar.tycho</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0.qualifier-SNAPSHOT</version>
 
 	<parent>
 		<groupId>eu.celar.cEclipse</groupId>
@@ -106,27 +106,12 @@
 		<module>..${file.separator}eu.celar.tycho.p2.updatesite</module> </modules> -->
 
 	<modules>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		<module>../core/eu.celar.core</module>
 		<module>../core/eu.celar.core.reporting</module>
-		
 		<module>../core/eu.celar.infosystem.mockup</module>
 		<module>../core/eu.celar.infosystem.model</module>
 		<module>../app-description/eu.celar.tosca</module>
 		<module>../app-description/eu.celar.tosca.editor</module>
-		
-		
-		
-		
 		<module>../eu.celar.tycho.feature</module>
 		<module>../eu.celar.tycho.p2.updatesite</module>
 		<module>../eu.celar.tycho.target</module>
