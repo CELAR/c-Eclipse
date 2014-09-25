@@ -5,6 +5,7 @@
   <groupId>eu.celar.cEclipse</groupId>
   <artifactId>c-Eclipse-pom</artifactId>
   <name>CELAR c-Eclipse main POM</name>
+  <version>0.1-SNAPSHOT</version>
 
 
   <url>https://github.com/CELAR/c-Eclipse</url>
@@ -26,9 +27,8 @@
     <developerConnection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</developerConnection>
   </scm>
 
-  <version>0.1-SNAPSHOT</version>
   <modules>
-  	<module>eu.celar.tycho</module>
+  	<module>../eu.celar.tycho</module>
   </modules>
 </project>
 

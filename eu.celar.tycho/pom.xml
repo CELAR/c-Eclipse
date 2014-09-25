@@ -5,7 +5,15 @@
 	<groupId>eu.celar.tycho</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
+	<version>1.0.0.qualifier</version>
 
+	<parent>
+		<groupId>eu.celar.cEclipse</groupId>
+		<artifactId>c-Eclipse-pom</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
@@ -123,11 +131,4 @@
 		<module>../eu.celar.tycho.target</module>
 		<module>../core/eu.celar.ui</module>
 	</modules>
-	<parent>
-		<groupId>eu.celar.cEclipse</groupId>
-		<artifactId>c-Eclipse-pom</artifactId>
-		<version>0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
-	</parent>
-	<version>1.0.0.qualifier</version>
 </project> 
