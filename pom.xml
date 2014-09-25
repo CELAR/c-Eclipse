@@ -31,5 +31,11 @@
     <developerConnection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</developerConnection>
   </scm>
  -->
+	<parent>
+		<groupId>eu.celar</groupId>
+		<artifactId>distribution</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../celar-distribution/</relativePath>
+	</parent>
 </project>
 
