@@ -4,7 +4,7 @@
   <artifactId>eu.celar.tosca</artifactId>
   <packaging>eclipse-plugin</packaging>
   <parent>
-  	<version>1.0.0.qualifier</version>
+  	<version>1.0.0.qualifier-SNAPSHOT</version>
   	<artifactId>parent</artifactId>
   	<groupId>eu.celar.tycho</groupId>
   	<relativePath>../../eu.celar.tycho</relativePath>

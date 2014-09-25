@@ -5,7 +5,7 @@
 	<groupId>eu.celar.tycho</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0.qualifier</version>
+	<version>1.0.0.qualifier-SNAPSHOT</version>
 
 	<parent>
 		<groupId>eu.celar.cEclipse</groupId>
