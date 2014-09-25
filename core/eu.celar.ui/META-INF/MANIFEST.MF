@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CELAR Core Plug-in (Incubation)
 Bundle-SymbolicName: eu.celar.ui; singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0.qualifier-SNAPSHOT
 Bundle-Activator: eu.celar.ui.internal.Activator
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
