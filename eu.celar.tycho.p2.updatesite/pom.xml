@@ -7,7 +7,7 @@
 		<groupId>eu.celar.tycho</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0.qualifier</version>
-		<relativePath>${project.basedir}</relativePath>
+		<relativePath>../eu.celar.tycho</relativePath>
 	</parent>
 
 	<artifactId>eu.celar.tycho.p2.updatesite</artifactId>
