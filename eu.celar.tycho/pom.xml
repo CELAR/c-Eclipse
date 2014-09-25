@@ -109,9 +109,9 @@
 		
 		
 		
-		<module>../core/eu.celar.infosystem.model</module>
-		<module>../app-description/eu.celar.tosca</module>
-		<module>../app-description/eu.celar.tosca.editor</module>
+		
+		
+		
 		<module>../eu.celar.tycho.feature</module>
 		<module>../eu.celar.tycho.p2.updatesite</module>
 		<module>../eu.celar.tycho.target</module>
@@ -120,5 +120,8 @@
 		<module>../core/eu.celar.core.reporting</module>
 		
 		<module>../core/eu.celar.infosystem.mockup</module>
+		<module>../core/eu.celar.infosystem.model</module>
+		<module>../app-description/eu.celar.tosca</module>
+		<module>../app-description/eu.celar.tosca.editor</module>
 	</modules>
 </project> 

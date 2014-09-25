@@ -7,6 +7,6 @@
   	<version>1.0.0.qualifier</version>
   	<artifactId>parent</artifactId>
   	<groupId>eu.celar.tycho</groupId>
-  	<relativePath>${project.basedir}</relativePath>
+  	<relativePath>../../eu.celar.tycho</relativePath>
   </parent>
 </project>
