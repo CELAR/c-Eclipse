@@ -28,7 +28,7 @@
   </scm>
 
   <modules>
-  	<module>../eu.celar.tycho</module>
+  	<module>eu.celar.tycho</module>
   </modules>
 </project>
 
