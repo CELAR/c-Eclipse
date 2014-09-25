@@ -106,7 +106,7 @@
 		<module>..${file.separator}eu.celar.tycho.p2.updatesite</module> </modules> -->
 
 	<modules>
-		<module>../core/eu.celar.core</module>
+		
 		<module>../core/eu.celar.core.reporting</module>
 		<module>../core/eu.celar.infosystem.mockup</module>
 		<module>../core/eu.celar.infosystem.model</module>
@@ -116,5 +116,6 @@
 		<module>../eu.celar.tycho.p2.updatesite</module>
 		<module>../eu.celar.tycho.target</module>
 		<module>../core/eu.celar.ui</module>
+		<module>../core/eu.celar.core</module>
 	</modules>
 </project> 
