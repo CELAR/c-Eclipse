@@ -6,6 +6,7 @@
   <artifactId>c-Eclipse-pom</artifactId>
   <name>CELAR c-Eclipse main POM</name>
   <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
 
   <url>https://github.com/CELAR/c-Eclipse</url>
@@ -14,9 +15,12 @@
     CELAR c-Eclipse.
   </description>
 
-  <packaging>pom</packaging>
 
-
+  <modules>
+  	<module>eu.celar.tycho</module>
+  </modules>
+  
+<!--
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/CELAR/c-Eclipse/issues</url>
@@ -26,9 +30,6 @@
     <connection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</connection>
     <developerConnection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</developerConnection>
   </scm>
-
-  <modules>
-  	<module>eu.celar.tycho</module>
-  </modules>
+ -->
 </project>
 
