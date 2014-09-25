@@ -26,7 +26,7 @@
     <developerConnection>scm:git:ssh://git@github.com:CELAR/c-Eclipse.git</developerConnection>
   </scm>
 
-  <version>1.0.0.qualifier</version>
+  <version>0.1-SNAPSHOT</version>
   <modules>
   	<module>eu.celar.tycho</module>
   </modules>
