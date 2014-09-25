@@ -5,7 +5,7 @@
   <parent>
   	<groupId>eu.celar.tycho</groupId>
   	<artifactId>parent</artifactId>
-  	<version>1.0.0.qualifier-SNAPSHOT</version>
+  	<version>1.0.0.qualifier</version>
   	<relativePath>../../eu.celar.tycho</relativePath>
   </parent>
 </project>
