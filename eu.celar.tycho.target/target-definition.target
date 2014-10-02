@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="target-definition" sequenceNumber="57">
+<?pde version="3.8"?>
+
+<target name="target-definition" sequenceNumber="59">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.graphiti.sdk.feature.feature.group" version="0.10.2.v20140217-1225"/>
-<repository location="http://download.eclipse.org/releases/kepler"/>
-</location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="4.3.2.M20140221-1700"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
@@ -14,8 +12,12 @@
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.json" version="20090211.0.0"/>
-<repository location="http://localhost:8080/site"/>
+<unit id="org.eclipse.graphiti.sdk.feature.feature.group" version="0.10.2.v20140217-1225"/>
+<repository location="http://download.eclipse.org/releases/kepler"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.json" version="1.0.0.v201011060100"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140917154621/repository/"/>
 </location>
 </locations>
 </target>

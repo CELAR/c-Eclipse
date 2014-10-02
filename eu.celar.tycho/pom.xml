@@ -4,8 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.celar.tycho</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.0.qualifier</version>
 	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<parent>
+		<groupId>eu.celar.cEclipse</groupId>
+		<artifactId>c-Eclipse-pom</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
 
 	<prerequisites>
 		<maven>3.0</maven>
@@ -17,16 +24,10 @@
 		<manifest-location>META-INF</manifest-location>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-  
-  	<!-- 
-  <repositories>
-    <repository>
-      <id>kepler</id>
-      <url>${kepler-repo.url}</url>
-      <layout>p2</layout>
-    </repository>
-  </repositories>
-  	 -->
+
+
+	<!-- <repositories> <repository> <id>kepler</id> <url>${kepler-repo.url}</url> 
+		<layout>p2</layout> </repository> </repositories> -->
 
 	<build>
 		<plugins>
@@ -89,24 +90,31 @@
 						<manifestLocation>${manifest-location}</manifestLocation>
 					</configuration>
 				</plugin>
-				
+
 			</plugins>
 		</pluginManagement>
 
 	</build>
 
-  <modules>  	
-  	<module>..${file.separator}core${file.separator}eu.celar.core</module>
-  	<module>..${file.separator}core${file.separator}eu.celar.core.reporting</module>
-  	<module>..${file.separator}app-description${file.separator}eu.celar.tosca</module>
-  	<module>..${file.separator}core${file.separator}eu.celar.infosystem.model</module>
-  	<module>..${file.separator}core${file.separator}eu.celar.infosystem.mockup</module>
-  	<module>..${file.separator}core${file.separator}eu.celar.ui</module>
-  	<module>..${file.separator}app-description${file.separator}eu.celar.tosca.editor</module>
-  	<module>..${file.separator}eu.celar.tycho.feature</module>
-  	<module>..${file.separator}eu.celar.tycho.target</module>
- 	<module>..${file.separator}eu.celar.tycho.p2.updatesite</module>
-  </modules>
-  
- 
+	<!-- <modules> <module>..${file.separator}core${file.separator}eu.celar.core</module> 
+		<module>..${file.separator}core${file.separator}eu.celar.core.reporting</module> 
+		<module>..${file.separator}app-description${file.separator}eu.celar.tosca</module> 
+		<module>..${file.separator}core${file.separator}eu.celar.infosystem.model</module> 
+		<module>..${file.separator}core${file.separator}eu.celar.infosystem.mockup</module> 
+		<module>..${file.separator}core${file.separator}eu.celar.ui</module> <module>..${file.separator}app-description${file.separator}eu.celar.tosca.editor</module> 
+		<module>..${file.separator}eu.celar.tycho.feature</module> <module>..${file.separator}eu.celar.tycho.target</module> 
+		<module>..${file.separator}eu.celar.tycho.p2.updatesite</module> </modules> -->
+
+	<modules>
+		<module>../core/eu.celar.core</module>
+		<module>../core/eu.celar.core.reporting</module>
+		<module>../core/eu.celar.infosystem.mockup</module>
+		<module>../core/eu.celar.infosystem.model</module>
+		<module>../app-description/eu.celar.tosca</module>
+		<module>../app-description/eu.celar.tosca.editor</module>
+		<module>../eu.celar.tycho.feature</module>
+		<module>../eu.celar.tycho.p2.updatesite</module>
+		<module>../eu.celar.tycho.target</module>
+		<module>../core/eu.celar.ui</module>
+	</modules>
 </project> 
