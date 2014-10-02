@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="eu.celar.tycho.feature"
-      label="Feature"
-      version="1.0.0.qualifier">
+      label="c-Eclipse Application Management Framework"
+      version="1.0.0.qualifier"
+      provider-name="EU FP7 CELAR Project">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="http://www.celarcloud.eu">
+      CELAR c-Eclipse Feature. 
+
+Contains post-integration meeting codebase for CELAR Review Y2.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="http://www.celarcloud.eu">
+      /************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Stalo Sofokleous - initial API and implementation
+ *      Nicholas Loulloudes - API, implementation
+ ************************************************************/
    </copyright>
 
    <license url="http://www.example.com/license">
