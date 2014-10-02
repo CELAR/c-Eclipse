@@ -7,6 +7,9 @@
  *******************************************************************************/
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
@@ -15,7 +18,10 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
 
 public class DirectEditCompositeComponentFeature
   extends AbstractDirectEditingFeature
@@ -79,6 +85,33 @@ public class DirectEditCompositeComponentFeature
     // (currently in discussion)
     // we know, that pe is the Shape of the Text, so its container is the
     // main shape of the EClass
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    tService.setSubstitutableNodeType(new QName("substituteNode_"+value));
+    
+    // Find the substitute TNodeTemplate
+    TNodeTemplate substituteNode = null;
+    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+      .getDefinitions()
+      .getServiceTemplate()
+      .get( 0 )
+      .getTopologyTemplate()
+      .getNodeTemplate()){
+       
+      if (tempNodeTemplate.getId() ==  tService.getId() )
+      {
+        substituteNode = tempNodeTemplate;
+        break;
+      }
+
+    }
+    
+    substituteNode.setType(new QName("substituteNode_"+value));
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
     updatePictogramElement( ( ( Shape )pe ).getContainer() );
   }
 }

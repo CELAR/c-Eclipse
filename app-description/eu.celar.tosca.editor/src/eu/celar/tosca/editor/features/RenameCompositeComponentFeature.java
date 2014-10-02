@@ -4,6 +4,9 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
@@ -13,7 +16,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaModelLayer;
 
 public class RenameCompositeComponentFeature extends AbstractCustomFeature {
 
@@ -73,6 +79,31 @@ public class RenameCompositeComponentFeature extends AbstractCustomFeature {
       if( newName != null && !newName.equals( currentName ) ) {
         this.hasDoneChanges = true;
         tServiceTemplate.setName( newName );
+        
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        tServiceTemplate.setSubstitutableNodeType(new QName("substituteNode_"+newName));
+        
+        // Find the substitute TNodeTemplate
+        TNodeTemplate substituteNode = null;
+        ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+        for (TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
+          .getDefinitions()
+          .getServiceTemplate()
+          .get( 0 )
+          .getTopologyTemplate()
+          .getNodeTemplate()){
+           
+          if (tempNodeTemplate.getId() ==  tServiceTemplate.getId() )
+          {
+            substituteNode = tempNodeTemplate;
+            break;
+          }
+
+        }
+        
+        substituteNode.setType(new QName("substituteNode_"+newName));
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         updatePictogramElement( pes[ 0 ] );
       }
     }

@@ -105,6 +105,11 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
         return createKeyPairAdapter();
       }
       @Override
+      public Adapter caseVirtualMachineImageFlavor(VirtualMachineImageFlavor object)
+      {
+        return createVirtualMachineImageFlavorAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -212,6 +217,21 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createKeyPairAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.infosystem.model.base.VirtualMachineImageFlavor <em>Virtual Machine Image Flavor</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.infosystem.model.base.VirtualMachineImageFlavor
+   * @generated
+   */
+  public Adapter createVirtualMachineImageFlavorAdapter()
   {
     return null;
   }

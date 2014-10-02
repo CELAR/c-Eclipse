@@ -44,6 +44,7 @@ import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 import eu.celar.infosystem.model.base.VirtualMachineImageType;
 
 
@@ -60,7 +61,7 @@ public class FetchJob extends Job {
   private ArrayList<VirtualMachineImage> base_images = new ArrayList<VirtualMachineImage>();
   private ArrayList<MonitoringProbe> monitor_probes = new ArrayList<MonitoringProbe>();
   private ArrayList<ResizingAction> resize_actions = new ArrayList<ResizingAction>();
-  private ArrayList<VirtualMachineImageType> vm_flavors = new ArrayList<VirtualMachineImageType>();
+  private ArrayList<VirtualMachineImageFlavor> vm_flavors = new ArrayList<VirtualMachineImageFlavor>();
 
   /**
    * @param name
@@ -258,16 +259,93 @@ public class FetchJob extends Job {
       
       MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
       
-      mp.setName( "Queue Length" ); //$NON-NLS-1$ );
+      mp.setName( "QueueLength" ); //$NON-NLS-1$ );
       mp.setDescription( "[ \"q1Length\" , \"q2Length\", \"q3Length\", \"q4Length\" , \"q5Length\" , \"q6Length\", \"q7Length\", \"q8Length\"]" );
 
       
       //add new monitor probe to probes list
       instance.monitor_probes.add( mp ); 
+      
+      MonitoringProbe mpWR = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+      
+      mpWR.setName( "WorkRate" ); //$NON-NLS-1$ );
+      mpWR.setDescription( "[ \"w1Rate\" , \"w2Rate\", \"w3Rate\", \"w4Rate\" , \"w5Rate\" , \"w6Rate\", \"w7Rate\", \"w8Rate\"]" );
+
+      
+      //add new monitor probe to probes list
+      instance.monitor_probes.add( mpWR ); 
 
 
    
   }
+  
+  
+  private void fetchFlavors (final IProgressMonitor monitor) throws SQLException, JSONException {
+    
+    
+    //CELAR Manager call : Get VM Images
+    String celarManagerURL = "http://83.212.107.38:8080/resources/";
+    URL url = null;
+    HttpURLConnection connection = null;
+    BufferedReader in = null;
+    String inputLine = null;
+    
+    String flavors = "";
+    try {
+      url = new URL (celarManagerURL + "flavors/");
+  
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setDoInput( true );
+      connection.setRequestProperty("Accept", "application/json");
+      connection.setRequestMethod( "GET" );
+              
+      in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      while ((inputLine = in.readLine()) != null) {
+        flavors = flavors + inputLine;
+      }
+      in.close();
+      System.out.println(flavors);
+      
+      connection.disconnect();
+    } catch( MalformedURLException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    //Okeanos Flavors
+    flavors = "[{\"id\":\"1\",\"name\":\"C1R1024D20drbd\"},{\"id\":\"3\",\"name\":\"C1R1024D40drbd\"},{\"id\":\"4\",\"name\":\"C1R2048D20drbd\"},{\"id\":\"6\",\"name\":\"C1R2048D40drbd\"},{\"id\":\"7\",\"name\":\"C1R4096D20drbd\"},{\"id\":\"9\",\"name\":\"C1R4096D40drbd\"},{\"id\":\"10\",\"name\":\"C2R1024D20drbd\"},{\"id\":\"12\",\"name\":\"C2R1024D40drbd\"},{\"id\":\"13\",\"name\":\"C2R2048D20drbd\"},{\"id\":\"15\",\"name\":\"C2R2048D40drbd\"},{\"id\":\"16\",\"name\":\"C2R4096D20drbd\"},{\"id\":\"18\",\"name\":\"C2R4096D40drbd\"},{\"id\":\"19\",\"name\":\"C4R1024D20drbd\"},{\"id\":\"21\",\"name\":\"C4R1024D40drbd\"},{\"id\":\"22\",\"name\":\"C4R2048D20drbd\"},{\"id\":\"24\",\"name\":\"C4R2048D40drbd\"},{\"id\":\"25\",\"name\":\"C4R4096D20drbd\"},{\"id\":\"27\",\"name\":\"C4R4096D40drbd\"},{\"id\":\"28\",\"name\":\"C1R1024D5drbd\"},{\"id\":\"29\",\"name\":\"C1R1024D10drbd\"},{\"id\":\"30\",\"name\":\"C1R2048D5drbd\"},{\"id\":\"31\",\"name\":\"C1R2048D10drbd\"},{\"id\":\"32\",\"name\":\"C1R4096D5drbd\"},{\"id\":\"33\",\"name\":\"C1R4096D10drbd\"},{\"id\":\"34\",\"name\":\"C2R1024D5drbd\"},{\"id\":\"35\",\"name\":\"C2R1024D10drbd\"},{\"id\":\"36\",\"name\":\"C2R2048D5drbd\"},{\"id\":\"37\",\"name\":\"C2R2048D10drbd\"},{\"id\":\"38\",\"name\":\"C2R4096D5drbd\"},{\"id\":\"39\",\"name\":\"C2R4096D10drbd\"},{\"id\":\"40\",\"name\":\"C4R1024D5drbd\"},{\"id\":\"41\",\"name\":\"C4R1024D10drbd\"},{\"id\":\"42\",\"name\":\"C4R2048D5drbd\"},{\"id\":\"43\",\"name\":\"C4R2048D10drbd\"},{\"id\":\"44\",\"name\":\"C4R4096D5drbd\"},{\"id\":\"45\",\"name\":\"C4R4096D10drbd\"},{\"id\":\"46\",\"name\":\"C1R512D5drbd\"},{\"id\":\"47\",\"name\":\"C1R512D10drbd\"},{\"id\":\"48\",\"name\":\"C1R512D20drbd\"},{\"id\":\"49\",\"name\":\"C1R512D40drbd\"},{\"id\":\"50\",\"name\":\"C1R512D60drbd\"},{\"id\":\"51\",\"name\":\"C1R512D80drbd\"},{\"id\":\"52\",\"name\":\"C1R512D100drbd\"},{\"id\":\"53\",\"name\":\"C1R1024D60drbd\"},{\"id\":\"54\",\"name\":\"C1R1024D80drbd\"},{\"id\":\"55\",\"name\":\"C1R1024D100drbd\"},{\"id\":\"56\",\"name\":\"C1R2048D60drbd\"},{\"id\":\"57\",\"name\":\"C1R2048D80drbd\"},{\"id\":\"58\",\"name\":\"C1R2048D100drbd\"},{\"id\":\"59\",\"name\":\"C1R4096D60drbd\"},{\"id\":\"60\",\"name\":\"C1R4096D80drbd\"},{\"id\":\"61\",\"name\":\"C1R4096D100drbd\"},{\"id\":\"62\",\"name\":\"C1R8192D5drbd\"},{\"id\":\"63\",\"name\":\"C1R8192D10drbd\"},{\"id\":\"64\",\"name\":\"C1R8192D20drbd\"},{\"id\":\"65\",\"name\":\"C1R8192D40drbd\"},{\"id\":\"66\",\"name\":\"C1R8192D60drbd\"},{\"id\":\"67\",\"name\":\"C1R8192D80drbd\"},{\"id\":\"68\",\"name\":\"C1R8192D100drbd\"},{\"id\":\"69\",\"name\":\"C2R512D5drbd\"},{\"id\":\"70\",\"name\":\"C2R512D10drbd\"},{\"id\":\"71\",\"name\":\"C2R512D20drbd\"},{\"id\":\"72\",\"name\":\"C2R512D40drbd\"},{\"id\":\"73\",\"name\":\"C2R512D60drbd\"},{\"id\":\"74\",\"name\":\"C2R512D80drbd\"},{\"id\":\"75\",\"name\":\"C2R512D100drbd\"},{\"id\":\"76\",\"name\":\"C2R1024D60drbd\"},{\"id\":\"77\",\"name\":\"C2R1024D80drbd\"},{\"id\":\"78\",\"name\":\"C2R1024D100drbd\"},{\"id\":\"79\",\"name\":\"C2R2048D60drbd\"},{\"id\":\"80\",\"name\":\"C2R2048D80drbd\"},{\"id\":\"81\",\"name\":\"C2R2048D100drbd\"},{\"id\":\"82\",\"name\":\"C2R4096D60drbd\"},{\"id\":\"83\",\"name\":\"C2R4096D80drbd\"},{\"id\":\"84\",\"name\":\"C2R4096D100drbd\"},{\"id\":\"85\",\"name\":\"C2R8192D5drbd\"},{\"id\":\"86\",\"name\":\"C2R8192D10drbd\"},{\"id\":\"87\",\"name\":\"C2R8192D20drbd\"},{\"id\":\"88\",\"name\":\"C2R8192D40drbd\"},{\"id\":\"89\",\"name\":\"C2R8192D60drbd\"},{\"id\":\"90\",\"name\":\"C2R8192D80drbd\"},{\"id\":\"91\",\"name\":\"C2R8192D100drbd\"},{\"id\":\"92\",\"name\":\"C4R512D5drbd\"},{\"id\":\"93\",\"name\":\"C4R512D10drbd\"},{\"id\":\"94\",\"name\":\"C4R512D20drbd\"},{\"id\":\"95\",\"name\":\"C4R512D40drbd\"},{\"id\":\"96\",\"name\":\"C4R512D60drbd\"},{\"id\":\"97\",\"name\":\"C4R512D80drbd\"},{\"id\":\"98\",\"name\":\"C4R512D100drbd\"},{\"id\":\"99\",\"name\":\"C4R1024D60drbd\"},{\"id\":\"100\",\"name\":\"C4R1024D80drbd\"},{\"id\":\"101\",\"name\":\"C4R1024D100drbd\"},{\"id\":\"102\",\"name\":\"C4R2048D60drbd\"},{\"id\":\"103\",\"name\":\"C4R2048D80drbd\"},{\"id\":\"104\",\"name\":\"C4R2048D100drbd\"},{\"id\":\"105\",\"name\":\"C4R4096D60drbd\"},{\"id\":\"106\",\"name\":\"C4R4096D80drbd\"},{\"id\":\"107\",\"name\":\"C4R4096D100drbd\"},{\"id\":\"108\",\"name\":\"C4R8192D5drbd\"},{\"id\":\"109\",\"name\":\"C4R8192D10drbd\"},{\"id\":\"110\",\"name\":\"C4R8192D20drbd\"},{\"id\":\"111\",\"name\":\"C4R8192D40drbd\"},{\"id\":\"112\",\"name\":\"C4R8192D60drbd\"},{\"id\":\"113\",\"name\":\"C4R8192D80drbd\"},{\"id\":\"114\",\"name\":\"C4R8192D100drbd\"},{\"id\":\"115\",\"name\":\"C8R512D5drbd\"},{\"id\":\"116\",\"name\":\"C8R512D10drbd\"},{\"id\":\"117\",\"name\":\"C8R512D20drbd\"},{\"id\":\"118\",\"name\":\"C8R512D40drbd\"},{\"id\":\"119\",\"name\":\"C8R512D60drbd\"},{\"id\":\"120\",\"name\":\"C8R512D80drbd\"},{\"id\":\"121\",\"name\":\"C8R512D100drbd\"},{\"id\":\"122\",\"name\":\"C8R1024D5drbd\"},{\"id\":\"123\",\"name\":\"C8R1024D10drbd\"},{\"id\":\"124\",\"name\":\"C8R1024D20drbd\"},{\"id\":\"125\",\"name\":\"C8R1024D40drbd\"},{\"id\":\"126\",\"name\":\"C8R1024D60drbd\"},{\"id\":\"127\",\"name\":\"C8R1024D80drbd\"},{\"id\":\"128\",\"name\":\"C8R1024D100drbd\"},{\"id\":\"129\",\"name\":\"C8R2048D5drbd\"},{\"id\":\"130\",\"name\":\"C8R2048D10drbd\"},{\"id\":\"131\",\"name\":\"C8R2048D20drbd\"},{\"id\":\"132\",\"name\":\"C8R2048D40drbd\"},{\"id\":\"133\",\"name\":\"C8R2048D60drbd\"},{\"id\":\"134\",\"name\":\"C8R2048D80drbd\"},{\"id\":\"135\",\"name\":\"C8R2048D100drbd\"},{\"id\":\"136\",\"name\":\"C8R4096D5drbd\"},{\"id\":\"137\",\"name\":\"C8R4096D10drbd\"},{\"id\":\"138\",\"name\":\"C8R4096D20drbd\"},{\"id\":\"139\",\"name\":\"C8R4096D40drbd\"},{\"id\":\"140\",\"name\":\"C8R4096D60drbd\"},{\"id\":\"141\",\"name\":\"C8R4096D80drbd\"},{\"id\":\"142\",\"name\":\"C8R4096D100drbd\"},{\"id\":\"143\",\"name\":\"C8R8192D5drbd\"},{\"id\":\"144\",\"name\":\"C8R8192D10drbd\"},{\"id\":\"145\",\"name\":\"C8R8192D20drbd\"},{\"id\":\"146\",\"name\":\"C8R8192D40drbd\"},{\"id\":\"147\",\"name\":\"C8R8192D60drbd\"},{\"id\":\"148\",\"name\":\"C8R8192D80drbd\"},{\"id\":\"149\",\"name\":\"C8R8192D100drbd\"},{\"id\":\"150\",\"name\":\"C1R512D5ext_vlmc\"},{\"id\":\"151\",\"name\":\"C1R512D10ext_vlmc\"},{\"id\":\"152\",\"name\":\"C1R512D20ext_vlmc\"},{\"id\":\"153\",\"name\":\"C1R512D40ext_vlmc\"},{\"id\":\"154\",\"name\":\"C1R512D60ext_vlmc\"},{\"id\":\"155\",\"name\":\"C1R512D80ext_vlmc\"},{\"id\":\"156\",\"name\":\"C1R512D100ext_vlmc\"},{\"id\":\"157\",\"name\":\"C1R1024D5ext_vlmc\"},{\"id\":\"158\",\"name\":\"C1R1024D10ext_vlmc\"},{\"id\":\"159\",\"name\":\"C1R1024D20ext_vlmc\"},{\"id\":\"160\",\"name\":\"C1R1024D40ext_vlmc\"},{\"id\":\"161\",\"name\":\"C1R1024D60ext_vlmc\"},{\"id\":\"162\",\"name\":\"C1R1024D80ext_vlmc\"},{\"id\":\"163\",\"name\":\"C1R1024D100ext_vlmc\"},{\"id\":\"164\",\"name\":\"C1R2048D5ext_vlmc\"},{\"id\":\"165\",\"name\":\"C1R2048D10ext_vlmc\"},{\"id\":\"166\",\"name\":\"C1R2048D20ext_vlmc\"},{\"id\":\"167\",\"name\":\"C1R2048D40ext_vlmc\"},{\"id\":\"168\",\"name\":\"C1R2048D60ext_vlmc\"},{\"id\":\"169\",\"name\":\"C1R2048D80ext_vlmc\"},{\"id\":\"170\",\"name\":\"C1R2048D100ext_vlmc\"},{\"id\":\"171\",\"name\":\"C1R4096D5ext_vlmc\"},{\"id\":\"172\",\"name\":\"C1R4096D10ext_vlmc\"},{\"id\":\"173\",\"name\":\"C1R4096D20ext_vlmc\"},{\"id\":\"174\",\"name\":\"C1R4096D40ext_vlmc\"},{\"id\":\"175\",\"name\":\"C1R4096D60ext_vlmc\"},{\"id\":\"176\",\"name\":\"C1R4096D80ext_vlmc\"},{\"id\":\"177\",\"name\":\"C1R4096D100ext_vlmc\"},{\"id\":\"178\",\"name\":\"C1R8192D5ext_vlmc\"},{\"id\":\"179\",\"name\":\"C1R8192D10ext_vlmc\"},{\"id\":\"180\",\"name\":\"C1R8192D20ext_vlmc\"},{\"id\":\"181\",\"name\":\"C1R8192D40ext_vlmc\"},{\"id\":\"182\",\"name\":\"C1R8192D60ext_vlmc\"},{\"id\":\"183\",\"name\":\"C1R8192D80ext_vlmc\"},{\"id\":\"184\",\"name\":\"C1R8192D100ext_vlmc\"},{\"id\":\"185\",\"name\":\"C2R512D5ext_vlmc\"},{\"id\":\"186\",\"name\":\"C2R512D10ext_vlmc\"},{\"id\":\"187\",\"name\":\"C2R512D20ext_vlmc\"},{\"id\":\"188\",\"name\":\"C2R512D40ext_vlmc\"},{\"id\":\"189\",\"name\":\"C2R512D60ext_vlmc\"},{\"id\":\"190\",\"name\":\"C2R512D80ext_vlmc\"},{\"id\":\"191\",\"name\":\"C2R512D100ext_vlmc\"},{\"id\":\"192\",\"name\":\"C2R1024D5ext_vlmc\"},{\"id\":\"193\",\"name\":\"C2R1024D10ext_vlmc\"},{\"id\":\"194\",\"name\":\"C2R1024D20ext_vlmc\"},{\"id\":\"195\",\"name\":\"C2R1024D40ext_vlmc\"},{\"id\":\"196\",\"name\":\"C2R1024D60ext_vlmc\"},{\"id\":\"197\",\"name\":\"C2R1024D80ext_vlmc\"},{\"id\":\"198\",\"name\":\"C2R1024D100ext_vlmc\"},{\"id\":\"199\",\"name\":\"C2R2048D5ext_vlmc\"},{\"id\":\"200\",\"name\":\"C2R2048D10ext_vlmc\"},{\"id\":\"201\",\"name\":\"C2R2048D20ext_vlmc\"},{\"id\":\"202\",\"name\":\"C2R2048D40ext_vlmc\"},{\"id\":\"203\",\"name\":\"C2R2048D60ext_vlmc\"},{\"id\":\"204\",\"name\":\"C2R2048D80ext_vlmc\"},{\"id\":\"205\",\"name\":\"C2R2048D100ext_vlmc\"},{\"id\":\"206\",\"name\":\"C2R4096D5ext_vlmc\"},{\"id\":\"207\",\"name\":\"C2R4096D10ext_vlmc\"},{\"id\":\"208\",\"name\":\"C2R4096D20ext_vlmc\"},{\"id\":\"209\",\"name\":\"C2R4096D40ext_vlmc\"},{\"id\":\"210\",\"name\":\"C2R4096D60ext_vlmc\"},{\"id\":\"211\",\"name\":\"C2R4096D80ext_vlmc\"},{\"id\":\"212\",\"name\":\"C2R4096D100ext_vlmc\"},{\"id\":\"213\",\"name\":\"C2R8192D5ext_vlmc\"},{\"id\":\"214\",\"name\":\"C2R8192D10ext_vlmc\"},{\"id\":\"215\",\"name\":\"C2R8192D20ext_vlmc\"},{\"id\":\"216\",\"name\":\"C2R8192D40ext_vlmc\"},{\"id\":\"217\",\"name\":\"C2R8192D60ext_vlmc\"},{\"id\":\"218\",\"name\":\"C2R8192D80ext_vlmc\"},{\"id\":\"219\",\"name\":\"C2R8192D100ext_vlmc\"},{\"id\":\"220\",\"name\":\"C4R512D5ext_vlmc\"},{\"id\":\"221\",\"name\":\"C4R512D10ext_vlmc\"},{\"id\":\"222\",\"name\":\"C4R512D20ext_vlmc\"},{\"id\":\"223\",\"name\":\"C4R512D40ext_vlmc\"},{\"id\":\"224\",\"name\":\"C4R512D60ext_vlmc\"},{\"id\":\"225\",\"name\":\"C4R512D80ext_vlmc\"},{\"id\":\"226\",\"name\":\"C4R512D100ext_vlmc\"},{\"id\":\"227\",\"name\":\"C4R1024D5ext_vlmc\"},{\"id\":\"228\",\"name\":\"C4R1024D10ext_vlmc\"},{\"id\":\"229\",\"name\":\"C4R1024D20ext_vlmc\"},{\"id\":\"230\",\"name\":\"C4R1024D40ext_vlmc\"},{\"id\":\"231\",\"name\":\"C4R1024D60ext_vlmc\"},{\"id\":\"232\",\"name\":\"C4R1024D80ext_vlmc\"},{\"id\":\"233\",\"name\":\"C4R1024D100ext_vlmc\"},{\"id\":\"234\",\"name\":\"C4R2048D5ext_vlmc\"},{\"id\":\"235\",\"name\":\"C4R2048D10ext_vlmc\"},{\"id\":\"236\",\"name\":\"C4R2048D20ext_vlmc\"},{\"id\":\"237\",\"name\":\"C4R2048D40ext_vlmc\"},{\"id\":\"238\",\"name\":\"C4R2048D60ext_vlmc\"},{\"id\":\"239\",\"name\":\"C4R2048D80ext_vlmc\"},{\"id\":\"240\",\"name\":\"C4R2048D100ext_vlmc\"},{\"id\":\"241\",\"name\":\"C4R4096D5ext_vlmc\"},{\"id\":\"242\",\"name\":\"C4R4096D10ext_vlmc\"},{\"id\":\"243\",\"name\":\"C4R4096D20ext_vlmc\"},{\"id\":\"244\",\"name\":\"C4R4096D40ext_vlmc\"},{\"id\":\"245\",\"name\":\"C4R4096D60ext_vlmc\"},{\"id\":\"246\",\"name\":\"C4R4096D80ext_vlmc\"},{\"id\":\"247\",\"name\":\"C4R4096D100ext_vlmc\"},{\"id\":\"248\",\"name\":\"C4R8192D5ext_vlmc\"},{\"id\":\"249\",\"name\":\"C4R8192D10ext_vlmc\"},{\"id\":\"250\",\"name\":\"C4R8192D20ext_vlmc\"},{\"id\":\"251\",\"name\":\"C4R8192D40ext_vlmc\"},{\"id\":\"252\",\"name\":\"C4R8192D60ext_vlmc\"},{\"id\":\"253\",\"name\":\"C4R8192D80ext_vlmc\"},{\"id\":\"254\",\"name\":\"C4R8192D100ext_vlmc\"},{\"id\":\"255\",\"name\":\"C8R512D5ext_vlmc\"},{\"id\":\"256\",\"name\":\"C8R512D10ext_vlmc\"},{\"id\":\"257\",\"name\":\"C8R512D20ext_vlmc\"},{\"id\":\"258\",\"name\":\"C8R512D40ext_vlmc\"},{\"id\":\"259\",\"name\":\"C8R512D60ext_vlmc\"},{\"id\":\"260\",\"name\":\"C8R512D80ext_vlmc\"},{\"id\":\"261\",\"name\":\"C8R512D100ext_vlmc\"},{\"id\":\"262\",\"name\":\"C8R1024D5ext_vlmc\"},{\"id\":\"263\",\"name\":\"C8R1024D10ext_vlmc\"},{\"id\":\"264\",\"name\":\"C8R1024D20ext_vlmc\"},{\"id\":\"265\",\"name\":\"C8R1024D40ext_vlmc\"},{\"id\":\"266\",\"name\":\"C8R1024D60ext_vlmc\"},{\"id\":\"267\",\"name\":\"C8R1024D80ext_vlmc\"},{\"id\":\"268\",\"name\":\"C8R1024D100ext_vlmc\"},{\"id\":\"269\",\"name\":\"C8R2048D5ext_vlmc\"},{\"id\":\"270\",\"name\":\"C8R2048D10ext_vlmc\"},{\"id\":\"271\",\"name\":\"C8R2048D20ext_vlmc\"},{\"id\":\"272\",\"name\":\"C8R2048D40ext_vlmc\"},{\"id\":\"273\",\"name\":\"C8R2048D60ext_vlmc\"},{\"id\":\"274\",\"name\":\"C8R2048D80ext_vlmc\"},{\"id\":\"275\",\"name\":\"C8R2048D100ext_vlmc\"},{\"id\":\"276\",\"name\":\"C8R4096D5ext_vlmc\"},{\"id\":\"277\",\"name\":\"C8R4096D10ext_vlmc\"},{\"id\":\"278\",\"name\":\"C8R4096D20ext_vlmc\"},{\"id\":\"279\",\"name\":\"C8R4096D40ext_vlmc\"},{\"id\":\"280\",\"name\":\"C8R4096D60ext_vlmc\"},{\"id\":\"281\",\"name\":\"C8R4096D80ext_vlmc\"},{\"id\":\"282\",\"name\":\"C8R4096D100ext_vlmc\"},{\"id\":\"283\",\"name\":\"C8R8192D5ext_vlmc\"},{\"id\":\"284\",\"name\":\"C8R8192D10ext_vlmc\"},{\"id\":\"285\",\"name\":\"C8R8192D20ext_vlmc\"},{\"id\":\"286\",\"name\":\"C8R8192D40ext_vlmc\"},{\"id\":\"287\",\"name\":\"C8R8192D60ext_vlmc\"},{\"id\":\"288\",\"name\":\"C8R8192D80ext_vlmc\"},{\"id\":\"289\",\"name\":\"C8R8192D100ext_vlmc\"},{\"id\":\"290\",\"name\":\"C1R6144D100drbd\"},{\"id\":\"291\",\"name\":\"C1R6144D100ext_vlmc\"},{\"id\":\"292\",\"name\":\"C2R6144D100ext_vlmc\"},{\"id\":\"293\",\"name\":\"C2R6144D100drbd\"},{\"id\":\"294\",\"name\":\"C2R6144D80drbd\"},{\"id\":\"295\",\"name\":\"C2R6144D60drbd\"},{\"id\":\"296\",\"name\":\"C2R6144D40drbd\"},{\"id\":\"297\",\"name\":\"C2R6144D40ext_vlmc\"},{\"id\":\"298\",\"name\":\"C2R6144D60ext_vlmc\"},{\"id\":\"299\",\"name\":\"C2R6144D80ext_vlmc\"},{\"id\":\"300\",\"name\":\"C1R6144D5ext_vlmc\"},{\"id\":\"301\",\"name\":\"C1R6144D10ext_vlmc\"},{\"id\":\"302\",\"name\":\"C1R6144D20ext_vlmc\"},{\"id\":\"303\",\"name\":\"C1R6144D40ext_vlmc\"},{\"id\":\"304\",\"name\":\"C1R6144D60ext_vlmc\"},{\"id\":\"305\",\"name\":\"C1R6144D80ext_vlmc\"},{\"id\":\"306\",\"name\":\"C1R6144D5drbd\"},{\"id\":\"307\",\"name\":\"C1R6144D10drbd\"},{\"id\":\"308\",\"name\":\"C1R6144D20drbd\"},{\"id\":\"309\",\"name\":\"C1R6144D40drbd\"},{\"id\":\"310\",\"name\":\"C1R6144D60drbd\"},{\"id\":\"311\",\"name\":\"C1R6144D80drbd\"},{\"id\":\"312\",\"name\":\"C2R6144D5ext_vlmc\"},{\"id\":\"313\",\"name\":\"C2R6144D10ext_vlmc\"},{\"id\":\"314\",\"name\":\"C2R6144D20ext_vlmc\"},{\"id\":\"315\",\"name\":\"C2R6144D5drbd\"},{\"id\":\"316\",\"name\":\"C2R6144D10drbd\"},{\"id\":\"317\",\"name\":\"C2R6144D20drbd\"},{\"id\":\"318\",\"name\":\"C4R6144D5ext_vlmc\"},{\"id\":\"319\",\"name\":\"C4R6144D10ext_vlmc\"},{\"id\":\"320\",\"name\":\"C4R6144D20ext_vlmc\"},{\"id\":\"321\",\"name\":\"C4R6144D40ext_vlmc\"},{\"id\":\"322\",\"name\":\"C4R6144D60ext_vlmc\"},{\"id\":\"323\",\"name\":\"C4R6144D80ext_vlmc\"},{\"id\":\"324\",\"name\":\"C4R6144D100ext_vlmc\"},{\"id\":\"325\",\"name\":\"C4R6144D5drbd\"},{\"id\":\"326\",\"name\":\"C4R6144D10drbd\"},{\"id\":\"327\",\"name\":\"C4R6144D20drbd\"},{\"id\":\"328\",\"name\":\"C4R6144D40drbd\"},{\"id\":\"329\",\"name\":\"C4R6144D60drbd\"},{\"id\":\"330\",\"name\":\"C4R6144D80drbd\"},{\"id\":\"331\",\"name\":\"C4R6144D100drbd\"},{\"id\":\"332\",\"name\":\"C8R6144D5ext_vlmc\"},{\"id\":\"333\",\"name\":\"C8R6144D10ext_vlmc\"},{\"id\":\"334\",\"name\":\"C8R6144D20ext_vlmc\"},{\"id\":\"335\",\"name\":\"C8R6144D40ext_vlmc\"},{\"id\":\"336\",\"name\":\"C8R6144D60ext_vlmc\"},{\"id\":\"337\",\"name\":\"C8R6144D80ext_vlmc\"},{\"id\":\"338\",\"name\":\"C8R6144D100ext_vlmc\"},{\"id\":\"339\",\"name\":\"C8R6144D5drbd\"},{\"id\":\"340\",\"name\":\"C8R6144D10drbd\"},{\"id\":\"341\",\"name\":\"C8R6144D20drbd\"},{\"id\":\"342\",\"name\":\"C8R6144D40drbd\"},{\"id\":\"343\",\"name\":\"C8R6144D60drbd\"},{\"id\":\"344\",\"name\":\"C8R6144D80drbd\"},{\"id\":\"345\",\"name\":\"C8R6144D100drbd\"},{\"id\":\"fa34e0a0-b474-464b-a563-9aea1bc3e9b5\",\"name\":\"CELAR_Jenkins_snapshot_111213\"},{\"id\":\"8258fe3d-3b6d-49c7-88aa-bc28cc44d609\",\"name\":\"CELAR_Nexus_snapshot_111213\"},{\"id\":\"df6dcbbf-4fe2-4550-8bfd-f65b57dc45eb\",\"name\":\"CentOS\"},{\"id\":\"8258fe3d-3b6d-49c7-88aa-bc28cc44d609\",\"name\":\"CELAR_Nexus_snapshot_111213\"},{\"id\":\"df6dcbbf-4fe2-4550-8bfd-f65b57dc45eb\",\"name\":\"CentOS\"},{\"id\":\"fa34e0a0-b474-464b-a563-9aea1bc3e9b5\",\"name\":\"CELAR_Jenkins_snapshot_111213\"}]";
+
+    if ( flavors.equals( "" ) == false ) {
+
+      flavors = "{\"flavors\":" + flavors + "}";
+      String output_json = flavors;
+      JSONObject obj = new JSONObject( output_json );
+      JSONArray images_array = obj.getJSONArray( "flavors" ); //$NON-NLS-1$
+
+      if ( images_array != null ){
+        for (int i=0; i < images_array.length(); i++){
+          VirtualMachineImageFlavor vmif = InfoSystemFactory.eINSTANCE.createVirtualMachineImageFlavor();
+          /*
+           * get the necessary vmif fields
+           */
+ 
+          vmif.setUID( images_array.getJSONObject( i ).getString( "id" ) );
+          vmif.setName( images_array.getJSONObject( i ).getString( "name" )); //$NON-NLS-1$ );
+         System.out.println(vmif.getName()+" "+vmif.getUID());
+          //add new vmi to images list
+         instance.vm_flavors.add( vmif ); 
+        }
+      }
+    }
+  }
+  
+  
+  
+  
+  
   
   //fetch probes from CELAR DB
 //  private void fetchMonitorProbes (final IProgressMonitor monitor) throws SQLException, JSONException {
@@ -389,60 +467,60 @@ public class FetchJob extends Job {
     }
   }
   
-  private void fetchFlavors (final IProgressMonitor monitor) throws SQLException, JSONException {
-    
-    //CELAR Manager call : Get Flavors
-    String celarManagerURL = "http://83.212.107.38:8080/resources/";
-    URL url = null;
-    HttpURLConnection connection = null;
-    BufferedReader in = null;
-    String inputLine = null;
-    
-    String flavors = "";
-    try {
-      url = new URL (celarManagerURL + "flavors/");
-  
-      connection = (HttpURLConnection) url.openConnection();
-      connection.setDoInput( true );
-      connection.setRequestProperty("Accept", "application/json");
-      connection.setRequestMethod( "GET" );
-              
-      in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      while ((inputLine = in.readLine()) != null) {
-        flavors = flavors + inputLine;
-      }
-      in.close();
-      System.out.println("Flavors: " + flavors);
-      
-      connection.disconnect();
-    } catch( MalformedURLException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch( IOException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    if ( flavors.equals( "" ) == false ) {
-      
-      flavors = "{\"flavors\":" + flavors + "}";
-      String output_json = flavors;
-      JSONObject obj = new JSONObject( output_json );
-      JSONArray flavors_array = obj.getJSONArray( "flavors" ); //$NON-NLS-1$
-     
-//      if ( flavors_array != null ){
-//        for (int i=0; i < flavors_array.length(); i++){
-//          VirtualMachineImageType vmf = InfoSystemFactory.eINSTANCE.createVirtualMachineImageType();
-//          /*
-//           * get the necessary ra fields
-//           */
-//          vmf.setName( flavors_array.getJSONObject( i ).getString( "name" )); //$NON-NLS-1$ );
-//         
-//          //add new ra to resizing_actions list
-//          instance.vm_flavors.add( vmf ); 
-//        }
+//  private void fetchFlavors (final IProgressMonitor monitor) throws SQLException, JSONException {
+//    
+//    //CELAR Manager call : Get Flavors
+//    String celarManagerURL = "http://83.212.107.38:8080/resources/";
+//    URL url = null;
+//    HttpURLConnection connection = null;
+//    BufferedReader in = null;
+//    String inputLine = null;
+//    
+//    String flavors = "";
+//    try {
+//      url = new URL (celarManagerURL + "flavors/");
+//  
+//      connection = (HttpURLConnection) url.openConnection();
+//      connection.setDoInput( true );
+//      connection.setRequestProperty("Accept", "application/json");
+//      connection.setRequestMethod( "GET" );
+//              
+//      in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//      while ((inputLine = in.readLine()) != null) {
+//        flavors = flavors + inputLine;
 //      }
-    }
-  }
+//      in.close();
+//      System.out.println("Flavors: " + flavors);
+//      
+//      connection.disconnect();
+//    } catch( MalformedURLException e ) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    } catch( IOException e ) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+//    if ( flavors.equals( "" ) == false ) {
+//      
+//      flavors = "{\"flavors\":" + flavors + "}";
+//      String output_json = flavors;
+//      JSONObject obj = new JSONObject( output_json );
+//      JSONArray flavors_array = obj.getJSONArray( "flavors" ); //$NON-NLS-1$
+//     
+////      if ( flavors_array != null ){
+////        for (int i=0; i < flavors_array.length(); i++){
+////          VirtualMachineImageType vmf = InfoSystemFactory.eINSTANCE.createVirtualMachineImageType();
+////          /*
+////           * get the necessary ra fields
+////           */
+////          vmf.setName( flavors_array.getJSONObject( i ).getString( "name" )); //$NON-NLS-1$ );
+////         
+////          //add new ra to resizing_actions list
+////          instance.vm_flavors.add( vmf ); 
+////        }
+////      }
+//    }
+//  }
   /**
    * @return A list with the available Base Machine Images
    */

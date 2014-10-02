@@ -114,6 +114,13 @@ public class InfoSystemSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case InfoSystemPackage.VIRTUAL_MACHINE_IMAGE_FLAVOR:
+      {
+        VirtualMachineImageFlavor virtualMachineImageFlavor = (VirtualMachineImageFlavor)theEObject;
+        T result = caseVirtualMachineImageFlavor(virtualMachineImageFlavor);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -210,6 +217,22 @@ public class InfoSystemSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseKeyPair(KeyPair object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Virtual Machine Image Flavor</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Virtual Machine Image Flavor</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseVirtualMachineImageFlavor(VirtualMachineImageFlavor object)
   {
     return null;
   }

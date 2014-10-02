@@ -314,7 +314,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
             ContainerShape containerShapeTST = null;
             
             for (TServiceTemplate tst : serviceTemplates) { 
-            	
+                
               if ( tst.getSubstitutableNodeType() != null ){
                 //tst is a group component
                 TServiceTemplateExtension tstG = (TServiceTemplateExtension) tst;
@@ -339,7 +339,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
 
-                  if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) {//$NON-NLS-1$
+                  if ( tnt.getType().toString().contains( "substituteNode" ) ) {//$NON-NLS-1$
                     continue;
                   }
                   
@@ -354,7 +354,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                       for (TDeploymentArtifact tda : tnt.getDeploymentArtifacts().getDeploymentArtifact() ){
 
                                 addContainerElement( tda, containerShapeTNT, 0, 0, 0, 0 );
-                    	  
+                          
                       }
                   }
  
@@ -414,13 +414,15 @@ public class ToscaDiagramEditor extends DiagramEditor {
                for (TServiceTemplate tstTemp : serviceTemplates) {
                    for (TNodeTemplate tnt : tstTemp.getTopologyTemplate().getNodeTemplate()) {
                      
-                       if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ) //$NON-NLS-1$
-                         continue;
-                       
-                       ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
-                                    .getPictogramElementForBusinessObject( tnt ); 
+                       ContainerShape containerShapeTNT;
                        
                        if ( tnt.getId().equals(sourceID) ){
+                           if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ){
+                               containerShapeTNT = getAnchorContainer(model, tnt);
+                           }else{
+                               containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                                       .getPictogramElementForBusinessObject( tnt ); 
+                           }
                            if ( containerShapeTNT.getAnchors() != null ){
                                 for ( Anchor anchor : containerShapeTNT.getAnchors() ){
                                     if (anchor instanceof ChopboxAnchor){
@@ -431,6 +433,12 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            }
                       
                        } else if ( tnt.getId().equals(targetID) ){
+                           if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ){
+                               containerShapeTNT = getAnchorContainer(model, tnt);
+                           }else{
+                               containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                                       .getPictogramElementForBusinessObject( tnt ); 
+                           }
                            if ( containerShapeTNT.getAnchors() != null ){
                                 for ( Anchor anchor : containerShapeTNT.getAnchors() ){
                                     if (anchor instanceof ChopboxAnchor){
@@ -451,6 +459,26 @@ public class ToscaDiagramEditor extends DiagramEditor {
         }
 
       } );
+  }
+  
+  
+  private ContainerShape getAnchorContainer(final ToscaModelLayer model, TNodeTemplate nodeTemplate){
+        // Find the substitute TServiceTemplate
+      TServiceTemplate substituteNode = null;
+
+        for (TServiceTemplate tempServiceTemplate : model.getDocumentRoot()
+          .getDefinitions()
+          .getServiceTemplate()){
+           
+          if (tempServiceTemplate.getSubstitutableNodeType() != null &&
+                  tempServiceTemplate.getId().equals(nodeTemplate.getId())) 
+          {
+            substituteNode = tempServiceTemplate;
+            break;
+          }
+        }
+        return ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
+                .getPictogramElementForBusinessObject( substituteNode ); 
   }
   
   protected PictogramElement addContainerElement( final EObject element,
@@ -488,32 +516,32 @@ public class ToscaDiagramEditor extends DiagramEditor {
     return null;
 
   }
-  
+
   protected PictogramElement addRelationshipContainerElement( final EObject element,
-		  final Anchor sourceAnchor, final Anchor targetAnchor ){
-	  
-	  if (sourceAnchor == null)
-		  return null;
-	  
-	  if (targetAnchor == null)
-		  return null;
-	  
-	  AddConnectionContext context = new AddConnectionContext(sourceAnchor, targetAnchor);
-	  context.setNewObject( element );
-	  
-	  final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-	  IAddFeature addFeature = featureProvider.getAddFeature( context );
-	  
-	    PictogramElement pictElement = null;
-	    
-	    boolean canAdd = addFeature.canAdd( context ) ;
-	        
-	    if( canAdd ) {
-	      pictElement = addFeature.add( context );
-	      featureProvider.link( pictElement, new Object[]{ element } );
-	    }
-	    
-	    return pictElement;
+          final Anchor sourceAnchor, final Anchor targetAnchor ){
+      
+      if (sourceAnchor == null)
+          return null;
+      
+      if (targetAnchor == null)
+          return null;
+      
+      AddConnectionContext context = new AddConnectionContext(sourceAnchor, targetAnchor);
+      context.setNewObject( element );
+      
+      final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
+      IAddFeature addFeature = featureProvider.getAddFeature( context );
+      
+        PictogramElement pictElement = null;
+        
+        boolean canAdd = addFeature.canAdd( context ) ;
+            
+        if( canAdd ) {
+          pictElement = addFeature.add( context );
+          featureProvider.link( pictElement, new Object[]{ element } );
+        }
+        
+        return pictElement;
 
   }
 

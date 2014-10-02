@@ -1,10 +1,13 @@
 package eu.celar.ui.wizards;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
@@ -174,8 +178,9 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     
     // Create CSAR
     String csarName = this.deploymentFile.getName();
-    this.csar = new File( "C:\\Users\\stalo.cs8526\\Desktop\\" + csarName.replace( "tosca", "csar" ) );
 
+    this.csar = new File ( System.getProperty("user.home") + File.separator + "Desktop" + File.separator + csarName.replace( "tosca", "csar" ) ); //$NON-NLS-1$
+    
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
     // File names
@@ -189,10 +194,53 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     addToCSARFile( "Definitions", defFileName, convertToXml( toscaDescription ), zos ); //$NON-NLS-1$
     // Create a dummy SSH public key-pair file
     addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$
+    
+    
+    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    IFolder scriptsFolder = activeProject.getFolder( new Path("/Artifacts/Deployment Scripts" ));
+    IResource[] scriptFiles = scriptsFolder.members();
+    for (IResource resource : scriptFiles){
+      IFile tempFile = (IFile) resource;
+      String fileName = tempFile.getName();
+      String content = getFileContents( tempFile );
+
+      addToCSARFile("Scripts", fileName, content, zos );
+    }   
+    
     zos.close();
     fos.close();
   }
 
+  private static String getFileContents(IFile file) {
+    
+    InputStream in = null;
+    try {
+      in = file.getContents();
+    } catch( CoreException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    InputStreamReader is = new InputStreamReader(in);
+    StringBuilder sb = new StringBuilder();
+    BufferedReader br = new BufferedReader(is);
+
+    String read;
+    try {
+      read = br.readLine();
+
+      while(read != null) {
+          sb.append(read);
+          read = br.readLine();
+
+      }
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return sb.toString();
+    
+  }
+  
   private static String getKeyPair() {
     return "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCn3TzXwzRDtoPRUyRm784Wwa61EhhEd7rvr9qrLVjNvvCv/JP80sgE43LzxlEx7uiHEbzhhQdVHvTozTA2WEzyhVfYEhDhqt5xVl2Xf0skbAc3qLP42hguYXZ7NPtCUEUbQqN0Oo4WafUo4sRG+FNIu+nO66DbZEcmRBv3YYtcOw== AWS-RSA-1024"; //$NON-NLS-1$
   }
@@ -225,6 +273,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     jarAdd = new JarEntry( "ProbePack.jar" );
     out.putNextEntry( jarAdd );
     // Write file to archive
+
     in = new FileInputStream( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" );
     while( true ) {
       int nRead = in.read( buffer, 0, buffer.length );

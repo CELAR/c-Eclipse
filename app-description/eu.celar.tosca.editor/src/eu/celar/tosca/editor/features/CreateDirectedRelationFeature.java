@@ -36,56 +36,70 @@ public class CreateDirectedRelationFeature
   // business object
   @Override
   public boolean canCreate( ICreateConnectionContext context ) {
-    // return true if both anchors belong to a TNodeTemplate
-    // and those TNodeTemplates are not identical
-
-      TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
-      TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
-      if( source != null && target != null && source != target ) {
-        return true;
-      }
-    
+    // return true if both anchors belong to an object (TNodeTemplate or TServiceTemplate)
+    // and those objects are not identical
+      
+      Object sourceObj = getTAnchorParent(context.getSourceAnchor());
+      Object targetObj = getTAnchorParent(context.getTargetAnchor());
+         if( sourceObj != null && targetObj != null && sourceObj != targetObj ) {
+             return true;
+           }
+         
     return false;
   }
-
-  // Returns the TNodeTemplate belonging to the anchor, or null if not available
-  private TNodeTemplate getTNodeTemplate( Anchor anchor ) {
+  
+  // Returns the TNodeTemplate or TServiceTemplate belonging to the anchor, or null if not available
+  private Object getTAnchorParent( Anchor anchor ) {
+      Object obj = null;
     if( anchor != null ) {
-      Object obj = getBusinessObjectForPictogramElement( anchor.getParent() );
-      if( obj instanceof TNodeTemplate ) {
-        return ( TNodeTemplate )obj;
-      }
+      obj = getBusinessObjectForPictogramElement( anchor.getParent() );
     }
-    return null;
+    return obj;
   }
 
   // Creates the business object for the relationship
   @Override
   public Connection create( ICreateConnectionContext context ) {
     Connection newConnection = null;
-
-//    Object sourceObj = getBusinessObjectForPictogramElement( context.getSourceAnchor().getParent() );
-//    Object targetObj = getBusinessObjectForPictogramElement( context.getTargetAnchor().getParent() );
-//    if ( sourceObj instanceof TNodeTemplate && targetObj instanceof TNodeTemplate ){
-//      
-//    }else if ( sourceObj instanceof TServiceTemplate && targetObj instanceof TServiceTemplate ){
-//      
-//    }
+    
+      Object sourceObj = getTAnchorParent(context.getSourceAnchor());
+      Object targetObj = getTAnchorParent(context.getTargetAnchor());
       
-    // get TNodeTemplates which should be connected
-    TNodeTemplate source = getTNodeTemplate( context.getSourceAnchor() );
-    TNodeTemplate target = getTNodeTemplate( context.getTargetAnchor() );
-    if( source != null && target != null ) {
+      if (sourceObj==null || targetObj==null)
+          return null;
+      
+      String sourceID = null, targetID = null;
+      
+      if (sourceObj instanceof TNodeTemplate){
+            // get source TNodeTemplate 
+            TNodeTemplate source = (TNodeTemplate) sourceObj;        
+            sourceID = source.getId();
+      }else if (sourceObj instanceof TServiceTemplate){
+            // get TServiceTemplates which should be connected
+            TServiceTemplate source = (TServiceTemplate) sourceObj;
+            sourceID = source.getId();
+      }
+          
+      if (targetObj instanceof TNodeTemplate){
+            // get target TNodeTemplate 
+            TNodeTemplate target = (TNodeTemplate) targetObj;        
+            targetID = target.getId();
+      }else if (targetObj instanceof TServiceTemplate){
+            TServiceTemplate target = (TServiceTemplate) targetObj;
+            targetID = target.getId();
+      }
+      
+
       // create new business object
       TRelationshipTemplate newClass = ToscaFactory.eINSTANCE.createTRelationshipTemplate();
       newClass.setName( "Directed Relation" );
       newClass.setId( ( "R" + ( Integer )newClass.hashCode() ).toString() );
       newClass.setType( new QName("Directed") );
       SourceElementType se = ToscaFactory.eINSTANCE.createSourceElementType();
-      se.setRef( source.getId() );
+      se.setRef( sourceID );
       newClass.setSourceElement( se );
       TargetElementType te = ToscaFactory.eINSTANCE.createTargetElementType();
-      te.setRef( target.getId() );
+      te.setRef( targetID );
       newClass.setTargetElement( te );
 
       ContainerShape sourceContainer = ( ContainerShape )context.getSourcePictogramElement();
@@ -104,16 +118,19 @@ public class CreateDirectedRelationFeature
                                                                   context.getTargetAnchor() );
       addContext.setNewObject( newClass );
       newConnection = ( Connection )getFeatureProvider().addIfPossible( addContext );
-    }
+    
+      
     return newConnection;
   }
 
   @Override
   public boolean canStartConnection( ICreateConnectionContext context ) {
-    // return true if start anchor belongs to a TNodeTemplate
-    if( getTNodeTemplate( context.getSourceAnchor() ) != null ) {
-      return true;
+    
+    Object sourceObj = getTAnchorParent(context.getSourceAnchor());
+    if (sourceObj != null){
+        return true;
     }
+
     return false;
   }
   

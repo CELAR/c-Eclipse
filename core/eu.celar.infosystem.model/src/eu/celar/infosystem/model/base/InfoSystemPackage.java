@@ -415,6 +415,43 @@ public interface InfoSystemPackage extends EPackage
   int KEY_PAIR_FEATURE_COUNT = 4;
 
   /**
+   * The meta object id for the '{@link eu.celar.infosystem.model.base.impl.VirtualMachineImageFlavorImpl <em>Virtual Machine Image Flavor</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.infosystem.model.base.impl.VirtualMachineImageFlavorImpl
+   * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageFlavor()
+   * @generated
+   */
+  int VIRTUAL_MACHINE_IMAGE_FLAVOR = 6;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_MACHINE_IMAGE_FLAVOR__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>UID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_MACHINE_IMAGE_FLAVOR__UID = 1;
+
+  /**
+   * The number of structural features of the '<em>Virtual Machine Image Flavor</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_MACHINE_IMAGE_FLAVOR_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -422,7 +459,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageType()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE = 6;
+  int VIRTUAL_MACHINE_IMAGE_TYPE = 7;
 
   /**
    * The meta object id for the '<em>Virtual Machine Image Type Object</em>' data type.
@@ -432,7 +469,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageTypeObject()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 7;
+  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 8;
 
 
   /**
@@ -793,6 +830,38 @@ public interface InfoSystemPackage extends EPackage
   EAttribute getKeyPair_URL();
 
   /**
+   * Returns the meta object for class '{@link eu.celar.infosystem.model.base.VirtualMachineImageFlavor <em>Virtual Machine Image Flavor</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Virtual Machine Image Flavor</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualMachineImageFlavor
+   * @generated
+   */
+  EClass getVirtualMachineImageFlavor();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualMachineImageFlavor#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualMachineImageFlavor#getName()
+   * @see #getVirtualMachineImageFlavor()
+   * @generated
+   */
+  EAttribute getVirtualMachineImageFlavor_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualMachineImageFlavor#getUID <em>UID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>UID</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualMachineImageFlavor#getUID()
+   * @see #getVirtualMachineImageFlavor()
+   * @generated
+   */
+  EAttribute getVirtualMachineImageFlavor_UID();
+
+  /**
    * Returns the meta object for enum '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1112,6 +1181,32 @@ public interface InfoSystemPackage extends EPackage
      * @generated
      */
     EAttribute KEY_PAIR__URL = eINSTANCE.getKeyPair_URL();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.infosystem.model.base.impl.VirtualMachineImageFlavorImpl <em>Virtual Machine Image Flavor</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.infosystem.model.base.impl.VirtualMachineImageFlavorImpl
+     * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageFlavor()
+     * @generated
+     */
+    EClass VIRTUAL_MACHINE_IMAGE_FLAVOR = eINSTANCE.getVirtualMachineImageFlavor();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_MACHINE_IMAGE_FLAVOR__NAME = eINSTANCE.getVirtualMachineImageFlavor_Name();
+
+    /**
+     * The meta object literal for the '<em><b>UID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_MACHINE_IMAGE_FLAVOR__UID = eINSTANCE.getVirtualMachineImageFlavor_UID();
 
     /**
      * The meta object literal for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.

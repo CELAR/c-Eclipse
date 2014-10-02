@@ -52,7 +52,7 @@ public class CreateGroupFeature extends AbstractCreateFeature {
     
     String id = "G" + ( ( Integer )tService.hashCode() ).toString();
     
-    //set the Service Template as substitutable so that it can be composed into another Service Template
+    //set the Service Template as substitutable so that it can be composed into another Service Template   
     QName qname = new QName("substituteNode");
     tService.setSubstitutableNodeType( qname );
     tService.setId( id );

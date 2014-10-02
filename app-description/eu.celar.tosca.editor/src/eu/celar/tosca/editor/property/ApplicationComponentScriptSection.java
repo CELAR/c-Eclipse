@@ -202,11 +202,11 @@ public class ApplicationComponentScriptSection extends GFPropertySection
     
     if ( activeProject != null ){
       
-      String fileName = appComponent.getName() + " Deployment";
+      String fileName = appComponent.getName() + " Deployment.sh";
       
       IFile file = activeProject.getFile( new Path("/Artifacts/Deployment Scripts/" +  fileName));
       
-      if ( file.exists() == false ){
+      if ( !file.exists() ){
         file = createDeploymentScript(activeProject);
       }
       else{

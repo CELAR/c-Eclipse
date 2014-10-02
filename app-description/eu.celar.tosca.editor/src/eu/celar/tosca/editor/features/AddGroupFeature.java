@@ -1,3 +1,4 @@
+
 /************************************************************
  * Copyright (C), 2013 CELAR Consortium http://www.celarcloud.eu Contributors:
  * Stalo Sofokleous - initial API and implementation
@@ -11,8 +12,10 @@ import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -23,6 +26,8 @@ import org.eclipse.graphiti.util.ColorConstant;
 
 public class AddGroupFeature extends AbstractAddShapeFeature {
 
+      public static final int INVISIBLE_RECT_RIGHT = 6;
+      
   public AddGroupFeature( IFeatureProvider fp ) {
     super( fp );
   }
@@ -53,10 +58,12 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
                                                                                 true );
     final IGaService gaService = Graphiti.getGaService();
 
+    final Rectangle invisibleRectangle;
+    
     {
       // create invisible outer rectangle expanded by
       // the width needed for the anchor
-      final Rectangle invisibleRectangle = gaService.createInvisibleRectangle( containerShape );
+      invisibleRectangle = gaService.createInvisibleRectangle( containerShape );
       gaService.setLocationAndSize( invisibleRectangle,
                                     context.getX(),
                                     context.getY(),
@@ -102,9 +109,32 @@ public class AddGroupFeature extends AbstractAddShapeFeature {
       directEditingInfo.setGraphicsAlgorithm( text );
     }
     
+    
+    
+    
+    // add a chopbox anchor to the shape
+    peCreateService.createChopboxAnchor( containerShape );
+    // create an additional box relative anchor at middle-right
+    final BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor( containerShape );
+    boxAnchor.setRelativeWidth( 1.0 );
+    boxAnchor.setRelativeHeight( 0.38 ); // Use golden section
+    boxAnchor.setVisible( false );
+    // anchor references visible rectangle instead of invisible rectangle
+    boxAnchor.setReferencedGraphicsAlgorithm( invisibleRectangle );
+    // assign a graphics algorithm for the box relative anchor
+    final Ellipse ellipse = gaService.createPlainEllipse( boxAnchor );
+    // anchor is located on the right border of the visible rectangle
+    // and touches the border of the invisible rectangle
+    final int w = INVISIBLE_RECT_RIGHT;
+    gaService.setLocationAndSize( ellipse, -w, -w, 2 * w, 2 * w );
+    ellipse.setStyle( StyleUtil.getStyleForTNodeTemplate( getDiagram() ) );
+    
+
+    
     // call the layout feature
     layoutPictogramElement( containerShape );
     return containerShape;
     
   }
 }
+

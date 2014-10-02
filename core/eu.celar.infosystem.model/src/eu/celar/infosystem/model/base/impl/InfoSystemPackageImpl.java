@@ -10,6 +10,7 @@ import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 import eu.celar.infosystem.model.base.VirtualMachineImageType;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -71,6 +72,13 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * @generated
    */
   private EClass keyPairEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass virtualMachineImageFlavorEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -487,6 +495,36 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getVirtualMachineImageFlavor()
+  {
+    return virtualMachineImageFlavorEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualMachineImageFlavor_Name()
+  {
+    return (EAttribute)virtualMachineImageFlavorEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualMachineImageFlavor_UID()
+  {
+    return (EAttribute)virtualMachineImageFlavorEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getVirtualMachineImageType()
   {
     return virtualMachineImageTypeEEnum;
@@ -571,6 +609,10 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     createEAttribute(keyPairEClass, KEY_PAIR__DESCRIPTION);
     createEAttribute(keyPairEClass, KEY_PAIR__URL);
 
+    virtualMachineImageFlavorEClass = createEClass(VIRTUAL_MACHINE_IMAGE_FLAVOR);
+    createEAttribute(virtualMachineImageFlavorEClass, VIRTUAL_MACHINE_IMAGE_FLAVOR__NAME);
+    createEAttribute(virtualMachineImageFlavorEClass, VIRTUAL_MACHINE_IMAGE_FLAVOR__UID);
+
     // Create enums
     virtualMachineImageTypeEEnum = createEEnum(VIRTUAL_MACHINE_IMAGE_TYPE);
 
@@ -650,6 +692,10 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     initEAttribute(getKeyPair_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getKeyPair_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getKeyPair_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, KeyPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(virtualMachineImageFlavorEClass, VirtualMachineImageFlavor.class, "VirtualMachineImageFlavor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getVirtualMachineImageFlavor_Name(), ecorePackage.getEString(), "name", null, 1, 1, VirtualMachineImageFlavor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getVirtualMachineImageFlavor_UID(), ecorePackage.getEString(), "uID", null, 1, 1, VirtualMachineImageFlavor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(virtualMachineImageTypeEEnum, VirtualMachineImageType.class, "VirtualMachineImageType");

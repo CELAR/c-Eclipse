@@ -111,6 +111,7 @@ public class ElasticityConstraintDialog extends Dialog {
         this.cmbGlobalElasticityReq.add(mp.getName());
       }
     }
+    this.cmbGlobalElasticityReq.add( "CostPerHour ($)" );
 
     Composite valueComposite = new Composite( composite, SWT.NONE );
     gLayout = new GridLayout( 3, false );

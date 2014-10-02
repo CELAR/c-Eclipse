@@ -77,6 +77,15 @@ public interface InfoSystemFactory extends EFactory
   KeyPair createKeyPair();
 
   /**
+   * Returns a new object of class '<em>Virtual Machine Image Flavor</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Virtual Machine Image Flavor</em>'.
+   * @generated
+   */
+  VirtualMachineImageFlavor createVirtualMachineImageFlavor();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
