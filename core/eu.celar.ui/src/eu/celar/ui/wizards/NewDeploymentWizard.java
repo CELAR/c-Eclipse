@@ -96,7 +96,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private void openISbrowser() {
     URL ISbrowser = null;
     try {
-      ISbrowser = new URL( "http://snf-354013.vm.okeanos.grnet.gr:8080/webFrontend/application/version/deployment/?deplID=9876&tab=monitoring" );
+      ISbrowser = new URL( "http://snf-354013.vm.okeanos.grnet.gr:8080/webFrontend/application/version/deployment/?deplID=9876&tab=monitoring" ); //$NON-NLS-1$
     } catch( MalformedURLException e1 ) {
       // TODO Auto-generated catch block
       e1.printStackTrace();
@@ -105,7 +105,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     try {
       browser = PlatformUI.getWorkbench()
         .getBrowserSupport()
-        .createBrowser( "id" );
+        .createBrowser( "id" ); //$NON-NLS-1$
       browser.openURL( ISbrowser );
     } catch( PartInitException e ) {
       // TODO Auto-generated catch block
@@ -179,7 +179,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // Create CSAR
     String csarName = this.deploymentFile.getName();
 
-    this.csar = new File ( System.getProperty("user.home") + File.separator + "Desktop" + File.separator + csarName.replace( "tosca", "csar" ) ); //$NON-NLS-1$
+    this.csar = new File ( System.getProperty("user.home") + File.separator + "Desktop" + File.separator + csarName.replace( "tosca", "csar" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
@@ -197,14 +197,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     
     
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    IFolder scriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Deployment Scripts" ));
+    IFolder scriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Deployment Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
     IResource[] scriptFiles = scriptsFolder.members();
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
       String fileName = tempFile.getName();
       String content = getFileContents( tempFile );
 
-      addToCSARFile("Scripts", fileName, content, zos );
+      addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
     }   
     
     zos.close();
@@ -245,13 +245,61 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCn3TzXwzRDtoPRUyRm784Wwa61EhhEd7rvr9qrLVjNvvCv/JP80sgE43LzxlEx7uiHEbzhhQdVHvTozTA2WEzyhVfYEhDhqt5xVl2Xf0skbAc3qLP42hguYXZ7NPtCUEUbQqN0Oo4WafUo4sRG+FNIu+nO66DbZEcmRBv3YYtcOw== AWS-RSA-1024"; //$NON-NLS-1$
   }
 
+//  void exportProbe( IFile file ) throws IOException {
+//    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+//    IFolder monitoringFolder = activeProject.getFolder( "Monitoring" );
+//    IPath jarFilePath = monitoringFolder.getRawLocation()
+//      .append( file.getName() )
+//      .removeFileExtension()
+//      .addFileExtension( "jar" );
+//    byte buffer[] = new byte[ 10240 ];
+//    // Open archive file
+//    FileOutputStream stream = new FileOutputStream( jarFilePath.toString() );
+//    JarOutputStream out = new JarOutputStream( stream, new Manifest() );
+//    // Add probe file archive entry
+//    JarEntry jarAdd = new JarEntry( file.getName() );
+//    out.putNextEntry( jarAdd );
+//    // Write file to archive
+//    FileInputStream in = new FileInputStream( file.getRawLocation().toString() );
+//    while( true ) {
+//      int nRead = in.read( buffer, 0, buffer.length );
+//      if( nRead <= 0 )
+//        break;
+//      out.write( buffer, 0, nRead );
+//    }
+//    in.close();
+//    out.closeEntry();
+//    // Add ProbePack.jar file archive entry
+//    jarAdd = new JarEntry( "ProbePack.jar" );
+//    out.putNextEntry( jarAdd );
+//    // Write file to archive
+//
+//    in = new FileInputStream( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" );
+//    while( true ) {
+//      int nRead = in.read( buffer, 0, buffer.length );
+//      if( nRead <= 0 )
+//        break;
+//      out.write( buffer, 0, nRead );
+//    }
+//    in.close();
+//    out.closeEntry();
+//    out.close();
+//    stream.close();
+//    // Refresh Cloud Model
+//    IProgressMonitor monitor = null;
+//    try {
+//      CloudModel.getRoot().refresh( monitor );
+//    } catch( ProblemException e2 ) {
+//      e2.printStackTrace();
+//    }
+//  }
   void exportProbe( IFile file ) throws IOException {
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    IFolder monitoringFolder = activeProject.getFolder( "Monitoring" );
+    IFolder monitoringFolder = activeProject.getFolder( "Monitoring" ); //$NON-NLS-1$
     IPath jarFilePath = monitoringFolder.getRawLocation()
       .append( file.getName() )
       .removeFileExtension()
-      .addFileExtension( "jar" );
+      .addFileExtension( "jar" ); //$NON-NLS-1$
     byte buffer[] = new byte[ 10240 ];
     // Open archive file
     FileOutputStream stream = new FileOutputStream( jarFilePath.toString() );
@@ -270,11 +318,11 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     in.close();
     out.closeEntry();
     // Add ProbePack.jar file archive entry
-    jarAdd = new JarEntry( "ProbePack.jar" );
+    jarAdd = new JarEntry( "ProbePack.jar" ); //$NON-NLS-1$
     out.putNextEntry( jarAdd );
     // Write file to archive
 
-    in = new FileInputStream( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" );
+    in = new FileInputStream( "C:\\Users\\stalo.cs8526\\Desktop\\ProbePack.jar" ); //$NON-NLS-1$
     while( true ) {
       int nRead = in.read( buffer, 0, buffer.length );
       if( nRead <= 0 )
@@ -308,9 +356,9 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
                                     final ZipOutputStream zos )
     throws FileNotFoundException, IOException
   {
-    System.out.println( "Writing '" + dir + "/" + fileName + "' to CSAR file" ); //$NON-NLS-1$ //$NON-NLS-2$
-    String tmpDir = System.getenv( "Temp" ) + File.separator; //$NON-NLS-1$
-    System.out.println( tmpDir );
+    System.out.println( "Writing '" + dir + File.separator + fileName + "' to CSAR file" ); //$NON-NLS-1$ //$NON-NLS-2$
+    String tmpDir = System.getProperty("java.io.tmpdir") + File.separator; //$NON-NLS-1$
+    System.out.println( "O/S Temp Dir: " + tmpDir ); //$NON-NLS-1$
     File file = new File( tmpDir + fileName );
     if( !file.exists() ) {
       file.createNewFile();
@@ -418,9 +466,9 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   // ICWE demo deployment process
   private void ICWEdemoDeployment() {
     HttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost( "http://localhost:8080/ToscaContainer/rest/cloud/actions/deployCSAR" );
+    HttpPost post = new HttpPost( "http://localhost:8080/ToscaContainer/rest/cloud/actions/deployCSAR" ); //$NON-NLS-1$
     MultipartEntity entity = new MultipartEntity();
-    entity.addPart( "file", new FileBody( this.csar ) );
+    entity.addPart( "file", new FileBody( this.csar ) ); //$NON-NLS-1$
     post.setEntity( entity );
     try {
       client.execute( post );

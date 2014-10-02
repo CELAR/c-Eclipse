@@ -4,6 +4,8 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import java.io.File;
+
 import javax.xml.namespace.QName;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -146,7 +148,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts/"+ artifactName);
+    artifactRef.setReference( "Scripts"+ File.separator + artifactName);
 
     ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
     artifactRefType.getArtifactReference().add( artifactRef );
