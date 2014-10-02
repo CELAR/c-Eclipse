@@ -18,9 +18,11 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import eu.celar.tosca.ArtifactReferencesType;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.ImplementationArtifactType;
 import eu.celar.tosca.PropertiesType;
+import eu.celar.tosca.TArtifactReference;
 import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
@@ -107,7 +109,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 	      addGraphicalRepresentation( context, deploymentArtifact );
 
 	      //Create Image Artifact Template
-	      createArtifactTemplate(tNode.getName());
+	      createArtifactTemplate(tNode.getName(), tempDeploymentArtifact.getName());
 	      
 	      //Create Implementation Artifact
 	      createImplementationArtifact( tempDeploymentArtifact.getName(), new QName(tNode.getName()));
@@ -121,7 +123,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 
   }
   
-  private void createArtifactTemplate(String nodeName){
+  private void createArtifactTemplate(String nodeName, String artifactName){
     
     //Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
@@ -140,6 +142,16 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     artifactTemplate.setProperties( properties );
     
     artifactTemplate.setId( nodeName + "Script" );
+    
+    
+    // Set artifact ref
+    TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
+    artifactRef.setReference( "Scripts/"+ artifactName);
+
+    ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
+    artifactRefType.getArtifactReference().add( artifactRef );
+    
+    artifactTemplate.setArtifactReferences( artifactRefType );
     
     // Add the new Artifact Template to the TOSCA Definitions element
     

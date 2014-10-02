@@ -197,7 +197,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     
     
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    IFolder scriptsFolder = activeProject.getFolder( new Path("/Artifacts/Deployment Scripts" ));
+    IFolder scriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Deployment Scripts" ));
     IResource[] scriptFiles = scriptsFolder.members();
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
@@ -321,7 +321,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     fos.flush();
     fos.close();
     FileInputStream fis = new FileInputStream( file );
-    ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );
+    ZipEntry zipEntry = new ZipEntry( dir + File.separator + fileName );
     zos.putNextEntry( zipEntry );
     byte[] bytes = new byte[ 1024 ];
     int length;
@@ -341,7 +341,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     sb.append( "TOSCA-Meta-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "CSAR-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "Created-By: c-Eclipse\n\n" ); //$NON-NLS-1$
-    sb.append( "Name: Definitions" + "/" + defFile + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+    sb.append( "Name: Definitions" + File.separator + defFile + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
     sb.append( "Content-Type: application/vnd.oasis.tosca.definitions\n" ); //$NON-NLS-1$
     return sb.toString();
   }
