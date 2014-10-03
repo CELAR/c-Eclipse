@@ -107,6 +107,23 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 	          }
 	        } );
 	      
+//	      ImplementationArtifactType tempImplementationArtifact = (ImplementationArtifactType) this.contextObject;
+//
+//	       //Create Image Artifact Template
+//	       createArtifactTemplate(tNode.getName(), tempImplementationArtifact.getArtifactType().toString());
+//	       
+//	       //Create Implementation Artifact
+//	       ImplementationArtifactType implementationArtifact = createImplementationArtifact( tNode.getName()+"Script", tempImplementationArtifact.getArtifactType(), new QName(tNode.getName()+"Script"));
+//	       
+//        addGraphicalRepresentation( context, implementationArtifact );
+//
+//
+//       // activate direct editing after object creation
+//       getFeatureProvider().getDirectEditingInfo().setActive( true );
+//       // return newly created business object(s)
+//       return new Object[]{
+//         implementationArtifact
+//       };
 	      
 	      addGraphicalRepresentation( context, deploymentArtifact );
 
@@ -114,7 +131,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 	      createArtifactTemplate(tNode.getName(), tempDeploymentArtifact.getName());
 	      
 	      //Create Implementation Artifact
-	      createImplementationArtifact( tempDeploymentArtifact.getName(), new QName(tNode.getName()));
+	      createImplementationArtifact( tempDeploymentArtifact.getName(), new QName(tNode.getName()), new QName(tNode.getName()+"Script"));
 
 	      // activate direct editing after object creation
 	      getFeatureProvider().getDirectEditingInfo().setActive( true );
@@ -176,7 +193,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
   
   
   //Creates the install implementation artifact
-  private void createImplementationArtifact(String artifactName, QName nodeType){
+  private ImplementationArtifactType createImplementationArtifact(String artifactName, QName nodeType, QName artifactID){
     
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
@@ -216,9 +233,9 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     //Create Implementation Artifact
     final ImplementationArtifactType installArtifactType = ToscaFactory.eINSTANCE.createImplementationArtifactType();
     installArtifactType.setArtifactType( new QName("ScriptArtifact") );
-    installArtifactType.setArtifactRef( new QName(artifactName) );
+    installArtifactType.setArtifactRef( artifactID );
     installArtifactType.setInterfaceName( "Lifecycle" );
-    installArtifactType.setOperationName( "install" );
+    installArtifactType.setOperationName( "execute" );
     
     final TNodeTypeImplementation nodeImplementation = nodeTypeImplementation;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTypeImplementation );
@@ -232,5 +249,6 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
         }
       } );    
 
+    return installArtifactType;
   }
 }

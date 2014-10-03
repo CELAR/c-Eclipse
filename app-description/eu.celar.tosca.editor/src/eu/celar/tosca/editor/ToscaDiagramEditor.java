@@ -53,9 +53,11 @@ import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.ImplementationArtifactType;
 import eu.celar.tosca.SourceElementType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TNodeTypeImplementation;
 import eu.celar.tosca.TRelationshipTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
@@ -309,6 +311,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DocumentRoot documentRoot = model.getDocumentRoot();
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
+            EList<TNodeTypeImplementation> nodeTypesImplementation = definitionsType.getNodeTypeImplementation();
                         
             Boolean substitute = false;
             ContainerShape containerShapeTST = null;
@@ -357,6 +360,21 @@ public class ToscaDiagramEditor extends DiagramEditor {
                           
                       }
                   }
+                  
+//                  //Find NodeTypeImplementation
+//                  TNodeTypeImplementation nodeTypeImplementation = null;
+//                  for (TNodeTypeImplementation tempNodeImplementation : nodeTypesImplementation){
+//                    if (tnt.getName().equals( tempNodeImplementation.getNodeType().toString())){
+//                      nodeTypeImplementation = tempNodeImplementation;
+//                      break;
+//                    }
+//                  }
+//                  if (nodeTypeImplementation!=null && nodeTypeImplementation.getImplementationArtifacts()!=null){
+//                    EList<ImplementationArtifactType> implementationArtifacts = nodeTypeImplementation.getImplementationArtifacts().getImplementationArtifact();
+//                    for (ImplementationArtifactType tempImplementationArtifact : implementationArtifacts){
+//                      addContainerElement( tempImplementationArtifact, containerShapeTNT, 0, 0, 0, 0 );
+//                    }
+//                  }
  
                 }                
                 
@@ -417,7 +435,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                        ContainerShape containerShapeTNT;
                        
                        if ( tnt.getId().equals(sourceID) ){
-                           if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ){
+                           if ( tnt.getType().toString().contains( "substituteNode" ) == true ){
                                containerShapeTNT = getAnchorContainer(model, tnt);
                            }else{
                                containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
@@ -433,7 +451,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            }
                       
                        } else if ( tnt.getId().equals(targetID) ){
-                           if ( tnt.getType().toString().compareTo( "substituteNode" ) == 0 ){
+                           if ( tnt.getType().toString().contains( "substituteNode" ) == true ){
                                containerShapeTNT = getAnchorContainer(model, tnt);
                            }else{
                                containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
