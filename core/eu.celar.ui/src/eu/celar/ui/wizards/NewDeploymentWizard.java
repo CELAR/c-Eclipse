@@ -227,9 +227,10 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     String read;
     try {
       read = br.readLine();
-
+     
       while(read != null) {
           sb.append(read);
+          sb.append(System.getProperty("line.separator"));
           read = br.readLine();
 
       }
