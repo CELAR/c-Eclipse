@@ -4,6 +4,7 @@
  ************************************************************/
 package eu.celar.ui.wizards;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IFile;
@@ -121,7 +122,7 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
       String cloudProjectPath = (this.file).getFullPath().segment( 0 );
       IProgressMonitor monitor = null;
       try {
-        this.file.move( new Path("/"+cloudProjectPath+ "/Application Descriptions/" + fileName), true, monitor );
+        this.file.move( new Path(File.separator + cloudProjectPath+ File.separator + "Application Descriptions" + File.separator + fileName), true, monitor );
       } catch( IllegalStateException e ) {
         // TODO Auto-generated catch block
         e.printStackTrace();

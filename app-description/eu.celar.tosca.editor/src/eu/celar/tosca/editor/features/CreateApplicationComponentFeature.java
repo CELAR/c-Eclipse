@@ -15,9 +15,13 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudElement;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.ToscaFactory;
+import eu.celar.tosca.core.TOSCAModel;
+import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
@@ -105,10 +109,9 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     
     // Add object to domain model
     topology.getNodeTemplate().add( newClass );
-    
+        
     // Add object to diagram model
     //getDiagram().eResource().getContents().add(newClass);
-    
     
     // do the add
     addGraphicalRepresentation( context, newClass );

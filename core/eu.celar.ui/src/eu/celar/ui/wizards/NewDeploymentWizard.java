@@ -65,6 +65,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private NewSubmissionWizardSecondPage secondPage = null;
   private TOSCAModel toscaModel;
   private File csar;
+  private IFile deploymentIFile;
 
   public NewDeploymentWizard() {
     setNeedsProgressMonitor( true );
@@ -149,10 +150,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   {
     setWindowTitle( Messages.getString( "NewApplicationSubmissionWizard.windowTitle" ) ); //$NON-NLS-1$
     this.selection = selection;
+    
     Object obj = this.selection.getFirstElement();
     if( obj instanceof TOSCAResource ) {
       this.deploymentFile = ( TOSCAResource )obj;
       this.toscaModel = this.deploymentFile.getTOSCAModel();
+      
+      IResource resourceName = (( TOSCAResource )obj).getResource();
+      this.deploymentIFile = (IFile) resourceName;
     }
      if (obj instanceof IFile){
      IFile file = (IFile) obj;
@@ -190,8 +195,9 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // Create dummy TOSCA meta
     addToCSARFile( "TOSCA-Metadata", metaFile, getMetaContent( defFileName ), zos ); //$NON-NLS-1$
     // Create Valid TOSCA
-    DocumentRoot toscaDescription = toscaModel.getDocumentRoot();
-    addToCSARFile( "Definitions", defFileName, convertToXml( toscaDescription ), zos ); //$NON-NLS-1$
+//    DocumentRoot toscaDescription = toscaModel.getDocumentRoot();
+//    addToCSARFile( "Definitions", defFileName, convertToXml( toscaDescription ), zos ); //$NON-NLS-1$
+    addToCSARFile("Definitions", defFileName, getFileContents(this.deploymentIFile), zos);
     // Create a dummy SSH public key-pair file
     addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$
     
@@ -357,9 +363,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
                                     final ZipOutputStream zos )
     throws FileNotFoundException, IOException
   {
-    System.out.println( "Writing '" + dir + File.separator + fileName + "' to CSAR file" ); //$NON-NLS-1$ //$NON-NLS-2$
     String tmpDir = System.getProperty("java.io.tmpdir") + File.separator; //$NON-NLS-1$
-    System.out.println( "O/S Temp Dir: " + tmpDir ); //$NON-NLS-1$
     File file = new File( tmpDir + fileName );
     if( !file.exists() ) {
       file.createNewFile();

@@ -103,51 +103,52 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     
     //////////////////////////////////////////////
     
-    IProgressMonitor monitor = null;
-    IProject project = resource.getProject().getResource().getProject();
-    String cloudProjectPath = project.getFullPath().segment( 0 );
-
-    try {
-      resource.getResource().copy( new Path(File.separator+cloudProjectPath+ File.separator+ "Application Submissions" +File.separator+ fileName), true, monitor );
-    } catch( CoreException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      CloudModel.getRoot().refresh( monitor );
-    } catch( ProblemException e ) {
-      e.printStackTrace();
-    }
-    
-    return true;
-    
-    /////////////////////////////////////////////
-//    
-//    boolean fileCreated = false;
-//       
+//    IProgressMonitor monitor = null;
 //    IProject project = resource.getProject().getResource().getProject();
-//    
-//    IFile file = project.getFile( "/Application Submissions/" + fileName ); //$NON-NLS-1$
-//    
+//    String cloudProjectPath = project.getFullPath().segment( 0 );
+//
 //    try {
-//      IResource resourceName = resource.getResource();
-//      this.toscaFile = (IFile) resourceName;
-//      
-//      DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
-//                
-//      TOSCAModel.saveModelToFile( file, model );  
-//    } catch( Exception e ) {
+//      resource.getResource().copy( new Path(File.separator+cloudProjectPath+ File.separator+ "Application Submissions" +File.separator+ fileName), true, monitor );
+//    } catch( CoreException e ) {
+//      // TODO Auto-generated catch block
 //      e.printStackTrace();
 //    }
-//    
-//    IProgressMonitor monitor = null;
+//
 //    try {
 //      CloudModel.getRoot().refresh( monitor );
 //    } catch( ProblemException e ) {
 //      e.printStackTrace();
 //    }
-//    return fileCreated;
+//    
+//    return true;
+    
+    //////////////////////////////////////////////
+    
+  boolean fileCreated = false;
+     
+  IProject project = resource.getProject().getResource().getProject();
+  
+  IFile file = project.getFile( File.separator + "Application Submissions" + File.separator + fileName ); //$NON-NLS-1$
+  
+  try {
+    IResource resourceName = resource.getResource();
+    this.toscaFile = (IFile) resourceName;
+    
+    DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
+              
+    TOSCAModel.saveModelToFile( file, model );  
+  } catch( Exception e ) {
+    e.printStackTrace();
+  }
+  
+  IProgressMonitor monitor = null;
+  try {
+    CloudModel.getRoot().refresh( monitor );
+  } catch( ProblemException e ) {
+    e.printStackTrace();
+  }
+  return fileCreated;
+
   }
     
 //  // Validates TOSCA file before passing it to CELAR Server
