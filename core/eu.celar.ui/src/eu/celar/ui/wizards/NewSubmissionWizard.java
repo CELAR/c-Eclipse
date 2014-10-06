@@ -2,6 +2,7 @@ package eu.celar.ui.wizards;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -107,7 +108,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     String cloudProjectPath = project.getFullPath().segment( 0 );
 
     try {
-      resource.getResource().copy( new Path("/"+cloudProjectPath+ "/Application Submissions/" + fileName), true, monitor );
+      resource.getResource().copy( new Path(File.separator+cloudProjectPath+ File.separator+ "Application Submissions" +File.separator+ fileName), true, monitor );
     } catch( CoreException e ) {
       // TODO Auto-generated catch block
       e.printStackTrace();
