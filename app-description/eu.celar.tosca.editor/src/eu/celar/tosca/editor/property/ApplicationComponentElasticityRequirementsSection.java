@@ -5,7 +5,12 @@
 package eu.celar.tosca.editor.property;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +19,9 @@ import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblPackage;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -780,7 +787,7 @@ public class ApplicationComponentElasticityRequirementsSection
     
     FileDialog dialog = new FileDialog( parent.getShell(), SWT.OPEN );
     dialog.setText( "Select Executable File" ); //$NON-NLS-1$
-
+    
     String result = dialog.open();
     
     if( result != null ) {
@@ -808,7 +815,8 @@ public class ApplicationComponentElasticityRequirementsSection
       //String operationName = "";
       createImplementationArtifact( operationName, dialog.getFileName(), new QName(appComponent.getName()), new QName(appComponent.getName()+"_"+ dialog.getFileName() +"_"+"Script"));
       
-      // Add uploaded image to Project Artifacts folder
+      // Add uploaded image to Project Artifacts folder    
+     
       IWorkbenchPage activePage = PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow()
         .getActivePage();
@@ -820,13 +828,59 @@ public class ApplicationComponentElasticityRequirementsSection
       IProject project = file.getProject();
       String targetPath = Platform.getLocation()
                           + "/" + project.getName() + "/Artifacts/Reconfiguration Scripts/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+      
       File tmp = new File( targetPath );
       try {
-        tmp.createNewFile();
+        tmp.createNewFile();   
       } catch( IOException e1 ) {
         // TODO Auto-generated catch block
         e1.printStackTrace();
       }
+      
+      File source = new File( result );
+      InputStream selection = null;
+      OutputStream output = null;
+      try {
+        try {
+          selection = new FileInputStream(source);
+        } catch( FileNotFoundException e ) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      try {
+        output = new FileOutputStream(tmp);
+      } catch( FileNotFoundException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      byte[] buf = new byte[1024];
+      int bytesRead;
+       try {
+        while ((bytesRead = selection.read(buf)) > 0) {
+        output.write(buf, 0, bytesRead);
+        }
+      } catch( IOException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      } finally {
+        try {
+          selection.close();
+          output.close();
+        } catch( IOException e ) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      
+      }
+      
+      
+      
+      
+      
+      
+      
+      
       IProgressMonitor monitor = null;
       try {
         CloudModel.getRoot().refresh( monitor );
