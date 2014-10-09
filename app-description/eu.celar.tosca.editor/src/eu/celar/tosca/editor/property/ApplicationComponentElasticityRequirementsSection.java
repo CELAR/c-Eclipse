@@ -4,13 +4,18 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.example.sybl.ConditionType;
 import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblPackage;
-
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
@@ -19,6 +24,8 @@ import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -39,26 +46,43 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.reporting.ProblemException;
+import eu.celar.tosca.ArtifactReferencesType;
 import eu.celar.tosca.DefinitionsType;
+import eu.celar.tosca.ImplementationArtifactType;
 import eu.celar.tosca.PoliciesType;
 import eu.celar.tosca.PropertiesType;
+import eu.celar.tosca.TArtifactReference;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TImplementationArtifacts;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TNodeTypeImplementation;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TPolicyTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
+import eu.celar.tosca.editor.ToscaDiagramEditorInput;
 import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.editor.diagram.ToscaFeatureProvider;
 import eu.celar.tosca.editor.dialog.ElasticityConditionDialog;
 import eu.celar.tosca.editor.dialog.ElasticityConstraintDialog;
 import eu.celar.tosca.editor.dialog.ElasticityStrategyDialog;
+import eu.celar.tosca.editor.features.CreateResizeActionFeature;
+import eu.celar.tosca.editor.features.CreateVMIFeature;
+import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 /**
  * Application Component Properties - Elasticity Tab
@@ -72,6 +96,7 @@ public class ApplicationComponentElasticityRequirementsSection
   private Table table;
   private Button addButton;
   private Button removeButton;
+  private Button addExecutableButton;
   TableViewer tableViewer;
   List<TPolicy> appComponentElasticityRequirements = new ArrayList<TPolicy>();
   Section sectionRA;
@@ -155,6 +180,7 @@ public class ApplicationComponentElasticityRequirementsSection
         // TODO Auto-generated method stub
       }
     } );
+    
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
     gd = new GridData();
@@ -243,9 +269,37 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 60;
+    gdRA.widthHint = 80;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButtonRA.setLayoutData( gdRA );
+    
+    ////////////////////////////////////////////////////////////////////
+    
+    // Add Elasticity Strategy Executable button
+    this.addExecutableButton = new Button( clientRA2, SWT.PUSH );
+    this.addExecutableButton.setText( "Exectutable" ); //$NON-NLS-1$
+    // Listener for Adding Elasticity Strategy button
+    this.addExecutableButton.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        addResizingActionExecutable( parent, getSelectedElasticityStrategy() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gdRA = new GridData();
+    gdRA.widthHint = 80;
+    gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.addExecutableButton.setLayoutData( gdRA );
+    
+
+    ///////////////////////////////////////////////////////////////////
+    
+    
     this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
     this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
     // Listener for Remove Elasticity Strategy button
@@ -262,7 +316,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 60;
+    gdRA.widthHint = 80;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButtonRA.setLayoutData( gdRA );
     this.conditionButtonRA = new Button( clientRA2, SWT.PUSH );
@@ -281,7 +335,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 60;
+    gdRA.widthHint = 80;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.conditionButtonRA.setLayoutData( gdRA );
     // Add section components to the toolkit
@@ -290,6 +344,8 @@ public class ApplicationComponentElasticityRequirementsSection
     toolkit.adapt( this.addButtonRA, true, true );
     // toolkit.adapt( this.uploadButtonRA, true, true );
     toolkit.adapt( this.conditionButtonRA, true, true );
+    
+    toolkit.adapt( this.addExecutableButton, true, true);
     this.sectionRA.setClient( clientRA );
   }
 
@@ -717,6 +773,183 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableResizingActionsViewer.refresh();
   }
 
+  void addResizingActionExecutable( final Composite parent, final TPolicy selectedObject ) {
+    
+    if (selectedObject == null)
+      return;
+    
+    FileDialog dialog = new FileDialog( parent.getShell(), SWT.OPEN );
+    dialog.setText( "Select Executable File" ); //$NON-NLS-1$
+
+    String result = dialog.open();
+    
+    if( result != null ) {
+
+      PictogramElement pe = getSelectedPictogramElement();
+      Object bo = null;
+      if( pe != null ) {
+        bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( pe );
+      }
+      final TNodeTemplateExtension appComponent;
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+          .getPictogramElementParent( pe );
+        appComponent = ( TNodeTemplateExtension )Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
+        appComponent = ( TNodeTemplateExtension )bo;
+      }
+      //Create Image Artifact Template
+      createArtifactTemplate(appComponent.getName(), dialog.getFileName());
+      
+      //Create Implementation Artifact
+      String operationName = selectedObject.getName();
+      //String operationName = "";
+      createImplementationArtifact( operationName, dialog.getFileName(), new QName(appComponent.getName()), new QName(appComponent.getName()+"_"+ dialog.getFileName() +"_"+"Script"));
+      
+      // Add uploaded image to Project Artifacts folder
+      IWorkbenchPage activePage = PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow()
+        .getActivePage();
+      IEditorInput input = activePage.getActiveEditor().getEditorInput();
+      IFile file = null;
+      if( input instanceof ToscaDiagramEditorInput ) {
+        file = ( ( ToscaDiagramEditorInput )input ).getToscaFile();
+      }
+      IProject project = file.getProject();
+      String targetPath = Platform.getLocation()
+                          + "/" + project.getName() + "/Artifacts/Reconfiguration Scripts/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+      File tmp = new File( targetPath );
+      try {
+        tmp.createNewFile();
+      } catch( IOException e1 ) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+      IProgressMonitor monitor = null;
+      try {
+        CloudModel.getRoot().refresh( monitor );
+      } catch( ProblemException e2 ) {
+        e2.printStackTrace();
+      }
+      // Refresh Palette Compartments
+      getDiagramTypeProvider().getFeatureProvider()
+        .getDiagramTypeProvider()
+        .getDiagramBehavior()
+        .refreshPalette();
+    }
+  }
+  
+  private void createArtifactTemplate(String nodeName, String artifactName){
+    
+    //Create Artifact Template
+    final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
+    
+    //Create Script Artifact Properties
+    ScriptArtifactPropertiesType scriptProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createScriptArtifactPropertiesType();
+    scriptProperties.setLanguage( "Shell" );
+    
+    // Set the Properties of the Policy Template    
+    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();   
+    
+    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
+    Entry e = FeatureMapUtil.createEntry(     Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),  scriptProperties );
+    properties.getAny().add( e );      
+    
+    artifactTemplate.setProperties( properties );
+    
+    artifactTemplate.setId( nodeName + "_" + artifactName + "_" + "Script" );
+    
+    
+    // Set artifact ref
+    TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
+    artifactRef.setReference( "Scripts"+ File.separator + artifactName);
+
+    ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
+    artifactRefType.getArtifactReference().add( artifactRef );
+    
+    artifactTemplate.setArtifactReferences( artifactRefType );
+    
+    // Add the new Artifact Template to the TOSCA Definitions element
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+       
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot().getDefinitions().getArtifactTemplate().add( artifactTemplate );
+          
+        }
+      } );
+
+  }
+  
+  
+  //Creates the install implementation artifact
+  private ImplementationArtifactType createImplementationArtifact(String resizingActionName, String artifactName, QName nodeType, QName artifactID){
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    final DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    
+    TNodeTypeImplementation nodeTypeImplementation = null;
+    
+    //Test if NodeTypeImplementation for nodeType already exists
+    for ( TNodeTypeImplementation tempNodeTypeImplementation : definitions.getNodeTypeImplementation() ){
+      if ( tempNodeTypeImplementation.getNodeType().toString().equals(nodeType.toString()) ){
+        //NodeTypeImplementation already exists
+        //We are going to add the artifact to the existing implementation
+        nodeTypeImplementation = tempNodeTypeImplementation;
+      }
+    }
+    
+    if ( nodeTypeImplementation == null ){
+      //NodeTypeImplementation does not exists
+      final TNodeTypeImplementation newNodeTypeImplementation = ToscaFactory.eINSTANCE.createTNodeTypeImplementation();
+      newNodeTypeImplementation.setNodeType( nodeType );
+      TImplementationArtifacts implementationArtifacts = ToscaFactory.eINSTANCE.createTImplementationArtifacts();
+      newNodeTypeImplementation.setImplementationArtifacts( implementationArtifacts );
+      
+      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+      editingDomain.getCommandStack()
+        .execute( new RecordingCommand( editingDomain ) {
+
+          @Override
+          protected void doExecute() {
+            definitions.getNodeTypeImplementation().add( newNodeTypeImplementation );
+            
+          }
+        } );
+      nodeTypeImplementation = newNodeTypeImplementation;
+    }
+
+    //Create Implementation Artifact
+    final ImplementationArtifactType installArtifactType = ToscaFactory.eINSTANCE.createImplementationArtifactType();
+    installArtifactType.setArtifactType( new QName("ScriptArtifact") );
+    installArtifactType.setArtifactRef( artifactID );
+    installArtifactType.setInterfaceName( "Lifecycle" );
+    installArtifactType.setOperationName( resizingActionName );
+    
+    final TNodeTypeImplementation nodeImplementation = nodeTypeImplementation;
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTypeImplementation );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          nodeImplementation.getImplementationArtifacts().getImplementationArtifact().add( installArtifactType );
+          
+        }
+      } );    
+
+    return installArtifactType;
+  }
   /*
    * Refresh Elasticity Tab(non-Javadoc)
    * @see

@@ -296,17 +296,6 @@
             name="%_UI_Wizard_category"/>
    </extension>
 
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated TOSCA-v1.0 -->
-      <editor
-            id="eu.celar.tosca.presentation.ToscaEditorID"
-            name="%_UI_ToscaEditor_label"
-            icon="icons/full/obj16/ToscaModelFile.gif"
-            extensions="tosca"
-            class="eu.celar.tosca.presentation.ToscaEditor"
-            contributorClass="eu.celar.tosca.presentation.ToscaActionBarContributor">
-      </editor>
-   </extension>
 
    <extension point="org.eclipse.ui.editors">
       <!-- @generated elasticity -->

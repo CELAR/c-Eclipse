@@ -213,6 +213,16 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
     }   
     
+    IFolder resizingScriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Reconfiguration Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
+    scriptFiles = resizingScriptsFolder.members();
+    for (IResource resource : scriptFiles){
+      IFile tempFile = (IFile) resource;
+      String fileName = tempFile.getName();
+      String content = getFileContents( tempFile );
+
+      addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
+    }   
+    
     zos.close();
     fos.close();
   }
