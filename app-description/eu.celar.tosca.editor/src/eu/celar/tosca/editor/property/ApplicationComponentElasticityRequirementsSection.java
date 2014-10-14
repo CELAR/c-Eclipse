@@ -807,7 +807,7 @@ public class ApplicationComponentElasticityRequirementsSection
       } else { // bo instanceof TNodeTemplate
         appComponent = ( TNodeTemplateExtension )bo;
       }
-      //Create Image Artifact Template
+      //Create Resizing Artifact Template
       createArtifactTemplate(appComponent.getName(), dialog.getFileName());
       
       //Create Implementation Artifact
@@ -815,7 +815,7 @@ public class ApplicationComponentElasticityRequirementsSection
       //String operationName = "";
       createImplementationArtifact( operationName, dialog.getFileName(), new QName(appComponent.getName()), new QName(appComponent.getName()+"_"+ dialog.getFileName() +"_"+"Script"));
       
-      // Add uploaded image to Project Artifacts folder    
+      // Add uploaded resizing scripts to Project Artifacts folder    
      
       IWorkbenchPage activePage = PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow()
@@ -827,7 +827,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
       IProject project = file.getProject();
       String targetPath = Platform.getLocation()
-                          + "/" + project.getName() + "/Artifacts/Reconfiguration Scripts/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                          + File.separator + project.getName() + File.separator + "Artifacts" + File.separator + "Reconfiguration Scripts" + File.separator + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
       
       File tmp = new File( targetPath );
       try {
@@ -837,50 +837,8 @@ public class ApplicationComponentElasticityRequirementsSection
         e1.printStackTrace();
       }
       
-      File source = new File( result );
-      InputStream selection = null;
-      OutputStream output = null;
-      try {
-        try {
-          selection = new FileInputStream(source);
-        } catch( FileNotFoundException e ) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      try {
-        output = new FileOutputStream(tmp);
-      } catch( FileNotFoundException e ) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      byte[] buf = new byte[1024];
-      int bytesRead;
-       try {
-        while ((bytesRead = selection.read(buf)) > 0) {
-        output.write(buf, 0, bytesRead);
-        }
-      } catch( IOException e ) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      } finally {
-        try {
-          selection.close();
-          output.close();
-        } catch( IOException e ) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      
-      }
-      
-      
-      
-      
-      
-      
-      
-      
+      copySelectedFileToCloudProject( new File(result), tmp );
+
       IProgressMonitor monitor = null;
       try {
         CloudModel.getRoot().refresh( monitor );
@@ -892,6 +850,45 @@ public class ApplicationComponentElasticityRequirementsSection
         .getDiagramTypeProvider()
         .getDiagramBehavior()
         .refreshPalette();
+    }
+  }
+  
+  private void copySelectedFileToCloudProject(File source, File destination){
+   
+    InputStream selection = null;
+    OutputStream output = null;
+    try {
+      try {
+        selection = new FileInputStream(source);
+      } catch( FileNotFoundException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    try {
+      output = new FileOutputStream(destination);
+    } catch( FileNotFoundException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    byte[] buf = new byte[1024];
+    int bytesRead;
+     try {
+      while ((bytesRead = selection.read(buf)) > 0) {
+      output.write(buf, 0, bytesRead);
+      }
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    } finally {
+      try {
+        selection.close();
+        output.close();
+      } catch( IOException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    
     }
   }
   

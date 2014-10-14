@@ -2,6 +2,7 @@ package eu.celar.ui.wizards;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -12,7 +13,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudDeploymentService;
+import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProviderManager;
+import eu.celar.core.model.impl.GenericCloudProvider;
+import eu.celar.core.reporting.ProblemException;
 
 
 public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyListener {
@@ -51,9 +57,31 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     layout.horizontalAlignment = GridData.FILL;
     layout.horizontalSpan = 2;
     this.cmbCloudProvider.setLayoutData( layout );
-    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
-    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
-    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
+    
+    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
+    ICloudElement[] children;
+    
+    int i=0;
+    try {
+      children = cpManager.getChildren( new NullProgressMonitor() );
+      String accessId = null;
+      for( ICloudElement CloudElement : children ) {
+        if( CloudElement instanceof GenericCloudProvider ) {
+          GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
+          this.cmbCloudProvider.add( gCp.getName(), i++);
+        }
+      }
+
+    } catch( ProblemException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+//    
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
+//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
+    
     
     this.cmbCloudProvider.setEditable( false );
     

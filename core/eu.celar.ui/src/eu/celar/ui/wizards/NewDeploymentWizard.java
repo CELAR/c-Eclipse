@@ -1,6 +1,7 @@
 package eu.celar.ui.wizards;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,12 +21,15 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -88,11 +94,94 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       // TODO Auto-generated catch block
       e1.printStackTrace();
     }
-    // Open IS browser in c-Eclipse
-    openISbrowser();
+
+//    openISbrowser();
+//    describeApplication();
+//    deployApplication();
+    
     return true;
   }
+  
+  // Call CELAR Manager to submit application description
+  private void describeApplication(){
 
+    URL url = null;
+    HttpURLConnection connection = null;
+    try {
+      
+      url = new URL ("http://83.212.107.38:8080/application/describe/");
+      
+      connection = (HttpURLConnection) url.openConnection();
+      
+      connection.setDoOutput( true );
+      
+      connection.setRequestMethod( "POST" );
+      
+      connection.setRequestProperty("Content-type", "application/octet-stream");
+      
+      OutputStream reqStream = connection.getOutputStream();
+      FileInputStream fis = new FileInputStream( this.csar );
+      
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      byte[] buf = new byte[1024];
+      try {
+          for (int readNum; (readNum = fis.read(buf)) != -1;) {
+              bos.write(buf, 0, readNum);
+          }
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+      
+      fis.close();
+      reqStream.write( bos.toByteArray() );
+      
+      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          System.out.println(inputLine);
+      }
+      in.close();
+      
+      connection.disconnect();
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+  }
+  
+  // Call CELAR Manager to deploy described application
+  private void deployApplication(){
+    
+    String applicationId = null;
+    URL urlD = null;
+    HttpURLConnection connectionD = null;
+    try {
+      
+      urlD = new URL ("http://83.212.107.38:8080/application/" + applicationId +"/deploy/");
+      
+      connectionD = (HttpURLConnection) urlD.openConnection();
+      
+      connectionD.setDoOutput( true );
+      
+      connectionD.setRequestMethod( "POST" );
+      
+      BufferedReader inD = new BufferedReader(new InputStreamReader(connectionD.getInputStream()));
+      String inputLineD;
+      while ((inputLineD = inD.readLine()) != null) {
+          System.out.println(inputLineD);
+      }
+      inD.close();
+      
+      connectionD.disconnect();
+  
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+  
+  }
+  
+  
+  
   // Opens an internal browser displaying the Information System
   private void openISbrowser() {
     URL ISbrowser = null;
@@ -384,7 +473,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     fos.flush();
     fos.close();
     FileInputStream fis = new FileInputStream( file );
-    ZipEntry zipEntry = new ZipEntry( dir + File.separator + fileName );
+    ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );
     zos.putNextEntry( zipEntry );
     byte[] bytes = new byte[ 1024 ];
     int length;

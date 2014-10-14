@@ -1,11 +1,16 @@
 package eu.celar.tosca.editor.features;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
+import eu.celar.tosca.TArtifactTemplate;
+import eu.celar.tosca.TImplementationArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TNodeTypeImplementation;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TPolicyTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
@@ -24,6 +29,8 @@ public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
   public void preDelete( IDeleteContext context ) {
     // Removes the relationships related to the deleted application component
     Object deletedObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getPictogramElement() );
+    
+    
     TNodeTemplate deletedNodeTemplate = ( TNodeTemplate )deletedObject;
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     // Delete Policy Templates
@@ -68,5 +75,47 @@ public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
         }
       }
     }
+    //Delete NodeTypeImplementations
+    if (model.getDocumentRoot()
+        .getDefinitions()
+        .getNodeTypeImplementation() != null){
+    QName[] artifactTemplatesIDs = new QName[1];
+    for( TNodeTypeImplementation tempNodeTypeImplementation : model.getDocumentRoot()
+        .getDefinitions()
+        .getNodeTypeImplementation() )
+      {
+        if ( tempNodeTypeImplementation.getNodeType().toString().equals( deletedNodeTemplate.getName()) ){
+          //Find Artifact Templates to be Deleted
+          {
+            for (TImplementationArtifact tempImplementationArtifact: tempNodeTypeImplementation.getImplementationArtifacts().getImplementationArtifact()){
+              artifactTemplatesIDs[artifactTemplatesIDs.length-1]=tempImplementationArtifact.getArtifactRef();
+            }
+          }
+          //Delete NodeTypeImplementation
+            {
+              model.getDocumentRoot()
+              .getDefinitions()
+              .getNodeTypeImplementation()
+                .remove( tempNodeTypeImplementation );
+            }
+          } 
+      }
+    
+    //Delete ArtifactTemplates
+    for( TArtifactTemplate tempArtifactTemplate : model.getDocumentRoot()
+        .getDefinitions().getArtifactTemplate()){
+      for (QName tempArtifactTemplateID : artifactTemplatesIDs){
+        if (tempArtifactTemplate.getId().equals( tempArtifactTemplateID.toString() )){
+          //Delete Artifact Template
+          {
+            model.getDocumentRoot()
+            .getDefinitions()
+            .getArtifactTemplate()
+              .remove( tempArtifactTemplate );
+          }
+        }
+      }
+    }
+  }
   }
 }

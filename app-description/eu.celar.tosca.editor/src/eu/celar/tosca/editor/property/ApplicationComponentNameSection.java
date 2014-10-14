@@ -174,7 +174,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           }
           IProject project = file.getProject();
           String targetPath = Platform.getLocation()
-                              + "/" + project.getName() + "/Artifacts/Virtual Machine Images/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                              + File.separator + project.getName() + File.separator + "Artifacts"+ File.separator + "Virtual Machine Images" + File.separator + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           File tmp = new File( targetPath );
           try {
             tmp.createNewFile();
