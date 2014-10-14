@@ -1,6 +1,6 @@
 ##c-Eclipse
 
-The c-Eclipse plugin consists of several modules, enabling the description of the structure, elasticity requirements and other behavioral features of an application to be run over a Cloud platform. The description is translated on the fly into [TOSCA](http://docs.oasis-open.org/tosca/TOSCA/v1.0/cs01/TOSCA-v1.0-cs01.html) xml.
+c-Eclipse is an ongoing project, part of the EU [CELAR](http://www.celarcloud.eu/) project. The c-Eclipse plugin consists of several modules, enabling the description of the structure, elasticity requirements and other behavioral features of an application to be run over a Cloud platform. The description is translated on the fly into [TOSCA](http://docs.oasis-open.org/tosca/TOSCA/v1.0/cs01/TOSCA-v1.0-cs01.html) xml.
 
 ###Installation
 
@@ -32,6 +32,8 @@ http://snf-153388.vm.okeanos.grnet.gr/ceclipse/p2/
  * To open graphical description: Right click on the application file -> Open With -> Tosca Diagram Editor
  * To open xml tosca description: Right click on the application file -> Open With -> Text Editor
 
+#####Deploy a described application
+* To deploy the described applications over Cloud you must first install/configure the [CELAR Server](https://github.com/CELAR/celar-server)
  
 ###Website
 http://linc.ucy.ac.cy/CELAR/ceclipse/
