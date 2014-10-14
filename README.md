@@ -16,8 +16,11 @@ http://snf-153388.vm.okeanos.grnet.gr/ceclipse/p2/
 
 ###Getting Started
 
+##### Prepare c-Eclipse Prespective 
+ * Open the Cloud Project View ( Windows -> Show View -> CELAR -> Cloud Project View )
+ * Open the Properties View ( Windows -> Show View -> General -> Properties )
+
 #####Create a new c-Eclipse Project
- * First open the CELAR / Cloud Project View and General / Properties windows ( from Windows -> Show View )
  * Right Click in Cloud Project View -> New -> Other -> CELAR / CELAR Project
  * Give the project a name i.e. myProject -> Next -> Edit Cloud Providers -> Add -> Generic Cloud Provider -> Next
  * Give a name for the Cloud provider -> Finish -> OK -> Finish
@@ -28,7 +31,7 @@ http://snf-153388.vm.okeanos.grnet.gr/ceclipse/p2/
  * Application file is stored under "Application Descriptions" folder
  * Drag-and-drop elements from the Palette onto the center Canvas to create a graphical description of an application
  * Use the tabs in the Properties View to give additional details to your graphical description
- * Import any custom configuration scripts under "Artifacts" / "Deployment Scripts" folder (Might need to re-open graphical  description for the newly imported files to be presented in the Palette)
+ * Right click -> Import on "Artifacts" / "Deployment Scripts" folder to import any custom configuration scripts (Might need to re-open graphical  description for the newly imported files to be presented in the Palette)
  * To open graphical description: Right click on the application file -> Open With -> Tosca Diagram Editor
  * To open xml tosca description: Right click on the application file -> Open With -> Text Editor
 
