@@ -125,6 +125,8 @@ public class GenericCloudProviderProperties
       OutputStreamWriter osWriter = new OutputStreamWriter( oStream );
       BufferedWriter bWriter = new BufferedWriter( osWriter );
       bWriter.write( this.cp.getName() );
+      bWriter.write( this.cp.getUri() );
+      bWriter.write( this.cp.getPort() );
       
       for ( ICloudElement child : children ) {
 //        if ( child instanceof IGridService ) {

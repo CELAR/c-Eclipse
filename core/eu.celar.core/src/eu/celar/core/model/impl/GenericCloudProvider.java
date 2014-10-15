@@ -26,6 +26,8 @@ public class GenericCloudProvider
   private static final String VO_TYPE_NAME = "Generic Cloud Provider"; //$NON-NLS-1$
   
   private String name;
+  private String uri;
+  private String port;
   
   GenericCloudProvider( final GenericCloudProviderCreator creator ) {
     try {
@@ -111,6 +113,14 @@ public class GenericCloudProvider
     return this.name;
   }
   
+  public String getUri() {
+    return this.uri;
+  }
+  
+  public String getPort() {
+    return this.port;
+  }
+  
   @Override
   public void serialize() throws ProblemException {
     ICloudElement[] children = getChildren( null );
@@ -133,6 +143,8 @@ public class GenericCloudProvider
   protected void apply( final GenericCloudProviderCreator creator ) throws ProblemException {
     
     this.name = creator.getVoName();
+    this.uri = creator.getVoURI();
+    this.port = creator.getVoPort();
     
     GenericCloudProviderProperties properties = new GenericCloudProviderProperties( this );
     addElement( properties );

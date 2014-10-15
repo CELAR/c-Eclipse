@@ -32,6 +32,10 @@ public class GenericCloudProviderWizardPage
   
   /** A pattern for matching the VO name */
   private Pattern cpNamePattern = Pattern.compile( "^[\\w.-]+$" ); //$NON-NLS-1$
+
+  private Text uriText;
+
+  private Text portText;
   
   
   /**
@@ -67,6 +71,26 @@ public class GenericCloudProviderWizardPage
       initVo( this.initialCloudProvider );
     }
     
+    Label uriLabel = new Label( mainComp, SWT.NULL );
+    uriLabel.setText( "&Cloud Provider URI:" );
+    gData = new GridData();
+    uriLabel.setLayoutData( gData );
+    
+    this.uriText = new Text( mainComp, SWT.BORDER );
+    gData = new GridData( GridData.FILL_HORIZONTAL );
+    gData.grabExcessHorizontalSpace = true;
+    this.uriText.setLayoutData( gData );
+    
+    Label portLabel = new Label( mainComp, SWT.NULL );
+    portLabel.setText( "&Cloud Provider Port:" );
+    gData = new GridData();
+    portLabel.setLayoutData( gData );
+    
+    this.portText = new Text( mainComp, SWT.BORDER );
+    gData = new GridData( GridData.FILL_HORIZONTAL );
+    gData.grabExcessHorizontalSpace = true;
+    this.portText.setLayoutData( gData );
+    
     setControl( mainComp );
     
   }
@@ -82,7 +106,11 @@ public class GenericCloudProviderWizardPage
         && ( CloudModel.getCloudProviderManager().findChild( name ) != null ) ) {
       result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "A VO with the same name already exists" );
     } else {
+      String uri = this.uriText.getText();
+      String port = this.portText.getText();
       creator.setVoName( name );
+      creator.setVoURI( uri );
+      creator.setVoPort( port );
     }
     
     return result;

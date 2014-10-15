@@ -65,6 +65,7 @@ public class GenericCloudProviderWizard
   public boolean performFinish() {
     
     GenericCloudProviderCreator creator = new GenericCloudProviderCreator();
+   
     
     IStatus result = this.cpPage.apply( creator );
     

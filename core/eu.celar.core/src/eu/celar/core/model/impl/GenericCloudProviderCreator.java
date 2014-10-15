@@ -26,9 +26,13 @@ public class GenericCloudProviderCreator
   private static final String EXTENSION_ID = "eu.geclipse.core.genericVoCreator"; //$NON-NLS-1$
   
   private String voName;
+  private String voUri;
+  private String voPort;
   
   private List< ICloudElementCreator > serviceCreators
     = new ArrayList< ICloudElementCreator >();
+
+
   
 //  private List<ICloudService> serviceMaintainers = new ArrayList<ICloudService>();
   
@@ -105,6 +109,14 @@ public class GenericCloudProviderCreator
     return this.voName;
   }
   
+  public String getVoURI() {
+    return this.voUri;
+  }
+  
+  public String getVoPort() {
+    return this.voPort;
+  }
+  
   /**
    * Set the VO's name.
    * 
@@ -112,6 +124,14 @@ public class GenericCloudProviderCreator
    */
   public void setVoName( final String name ) {
     this.voName = name;
+  }
+  
+  public void setVoURI( final String uri ) {
+    this.voUri = uri;
+  }
+  
+  public void setVoPort( final String port ) {
+    this.voPort = port;
   }
 
 }

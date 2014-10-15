@@ -21,6 +21,10 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -53,6 +57,9 @@ import org.eclipse.ui.PlatformUI;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProvider;
+import eu.celar.core.model.ICloudProviderManager;
+import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;
@@ -60,6 +67,11 @@ import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
 
 import org.eclipse.ui.browser.IWebBrowser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @author Nicholas Loulloudes, Stalo Sofokleous
@@ -72,10 +84,21 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private TOSCAModel toscaModel;
   private File csar;
   private IFile deploymentIFile;
+  private String deploymentURI;
+  private GenericCloudProvider genericSelectedProvider = null;
 
   public NewDeploymentWizard() {
     setNeedsProgressMonitor( true );
     setForcePreviousAndNextButtons( true );
+    
+    final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+    ICloudProvider selectedProvider = ( ICloudProvider ) manager.getDefault();
+    
+    if (selectedProvider != null){
+      this.genericSelectedProvider = (GenericCloudProvider) selectedProvider;
+      this.deploymentURI = this.genericSelectedProvider.getUri() + ":" + this.genericSelectedProvider.getPort();
+    }
+
   }
 
   /*
@@ -84,6 +107,10 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    */
   @Override
   public boolean performFinish() {
+    
+    if (this.genericSelectedProvider == null)
+      return true;
+    
     // Export CSAR file
     try {
       exportCSAR();
@@ -95,25 +122,41 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       e1.printStackTrace();
     }
 
-//    openISbrowser();
-//    describeApplication();
-//    deployApplication();
-    
+      //openISbrowser();
+      
+      String applicationId = describeApplication();
+      
+      String deploymentId = null;
+      if (applicationId!=null){
+        deploymentId = deployApplication(applicationId);
+      }
+      
+      if (deploymentId!=null){
+        getDeploymentState(deploymentId);
+        //terminateDeployment(deploymentId);
+      }
+      
     return true;
   }
   
   // Call CELAR Manager to submit application description
-  private void describeApplication(){
+  private String describeApplication(){
 
     URL url = null;
     HttpURLConnection connection = null;
+    
+    String applicationId = null;
+    
     try {
       
-      url = new URL ("http://83.212.107.38:8080/application/describe/");
+      //url = new URL ("http://83.212.107.38:8080/application/describe/");
+      
+      url = new URL (this.deploymentURI + "/application/describe/");
       
       connection = (HttpURLConnection) url.openConnection();
       
       connection.setDoOutput( true );
+      connection.setDoInput( true );
       
       connection.setRequestMethod( "POST" );
       
@@ -135,52 +178,292 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       fis.close();
       reqStream.write( bos.toByteArray() );
       
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      String inputLine;
-      while ((inputLine = in.readLine()) != null) {
-          System.out.println(inputLine);
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response is: "+responseCode);
+      InputStream inputStream = connection.getInputStream();
+
+      
+//      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+//      String inputLine;
+//      while ((inputLine = in.readLine()) != null) {
+//          System.out.println(inputLine);
+//      }
+//      in.close();
+      
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = null;
+      try {
+        db = dbf.newDocumentBuilder();
+      } catch( ParserConfigurationException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
-      in.close();
+
+      try {
+        Document doc = db.parse(inputStream);
+        NodeList nList = doc.getElementsByTagName( "application" );
+        for (int i=0; i< nList.getLength(); i++){
+          Node nNode = nList.item(i);
+   
+          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+   
+              Element eElement = (Element) nNode;
+   
+              applicationId = eElement.getElementsByTagName("id").item(0).getTextContent();
+              
+              break;
+          }
+        }
+      } catch( SAXException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      System.out.println("Application Id is: "+applicationId);
+
       
       connection.disconnect();
 
   } catch (IOException ex) {
     ex.printStackTrace();
   }
+    
+    return applicationId;
   }
   
   // Call CELAR Manager to deploy described application
-  private void deployApplication(){
-    
-    String applicationId = null;
-    URL urlD = null;
-    HttpURLConnection connectionD = null;
+  private String deployApplication(String applicationId){
+
+    URL url = null;
+    HttpURLConnection connection = null;
+    String deploymentId = null;
     try {
       
-      urlD = new URL ("http://83.212.107.38:8080/application/" + applicationId +"/deploy/");
+      //url = new URL ("http://83.212.107.38:8080/application/" + applicationId +"/deploy/");
       
-      connectionD = (HttpURLConnection) urlD.openConnection();
+      url = new URL (this.deploymentURI + "/application/" + applicationId +"/deploy/");
       
-      connectionD.setDoOutput( true );
+      connection = (HttpURLConnection) url.openConnection();
       
-      connectionD.setRequestMethod( "POST" );
+      connection.setDoOutput( true );
+      connection.setDoInput( true );
       
-      BufferedReader inD = new BufferedReader(new InputStreamReader(connectionD.getInputStream()));
-      String inputLineD;
-      while ((inputLineD = inD.readLine()) != null) {
-          System.out.println(inputLineD);
+      connection.setRequestMethod( "POST" );
+      
+      connection.setRequestProperty("Content-type", "application/octet-stream");
+      
+      OutputStream reqStream = connection.getOutputStream();
+      FileInputStream fis = new FileInputStream( this.csar );
+      
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      byte[] buf = new byte[1024];
+      try {
+          for (int readNum; (readNum = fis.read(buf)) != -1;) {
+              bos.write(buf, 0, readNum);
+          }
+      } catch (IOException ex) {
+        ex.printStackTrace();
       }
-      inD.close();
       
-      connectionD.disconnect();
-  
+      fis.close();
+      reqStream.write( bos.toByteArray() );
+      
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response is: "+responseCode);
+      
+      InputStream inputStream = connection.getInputStream();
+      
+//      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+//      String inputLine;
+//      while ((inputLine = in.readLine()) != null) {
+//          System.out.println(inputLine);
+//      }
+//      in.close();
+      
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = null;
+      try {
+        db = dbf.newDocumentBuilder();
+      } catch( ParserConfigurationException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+      try {
+        Document doc = db.parse(inputStream);
+        NodeList nList = doc.getElementsByTagName( "deployment" );
+        for (int i=0; i< nList.getLength(); i++){
+          Node nNode = nList.item(i);
+   
+          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+   
+              Element eElement = (Element) nNode;
+   
+              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+              
+              break;
+          }
+        }
+      } catch( SAXException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      System.out.println("Deployment Id is: "+deploymentId);
+
+      
+      connection.disconnect();
+
   } catch (IOException ex) {
     ex.printStackTrace();
   }
-  
+    
+    return deploymentId;
   }
   
+  // Get deployment state
+  private boolean getDeploymentState(String deploymentId){
+    URL url = null;
+    HttpURLConnection connection = null;
+
+    try {
+      
+      //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId);
+      
+      url = new URL (this.deploymentURI + "/deployment/" + deploymentId);
+      
+      connection = (HttpURLConnection) url.openConnection();
+      
+      connection.setDoOutput( false );
+      connection.setDoInput( true );
+      
+      connection.setRequestMethod( "GET" );
+            
+      
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response is: "+responseCode);
+      
+      InputStream inputStream = connection.getInputStream();
+      
+      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          System.out.println(inputLine);
+      }
+      in.close();
+      
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = null;
+//      try {
+//        db = dbf.newDocumentBuilder();
+//      } catch( ParserConfigurationException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//
+//      try {
+//        Document doc = db.parse(inputStream);
+//        NodeList nList = doc.getElementsByTagName( "deployment" );
+//        for (int i=0; i< nList.getLength(); i++){
+//          Node nNode = nList.item(i);
+//   
+//          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//   
+//              Element eElement = (Element) nNode;
+//   
+//              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+//              
+//              break;
+//          }
+//        }
+//      } catch( SAXException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//      
+//      System.out.println("Deployment Id is: "+deploymentId);
+
+      
+      connection.disconnect();
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+    
+    return true;
+  }
   
+  // Terminate deployment
+  private boolean terminateDeployment(String deploymentId){
+    URL url = null;
+    HttpURLConnection connection = null;
+
+    try {
+      
+      //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId + "/terminate");
+      
+      url = new URL (this.deploymentURI + "/deployment/" + deploymentId + "/terminate");
+      
+      connection = (HttpURLConnection) url.openConnection();
+      
+      connection.setDoOutput( false );
+      connection.setDoInput( true );
+      
+      connection.setRequestMethod( "POST" );
+            
+      
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response is: "+responseCode);
+      
+      InputStream inputStream = connection.getInputStream();
+      
+      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          System.out.println(inputLine);
+      }
+      in.close();
+      
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = null;
+//      try {
+//        db = dbf.newDocumentBuilder();
+//      } catch( ParserConfigurationException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//
+//      try {
+//        Document doc = db.parse(inputStream);
+//        NodeList nList = doc.getElementsByTagName( "deployment" );
+//        for (int i=0; i< nList.getLength(); i++){
+//          Node nNode = nList.item(i);
+//   
+//          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//   
+//              Element eElement = (Element) nNode;
+//   
+//              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+//              
+//              break;
+//          }
+//        }
+//      } catch( SAXException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//      
+//      System.out.println("Deployment Id is: "+deploymentId);
+
+      
+      connection.disconnect();
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+    
+    return true;
+  }
   
   // Opens an internal browser displaying the Information System
   private void openISbrowser() {

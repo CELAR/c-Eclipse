@@ -64,7 +64,6 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     int i=0;
     try {
       children = cpManager.getChildren( new NullProgressMonitor() );
-      String accessId = null;
       for( ICloudElement CloudElement : children ) {
         if( CloudElement instanceof GenericCloudProvider ) {
           GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
