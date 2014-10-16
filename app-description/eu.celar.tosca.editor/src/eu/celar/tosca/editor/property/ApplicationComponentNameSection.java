@@ -4,8 +4,15 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 
 import javax.xml.namespace.QName;
@@ -153,16 +160,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
         // dialog.setFilterPath("c:\\temp");
         String result = dialog.open();
         if( result != null ) {
-          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
-          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-          deploymentArtifact.setName( dialog.getFileName() );
-          deploymentArtifact.setArtifactType( new QName( "VMI" ) ); //$NON-NLS-1$
-          createImageFeature.setContextObject( deploymentArtifact );
-          CreateContext createContext = new CreateContext();
-          createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );
-          if( createImageFeature.canCreate( createContext ) )
-            createImageFeature.create( createContext );
-          refresh();
           // Add uploaded image to Project Artifacts folder
           IWorkbenchPage activePage = PlatformUI.getWorkbench()
             .getActiveWorkbenchWindow()
@@ -182,6 +179,33 @@ public class ApplicationComponentNameSection extends GFPropertySection
             // TODO Auto-generated catch block
             e1.printStackTrace();
           }
+          
+          // Get image Id
+          BufferedReader reader = null;
+          try {
+            reader = new BufferedReader( new FileReader (new File(result)));
+          } catch( FileNotFoundException e3 ) {
+            // TODO Auto-generated catch block
+            e3.printStackTrace();
+          }
+          String         line = null;
+          StringBuilder  stringBuilder = new StringBuilder();
+
+          try {
+            while( ( line = reader.readLine() ) != null ) {
+                stringBuilder.append( line );
+            }
+          } catch( IOException e1 ) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+
+          String imageId = stringBuilder.toString();
+          
+          
+          
+          copySelectedFileToCloudProject( new File(result), tmp );
+          
           IProgressMonitor monitor = null;
           try {
             CloudModel.getRoot().refresh( monitor );
@@ -192,7 +216,21 @@ public class ApplicationComponentNameSection extends GFPropertySection
           getDiagramTypeProvider().getFeatureProvider()
             .getDiagramTypeProvider()
             .getDiagramBehavior()
-            .refreshPalette();
+            .refreshPalette();        
+          
+          
+          CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( dialog.getFileName());
+          deploymentArtifact.setArtifactRef( new QName (imageId) );
+          deploymentArtifact.setArtifactType( new QName( "VMI" ) ); //$NON-NLS-1$
+          createImageFeature.setContextObject( deploymentArtifact );
+          CreateContext createContext = new CreateContext();
+          createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );
+          if( createImageFeature.canCreate( createContext ) )
+            createImageFeature.create( createContext );
+          refresh();
+
         }
       }
 
@@ -993,5 +1031,45 @@ public class ApplicationComponentNameSection extends GFPropertySection
   public void widgetDefaultSelected( SelectionEvent e ) {
     // TODO Auto-generated method stub
     
+  }
+  
+  private void copySelectedFileToCloudProject(File source, File destination){
+    
+    InputStream selection = null;
+    OutputStream output = null;
+    try {
+      try {
+        selection = new FileInputStream(source);
+      } catch( FileNotFoundException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    try {
+      output = new FileOutputStream(destination);
+    } catch( FileNotFoundException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    byte[] buf = new byte[1024];
+    int bytesRead;
+     try {
+      while ((bytesRead = selection.read(buf)) > 0) {
+      output.write(buf, 0, bytesRead);
+      }
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    } finally {
+      try {
+        selection.close();
+        output.close();
+      } catch( IOException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    
+    }
+
   }
 }

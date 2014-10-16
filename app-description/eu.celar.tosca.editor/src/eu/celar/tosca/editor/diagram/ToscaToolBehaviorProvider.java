@@ -5,6 +5,14 @@
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -493,8 +501,44 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       }
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
+          
+        /////////////////////////////////////////////////////
+
+        // Get image Id
+        final char[] buffer = new char[1024];
+        final StringBuilder out = new StringBuilder();
+        try {
+          Reader in = null;
+          try {
+            in = new InputStreamReader(((IFile) tempResource).getContents(), "UTF-8");
+          } catch( CoreException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+          try {
+            for (;;) {
+              int rsz = in.read(buffer, 0, buffer.length);
+              if (rsz < 0)
+                break;
+              out.append(buffer, 0, rsz);
+            }
+          }
+          finally {
+            in.close();
+          }
+        }
+        catch (UnsupportedEncodingException ex) {
+          /* ... */
+        }
+        catch (IOException ex) {
+            /* ... */
+        }
+          String imageId = out.toString();
+          
+          /////////////////////////////////////////////////////
+          
           VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
-          vmi.setUID( tempResource.getName() );
+          vmi.setUID( imageId );
           vmi.setName( tempResource.getName() );
           vmi.setDescription( "h" );
           vmi.setURL( "h" );
@@ -522,6 +566,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( vmi.getUID() );
+          deploymentArtifact.setArtifactRef( new QName(vmi.getUID()) );
           deploymentArtifact.setArtifactType( new QName( "VMI" ) );
           vmiCF.setContextObject( deploymentArtifact );
 

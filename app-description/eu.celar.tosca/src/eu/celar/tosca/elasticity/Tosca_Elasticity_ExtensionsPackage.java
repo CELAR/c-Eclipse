@@ -318,13 +318,22 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION = 0;
 
   /**
+   * The feature id for the '<em><b>Id</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMAGE_ARTIFACT_PROPERTIES_TYPE__ID = 1;
+
+  /**
    * The number of structural features of the '<em>Image Artifact Properties Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IMAGE_ARTIFACT_PROPERTIES_TYPE_FEATURE_COUNT = 1;
+  int IMAGE_ARTIFACT_PROPERTIES_TYPE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl <em>Monitoring Probes Type1</em>}' class.
@@ -1029,6 +1038,17 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   EAttribute getImageArtifactPropertiesType_Description();
 
   /**
+   * Returns the meta object for the attribute '{@link eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getId <em>Id</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Id</em>'.
+   * @see eu.celar.tosca.elasticity.ImageArtifactPropertiesType#getId()
+   * @see #getImageArtifactPropertiesType()
+   * @generated
+   */
+  EAttribute getImageArtifactPropertiesType_Id();
+
+  /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.MonitoringProbesType1 <em>Monitoring Probes Type1</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1379,6 +1399,14 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EAttribute IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION = eINSTANCE.getImageArtifactPropertiesType_Description();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute IMAGE_ARTIFACT_PROPERTIES_TYPE__ID = eINSTANCE.getImageArtifactPropertiesType_Id();
 
     /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.MonitoringProbesType1Impl <em>Monitoring Probes Type1</em>}' class.

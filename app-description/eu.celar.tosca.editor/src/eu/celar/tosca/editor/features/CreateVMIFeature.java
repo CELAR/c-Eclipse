@@ -114,6 +114,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     deploymentArtifact.setName( tempDeploymentArtifact.getName() );
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
     deploymentArtifact.setArtifactRef( new QName (tNode.getName() + "Image" ));
+    
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
@@ -132,7 +133,8 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     /////////////////////////////////////////////
 
     //Create Image Artifact Template
-    createArtifactTemplate(tNode.getName(), "not_specified");
+   
+    createArtifactTemplate(tNode.getName(), "not_specified", tempDeploymentArtifact.getArtifactRef().toString());
     
     
     
@@ -144,7 +146,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     };
   }
   
-  private void createArtifactTemplate(String nodeName, String description){
+  private void createArtifactTemplate(String nodeName, String description, String imageId){
     
     //Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
@@ -153,12 +155,16 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     ImageArtifactPropertiesType imageProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createImageArtifactPropertiesType();
     imageProperties.setDescription( description );
     
+    if (imageId!=null){
+      imageProperties.setId( imageId );
+    }
+    
     // Set the Properties of the Policy Template    
     PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();   
     
     // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
     Entry e = FeatureMapUtil.createEntry(     Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ImageArtifactProperties(),  imageProperties );
-    properties.getAny().add( e );      
+    properties.getAny().add( e );   
     
     artifactTemplate.setProperties( properties );
     

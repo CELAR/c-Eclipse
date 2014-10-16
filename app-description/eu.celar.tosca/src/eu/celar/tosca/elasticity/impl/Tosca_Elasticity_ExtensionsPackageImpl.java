@@ -285,6 +285,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getImageArtifactPropertiesType_Id()
+  {
+    return (EAttribute)imageArtifactPropertiesTypeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getMonitoringProbesType1()
   {
     return monitoringProbesType1EClass;
@@ -551,6 +561,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     imageArtifactPropertiesTypeEClass = createEClass(IMAGE_ARTIFACT_PROPERTIES_TYPE);
     createEAttribute(imageArtifactPropertiesTypeEClass, IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION);
+    createEAttribute(imageArtifactPropertiesTypeEClass, IMAGE_ARTIFACT_PROPERTIES_TYPE__ID);
 
     monitoringProbesType1EClass = createEClass(MONITORING_PROBES_TYPE1);
     createEReference(monitoringProbesType1EClass, MONITORING_PROBES_TYPE1__MONITORING_PROBES);
@@ -634,6 +645,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     initEClass(imageArtifactPropertiesTypeEClass, ImageArtifactPropertiesType.class, "ImageArtifactPropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getImageArtifactPropertiesType_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, ImageArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getImageArtifactPropertiesType_Id(), theXMLTypePackage.getString(), "id", null, 1, 1, ImageArtifactPropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(monitoringProbesType1EClass, MonitoringProbesType1.class, "MonitoringProbesType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMonitoringProbesType1_MonitoringProbes(), this.getTMonitoringProbe(), null, "monitoringProbes", null, 1, -1, MonitoringProbesType1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -766,6 +778,15 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "element",
        "name", "Description",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getImageArtifactPropertiesType_Id(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Id",
        "namespace", "##targetNamespace"
        });		
     addAnnotation

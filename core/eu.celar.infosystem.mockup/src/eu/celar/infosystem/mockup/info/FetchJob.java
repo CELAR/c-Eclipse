@@ -588,13 +588,13 @@ public class FetchJob extends Job {
    
    ResizingAction ra = InfoSystemFactory.eINSTANCE.createResizingAction();
    ra.setUID( "" );
-   ra.setName( "Add VM" );
+   ra.setName( "AddVM" );
    ra.setDescription( "" );        
    instance.resize_actions.add( ra ); 
    
    ra = InfoSystemFactory.eINSTANCE.createResizingAction();
    ra.setUID( "" );
-   ra.setName( "Remove VM" );
+   ra.setName( "RemoveVM" );
    ra.setDescription( "" );        
    instance.resize_actions.add( ra ); 
  }

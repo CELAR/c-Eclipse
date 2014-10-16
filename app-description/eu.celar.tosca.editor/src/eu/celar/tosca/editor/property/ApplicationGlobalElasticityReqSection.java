@@ -504,38 +504,38 @@ public class ApplicationGlobalElasticityReqSection
           String[] strategy = selectedObject.getName().split( "STRATEGY" );
           selectedObject.setName( strategy[ 0 ]
                                   + "STRATEGY "
-                                  + condition
+                                  + condition + " :" 
                                   + strategy[ 1 ] );
         }
       } );
     this.tableResizingActionsViewer.refresh();
     
-    addPolicyCondition( selectedObject, policyCondition);
+    //addPolicyCondition( selectedObject, policyCondition);
   }
   
-  void addPolicyCondition(final TPolicy selectedPolicy, final ConditionType policyCondition){
-    
-    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    EList<TPolicyTemplate> policyTemplates = model.getDocumentRoot().getDefinitions().getPolicyTemplate();
-    TPolicyTemplate policyTemplate = null;
-    for ( TPolicyTemplate tempPolicyTemplate : policyTemplates ){
-      if (tempPolicyTemplate.getId().toString().equals(selectedPolicy.getPolicyRef().toString())){
-        policyTemplate = tempPolicyTemplate;
-        break;
-      }      
-    }
-    
-    final SyblElasticityRequirementsDescription syblPolicy = (SyblElasticityRequirementsDescription) policyTemplate.getProperties().getAny().get(0).getValue();
-    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( policyTemplate );
-    editingDomain.getCommandStack()
-      .execute( new RecordingCommand( editingDomain ) {
-
-        @Override
-        protected void doExecute() {
-          syblPolicy.getSYBLSpecification().get( 0 ).getStrategy().get( 0 ).setCondition( policyCondition );
-        }
-      } );
-  }
+//  void addPolicyCondition(final TPolicy selectedPolicy, final ConditionType policyCondition){
+//    
+//    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+//    EList<TPolicyTemplate> policyTemplates = model.getDocumentRoot().getDefinitions().getPolicyTemplate();
+//    TPolicyTemplate policyTemplate = null;
+//    for ( TPolicyTemplate tempPolicyTemplate : policyTemplates ){
+//      if (tempPolicyTemplate.getId().toString().equals(selectedPolicy.getPolicyRef().toString())){
+//        policyTemplate = tempPolicyTemplate;
+//        break;
+//      }      
+//    }
+//    
+//    final SyblElasticityRequirementsDescription syblPolicy = (SyblElasticityRequirementsDescription) policyTemplate.getProperties().getAny().get(0).getValue();
+//    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( policyTemplate );
+//    editingDomain.getCommandStack()
+//      .execute( new RecordingCommand( editingDomain ) {
+//
+//        @Override
+//        protected void doExecute() {
+//          syblPolicy.getSYBLSpecification().get( 0 ).getStrategy().get( 0 ).setCondition( policyCondition );
+//        }
+//      } );
+//  }
 
   // Remove the selected Application Component Elasticity Requirement from TOSCA
   void removeApplicationComponentElasticityRequirement( final TPolicy selectedObject )

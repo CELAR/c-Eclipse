@@ -87,6 +87,7 @@
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//ImageArtifactPropertiesType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ImageArtifactPropertiesType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ImageArtifactPropertiesType/id"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//MonitoringProbesType1">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//MonitoringProbesType1/monitoringProbes"/>

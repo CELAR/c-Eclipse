@@ -81,6 +81,11 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     if( parentObject instanceof TNodeTemplate ) {
       level = "C";
       tNode = ( TNodeTemplate )parentObject;
+      
+      if (tNode.getName()==null){
+        MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
+        return null;
+      }
     }
     
     else if ( parentObject instanceof TServiceTemplate ){
@@ -109,10 +114,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
                   
       tNode = substituteNode;
       
-      if (tNode.getName()==null){
-        MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
-        return null;
-      }
+
         
       }
       else{

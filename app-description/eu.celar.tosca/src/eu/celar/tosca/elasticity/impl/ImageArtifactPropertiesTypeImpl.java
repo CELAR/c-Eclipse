@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.impl.ImageArtifactPropertiesTypeImpl#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,6 +53,16 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
    * @ordered
    */
   protected static final String DESCRIPTION_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected static final String ID_EDEFAULT = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -102,6 +113,29 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getId()
+  {
+    return (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID, ID_EDEFAULT);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setId(String newId)
+  {
+    String id = newId;
+    Object oldId = eVirtualSet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID, id);
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID, oldId == EVIRTUAL_NO_VALUE ? ID_EDEFAULT : oldId, id));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -109,6 +143,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
     {
       case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
         return getDescription();
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID:
+        return getId();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -125,6 +161,9 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
     {
       case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
         setDescription((String)newValue);
+        return;
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID:
+        setId((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -143,6 +182,9 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
       case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
         setDescription(DESCRIPTION_EDEFAULT);
         return;
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID:
+        setId(ID_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -160,6 +202,9 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
       case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION:
         String description = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, DESCRIPTION_EDEFAULT);
         return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+      case Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID:
+        String id = (String)eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID, ID_EDEFAULT);
+        return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
     }
     return super.eIsSet(featureID);
   }
@@ -234,6 +279,8 @@ public class ImageArtifactPropertiesTypeImpl extends EObjectImpl implements Imag
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (description: ");
     result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__DESCRIPTION, DESCRIPTION_EDEFAULT));
+    result.append(", id: ");
+    result.append(eVirtualGet(Tosca_Elasticity_ExtensionsPackage.IMAGE_ARTIFACT_PROPERTIES_TYPE__ID, ID_EDEFAULT));
     result.append(')');
     return result.toString();
   }

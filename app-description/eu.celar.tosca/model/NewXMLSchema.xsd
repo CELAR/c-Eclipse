@@ -81,6 +81,7 @@
     <complexType name="ImageArtifactPropertiesType">
     	<sequence>
     		<element name="Description" type="string"></element>
+    		<element name="Id" type="string"></element>
     	</sequence>
     </complexType>
 
