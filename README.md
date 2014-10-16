@@ -34,9 +34,23 @@ http://snf-153388.vm.okeanos.grnet.gr/ceclipse/p2/
  * Right click -> Import on "Artifacts" / "Deployment Scripts" folder to import any custom configuration scripts (Might need to re-open graphical  description for the newly imported files to be presented in the Palette)
  * To open graphical description: Right click on the application file -> Open With -> Tosca Diagram Editor
  * To open xml tosca description: Right click on the application file -> Open With -> Text Editor
+ 
+ 
+#####Submit application to Cloud provider
+* To submit an application to a Cloud provider, a [CELAR Server](https://github.com/CELAR/celar-server) must be first installed and configured for the specific provider
+* Right click on the application description file (with extension .tosca) under the "Application Descriptions" folder 
+* Select the "Application Submission" action from the pop up menu
+* Give a name for the submited file -> Next
+* Edit Cloud Providers -> Add -> Generic Cloud Provider -> Next
+* Give the name of the Cloud provider
+* Give the uri and port of the CELAR Server installed on the given provider
+* Finish -> OK -> Finish
+* The application submission file is created under the "Application Submissions" folder. It is the same file, with the application description created at the previous step, and it can be customized with details for the selected Cloud provider
 
 #####Deploy a described application
-* To deploy the described applications over Cloud you must first install/configure the [CELAR Server](https://github.com/CELAR/celar-server)
+* Right click on the application submission file (with extension .tosca) under the "Application Submissions" folder
+* Select the "Application Deployment" action from the pop up menu
+* Select the Cloud provider to deploy the application -> Finish
  
 ###Website
 http://linc.ucy.ac.cy/CELAR/ceclipse/
