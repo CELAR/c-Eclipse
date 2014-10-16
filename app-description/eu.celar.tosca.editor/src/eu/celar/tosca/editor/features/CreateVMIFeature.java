@@ -14,6 +14,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PropertiesType;
@@ -67,7 +68,11 @@ public class CreateVMIFeature extends AbstractCreateFeature {
       tNode = ( TNodeTemplate )parentObject;
     }
 
-
+    if (tNode.getName()==null){
+      MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
+      return null;
+    }
+    
     if( tNode.getDeploymentArtifacts() == null ) {
       //deploymentArtifacts = ToscaFactory.eINSTANCE.createTDeploymentArtifacts();
       //tNode.setDeploymentArtifacts( deploymentArtifacts );

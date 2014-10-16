@@ -342,7 +342,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            
                 for (TNodeTemplate tnt : topology.getNodeTemplate()) {
 
-                  if ( tnt.getType().toString().contains( "substituteNode" ) ) {//$NON-NLS-1$
+                  if ( (tnt.getType()!=null) && (tnt.getType().toString().contains( "substituteNode" )) ) {//$NON-NLS-1$
                     continue;
                   }
                   
@@ -386,7 +386,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                     for (TNodeTemplate tnt : tempTst.getTopologyTemplate().getNodeTemplate()) {
   
                           
-                          if ( tst.getSubstitutableNodeType() != null && tnt.getType().toString().equals( tst.getSubstitutableNodeType().toString()) ){
+                          if ( tst.getSubstitutableNodeType() != null && (tnt.getType()!=null) && tnt.getType().toString().equals( tst.getSubstitutableNodeType().toString()) ){
                             //Found the service template that substitutes the specific node template
                             
                             ContainerShape containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
@@ -435,7 +435,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                        ContainerShape containerShapeTNT;
                        
                        if ( tnt.getId().equals(sourceID) ){
-                           if ( tnt.getType().toString().contains( "substituteNode" ) == true ){
+                           if ( (tnt.getType()!=null) && (tnt.getType().toString().contains( "substituteNode" ) == true) ){
                                containerShapeTNT = getAnchorContainer(model, tnt);
                            }else{
                                containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()
@@ -451,7 +451,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
                            }
                       
                        } else if ( tnt.getId().equals(targetID) ){
-                           if ( tnt.getType().toString().contains( "substituteNode" ) == true ){
+                           if ( ((tnt.getType()!=null)) && (tnt.getType().toString().contains( "substituteNode" ) == true) ){
                                containerShapeTNT = getAnchorContainer(model, tnt);
                            }else{
                                containerShapeTNT = ( ContainerShape )getDiagramTypeProvider().getFeatureProvider()

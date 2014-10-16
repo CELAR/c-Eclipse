@@ -78,7 +78,7 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     newClass.setMinInstances( DEFAULT_MIN_INSTANCES );
     newClass.setMaxInstances(  BigInteger.valueOf( DEFAULT_MAX_INSTANCES ) );
     newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );
-    newClass.setType(((TNodeTemplateExtension) this.contextObject ).getType());
+    //newClass.setType(((TNodeTemplateExtension) this.contextObject ).getType());
     
     //Set X and Y required for reloading tosca model in tosca editor
     newClass.setX(context.getX());

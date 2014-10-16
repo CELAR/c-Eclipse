@@ -19,6 +19,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import eu.celar.tosca.ArtifactReferencesType;
 import eu.celar.tosca.DefinitionsType;
@@ -72,6 +73,12 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 	      if( parentObject instanceof TNodeTemplate ) {
 	        tNode = ( TNodeTemplate )parentObject;
 	      }
+	      
+	      if (tNode.getName()==null){
+	           MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
+	           return null;
+	      }
+
 
 	      if( tNode.getDeploymentArtifacts() == null ) {
 	        

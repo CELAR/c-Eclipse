@@ -11,6 +11,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
@@ -59,6 +60,10 @@ public class CreateUserApplicationFeature extends AbstractCreateFeature {
 	        tNode = ( TNodeTemplate )parentObject;
 	      }
 
+	       if (tNode.getName()==null){
+             MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
+             return null;
+	       }
 
 	      if( tNode.getDeploymentArtifacts() == null ) {
 	        

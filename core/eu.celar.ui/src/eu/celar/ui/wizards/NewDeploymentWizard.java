@@ -91,12 +91,34 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     setNeedsProgressMonitor( true );
     setForcePreviousAndNextButtons( true );
     
+    this.deploymentURI = null;
+    
     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
     ICloudProvider selectedProvider = ( ICloudProvider ) manager.getDefault();
     
     if (selectedProvider != null){
+      
       this.genericSelectedProvider = (GenericCloudProvider) selectedProvider;
-      this.deploymentURI = this.genericSelectedProvider.getUri() + ":" + this.genericSelectedProvider.getPort();
+      
+      String uri = this.genericSelectedProvider.getUri();
+      if (uri!=null){
+        if (uri.endsWith( "/" )){
+          uri = uri.substring( 0, uri.length()-1 );
+        }
+        this.deploymentURI = uri;
+      }
+      else{
+        return;
+      }
+      
+      String port = this.genericSelectedProvider.getPort();
+      if ( port!=null){
+        if (port.endsWith( "/" )){
+          port = port.substring( 0, port.length()-1 );
+        }
+        this.deploymentURI = this.deploymentURI + ":" + port;
+      }
+
     }
 
   }

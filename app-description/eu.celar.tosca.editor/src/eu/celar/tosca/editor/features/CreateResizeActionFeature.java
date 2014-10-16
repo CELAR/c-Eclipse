@@ -14,6 +14,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -107,6 +108,11 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
       }
                   
       tNode = substituteNode;
+      
+      if (tNode.getName()==null){
+        MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
+        return null;
+      }
         
       }
       else{
