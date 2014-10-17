@@ -67,6 +67,11 @@ import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
 
 import org.eclipse.ui.browser.IWebBrowser;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -146,6 +151,10 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
       //openISbrowser();
       
+      MessageConsole myConsole = findConsole("MyConsole");
+      MessageConsoleStream out = myConsole.newMessageStream();
+      out.println("Starting deployment procedure...");
+    
       String applicationId = describeApplication();
       
       String deploymentId = null;
@@ -202,6 +211,12 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       int responseCode = connection.getResponseCode();
       System.out.println("Response is: "+responseCode);
+      
+      MessageConsole myConsole = findConsole("MyConsole");
+      MessageConsoleStream out = myConsole.newMessageStream();
+      out.println("Describing application: HTTP Response is " + responseCode);
+      
+      
       InputStream inputStream = connection.getInputStream();
 
       
@@ -293,6 +308,10 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       int responseCode = connection.getResponseCode();
       System.out.println("Response is: "+responseCode);
       
+      MessageConsole myConsole = findConsole("MyConsole");
+      MessageConsoleStream out = myConsole.newMessageStream();
+      out.println("Deploying application: HTTP Response is " + responseCode);
+      
       InputStream inputStream = connection.getInputStream();
       
 //      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -365,12 +384,24 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       int responseCode = connection.getResponseCode();
       System.out.println("Response is: "+responseCode);
       
+      MessageConsole myConsole = findConsole("MyConsole");
+      MessageConsoleStream out = myConsole.newMessageStream();
+      out.println("Getting deployment status: HTTP Response is " + responseCode);
+      
       InputStream inputStream = connection.getInputStream();
       
+//      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+//      String inputLine;
+//      while ((inputLine = in.readLine()) != null) {
+//          System.out.println(inputLine);
+//      }
+//      in.close();
+      
+
       BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
       String inputLine;
       while ((inputLine = in.readLine()) != null) {
-          System.out.println(inputLine);
+          out.println(inputLine);
       }
       in.close();
       
@@ -810,4 +841,18 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return this.secondPage.getCloudDeploymentService();
   }
 
+  private MessageConsole findConsole( String name ) {
+    ConsolePlugin plugin = ConsolePlugin.getDefault();
+    IConsoleManager conMan = plugin.getConsoleManager();
+    IConsole[] existing = conMan.getConsoles();
+    for( int i = 0; i < existing.length; i++ )
+      if( name.equals( existing[ i ].getName() ) )
+        return ( MessageConsole )existing[ i ];
+    // no console found, so create a new one
+    MessageConsole myConsole = new MessageConsole( name, null );
+    conMan.addConsoles( new IConsole[]{
+      myConsole
+    } );
+    return myConsole;
+  }
 }
