@@ -302,6 +302,17 @@ public class CompositeElasticity
                                                "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityConstraint = dialog.getElasticityConstraint();
+        
+        if (newElasticityConstraint.contains( "<" )){
+          String[] cond = newElasticityConstraint.split( "<" );
+          newElasticityConstraint = cond[0] + "&lt;" + cond[1];
+        }
+        else if (newElasticityConstraint.contains( ">" )){
+          String[] cond = newElasticityConstraint.split( ">" );
+          newElasticityConstraint = cond[0] + "&gt;" + cond[1];
+        }        
+        
+        
         SyblElasticityRequirementsDescription newSYBLConstraint = dialog.getSYBLConstraint();
         if( newElasticityConstraint != null ) {
           // Add Application Component Elasticity Requirement to TOSCA
@@ -533,7 +544,20 @@ public class CompositeElasticity
     }
     if( newElasticityCondition == null )
       return;
-    final String condition = newElasticityCondition;
+
+    String newCond = newElasticityCondition;
+    
+    if (newCond.contains( "<" )){
+      String[] cond = newCond.split( "<" );
+      newCond = cond[0] + "&lt;" + cond[1];
+    }
+    else if (newCond.contains( ">" )){
+      String[] cond = newCond.split( ">" );
+      newCond = cond[0] + "&gt;" + cond[1];
+    }
+    
+    final String condition = newCond;
+    
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {

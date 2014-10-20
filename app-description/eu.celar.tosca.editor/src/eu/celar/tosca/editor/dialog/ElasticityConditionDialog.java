@@ -440,7 +440,9 @@ public class ElasticityConditionDialog extends Dialog {
     else if ( this.conditionSelected2 ){
     	ElasticityConditionDialog.this.condition = "CASE violated(" + this.cmbCondition2.getText().split( ":" )[0] + "):";
     }
-    else ElasticityConditionDialog.this.condition = "CASE " + this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
+    else {      
+      ElasticityConditionDialog.this.condition = "CASE " + this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
+    }
                                                                                              
     super.okPressed();
   }
