@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="target-definition" sequenceNumber="59">
+<target name="target-definition" sequenceNumber="79">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="4.3.2.M20140221-1700"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="3.5.2.v201401062113-7O7QG3wEMkBS3Graz0gRCYqCz-PVayJqBmOpb93L"/>
-<repository location="http://download.eclipse.org/releases/kepler"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.graphiti.sdk.feature.feature.group" version="0.10.2.v20140217-1225"/>
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.json" version="1.0.0.v201011060100"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140917154621/repository/"/>
+<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="3.5.2.v201401062113-7O7QG3wEMkBS3Graz0gRCYqCz-PVayJqBmOpb93L"/>
+<repository location="http://download.eclipse.org/releases/kepler"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="aopalliance" version="1.0.0"/>
+<unit id="rocoto" version="6.2.0"/>
+<unit id="jclouds-core" version="1.8.0"/>
+<unit id="com.google.inject.assistedinject" version="3.0.0"/>
+<unit id="ch.qos.logback.classic" version="1.0.13"/>
+<unit id="jclouds-compute" version="1.8.0"/>
+<unit id="com.google.inject" version="3.0.0"/>
+<unit id="jclouds-blobstore" version="1.8.0"/>
+<unit id="openstack-cinder" version="1.8.0"/>
+<unit id="com.google.guava" version="17.0.0"/>
+<unit id="com.mysql.jdbc" version="5.1.25"/>
+<unit id="ch.qos.logback.core" version="1.0.13"/>
+<unit id="swift" version="1.8.0"/>
+<unit id="com.google.gson" version="2.2.4"/>
+<unit id="jclouds-slf4j" version="1.8.0"/>
+<unit id="javax.annotation.jsr250-api" version="1.0.0"/>
+<unit id="javax.inject.javax.inject" version="1.0.0"/>
+<unit id="openstack-nova" version="1.8.0"/>
+<unit id="javax.ws.rs.jsr311-api" version="1.1.1"/>
+<unit id="openstack-keystone" version="1.8.0"/>
+<unit id="openstack-common" version="1.8.0"/>
+<unit id="slf4j.api" version="1.7.5"/>
+<unit id="jclouds-scriptbuilder" version="1.8.0"/>
+<repository location="http://localhost:8080/site"/>
 </location>
 </locations>
 </target>
