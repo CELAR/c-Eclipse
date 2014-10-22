@@ -7,13 +7,6 @@
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<parent>
-		<groupId>eu.celar.cEclipse</groupId>
-		<artifactId>c-Eclipse-pom</artifactId>
-		<version>0.1-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
-
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
@@ -26,9 +19,6 @@
 	</properties>
 
 
-	<!-- <repositories> <repository> <id>kepler</id> <url>${kepler-repo.url}</url> 
-		<layout>p2</layout> </repository> </repositories> -->
-
 	<build>
 		<plugins>
 			<plugin>
@@ -37,6 +27,7 @@
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -69,6 +60,7 @@
 					</environments>
 				</configuration>
 			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
@@ -96,31 +88,22 @@
 
 	</build>
 
-	<!-- <modules> <module>..${file.separator}core${file.separator}eu.celar.core</module> 
-		<module>..${file.separator}core${file.separator}eu.celar.core.reporting</module> 
-		<module>..${file.separator}app-description${file.separator}eu.celar.tosca</module> 
-		<module>..${file.separator}core${file.separator}eu.celar.infosystem.model</module> 
-		<module>..${file.separator}core${file.separator}eu.celar.infosystem.mockup</module> 
-		<module>..${file.separator}core${file.separator}eu.celar.ui</module> <module>..${file.separator}app-description${file.separator}eu.celar.tosca.editor</module> 
-		<module>..${file.separator}eu.celar.tycho.feature</module> <module>..${file.separator}eu.celar.tycho.target</module> 
-		<module>..${file.separator}eu.celar.tycho.p2.updatesite</module> </modules> -->
-
 	<modules>
 		<module>../core/eu.celar.core</module>
-		<module>../eu.celar.tycho.feature</module>
-		<module>../eu.celar.tycho.target</module>
 		<module>../core/eu.celar.ui</module>
 		<module>../app-submission/org.apache.jclouds</module>
-		<module>../app-submission/eu.celar.connectors.aws</module>
-		<module>../app-submission/com.amazon.aws</module>
 		<module>../core/eu.celar.core.reporting</module>
+		<module>../core/eu.celar.infosystem.model</module>
 		<module>../core/eu.celar.infosystem.mockup</module>
 		<module>../app-description/eu.celar.tosca</module>
 		<module>../app-description/eu.celar.tosca.editor</module>
-		<module>../core/eu.celar.connectors.aws.ui</module>
 		<module>../app-submission/eu.celar.connectors.openstack</module>
-		<module>
-			../app-submission/eu.celar.connectors.openstack.ui
-		</module>
+		<module>../app-submission/eu.celar.connectors.openstack.ui</module>
+		<module>../app-submission/com.amazon.aws</module>
+		<module>../app-submission/eu.celar.connectors.aws</module>
+		<module>../core/eu.celar.connectors.aws.ui</module>
+		<module>../eu.celar.tycho.target</module>
+		<module>../eu.celar.tycho.feature</module>
+		<module>../eu.celar.tycho.p2.updatesite</module>
 	</modules>
 </project> 

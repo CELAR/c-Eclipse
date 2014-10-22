@@ -13,8 +13,6 @@ import org.eclipse.core.resources.IFile;
 
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
-import eu.celar.infosystem.model.base.SoftwareDependency;
-import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
 
 
@@ -27,9 +25,9 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 public class MockUpInfoSystem  {
   
   private static MockUpInfoSystem instance = null;
-//  private AmazonAWSFetch resourceFetcher;
+  private AmazonAWSFetch resourceFetcher;
 //  private OpenStackFetch resourceFetcher;
-  private FetchJob resourceFetcher;
+//  private FetchJob resourceFetcher;
   
   /**
    * @return The Mockup Information System
@@ -42,8 +40,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem () {
-    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
 //    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
@@ -57,8 +55,8 @@ public class MockUpInfoSystem  {
   }
   
   private MockUpInfoSystem (IFile toscaFile) {
-    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
 //    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }

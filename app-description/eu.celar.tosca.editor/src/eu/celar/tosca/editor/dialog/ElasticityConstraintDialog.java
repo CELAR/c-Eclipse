@@ -8,7 +8,6 @@ package eu.celar.tosca.editor.dialog;
  * @author stalo
  */
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -20,8 +19,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,10 +31,8 @@ import org.example.sybl.Constraint;
 import org.example.sybl.LeftHandSideType;
 import org.example.sybl.RightHandSideType;
 import org.example.sybl.SYBLSpecificationType;
-import org.example.sybl.Strategy;
 import org.example.sybl.SyblElasticityRequirementsDescription;
 import org.example.sybl.SyblFactory;
-import org.example.sybl.ToEnforceType;
 import org.example.sybl.ToEnforceType1;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;

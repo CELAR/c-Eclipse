@@ -136,34 +136,50 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
   /**
    * @return
    */
-  private AbstractAddShapeFeature getIFileFeature(final IAddContext context) {
-    ResourceCloudElement element = (ResourceCloudElement) context.getNewObject();
-    AbstractAddShapeFeature result = null;
-    
-    String extension = element.getResource().getFileExtension();
-    System.out.println(extension);
+	private AbstractAddShapeFeature getIFileFeature(final IAddContext context) {
+		ResourceCloudElement element = (ResourceCloudElement) context
+				.getNewObject();
+		AbstractAddShapeFeature result = null;
 
-    if (extension.equals( "pub" )) { //$NON-NLS-1$
-      // Call the Create User Application Feature to create a deployment artifact for the deployment script and add it to the artifacts list 
-      CreateKeyPairFeature createKPFeature = new CreateKeyPairFeature( new ToscaFeatureProvider(getDiagramTypeProvider()) );
-      
-      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-      deploymentArtifact.setName( element.getName() );
-      deploymentArtifact.setArtifactType( new QName( "KeyPair" ) );  
-      
-      createKPFeature.setContextObject( deploymentArtifact );
-      
-      CreateContext createContext = new CreateContext();
-      createContext.setTargetContainer( context.getTargetContainer()  );
-      
-      if ( createKPFeature.canCreate( createContext )){
-        createKPFeature.create( createContext );
-      }
-      
-    }
-    
-    return result;
-  }
+		String extension = element.getResource().getFileExtension();
+		
+		TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE
+				.createTDeploymentArtifact();
+		deploymentArtifact.setName(element.getName());
+		CreateContext createContext = new CreateContext();
+		createContext.setTargetContainer(context.getTargetContainer());
+
+		if (extension.equals("pub")) { //$NON-NLS-1$
+			// Call the Create User Application Feature to create a deployment
+			// artifact for the deployment script and add it to the artifacts
+			// list
+			CreateKeyPairFeature createKPFeature = new CreateKeyPairFeature(
+					new ToscaFeatureProvider(getDiagramTypeProvider()));
+
+			deploymentArtifact.setArtifactType(new QName("KeyPair"));
+
+			createKPFeature.setContextObject(deploymentArtifact);
+
+			if (createKPFeature.canCreate(createContext)) {
+				createKPFeature.create(createContext);
+			}
+
+		} else if (extension.equals("sh")) {
+			CreateSoftwareDependencyFeature createSDFeature = new CreateSoftwareDependencyFeature(
+					new ToscaFeatureProvider(getDiagramTypeProvider()));
+
+			deploymentArtifact.setName(element.getName());
+			deploymentArtifact.setArtifactType(new QName("SD"));
+			createSDFeature.setContextObject(deploymentArtifact);
+			
+
+			if (createSDFeature.canCreate(createContext)) {
+				createSDFeature.create(createContext);
+			}
+		}
+
+		return result;
+	}
   
 
   // Initializes all create features

@@ -15,7 +15,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench,
- org.json;bundle-version="1.0.0"
+ com.amazon.aws;bundle-version="1.0.0",
+ eu.celar.connectors.openstack,
+ jclouds-core;bundle-version="1.8.0",
+ eu.celar.connectors.aws
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.infosystem.mockup.info;
@@ -29,4 +32,6 @@ Bundle-ClassPath: lib/mysql-connector-java-5.1.22-bin.jar,
  .
 Import-Package: 
  org.apache.commons.logging,
- org.apache.http;version="4.1.4"
+ org.apache.http;version="4.1.4",
+ org.jclouds.compute;version="1.8.0",
+ org.jclouds.compute.domain;version="1.8.0"

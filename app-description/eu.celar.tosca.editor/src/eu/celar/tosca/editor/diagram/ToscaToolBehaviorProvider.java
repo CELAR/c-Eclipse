@@ -5,10 +5,6 @@
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -90,6 +86,7 @@ import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
   MockUpInfoSystem mockUpInfoSystemInstance; 
+
   
   public ToscaToolBehaviorProvider( final IDiagramTypeProvider dtp ) {
     super( dtp );
