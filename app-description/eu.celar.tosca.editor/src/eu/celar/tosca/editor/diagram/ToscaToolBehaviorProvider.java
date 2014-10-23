@@ -5,17 +5,13 @@
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
 
@@ -26,10 +22,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
+//import org.eclipse.core.runtime.IProgressMonitor;
+//import org.eclipse.core.runtime.IStatus;
+//import org.eclipse.core.runtime.Status;
+//import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -69,6 +65,7 @@ import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
 import eu.celar.infosystem.model.base.VirtualMachineImageType;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
@@ -129,34 +126,34 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     return data;
   }
 
-  /**
-   * 
-   */
-  private void fetchResources() {
-    Job job = new Job( "Resource Fetching" ) { //$NON-NLS-1$
-
-      @Override
-      protected IStatus run( final IProgressMonitor monitor ) {
-        monitor.beginTask( "Fetching Resources from Cloud Provider", 100 );
-        MockUpInfoSystem.getInstance();
-        for( int i = 0; i < 5; i++ ) {
-          try {
-            // sleep a second
-            TimeUnit.SECONDS.sleep( 1 );
-            monitor.subTask( "Resource bundle #" + i );
-            // report that 20 additional units are done
-            monitor.worked( 20 );
-          } catch( InterruptedException e1 ) {
-            e1.printStackTrace();
-            return Status.CANCEL_STATUS;
-          }
-        }
-        System.out.println( "Called save" );
-        return Status.OK_STATUS;
-      }
-    };
-    job.schedule();
-  }
+//  /**
+//   * 
+//   */
+//  private void fetchResources() {
+//    Job job = new Job( "Resource Fetching" ) { //$NON-NLS-1$
+//
+//      @Override
+//      protected IStatus run( final IProgressMonitor monitor ) {
+//        monitor.beginTask( "Fetching Resources from Cloud Provider", 100 );
+//        MockUpInfoSystem.getInstance();
+//        for( int i = 0; i < 5; i++ ) {
+//          try {
+//            // sleep a second
+//            TimeUnit.SECONDS.sleep( 1 );
+//            monitor.subTask( "Resource bundle #" + i );
+//            // report that 20 additional units are done
+//            monitor.worked( 20 );
+//          } catch( InterruptedException e1 ) {
+//            e1.printStackTrace();
+//            return Status.CANCEL_STATUS;
+//          }
+//        }
+//        System.out.println( "Called save" );
+//        return Status.OK_STATUS;
+//      }
+//    };
+//    job.schedule();
+//  }
 
   // Creates the Palette. Palette entries are retrieved from an SQL database.
   @Override
@@ -341,10 +338,14 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           if( cf instanceof CreateSoftwareDependencyFeature ) {
             CreateSoftwareDependencyFeature sdCF = ( CreateSoftwareDependencyFeature )cf;
  
-            TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-            deploymentArtifact.setName( script.getName() );
-            deploymentArtifact.setArtifactType( new QName( "SD" ) );
-            sdCF.setContextObject( deploymentArtifact );
+            
+            TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
+            artifactTemplate.setName( "SD" );
+            artifactTemplate.setId( script.getName() );
+            artifactTemplate.setType( new QName( "ScriptArtifact" ) );
+            sdCF.setContextObject( artifactTemplate );
+                        
+            
             // add new stack entry to new compartment
             IToolEntry entry = new ObjectCreationToolEntry( script.getName(),
                                                             script.getDescription(),
@@ -487,6 +488,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<VirtualMachineImage> vmis = this.mockUpInfoSystemInstance.getBaseMachineImages();
     
+    @SuppressWarnings("unchecked")
     ArrayList<VirtualMachineImage> vmisCopy = ( ArrayList<VirtualMachineImage> )vmis.clone();
     // Add custom images from project explorer
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
@@ -501,8 +503,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
       }
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
-          
-        /////////////////////////////////////////////////////
 
         // Get image Id
         final char[] buffer = new char[1024];
@@ -534,8 +534,6 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
             /* ... */
         }
           String imageId = out.toString();
-          
-          /////////////////////////////////////////////////////
           
           VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
           vmi.setUID( imageId );
@@ -587,6 +585,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     
   ArrayList<MonitoringProbe> mps = this.mockUpInfoSystemInstance.getMonitoringProbes();
   
+  @SuppressWarnings("unchecked")
   ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
 
     // Add custom probes from project explorer
@@ -712,6 +711,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   {
     ArrayList<ResizingAction> ras = this.mockUpInfoSystemInstance.getResizingActions();
     
+    @SuppressWarnings("unchecked")
     ArrayList<ResizingAction> rasCopy = ( ArrayList<ResizingAction> )ras.clone();
     // Add custom images from project explorer
     IProject activeProject = ToscaDiagramEditor.getActiveProject();

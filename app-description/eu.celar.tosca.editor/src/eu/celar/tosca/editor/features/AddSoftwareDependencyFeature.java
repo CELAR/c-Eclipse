@@ -24,6 +24,7 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.StyleUtil;
 
@@ -48,14 +49,16 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
   public boolean canAdd( final IAddContext context ) {
 	  
 	    boolean result = false;
-	    boolean diagraminstance = context.getTargetContainer() instanceof Diagram;
-
-	    if( context.getNewObject() instanceof TDeploymentArtifact
-	        && !diagraminstance )
-	    {
-	      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "SD" )==0)
-	        result = true;
-	    }
+	    boolean diagraminstance = context.getTargetContainer() instanceof Diagram;    
+	    
+	     if( context.getNewObject() instanceof TArtifactTemplate
+      && !diagraminstance )
+      {
+        if (((TArtifactTemplate)context.getNewObject()).getName().compareTo( "SD" )==0)
+          result = true;
+      }
+	    
+	    
 	    return result;
 
   }
@@ -64,7 +67,7 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
   @Override
   public PictogramElement add( final IAddContext context ) {
 	  
-	TDeploymentArtifact addedClass = ( TDeploymentArtifact )context.getNewObject();
+    TArtifactTemplate addedClass = ( TArtifactTemplate )context.getNewObject();
 	    
     ContainerShape targetDiagram = context.getTargetContainer();
     Object[] targetDiagrams = targetDiagram.getChildren().toArray();
@@ -124,7 +127,7 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
       // create shape for text
       Shape shape = peCreateService.createShape( containerShape, false );
       // create and set text graphics algorithm
-      Text text = gaService.createText( shape, addedClass.getName() );
+      Text text = gaService.createText( shape, addedClass.getId() );
       text.setForeground( manageColor( E_CLASS_TEXT_FOREGROUND ) );
       text.setHorizontalAlignment( Orientation.ALIGNMENT_CENTER );
       // vertical alignment has as default value "center"

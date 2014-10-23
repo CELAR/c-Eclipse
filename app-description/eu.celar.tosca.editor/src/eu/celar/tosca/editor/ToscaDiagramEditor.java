@@ -55,6 +55,7 @@ import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.ImplementationArtifactType;
 import eu.celar.tosca.SourceElementType;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TNodeTypeImplementation;
@@ -312,7 +313,8 @@ public class ToscaDiagramEditor extends DiagramEditor {
             DefinitionsType definitionsType = documentRoot.getDefinitions();
             EList<TServiceTemplate> serviceTemplates = definitionsType.getServiceTemplate();
             EList<TNodeTypeImplementation> nodeTypesImplementation = definitionsType.getNodeTypeImplementation();
-                        
+            EList<TArtifactTemplate> artifactTemplates = definitionsType.getArtifactTemplate();        
+            
             Boolean substitute = false;
             ContainerShape containerShapeTST = null;
             
@@ -361,20 +363,24 @@ public class ToscaDiagramEditor extends DiagramEditor {
                       }
                   }
                   
-//                  //Find NodeTypeImplementation
-//                  TNodeTypeImplementation nodeTypeImplementation = null;
-//                  for (TNodeTypeImplementation tempNodeImplementation : nodeTypesImplementation){
-//                    if (tnt.getName().equals( tempNodeImplementation.getNodeType().toString())){
-//                      nodeTypeImplementation = tempNodeImplementation;
-//                      break;
-//                    }
-//                  }
-//                  if (nodeTypeImplementation!=null && nodeTypeImplementation.getImplementationArtifacts()!=null){
-//                    EList<ImplementationArtifactType> implementationArtifacts = nodeTypeImplementation.getImplementationArtifacts().getImplementationArtifact();
-//                    for (ImplementationArtifactType tempImplementationArtifact : implementationArtifacts){
-//                      addContainerElement( tempImplementationArtifact, containerShapeTNT, 0, 0, 0, 0 );
-//                    }
-//                  }
+                  //Find NodeTypeImplementation
+                  TNodeTypeImplementation nodeTypeImplementation = null;
+                  for (TNodeTypeImplementation tempNodeImplementation : nodeTypesImplementation){
+                    if (tnt.getName().equals( tempNodeImplementation.getNodeType().toString())){
+                      nodeTypeImplementation = tempNodeImplementation;
+                      break;
+                    }
+                  }
+                  if (nodeTypeImplementation!=null && nodeTypeImplementation.getImplementationArtifacts()!=null){
+                    EList<ImplementationArtifactType> implementationArtifacts = nodeTypeImplementation.getImplementationArtifacts().getImplementationArtifact();
+                    for (ImplementationArtifactType tempImplementationArtifact : implementationArtifacts){
+                      for (TArtifactTemplate tempArtifactTemplate : artifactTemplates){
+                        if (tempArtifactTemplate.getId().equals(tempImplementationArtifact.getArtifactRef().toString()))
+                          addContainerElement( tempArtifactTemplate, containerShapeTNT, 0, 0, 0, 0 );
+                      }
+     
+                    }
+                  }
  
                 }                
                 

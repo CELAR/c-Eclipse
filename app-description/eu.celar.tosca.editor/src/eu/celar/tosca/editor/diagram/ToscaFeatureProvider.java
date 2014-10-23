@@ -8,24 +8,19 @@
  ************************************************************/
 package eu.celar.tosca.editor.diagram;
 
-import java.io.ObjectInputStream.GetField;
-
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IDirectEditingFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
@@ -43,6 +38,7 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import eu.celar.core.model.impl.ResourceCloudElement;
 import eu.celar.infosystem.model.base.ResizingAction;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TRelationshipTemplate;
@@ -106,8 +102,6 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
       if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
           return new AddUserApplicationFeature( this );
-      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "SD" )==0)
-          return new AddSoftwareDependencyFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
           return new AddVirtualMachineFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
@@ -115,7 +109,12 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)
         return new AddMonitorProbeFeature( this );
       
-    } else if( context.getNewObject() instanceof ResourceCloudElement) {
+    }else if (context.getNewObject() instanceof TArtifactTemplate){
+      if (((TArtifactTemplate)context.getNewObject()).getName().compareTo( "SD" )==0)
+        return new AddSoftwareDependencyFeature( this );
+    }
+    
+    else if( context.getNewObject() instanceof ResourceCloudElement) {
             
       return getIFileFeature(context);
     }

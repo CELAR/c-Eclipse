@@ -1,14 +1,19 @@
 package eu.celar.ui.internal.actions;
 
+import java.awt.event.KeyEvent;
+
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.IShellProvider;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.actions.ActionGroup;
+import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.ui.actions.RenameResourceAction;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 
@@ -36,10 +41,10 @@ public class FileActions extends ActionGroup {
    */
   private PasteAction pasteAction;
   
-//  /**
-//   * The action for deleting resources in the workspace.
-//   */  
-//  private DeleteCloudElementAction deleteElementAction;  
+  /**
+   * The action for deleting resources in the workspace.
+   */  
+  private DeleteResourceAction deleteElementAction;  
   
   /**
    * The action for renaming resources in the workspace.
@@ -57,18 +62,19 @@ public class FileActions extends ActionGroup {
     
     this.site = view.getSite();
     Shell shell = this.site.getShell();
+    IShellProvider shellProvider = view.getViewSite();
     ISelectionProvider provider = this.site.getSelectionProvider();
     
     this.clipboard = new Clipboard( shell.getDisplay() );
     
     this.copyAction = new CopyAction( this.clipboard );
     this.pasteAction = new PasteAction( this.clipboard );    
-//    this.deleteElementAction = new DeleteCloudElementAction( shell );
-    this.renameAction = new RenameResourceAction( shell );
+    this.deleteElementAction = new DeleteResourceAction( shellProvider );
+    this.renameAction = new RenameResourceAction( shellProvider );
     
     provider.addSelectionChangedListener( this.copyAction );
     provider.addSelectionChangedListener( this.pasteAction );    
-//    provider.addSelectionChangedListener( this.deleteElementAction );
+    provider.addSelectionChangedListener( this.deleteElementAction );
     provider.addSelectionChangedListener( this.renameAction );
     
     ISelection selection = provider.getSelection();
@@ -79,7 +85,7 @@ public class FileActions extends ActionGroup {
     
     this.copyAction.selectionChanged( ( IStructuredSelection ) selection );
     this.pasteAction.selectionChanged( ( IStructuredSelection ) selection );
-//    this.deleteElementAction.selectionChanged( ( IStructuredSelection ) selection );
+    this.deleteElementAction.selectionChanged( ( IStructuredSelection ) selection );
     this.renameAction.selectionChanged( ( IStructuredSelection ) selection );
     
   }
@@ -92,7 +98,7 @@ public class FileActions extends ActionGroup {
     ISelectionProvider provider = this.site.getSelectionProvider();
     provider.removeSelectionChangedListener( this.copyAction );
     provider.removeSelectionChangedListener( this.pasteAction );    
-//    provider.removeSelectionChangedListener( this.deleteElementAction );
+    provider.removeSelectionChangedListener( this.deleteElementAction );
     provider.removeSelectionChangedListener( this.renameAction );
     this.clipboard.dispose();
   }
@@ -107,8 +113,8 @@ public class FileActions extends ActionGroup {
                           this.copyAction );
       menu.appendToGroup( ICommonMenuConstants.GROUP_EDIT, 
                           this.pasteAction );
-//      menu.appendToGroup( ICommonMenuConstants.GROUP_EDIT, 
-//                          this.deleteElementAction );
+      menu.appendToGroup( ICommonMenuConstants.GROUP_EDIT, 
+                          this.deleteElementAction );
       menu.appendToGroup( ICommonMenuConstants.GROUP_EDIT,
                           this.renameAction );
 //    }
@@ -131,7 +137,7 @@ public class FileActions extends ActionGroup {
     
     this.copyAction.selectionChanged( selection );
     this.pasteAction.selectionChanged( selection );    
-//    this.deleteElementAction.selectionChanged( selection );
+    this.deleteElementAction.selectionChanged( selection );
     this.renameAction.selectionChanged( selection );
   }
 }

@@ -11,7 +11,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
-//import org.eclipse.emf.ecore.xml.type.internal.QName;
+// import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -27,8 +27,6 @@ import eu.celar.tosca.ImplementationArtifactType;
 import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TArtifactReference;
 import eu.celar.tosca.TArtifactTemplate;
-import eu.celar.tosca.TDeploymentArtifact;
-import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TImplementationArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TNodeTypeImplementation;
@@ -62,188 +60,122 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
   // Creates the business object for the software dependency
   @Override
   public Object[] create( final ICreateContext context ) {
-	  
-	    if( this.contextObject == null )
-	        return null;
-
-	      Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
-	      TNodeTemplate tNode = null;
-	      if( parentObject == null )
-	        return null;
-	      if( parentObject instanceof TNodeTemplate ) {
-	        tNode = ( TNodeTemplate )parentObject;
-	      }
-	      
-	      if (tNode.getName()==null){
-	           MessageDialog.openError(null, "Error", "Give a Name to the selected Component and try again.");
-	           return null;
-	      }
-
-
-	      if( tNode.getDeploymentArtifacts() == null ) {
-	        
-	        final TNodeTemplate node = tNode;
-	        TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
-	        editingDomain.getCommandStack()
-	          .execute( new RecordingCommand( editingDomain ) {
-
-	            protected void doExecute() {
-	              node.setDeploymentArtifacts( ToscaFactory.eINSTANCE.createTDeploymentArtifacts() );
-	            }
-	          } );
-	        
-	      } 
-	            
-	      
-	      // Add the new deployment artifact to the list
-	      final TDeploymentArtifacts deploymentArtifacts = tNode.getDeploymentArtifacts();
-	      TDeploymentArtifact tempDeploymentArtifact = ( TDeploymentArtifact )this.contextObject;
-	      
-	      TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
-	      deploymentArtifact.setName( tempDeploymentArtifact.getName() );
-	      deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
-	      deploymentArtifact.setArtifactRef( new QName (tNode.getName() + "Script" ));
-	          
-	      final TDeploymentArtifact tempArtifact = deploymentArtifact;
-	      TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
-	      editingDomain.getCommandStack()
-	        .execute( new RecordingCommand( editingDomain ) {
-
-	          protected void doExecute() {
-	            deploymentArtifacts.getDeploymentArtifact().add( tempArtifact );
-	          }
-	        } );
-	      
-//	      ImplementationArtifactType tempImplementationArtifact = (ImplementationArtifactType) this.contextObject;
-//
-//	       //Create Image Artifact Template
-//	       createArtifactTemplate(tNode.getName(), tempImplementationArtifact.getArtifactType().toString());
-//	       
-//	       //Create Implementation Artifact
-//	       ImplementationArtifactType implementationArtifact = createImplementationArtifact( tNode.getName()+"Script", tempImplementationArtifact.getArtifactType(), new QName(tNode.getName()+"Script"));
-//	       
-//        addGraphicalRepresentation( context, implementationArtifact );
-//
-//
-//       // activate direct editing after object creation
-//       getFeatureProvider().getDirectEditingInfo().setActive( true );
-//       // return newly created business object(s)
-//       return new Object[]{
-//         implementationArtifact
-//       };
-	      
-	      addGraphicalRepresentation( context, deploymentArtifact );
-
-	      //Create Image Artifact Template
-	      createArtifactTemplate(tNode.getName(), tempDeploymentArtifact.getName());
-	      
-	      //Create Implementation Artifact
-	      createImplementationArtifact( tempDeploymentArtifact.getName(), new QName(tNode.getName()), new QName(tNode.getName()+"Script"));
-
-	      // activate direct editing after object creation
-	      getFeatureProvider().getDirectEditingInfo().setActive( true );
-	      // return newly created business object(s)
-	      return new Object[]{
-	        deploymentArtifact
-	      };
-
+    if( this.contextObject == null )
+      return null;
+    Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
+    TNodeTemplate tNode = null;
+    if( parentObject == null )
+      return null;
+    if( parentObject instanceof TNodeTemplate ) {
+      tNode = ( TNodeTemplate )parentObject;
+    }
+    if( tNode.getName() == null ) {
+      MessageDialog.openError( null,
+                               "Error",
+                               "Give a Name to the selected Component and try again." );
+      return null;
+    }
+    TArtifactTemplate artifactTemplate = ( TArtifactTemplate )this.contextObject;
+    // Create Image Artifact Template
+    createArtifactTemplate( tNode.getName(), artifactTemplate.getId() );
+    // Create Implementation Artifact
+    createImplementationArtifact( new QName( tNode.getName() ),
+                                  new QName( tNode.getName() + "Script" ) );
+    addGraphicalRepresentation( context, artifactTemplate );
+    // activate direct editing after object creation
+    getFeatureProvider().getDirectEditingInfo().setActive( true );
+    // return newly created business object(s)
+    return new Object[]{
+      artifactTemplate
+    };
   }
-  
-  private void createArtifactTemplate(String nodeName, String artifactName){
-    
-    //Create Artifact Template
+
+  private TArtifactTemplate createArtifactTemplate( String nodeName,
+                                                    String artifactName )
+  {
+    // Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
-    
-    //Create Script Artifact Properties
+    // Create Script Artifact Properties
     ScriptArtifactPropertiesType scriptProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createScriptArtifactPropertiesType();
     scriptProperties.setLanguage( "Shell" );
-    
-    // Set the Properties of the Policy Template    
-    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();   
-    
+    // Set the Properties of the Policy Template
+    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();
     // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
-    Entry e = FeatureMapUtil.createEntry(     Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),  scriptProperties );
-    properties.getAny().add( e );      
-    
+    Entry e = FeatureMapUtil.createEntry( Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),
+                                          scriptProperties );
+    properties.getAny().add( e );
     artifactTemplate.setProperties( properties );
-    
     artifactTemplate.setId( nodeName + "Script" );
-    
-    
+    artifactTemplate.setName( "SD" );
+    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts"+ File.separator + artifactName);
-
+    artifactRef.setReference( "Scripts" + File.separator + artifactName );
     ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
     artifactRefType.getArtifactReference().add( artifactRef );
-    
     artifactTemplate.setArtifactReferences( artifactRefType );
-    
     // Add the new Artifact Template to the TOSCA Definitions element
-    
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    
     DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-       
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
     editingDomain.getCommandStack()
       .execute( new RecordingCommand( editingDomain ) {
 
         @Override
         protected void doExecute() {
-          model.getDocumentRoot().getDefinitions().getArtifactTemplate().add( artifactTemplate );
-          
+          model.getDocumentRoot()
+            .getDefinitions()
+            .getArtifactTemplate()
+            .add( artifactTemplate );
         }
       } );
-
+    return artifactTemplate;
   }
-  
-  
-  //Creates the install implementation artifact
-  private ImplementationArtifactType createImplementationArtifact(String artifactName, QName nodeType, QName artifactID){
-    
+
+  // Creates the install implementation artifact
+  private void createImplementationArtifact( QName nodeType,
+                                                                   QName artifactID )
+  {
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    
-    final DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-    
+    final DefinitionsType definitions = model.getDocumentRoot()
+      .getDefinitions();
     TNodeTypeImplementation nodeTypeImplementation = null;
-    
-    //Test if NodeTypeImplementation for nodeType already exists
-    for ( TNodeTypeImplementation tempNodeTypeImplementation : definitions.getNodeTypeImplementation() ){
-      if ( tempNodeTypeImplementation.getNodeType().toString().equals(nodeType.toString()) ){
-        //NodeTypeImplementation already exists
-        //We are going to add the artifact to the existing implementation
+    // Test if NodeTypeImplementation for nodeType already exists
+    for( TNodeTypeImplementation tempNodeTypeImplementation : definitions.getNodeTypeImplementation() )
+    {
+      if( tempNodeTypeImplementation.getNodeType()
+        .toString()
+        .equals( nodeType.toString() ) )
+      {
+        // NodeTypeImplementation already exists
+        // We are going to add the artifact to the existing implementation
         nodeTypeImplementation = tempNodeTypeImplementation;
       }
     }
-    
-    if ( nodeTypeImplementation == null ){
-      //NodeTypeImplementation does not exists
+    if( nodeTypeImplementation == null ) {
+      // NodeTypeImplementation does not exists
       final TNodeTypeImplementation newNodeTypeImplementation = ToscaFactory.eINSTANCE.createTNodeTypeImplementation();
       newNodeTypeImplementation.setNodeType( nodeType );
       TImplementationArtifacts implementationArtifacts = ToscaFactory.eINSTANCE.createTImplementationArtifacts();
       newNodeTypeImplementation.setImplementationArtifacts( implementationArtifacts );
-      
       TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
       editingDomain.getCommandStack()
         .execute( new RecordingCommand( editingDomain ) {
 
           @Override
           protected void doExecute() {
-            definitions.getNodeTypeImplementation().add( newNodeTypeImplementation );
-            
+            definitions.getNodeTypeImplementation()
+              .add( newNodeTypeImplementation );
           }
         } );
       nodeTypeImplementation = newNodeTypeImplementation;
     }
-
-    //Create Implementation Artifact
+    // Create Implementation Artifact
     final ImplementationArtifactType installArtifactType = ToscaFactory.eINSTANCE.createImplementationArtifactType();
-    installArtifactType.setArtifactType( new QName("ScriptArtifact") );
+    installArtifactType.setArtifactType( new QName( "ScriptArtifact" ) );
     installArtifactType.setArtifactRef( artifactID );
     installArtifactType.setInterfaceName( "Lifecycle" );
     installArtifactType.setOperationName( "execute" );
-    
     final TNodeTypeImplementation nodeImplementation = nodeTypeImplementation;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTypeImplementation );
     editingDomain.getCommandStack()
@@ -251,11 +183,10 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 
         @Override
         protected void doExecute() {
-          nodeImplementation.getImplementationArtifacts().getImplementationArtifact().add( installArtifactType );
-          
+          nodeImplementation.getImplementationArtifacts()
+            .getImplementationArtifact()
+            .add( installArtifactType );
         }
-      } );    
-
-    return installArtifactType;
+      } );
   }
 }

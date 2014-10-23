@@ -8,7 +8,6 @@ package eu.celar.tosca.editor.dialog;
  * @author stalo
  */
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -20,8 +19,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -29,16 +26,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.example.sybl.BinaryRestriction;
-import org.example.sybl.Constraint;
-import org.example.sybl.LeftHandSideType;
-import org.example.sybl.RightHandSideType;
-import org.example.sybl.SYBLSpecificationType;
-import org.example.sybl.Strategy;
-import org.example.sybl.SyblElasticityRequirementsDescription;
-import org.example.sybl.SyblFactory;
-import org.example.sybl.ToEnforceType;
-import org.example.sybl.ToEnforceType1;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
@@ -54,12 +41,7 @@ public class ElasticityConstraintDialog extends Dialog {
   protected String elasticityRequirement;
   private CCombo cmbGlobalElasticityReq;
   private CCombo cmbOperator;
-  private String component;
-  private String constraintLeft;
-  private String constraintRight;
-  private String constraintOperator;
 
-  
   /**
    * @param parentShell
    */
@@ -68,7 +50,6 @@ public class ElasticityConstraintDialog extends Dialog {
     super( parentShell );
     this.elasticityRequirement = null;
     this.addMode = true;
-    this.component = component;
   }
 
   @Override
@@ -95,33 +76,27 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbGlobalElasticityReq.setEnabled( true );
     gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
-    
     ArrayList<MonitoringProbe> mps = getMetrics();
-    
-    for (MonitoringProbe mp : mps){
+    for( MonitoringProbe mp : mps ) {
       String metricsString = mp.getDescription();
-      if (metricsString.equals( "" )==false){
-        metricsString = metricsString.substring( 2, metricsString.length()-2 );
+      if( metricsString.equals( "" ) == false ) {
+        metricsString = metricsString.substring( 2, metricsString.length() - 2 );
         metricsString = metricsString.replace( "\"", "" );
-      String[] metrics = metricsString.split( "," );
-      for (String metric : metrics)
-        this.cmbGlobalElasticityReq.add(metric);
-      }
-      else{
-        this.cmbGlobalElasticityReq.add(mp.getName());
+        String[] metrics = metricsString.split( "," );
+        for( String metric : metrics )
+          this.cmbGlobalElasticityReq.add( metric );
+      } else {
+        this.cmbGlobalElasticityReq.add( mp.getName() );
       }
     }
     this.cmbGlobalElasticityReq.add( "CostPerHour ($)" );
-
     Composite valueComposite = new Composite( composite, SWT.NONE );
     gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );
-    
     Label valueLabel = new Label( valueComposite, SWT.LEAD );
     valueLabel.setText( "Value" ); //$NON-NLS-1$
     gd = new GridData( 50, 20 );
     valueLabel.setLayoutData( gd );
-    
     // Combo - Operator
     this.cmbOperator = new CCombo( valueComposite, SWT.BORDER );
     this.cmbOperator.setEnabled( true );
@@ -129,26 +104,21 @@ public class ElasticityConstraintDialog extends Dialog {
     this.cmbOperator.setLayoutData( gd );
     this.cmbOperator.add( "=" ); //$NON-NLS-1$
     this.cmbOperator.add( "<" ); //$NON-NLS-1$
-    this.cmbOperator.add( ">" );  //$NON-NLS-1$
-    this.cmbOperator.setText( this.cmbOperator.getItem( 0 ) );  
-    
+    this.cmbOperator.add( ">" ); //$NON-NLS-1$
+    this.cmbOperator.setText( this.cmbOperator.getItem( 0 ) );
     this.valueText = new Text( valueComposite, SWT.BORDER );
     gd = new GridData( 154, 20 );
-    this.valueText.setLayoutData( gd ); 
-
+    this.valueText.setLayoutData( gd );
     return composite;
   }
 
-  public ArrayList<MonitoringProbe> getMetrics(){
-    
+  public ArrayList<MonitoringProbe> getMetrics() {
     ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
-        .getMonitoringProbes();
-        
-        ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
-        
+      .getMonitoringProbes();
+    @SuppressWarnings("unchecked")
+    ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
     IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
-
     if( monitoringProbesProject.exists() ) {
       IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
       IResource[] artifactsResource = null;
@@ -161,8 +131,8 @@ public class ElasticityConstraintDialog extends Dialog {
       for( IResource tempResource : artifactsResource ) {
         if( tempResource instanceof IFile ) {
           MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
-          mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
+          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ) );
+          mp.setName( tempResource.getName().replaceFirst( ".java", "" ) );
           mp.setDescription( "" );
           mp.setURL( "" );
           // add new probe to monitoring list
@@ -170,51 +140,19 @@ public class ElasticityConstraintDialog extends Dialog {
         }
       }
     }
-    
     return mpsCopy;
   }
-  
+
   public String getElasticityConstraint() {
     return ElasticityConstraintDialog.this.elasticityRequirement;
-  }
-  
-  public SyblElasticityRequirementsDescription getSYBLConstraint(){
-
-    SyblElasticityRequirementsDescription serd = SyblFactory.eINSTANCE.createSyblElasticityRequirementsDescription();
-    
-    Constraint propertiesConstraint = SyblFactory.eINSTANCE.createConstraint();
-    ToEnforceType1 constraintToEnforce = SyblFactory.eINSTANCE.createToEnforceType1();
-    propertiesConstraint.setId( "hi" );
-    propertiesConstraint.setToEnforce( constraintToEnforce );
-    
-    BinaryRestriction br = SyblFactory.eINSTANCE.createBinaryRestriction();
-    br.setType( this.constraintOperator );
-    LeftHandSideType constraintLeft = SyblFactory.eINSTANCE.createLeftHandSideType();
-    constraintLeft.setMetric( this.constraintLeft );
-    br.setLeftHandSide( constraintLeft );
-    RightHandSideType constraintRight = SyblFactory.eINSTANCE.createRightHandSideType();
-    constraintRight.setNumber( this.constraintRight );
-    br.setRightHandSide( constraintRight );
-    constraintToEnforce.getBinaryRestrictionsConjunction().add( br );
-    
-    SYBLSpecificationType sst = SyblFactory.eINSTANCE.createSYBLSpecificationType();
-    sst.getConstraint().add( propertiesConstraint );
-    serd.getSYBLSpecification().add( sst );
-    
-    return serd;
   }
 
   @SuppressWarnings("boxing")
   @Override
   protected void okPressed() {
- 
-    ElasticityConstraintDialog.this.constraintLeft = this.cmbGlobalElasticityReq.getText();
-    ElasticityConstraintDialog.this.constraintRight = this.valueText.getText();
-    ElasticityConstraintDialog.this.constraintOperator = this.cmbOperator.getText();
-    
-    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
-                                                                                             
+    ElasticityConstraintDialog.this.elasticityRequirement = this.cmbGlobalElasticityReq.getText()
+                                                            + this.cmbOperator.getText()
+                                                            + this.valueText.getText();
     super.okPressed();
   }
 }
-

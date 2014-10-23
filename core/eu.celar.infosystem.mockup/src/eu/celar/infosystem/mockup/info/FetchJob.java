@@ -334,7 +334,7 @@ public class FetchJob extends Job {
  
           vmif.setUID( images_array.getJSONObject( i ).getString( "id" ) );
           vmif.setName( images_array.getJSONObject( i ).getString( "name" )); //$NON-NLS-1$ );
-         System.out.println(vmif.getName()+" "+vmif.getUID());
+         //System.out.println(vmif.getName()+" "+vmif.getUID());
           //add new vmi to images list
          instance.vm_flavors.add( vmif ); 
         }
