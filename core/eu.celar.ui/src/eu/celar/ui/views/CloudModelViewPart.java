@@ -39,6 +39,7 @@ import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudModelEvent;
 import eu.celar.core.model.ICloudModelListener;
+import eu.celar.tosca.editor.ToscaDiagramEditor;
 import eu.celar.ui.decorators.CloudProjectFolderDecorator;
 import eu.celar.ui.internal.actions.ActionGroupManager;
 import eu.celar.ui.internal.actions.CommonActions;
@@ -112,6 +113,22 @@ public abstract class CloudModelViewPart extends ViewPart implements ICloudModel
         decorator.refresh( event.getElements() );
       }
     }
+    
+    // Refresh Palette Compartments
+    Display.getDefault().asyncExec(new Runnable() {
+      @Override
+      public void run() {
+        if (ToscaDiagramEditor.db != null){
+          
+          ToscaDiagramEditor.db.refreshPalette(); 
+        }
+          System.out.println("Palette Refreshed");
+      }
+  });
+    
+    
+
+
   }
   
   public boolean isDragSource( final ICloudElement element ) {

@@ -340,7 +340,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
  
             
             TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
-            artifactTemplate.setName( "SD" );
+            artifactTemplate.setName( "SD"+script.getName() );
             artifactTemplate.setId( script.getName() );
             artifactTemplate.setType( new QName( "ScriptArtifact" ) );
             sdCF.setContextObject( artifactTemplate );

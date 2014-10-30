@@ -4,6 +4,10 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import java.io.File;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -24,9 +28,16 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import eu.celar.tosca.DefinitionsType;
+import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.ImplementationArtifactType;
+import eu.celar.tosca.TArtifactReference;
 import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TNodeTypeImplementation;
+import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.StyleUtil;
+import eu.celar.tosca.editor.ToscaModelLayer;
 
 public class AddSoftwareDependencyFeature extends AbstractFeature
   implements IAddFeature
@@ -54,7 +65,7 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
 	     if( context.getNewObject() instanceof TArtifactTemplate
       && !diagraminstance )
       {
-        if (((TArtifactTemplate)context.getNewObject()).getName().compareTo( "SD" )==0)
+        if (((TArtifactTemplate)context.getNewObject()).getName().contains( "SD" ))
           result = true;
       }
 	    
@@ -127,7 +138,9 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
       // create shape for text
       Shape shape = peCreateService.createShape( containerShape, false );
       // create and set text graphics algorithm
-      Text text = gaService.createText( shape, addedClass.getId() );
+      // 2 is the size of "SD"
+      Text text = gaService.createText( shape, addedClass.getName().substring( 2 ) );
+      //Text text = gaService.createText( shape, findImplementationArtifactName(addedClass.getId()) );
       text.setForeground( manageColor( E_CLASS_TEXT_FOREGROUND ) );
       text.setHorizontalAlignment( Orientation.ALIGNMENT_CENTER );
       // vertical alignment has as default value "center"
@@ -152,4 +165,23 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
   public void execute( final IContext context ) {
     // TODO Auto-generated method stub
   }
+  
+//  private String findImplementationArtifactName(String artifactId){
+//    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+//    DocumentRoot dr = model.getDocumentRoot();
+//    DefinitionsType dt = dr.getDefinitions();
+//    EList<TArtifactTemplate> artifactTemplates =
+//    dt.getArtifactTemplate();
+//
+//    for (TArtifactTemplate tempArtifactTemplate : artifactTemplates){
+//      if (tempArtifactTemplate.getId().equals( artifactId )){
+//        TArtifactReference artifactRef = tempArtifactTemplate.getArtifactReferences().getArtifactReference().get( 0 );
+//        String artifactReference = artifactRef.getReference();
+//        String artifactName = artifactReference.substring( artifactReference.indexOf( "\\" ) +1);
+//        return artifactName;
+//      }
+//    }
+//
+//   return null;
+//  }
 }

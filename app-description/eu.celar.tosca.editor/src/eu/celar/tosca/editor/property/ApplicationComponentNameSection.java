@@ -212,11 +212,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
           } catch( ProblemException e2 ) {
             e2.printStackTrace();
           }
-          // Refresh Palette Compartments
-          getDiagramTypeProvider().getFeatureProvider()
-            .getDiagramTypeProvider()
-            .getDiagramBehavior()
-            .refreshPalette();        
+//          // Refresh Palette Compartments
+//          getDiagramTypeProvider().getFeatureProvider()
+//            .getDiagramTypeProvider()
+//            .getDiagramBehavior()
+//            .refreshPalette();        
           
           
           CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
@@ -716,11 +716,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
           } catch( ProblemException e2 ) {
             e2.printStackTrace();
           }
-          // Refresh Palette Compartments
-          getDiagramTypeProvider().getFeatureProvider()
-            .getDiagramTypeProvider()
-            .getDiagramBehavior()
-            .refreshPalette();
+//          // Refresh Palette Compartments
+//          getDiagramTypeProvider().getFeatureProvider()
+//            .getDiagramTypeProvider()
+//            .getDiagramBehavior()
+//            .refreshPalette();
           ApplicationComponentNameSection.this.keypairText.setText( dialog.getFileName() );
         }
       }

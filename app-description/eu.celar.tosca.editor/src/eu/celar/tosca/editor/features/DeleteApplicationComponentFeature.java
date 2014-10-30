@@ -8,6 +8,7 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
 import eu.celar.tosca.TArtifactTemplate;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TImplementationArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TNodeTypeImplementation;
@@ -101,11 +102,18 @@ public class DeleteApplicationComponentFeature extends DefaultDeleteFeature {
           } 
       }
     
+    //Find DeploymentArtifacts to be deleted
+    if (deletedNodeTemplate.getDeploymentArtifacts() != null){
+      for (TDeploymentArtifact tempDeploymentArtifact: deletedNodeTemplate.getDeploymentArtifacts().getDeploymentArtifact()){
+        artifactTemplatesIDs[artifactTemplatesIDs.length-1]=tempDeploymentArtifact.getArtifactRef();
+      }
+    }
+    
     //Delete ArtifactTemplates
     for( TArtifactTemplate tempArtifactTemplate : model.getDocumentRoot()
         .getDefinitions().getArtifactTemplate()){
       for (QName tempArtifactTemplateID : artifactTemplatesIDs){
-        if (tempArtifactTemplate.getId().equals( tempArtifactTemplateID.toString() )){
+        if (tempArtifactTemplateID != null && tempArtifactTemplate.getId().equals( tempArtifactTemplateID.toString() )){
           //Delete Artifact Template
           {
             model.getDocumentRoot()

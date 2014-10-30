@@ -328,7 +328,7 @@ public class CompositeMonitoring extends GFPropertySection
     //mp.addProbeToCloudProject(probeName, project);
     
     // Refresh Palette Compartments
-    getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
+    //getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
    
     // Add Monitoring Deployment Artifact and Refresh Monitoring Table
     mp.addProbeToMonitoringTable(probeName, (ContainerShape) getSelectedPictogramElement(), getDiagramTypeProvider());

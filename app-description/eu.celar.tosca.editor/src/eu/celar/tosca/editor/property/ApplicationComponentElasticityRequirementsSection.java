@@ -346,14 +346,17 @@ public class ApplicationComponentElasticityRequirementsSection
                                                "Application Component" ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityConstraint = dialog.getElasticityConstraint();
-        if( newElasticityConstraint.contains( "<" ) ) {
-          String[] cond = newElasticityConstraint.split( "<" );
-          newElasticityConstraint = cond[ 0 ] + "&lt;" + cond[ 1 ];
-        } else if( newElasticityConstraint.contains( ">" ) ) {
-          String[] cond = newElasticityConstraint.split( ">" );
-          newElasticityConstraint = cond[ 0 ] + "&gt;" + cond[ 1 ];
-        }
+
         if( newElasticityConstraint != null ) {
+          
+          if( newElasticityConstraint.contains( "<" ) ) {
+            String[] cond = newElasticityConstraint.split( "<" );
+            newElasticityConstraint = cond[ 0 ] + "&lt;" + cond[ 1 ];
+          } else if( newElasticityConstraint.contains( ">" ) ) {
+            String[] cond = newElasticityConstraint.split( ">" );
+            newElasticityConstraint = cond[ 0 ] + "&gt;" + cond[ 1 ];
+          }
+          
           // Add Application Component Elasticity Requirement to TOSCA
           PictogramElement pe = getSelectedPictogramElement();
           Object bo = null;
@@ -391,6 +394,11 @@ public class ApplicationComponentElasticityRequirementsSection
                                             null );
           newPolicy.setPolicyType( policyTypeName );
           newPolicy.setName( type.toUpperCase() + " " + newElasticityConstraint );
+          
+          String id = "C" + ( ( Integer )nodeTemplate.hashCode() ).toString() + nodePolicyList.getPolicy().size();
+          QName qnamePolicyTemplate = new QName( id );
+          newPolicy.setPolicyRef( qnamePolicyTemplate );
+          
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTemplate );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -454,6 +462,11 @@ public class ApplicationComponentElasticityRequirementsSection
                                             null );
           newPolicy.setPolicyType( policyTypeName );
           newPolicy.setName( type.toUpperCase() + " " + newElasticityStrategy );
+          
+          String id = "C" + ( ( Integer )nodeTemplate.hashCode() ).toString() + nodePolicyList.getPolicy().size();
+          QName qnamePolicyTemplate = new QName( id );
+          newPolicy.setPolicyRef( qnamePolicyTemplate );
+          
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -742,11 +755,11 @@ public class ApplicationComponentElasticityRequirementsSection
       } catch( ProblemException e2 ) {
         e2.printStackTrace();
       }
-      // Refresh Palette Compartments
-      getDiagramTypeProvider().getFeatureProvider()
-        .getDiagramTypeProvider()
-        .getDiagramBehavior()
-        .refreshPalette();
+//      // Refresh Palette Compartments
+//      getDiagramTypeProvider().getFeatureProvider()
+//        .getDiagramTypeProvider()
+//        .getDiagramBehavior()
+//        .refreshPalette();
     }
   }
 

@@ -106,7 +106,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     properties.getAny().add( e );
     artifactTemplate.setProperties( properties );
     artifactTemplate.setId( nodeName + "Script" );
-    artifactTemplate.setName( "SD" );
+    artifactTemplate.setName( "SD"+artifactName );
     artifactTemplate.setType( new QName( "ScriptArtifact" ) );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();

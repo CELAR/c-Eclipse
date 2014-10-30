@@ -110,7 +110,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
         return new AddMonitorProbeFeature( this );
       
     }else if (context.getNewObject() instanceof TArtifactTemplate){
-      if (((TArtifactTemplate)context.getNewObject()).getName().compareTo( "SD" )==0)
+      if (((TArtifactTemplate)context.getNewObject()).getName().contains( "SD" ))
         return new AddSoftwareDependencyFeature( this );
     }
     

@@ -41,6 +41,7 @@ import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.platform.IDiagramBehavior;
 //import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
@@ -77,6 +78,8 @@ public class ToscaDiagramEditor extends DiagramEditor {
   
   private static GraphicalViewer gViewer;
   
+  public static IDiagramBehavior db = null;
+  
   private ToscaModelChangeListener toscaModelChangeListener;
   
   private TransactionalEditingDomain transactionalEditingDomain;
@@ -87,7 +90,9 @@ public class ToscaDiagramEditor extends DiagramEditor {
    * The Tosca Diagram Editor Constructor.
    */
   public ToscaDiagramEditor () {
+	  
     super ();
+    
   }
    
   public static IProject getActiveProject(){
@@ -139,6 +144,7 @@ public class ToscaDiagramEditor extends DiagramEditor {
 
     super.init(site, finalInput);
     // Refresh Palette Compartments
+    ToscaDiagramEditor.db = getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior();
     getDiagramTypeProvider().getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().refreshPalette();
     
   }
