@@ -18,7 +18,9 @@ Require-Bundle: org.eclipse.ui,
  com.amazon.aws;bundle-version="1.0.0",
  eu.celar.connectors.openstack,
  jclouds-core;bundle-version="1.8.0",
- eu.celar.connectors.aws
+ eu.celar.connectors.aws,
+ openstack-neutron-custom;bundle-version="1.8.0",
+ openstack-nova;bundle-version="1.8.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.infosystem.mockup.info;

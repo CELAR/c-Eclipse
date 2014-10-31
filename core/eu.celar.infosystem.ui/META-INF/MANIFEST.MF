@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Infosystem UI
+Bundle-SymbolicName: eu.celar.infosystem.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: eu.celar.infosystem.ui.internal.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ eu.celar.core,
+ eu.celar.core.reporting,
+ org.eclipse.ui.workbench,
+ eu.celar.ui,
+ org.eclipse.core.resources,
+ eu.celar.infosystem
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy

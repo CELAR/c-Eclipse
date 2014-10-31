@@ -53,6 +53,7 @@ import eu.celar.tosca.editor.features.AddDirectedRelationFeature;
 import eu.celar.tosca.editor.features.AddGroupFeature;
 import eu.celar.tosca.editor.features.AddKeyPairFeature;
 import eu.celar.tosca.editor.features.AddMonitorProbeFeature;
+import eu.celar.tosca.editor.features.AddNetworkFeature;
 import eu.celar.tosca.editor.features.AddResizingActionFeature;
 import eu.celar.tosca.editor.features.AddServiceTemplateFeature;
 import eu.celar.tosca.editor.features.AddSoftwareDependencyFeature;
@@ -63,6 +64,7 @@ import eu.celar.tosca.editor.features.CreateDirectedRelationFeature;
 import eu.celar.tosca.editor.features.CreateGroupFeature;
 import eu.celar.tosca.editor.features.CreateKeyPairFeature;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
+import eu.celar.tosca.editor.features.CreateNetworkFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
 import eu.celar.tosca.editor.features.CreateServiceTemplateFeature;
 import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
@@ -112,6 +114,8 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
           return new AddVirtualMachineFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
         return new AddKeyPairFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "Network" )==0)
+        return new AddNetworkFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)
         return new AddMonitorProbeFeature( this );
       
@@ -188,6 +192,7 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     return new ICreateFeature[]{
       new CreateApplicationComponentFeature( this ),
       new CreateVMIFeature( this ),
+      new CreateNetworkFeature( this ),
       new CreateSoftwareDependencyFeature( this ),
       new CreateMonitorProbeFeature( this ),
       new CreateServiceTemplateFeature( this ),

@@ -72,6 +72,7 @@ public class InfoSystemFactoryImpl extends EFactoryImpl implements InfoSystemFac
       case InfoSystemPackage.USER_APPLICATION: return createUserApplication();
       case InfoSystemPackage.KEY_PAIR: return createKeyPair();
       case InfoSystemPackage.VIRTUAL_MACHINE_IMAGE_FLAVOR: return createVirtualMachineImageFlavor();
+      case InfoSystemPackage.VIRTUAL_NETWORK: return createVirtualNetwork();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -190,6 +191,17 @@ public class InfoSystemFactoryImpl extends EFactoryImpl implements InfoSystemFac
   {
     VirtualMachineImageFlavorImpl virtualMachineImageFlavor = new VirtualMachineImageFlavorImpl();
     return virtualMachineImageFlavor;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public VirtualNetwork createVirtualNetwork()
+  {
+    VirtualNetworkImpl virtualNetwork = new VirtualNetworkImpl();
+    return virtualNetwork;
   }
 
   /**

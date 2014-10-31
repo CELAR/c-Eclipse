@@ -25,10 +25,15 @@ import eu.celar.core.internal.Activator;
 import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudInfoService;
 import eu.celar.core.model.ICloudProject;
 import eu.celar.core.model.ICloudProvider;
+import eu.celar.core.model.ICloudResource;
+import eu.celar.core.model.ICloudResourceCategory;
+import eu.celar.core.model.ICloudService;
 import eu.celar.core.model.IWrappedElement;
 import eu.celar.core.model.impl.AbstractCloudContainer;
+import eu.celar.core.model.impl.CloudResourceCategoryFactory;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -46,11 +51,60 @@ public class ProjectCloudProvider extends AbstractCloudContainer
   
   private String providerName;
   
+  /**
+   * Definition of standard categories that are used whenever a VO does not specify
+   * dedicated categories.
+   */
+  public static final ICloudResourceCategory[] standardCategories
+    = new ICloudResourceCategory[] {
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_APPLICATIONS ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_COMPUTING ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_DATA_SERVICES ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_INFO_SERVICES ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_JOB_SERVICES ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_OTHER_SERVICES ),
+      CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_STORAGE )
+  };
+  
   protected ProjectCloudProvider (final ICloudProject project,
                                   final ICloudProvider cloudProvider) {
     super();
     this.project = project;
     this.providerName = cloudProvider.getName();
+    
+    ICloudResourceCategory[] supportedCategories = cloudProvider.getSupportedCategories();
+    for( ICloudResourceCategory category : supportedCategories ) {
+      try {
+        getResourceContainer( category );
+      } catch( ProblemException pExc ) {
+        Activator.logException( pExc );
+      }
+    }
+  }
+  
+  @Override
+  public boolean canContain( final ICloudElement element ) {
+    return element instanceof ResourceCategoryContainer; // QueryContainer;
+  }
+  
+  public ICloudResource[] getAvailableResources( final ICloudResourceCategory category,
+                                                final boolean exclusive,
+                                                final IProgressMonitor monitor )
+      throws ProblemException {
+    ICloudResource[] result = null;
+    ICloudProvider vo = getSlave();
+    if ( vo != null ) {
+      ICloudInfoService infoService = vo.getInfoService();
+      if ( infoService != null ) {
+        result = infoService.fetchResources( this, vo, category, false, null, monitor );
+      }
+    }
+    return result;
+  }
+  
+  public ICloudResourceCategory[] getSupportedCategories() {
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getSupportedCategories() : standardCategories;
   }
 
   /* (non-Javadoc)
@@ -114,6 +168,12 @@ public class ProjectCloudProvider extends AbstractCloudContainer
     // TODO Auto-generated method stub
   }
   
+  public ICloudInfoService getInfoService()
+      throws ProblemException {
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getInfoService() : null;
+  }
+  
   @SuppressWarnings( "unchecked" )
   @Override
   public Object getAdapter( final Class adapter ) {
@@ -166,6 +226,36 @@ public class ProjectCloudProvider extends AbstractCloudContainer
     return result;
   }
   
+  public ICloudService[] getServices( final IProgressMonitor monitor )
+      throws ProblemException {
+    
+    ICloudService[] result = null;
+    ICloudProvider vo = getSlave();
+    
+    if ( vo != null ) {
+      
+      ICloudInfoService infoService = vo.getInfoService();
+      ICloudResource[] resources = infoService.fetchResources(
+          this,
+          vo,
+          CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_SERVICES ),
+          false,
+          ICloudService.class,
+          monitor );
+      
+      if ( resources != null ) {
+        result = new ICloudService[ resources.length ];
+        for ( int i = 0 ; i < resources.length ; i++ ) {
+          result[ i ] = ( ICloudService ) resources[ i ];
+        }
+      }
+      
+    }
+    
+    return result;
+    
+  }
+  
   @Override
   public void setDirty() {
     try {
@@ -202,8 +292,8 @@ public class ProjectCloudProvider extends AbstractCloudContainer
    */
   @Override
   public String getTypeName() {
-    // TODO Auto-generated method stub
-    return null;
+    ICloudProvider cp = getSlave();
+    return cp != null ? cp.getTypeName() : NA_STRING;
   }
 
   /* (non-Javadoc)
@@ -224,5 +314,35 @@ public class ProjectCloudProvider extends AbstractCloudContainer
   {
     ICloudProvider cp = getSlave();
     return cp != null ? cp.getDeploymentServices( monitor ) : new ICloudDeploymentService[ 0 ];
+  }
+  
+  private ResourceCategoryContainer getResourceContainer( final ICloudResourceCategory category )
+      throws ProblemException {
+    
+    ResourceCategoryContainer result = null;
+    
+    String name = category.getName();
+    ICloudResourceCategory parentCategory = category.getParent();
+    
+    ICloudContainer parentContainer
+      = parentCategory == null
+        ? this
+        : getResourceContainer( parentCategory );
+    
+    ICloudElement child = parentContainer.findChild( name );
+    
+    if ( ( child == null ) || ! ( child instanceof ResourceCategoryContainer ) ) {
+      result = new ResourceCategoryContainer( parentContainer, category );
+      if ( parentContainer == this ) {
+        addElement( result );
+      } else {
+        ( ( ResourceCategoryContainer ) parentContainer ).addChild( result );
+      }
+    } else {
+      result = ( ResourceCategoryContainer ) child;
+    }
+    
+    return result;
+    
   }
 }

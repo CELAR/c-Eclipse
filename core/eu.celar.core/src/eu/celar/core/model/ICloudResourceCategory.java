@@ -43,4 +43,14 @@ public interface ICloudResourceCategory {
    * @return The categories name.
    */
   public String getName();
+  
+  /**
+   * Returns <code>true</code> if this category is an active category.
+   * In this case this category is used to query the information
+   * system for available resources. If this category is passive it is
+   * only used as a container for other categories.
+   * 
+   * @return <code>true</code> if this category is active.
+   */
+  public boolean isActive();
 }

@@ -102,4 +102,18 @@ public class Activator extends AbstractUIPlugin {
 	                                 e );
 	    Activator.getDefault().getLog().log( status );
 	  }
+	  
+	  /**
+	   * Central logging for exceptions
+	   * 
+	   * @param exception the exception to be logged to the system log
+	   */
+	  public static void logException( final Exception exception ) {
+	    IStatus status = new Status( IStatus.ERROR,
+	                                 PLUGIN_ID,
+	                                 0,
+	                                 exception.getMessage(),
+	                                 exception );
+	    getDefault().getLog().log( status );
+	  }
 }

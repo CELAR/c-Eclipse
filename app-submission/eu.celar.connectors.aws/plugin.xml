@@ -33,6 +33,20 @@
                class="org.eclipse.core.filesystem.IFileStore">
          </source>
       </creator>
+      <creator
+            class="eu.celar.connectors.aws.ec2.EC2ServiceCreator"
+            id="eu.celar.connectors.aws.ec2.service.ec2ServiceCreator"
+            name="%ec2ServiceCreator.service.name">
+         <source
+               class="java.net.URL"
+               default="true"
+               pattern="%ec2ServiceCreator.source.pattern">
+         </source>
+         <target
+               class="eu.celar.connectors.aws.IAWSService"
+               name="AWS Service">
+         </target>
+      </creator>
    </extension>
    <extension
          point="eu.celar.core.authTokens">
@@ -42,6 +56,68 @@
             name="AWS Credentials"
             wizard="eu.celar.connectors.aws.ui.wizards.awsAuthTokenWizard">
       </token>
+   </extension>
+   
+   <extension
+         point="eu.celar.core.reporting.problemReporting">
+      <problem
+            description="%problem.auth.authFailed.description"
+            id="eu.celar.connectors.aws.ec2.problem.auth.authFailed">
+			<reference
+				referenceID="eu.celar.connectors.aws.ec2.solution.auth.authFailed.falseEC2Url.description">
+			</reference>
+			<reference
+         		referenceID="eu.celar.connectors.aws.solution.auth.authFailed.falseAWSCredentials">
+			</reference>            
+      </problem>
+      <problem
+            description="%problem.net.ec2.error.description"
+            id="eu.celar.connectors.aws.ec2.problem.net.ec2">
+            <reference
+				referenceID="eu.celar.connectors.aws.ec2.solution.auth.authFailed.falseEC2Url.description">
+			</reference>
+			<reference
+         		referenceID="eu.celar.connectors.aws.solution.auth.authFailed.falseAWSCredentials">
+			</reference>            
+      </problem>
+      <solution 
+            description="%solution.auth.authFailed.falseEC2Url.description"
+            id="eu.celar.connectors.aws.ec2.solution.auth.authFailed.falseEC2Url.description">
+      </solution>
+            <solution 
+            description="%solution.auth.authFailed.falseAWSCredentials.description"
+            id="eu.celar.connectors.aws.solution.auth.authFailed.falseAWSCredentials">
+      </solution>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            category="org.eclipse.ui.externaltools"
+            delegate="eu.celar.connectors.aws.ec2.launch.EC2LaunchConfigurationDelegate"
+            id="eu.celar.connectors.aws.ec2.launch.ec2LaunchConfigurationType"
+            modes="run, debug"
+            name="Amazon EC2">
+      </launchConfigurationType>
+   </extension>
+      <extension
+         point="eu.celar.core.cloudResourceCategory">
+      <category
+            id="eu.celar.connectors.aws.ec2.images"
+            name="%category.images"
+            parent="eu.celar.connectors.aws.service">
+      </category>
+      <category
+            id="eu.celar.connectors.aws.ec2.networking"
+            name="%category.networking">
+      </category>
+      <category
+            id="eu.celar.connectors.aws.ec2.storage"
+            name="%category.storage">
+      </category>
+	  <category
+            id="eu.celar.connectors.aws.ec2.security"
+            name="%category.security">
+      </category>
    </extension>
 
 

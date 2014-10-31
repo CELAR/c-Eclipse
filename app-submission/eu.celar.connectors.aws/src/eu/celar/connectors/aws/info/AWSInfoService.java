@@ -8,25 +8,29 @@
 package eu.celar.connectors.aws.info;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
 
 import eu.celar.connectors.aws.AWSApplicationDeploymentService;
 import eu.celar.connectors.aws.AWSCloudProvider;
-import eu.celar.connectors.aws.AWSDeploymentServiceCreator;
+import eu.celar.connectors.aws.IAWSService;
+import eu.celar.connectors.aws.internal.Activator;
+import eu.celar.connectors.aws.internal.Messages;
 import eu.celar.core.model.ICloudContainer;
+import eu.celar.core.model.ICloudInfoService;
 import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudResource;
 import eu.celar.core.model.ICloudResourceCategory;
 import eu.celar.core.model.ICloudService;
 import eu.celar.core.model.impl.AbstractCloudInfoSystem;
-import eu.celar.core.model.impl.CloudResourceCategoryFactory;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -36,29 +40,41 @@ import eu.celar.core.reporting.ProblemException;
  */
 public class AWSInfoService extends AbstractCloudInfoSystem {
   
+  /** The name of the file to save this grid element in. */
+  public static String STORAGE_NAME = ".awsInfoService"; //$NON-NLS-1$
+	
   private AWSCloudProvider awsCP;
   
+  private AWSInfoCache infoCache = null;
   
-  public AWSInfoService (final AWSCloudProvider cp) {
+  public AWSInfoService (final AWSCloudProvider cp) {	
     this.awsCP = cp;
   }
 
   /* (non-Javadoc)
    * @see eu.celar.core.model.ICloudResource#getURI()
    */
-  @Override
-  public URI getURI() throws ProblemException {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public URI getURI() throws ProblemException {
+		try {
+			return new URI(Messages.getString("AWSInfoService.aws_uri")); //$NON-NLS-1$
+		} catch (URISyntaxException e) {
+			return null;
+		}
+	}
 
   /* (non-Javadoc)
    * @see eu.celar.core.model.ICloudElement#getName()
    */
   @Override
   public String getName() {
-    // TODO Auto-generated method stub
-    return null;
+	  String result = "AWS @ ";
+	  try {
+		result += getURI();
+	} catch (ProblemException e) {
+		e.printStackTrace();
+	} //$NON-NLS-1$
+	  return result;
   }
 
   /* (non-Javadoc)
@@ -66,8 +82,7 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
    */
   @Override
   public IFileStore getFileStore() {
-    // TODO Auto-generated method stub
-    return null;
+    return getParent().getFileStore().getChild( AWSInfoService.STORAGE_NAME );
   }
 
   /* (non-Javadoc)
@@ -75,8 +90,7 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
    */
   @Override
   public IPath getPath() {
-    // TODO Auto-generated method stub
-    return null;
+	  return getParent().getPath().append( AWSInfoService.STORAGE_NAME );
   }
 
   /* (non-Javadoc)
@@ -84,7 +98,6 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
    */
   @Override
   public IResource getResource() {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -93,8 +106,7 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
    */
   @Override
   public ICloudContainer getParent() {
-    // TODO Auto-generated method stub
-    return null;
+    return this.awsCP;
   }
 
   /* (non-Javadoc)
@@ -102,8 +114,7 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
    */
   @Override
   public boolean isLocal() {
-    // TODO Auto-generated method stub
-    return false;
+    return true;
   }
 
   /* (non-Javadoc)
@@ -126,30 +137,58 @@ public class AWSInfoService extends AbstractCloudInfoSystem {
                                           final IProgressMonitor monitor )
     throws ProblemException
   {
-    ICloudResource[] result = null;
-    
-    IProgressMonitor lMonitor
-      = monitor == null
-      ? new NullProgressMonitor()
-      : monitor;
-    
-    
-    if (!lMonitor.isCanceled())
-    {
-      if ( category.equals( CloudResourceCategoryFactory.
-                            getCategory( CloudResourceCategoryFactory.ID_DEPLOYMENT_SERVICES ) ) ) {
-        result = fetchDeploymentServices( parent, cp, lMonitor );
-      }  
-    }
-    
-    if ( ( result != null ) && ( typeFilter != null ) ) {
-      result = filterResources( result, typeFilter, false );
-    }
-    
-    if (result == null)
-      result = new ICloudResource[0];
+	  
+	  List<IAWSService> awsServices = null;
+	  
+	  try {
+		awsServices = this.awsCP.getChildren(monitor, IAWSService.class);	
+	} catch (ProblemException e) {
+		Activator.log("Could not load child services", e);
+	}
+	  
+	  
+	  ArrayList<ICloudResource> resourceList = null;
+	  
+	  if (awsServices != null) {
+		  resourceList = new ArrayList<ICloudResource>();
+		  
+		  for (IAWSService service : awsServices) {
+			  ICloudInfoService infoService = service.getInfoService();
+			  if (infoService != null) {
+				  ICloudResource[] cloudResources = infoService.fetchResources(parent, cp, category, exclusive, typeFilter, monitor);
+				  Collections.addAll(resourceList, cloudResources);
+ 			  }
+		  }
+	  }
+	  
+	  if ( resourceList != null) {
+		  return resourceList.toArray( new ICloudResource[resourceList.size()]);
+	  }
+	  
+//    ICloudResource[] result = null;
+//    
+//    IProgressMonitor lMonitor
+//      = monitor == null
+//      ? new NullProgressMonitor()
+//      : monitor;
+//    
+//    
+//    if (!lMonitor.isCanceled())
+//    {
+//      if ( category.equals( CloudResourceCategoryFactory.
+//                            getCategory( CloudResourceCategoryFactory.ID_DEPLOYMENT_SERVICES ) ) ) {
+//        result = fetchDeploymentServices( parent, cp, lMonitor );
+//      }  
+//    }
+//    
+//    if ( ( result != null ) && ( typeFilter != null ) ) {
+//      result = filterResources( result, typeFilter, false );
+//    }
+//    
+//    if (result == null)
+//      result = new ICloudResource[0];
       
-    return result;
+    return new ICloudResource[0];
   }
   
   private ICloudService[] fetchDeploymentServices( final ICloudContainer parent,

@@ -16,16 +16,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.jclouds.compute.ComputeService;
 import org.jclouds.compute.domain.Image;
+import org.jclouds.openstack.neutron.v2.domain.Network;
 
 import eu.celar.connectors.openstack.OpenStackClient;
 import eu.celar.connectors.openstack.operation.OpenStackOpDescribeImages;
+import eu.celar.connectors.openstack.operation.OpenStackOpDescribeKeyPairs;
+import eu.celar.connectors.openstack.operation.OpenStackOpDescribeNetworks;
 import eu.celar.connectors.openstack.operation.OperationExecuter;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
+import eu.celar.infosystem.model.base.KeyPair;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualNetwork;
 
 
 /**
@@ -41,6 +46,9 @@ public class OpenStackFetch extends Job  {
   private ArrayList<MonitoringProbe> monitor_probes = new ArrayList<MonitoringProbe>();
   private ArrayList<ResizingAction> resize_actions = new ArrayList<ResizingAction>();
   private ArrayList<UserApplication> user_apps = new ArrayList<UserApplication>();
+  private ArrayList<VirtualNetwork> networks = new ArrayList<VirtualNetwork>();
+  private ArrayList<KeyPair> keypairs = new ArrayList<KeyPair>();
+  
   /**
    * @param name
    */
@@ -70,7 +78,7 @@ public class OpenStackFetch extends Job  {
     IProgressMonitor localMonitor = ( monitor != null )
                                                        ? monitor
                                                        : new NullProgressMonitor();
-    localMonitor.beginTask( "Authenticating with OpenStack endpoint", 4 ); //$NON-NLS-1$
+    localMonitor.beginTask( "Authenticating with OpenStack endpoint", 6 ); //$NON-NLS-1$
     try {
       
 //      localMonitor.beginTask( "Creating OpenStack client", 1 ); //$NON-NLS-1$      
@@ -78,13 +86,14 @@ public class OpenStackFetch extends Job  {
       localMonitor.worked( 1 );
       
       OpenStackOpDescribeImages operation = new OpenStackOpDescribeImages( this.computeService );
+      
       new OperationExecuter().execOp( operation );
       localMonitor.worked( 2 );
       
       if( operation.getException() == null ) {
         int size = operation.getResult().size();
         System.out.println("Size: " + size); //$NON-NLS-1$
-        this.custom_images = new ArrayList<VirtualMachineImage>( size );
+        this.base_images = new ArrayList<VirtualMachineImage>( size );
         
         for( Image ami : operation.getResult() ) {
 //          if( ami.getName() == null ) {
@@ -95,12 +104,42 @@ public class OpenStackFetch extends Job  {
           vmi.setDescription( ami.getDescription() );
           vmi.setName( ami.getName() );
           vmi.setURL( ami.getLocation().toString() );
-          this.custom_images.add( vmi );
+          this.base_images.add( vmi );
         }
         
         localMonitor.worked( 3 );
-      }  else {
-        throw new Exception(operation.getException());
+        
+        
+        OpenStackOpDescribeNetworks oper_networks = new OpenStackOpDescribeNetworks( );
+        new OperationExecuter().execOp( oper_networks );
+        
+        if( oper_networks.getException() == null ) {
+          for( Network network : oper_networks.getResult() ) {
+            VirtualNetwork vn = InfoSystemFactory.eINSTANCE.createVirtualNetwork();
+            vn.setUID( network.getId() );
+            vn.setName( network.getName() );
+            this.networks.add( vn );
+          }
+        }
+        localMonitor.worked( 4 );
+        
+        OpenStackOpDescribeKeyPairs oper_keypairs = new OpenStackOpDescribeKeyPairs( );
+        new OperationExecuter().execOp( oper_keypairs );
+        
+        if( oper_keypairs.getException() == null ) {
+          
+          for( org.jclouds.openstack.nova.v2_0.domain.KeyPair kp : oper_keypairs.getResult() ) {
+            KeyPair key = InfoSystemFactory.eINSTANCE.createKeyPair();
+            key.setName( kp.getName() );
+            key.setUID( kp.getFingerprint() );            
+            this.keypairs.add( key );
+          }
+        }
+        localMonitor.worked( 4 );
+        
+        
+      } else {
+        throw new Exception( operation.getException() );
       }
       
       
@@ -124,9 +163,9 @@ public class OpenStackFetch extends Job  {
   /**
    * @return A list with the available Custom Machine Images
    */
-  public ArrayList<VirtualMachineImage> getCustomMachineImages () {
-     return instance.custom_images;
-  }
+//  public ArrayList<VirtualMachineImage> getCustomMachineImages () {
+//     return instance.custom_images;
+//  }
   
   /**
    * @return A list with the available Software Dependencies
@@ -171,6 +210,14 @@ public class OpenStackFetch extends Job  {
 //    }
     
     return null;
+  }
+  
+  public ArrayList<VirtualNetwork> getNetworks(){
+    return instance.networks;
+  }
+  
+  public ArrayList<KeyPair> getKeyPairs() {
+    return instance.keypairs;
   }
 
   

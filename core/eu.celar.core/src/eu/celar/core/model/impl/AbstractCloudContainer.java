@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import eu.celar.core.ICoreProblems;
+import eu.celar.core.auth.AbstractAuthTokenProvider;
 import eu.celar.core.internal.Activator;
 import eu.celar.core.internal.model.CloudRoot;
 import eu.celar.core.internal.model.notify.CloudModelEvent;
@@ -111,7 +112,9 @@ public abstract class AbstractCloudContainer extends AbstractCloudElement implem
         IStatus status = this.container.fetchChildren( mon );
         if( !status.isOK() ) {
           Throwable exc = status.getException();
-          this.exception = exc;
+          if ( ! AbstractAuthTokenProvider.isTokenRequestCanceledException( exc ) ) {
+            this.exception = status.getException();
+          }
         }
       } catch( Throwable t ) {
         this.exception = t;

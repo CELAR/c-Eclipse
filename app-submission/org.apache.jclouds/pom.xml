@@ -108,6 +108,9 @@
                                     <id>org.apache.jclouds.api:openstack-cinder:${jclouds.version}</id>
                                 </artifact> 
                                                         		
+								<artifact>
+                                    <id>org.apache.jclouds.labs:openstack-neutron:${jclouds.version}</id>
+                                </artifact>   
                                 <!-- 
                      			<artifact>
                                     <id>com.sun.jersey:jersey-bundle:1.18</id>
@@ -124,9 +127,6 @@
 								<artifact>
                                     <id>org.apache.jclouds.labs:openstack-marconi:${jclouds.version}</id>
                                 </artifact>
-								<artifact>
-                                    <id>org.apache.jclouds.labs:openstack-neutron:${jclouds.version}</id>
-                                </artifact>   
                                -->
                                
                                 <!-- 3rd party dependencies -->

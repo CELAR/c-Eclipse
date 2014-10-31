@@ -17,6 +17,7 @@ package eu.celar.core.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import eu.celar.core.model.impl.AbstractInfoCache;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -34,13 +35,12 @@ public interface ICloudInfoService extends ICloudService {
     throws ProblemException;
   
   public ICloudResource[] fetchResources( final ICloudContainer parent,
-                                         final ICloudProvider cp,
-                                         final ICloudResourceCategory category,
-                                         final boolean exclusive,
-                                         final Class< ? extends ICloudResource > typeFilter,
-                                         final IProgressMonitor monitor ) 
+                                          final ICloudProvider cp,
+                                          final ICloudResourceCategory category,
+                                          final boolean exclusive,
+                                          final Class< ? extends ICloudResource > typeFilter,
+                                          final IProgressMonitor monitor ) 
   throws ProblemException;
-  
-  
+ 
   
 }

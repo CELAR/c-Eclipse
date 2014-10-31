@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.Path;
 import eu.celar.core.ICoreProblems;
 import eu.celar.core.internal.Activator;
 import eu.celar.core.internal.model.CloudProviderManager;
+import eu.celar.core.internal.model.ProjectCloudProvider;
 import eu.celar.core.model.ICloudContainer;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
@@ -98,8 +99,7 @@ public abstract class AbstractCloudProvider
   }
   
   public ICloudResourceCategory[] getSupportedCategories() {
-//    return ProjectCloudProvider.standardCategories;
-    return null;
+    return ProjectCloudProvider.standardCategories;
   }
   
   
@@ -305,6 +305,70 @@ public abstract class AbstractCloudProvider
       }
     }
     return resourcesSet.toArray( new ICloudDeploymentService[resourcesSet.size()] );    
+  }
+  
+  
+  public ICloudResource[] getAvailableResources( final ICloudResourceCategory category,
+                                                final boolean exclusive,
+                                                final IProgressMonitor monitor )
+    throws ProblemException
+  {
+    ICloudResource[] resources = null;
+//    if( category.equals( CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_JOB_SERVICES ) ) )
+//    {
+//      resources = getJobSubmissionServices( monitor );
+//    } else 
+    if( category.equals( CloudResourceCategoryFactory.getCategory( CloudResourceCategoryFactory.ID_SERVICES ) ) )
+    {
+      resources = getServices( monitor );
+    } else {
+      ICloudInfoService infoService = getInfoService();
+      if( infoService != null ) {
+        resources = infoService.fetchResources( this,
+                                                this,
+                                                category,
+                                                false,
+                                                null,
+                                                monitor );
+      }
+    }
+    Set<ICloudResource> resourcesSet = new HashSet<ICloudResource>();
+/*    if (resources != null) resourcesSet.addAll( Arrays.asList( resources ) );
+    //TODO add local resources, how to filter this by categories?
+    ICloudElement[] children = getChildren( null );
+    for ( ICloudElement child : children ) {
+      if ( child instanceof ICloudResource ) {
+        resourcesSet.add( ( ICloudResource )child );
+      }
+    }
+    resources = resourcesSet.toArray( new ICloudResource[resourcesSet.size()] );*/
+    return resources;
+  }
+  
+  public ICloudService[] getServices( final IProgressMonitor monitor )
+      throws ProblemException {
+    ICloudResource[] resources = null;
+    ICloudInfoService infoService = getInfoService();
+    
+    if ( infoService != null ) {
+      resources = infoService.fetchResources( this,
+                                              this,
+                                              CloudResourceCategoryFactory
+                                              .getCategory( CloudResourceCategoryFactory.ID_SERVICES ),
+                                              false,
+                                              ICloudService.class,
+                                              monitor );
+    }
+    //add local services
+    Set<ICloudResource> resourcesSet = new HashSet<ICloudResource>();
+    if (resources != null) resourcesSet.addAll( Arrays.asList( resources ) );
+    ICloudElement[] children = getChildren( null );
+    for ( ICloudElement child : children ) {
+      if ( child instanceof ICloudService ) {
+        resourcesSet.add( ( ICloudResource )child );
+      }
+    }
+    return resourcesSet.toArray( new ICloudService[resourcesSet.size()] );    
   }
   
   public ICloudInfoService getInfoService()

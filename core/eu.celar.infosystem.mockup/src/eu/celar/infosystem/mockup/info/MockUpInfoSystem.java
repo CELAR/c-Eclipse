@@ -11,9 +11,11 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 
+import eu.celar.infosystem.model.base.KeyPair;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualNetwork;
 
 
 
@@ -25,8 +27,8 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 public class MockUpInfoSystem  {
   
   private static MockUpInfoSystem instance = null;
-  private AmazonAWSFetch resourceFetcher;
-//  private OpenStackFetch resourceFetcher;
+//  private AmazonAWSFetch resourceFetcher;
+  private OpenStackFetch resourceFetcher;
 //  private FetchJob resourceFetcher;
   
   /**
@@ -41,8 +43,8 @@ public class MockUpInfoSystem  {
   
   private MockUpInfoSystem () {
 //    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   
@@ -56,8 +58,8 @@ public class MockUpInfoSystem  {
   
   private MockUpInfoSystem (IFile toscaFile) {
 //    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
+//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
     this.resourceFetcher.schedule();    
   }
   
@@ -87,5 +89,13 @@ public class MockUpInfoSystem  {
 //  public ArrayList<String> getInstanceTypes () {
 //    return this.resourceFetcher.getInstanceTypes();
 //  }
+  
+  public ArrayList<VirtualNetwork> getNetworks(){
+    return this.resourceFetcher.getNetworks();
+  }
+  
+  public ArrayList<KeyPair> getKeyPairs(){
+    return this.resourceFetcher.getKeyPairs();
+  }
   
 }

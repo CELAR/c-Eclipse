@@ -14,12 +14,12 @@ import eu.celar.core.model.ICloudProvider;
  * @author Nicholas Loulloudes
  *
  */
-public abstract class AbstractInfoStore {
+public abstract class AbstractInfoCache {
   
   /**
    * @param cp
    */
-  public AbstractInfoStore (final ICloudProvider cp) {
+  public AbstractInfoCache (final ICloudProvider cp) {
     setCloudProvider (cp);
   }
 

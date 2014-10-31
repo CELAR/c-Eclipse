@@ -13,6 +13,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
 import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 import eu.celar.infosystem.model.base.VirtualMachineImageType;
 
+import eu.celar.infosystem.model.base.VirtualNetwork;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -79,6 +80,13 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * @generated
    */
   private EClass virtualMachineImageFlavorEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass virtualNetworkEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -525,6 +533,56 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getVirtualNetwork()
+  {
+    return virtualNetworkEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualNetwork_UID()
+  {
+    return (EAttribute)virtualNetworkEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualNetwork_Name()
+  {
+    return (EAttribute)virtualNetworkEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualNetwork_Description()
+  {
+    return (EAttribute)virtualNetworkEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getVirtualNetwork_URL()
+  {
+    return (EAttribute)virtualNetworkEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getVirtualMachineImageType()
   {
     return virtualMachineImageTypeEEnum;
@@ -613,6 +671,12 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     createEAttribute(virtualMachineImageFlavorEClass, VIRTUAL_MACHINE_IMAGE_FLAVOR__NAME);
     createEAttribute(virtualMachineImageFlavorEClass, VIRTUAL_MACHINE_IMAGE_FLAVOR__UID);
 
+    virtualNetworkEClass = createEClass(VIRTUAL_NETWORK);
+    createEAttribute(virtualNetworkEClass, VIRTUAL_NETWORK__UID);
+    createEAttribute(virtualNetworkEClass, VIRTUAL_NETWORK__NAME);
+    createEAttribute(virtualNetworkEClass, VIRTUAL_NETWORK__DESCRIPTION);
+    createEAttribute(virtualNetworkEClass, VIRTUAL_NETWORK__URL);
+
     // Create enums
     virtualMachineImageTypeEEnum = createEEnum(VIRTUAL_MACHINE_IMAGE_TYPE);
 
@@ -697,6 +761,12 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     initEAttribute(getVirtualMachineImageFlavor_Name(), ecorePackage.getEString(), "name", null, 1, 1, VirtualMachineImageFlavor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getVirtualMachineImageFlavor_UID(), ecorePackage.getEString(), "uID", null, 1, 1, VirtualMachineImageFlavor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(virtualNetworkEClass, VirtualNetwork.class, "VirtualNetwork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getVirtualNetwork_UID(), theXMLTypePackage.getString(), "uID", null, 1, 1, VirtualNetwork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getVirtualNetwork_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, VirtualNetwork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getVirtualNetwork_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, VirtualNetwork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getVirtualNetwork_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, VirtualNetwork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     // Initialize enums and add enum literals
     initEEnum(virtualMachineImageTypeEEnum, VirtualMachineImageType.class, "VirtualMachineImageType");
     addEEnumLiteral(virtualMachineImageTypeEEnum, VirtualMachineImageType.BASE_IMAGE);
@@ -721,7 +791,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (monitoringProbeEClass, 
        source, 
@@ -729,7 +799,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "MonitoringProbe",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_UID(), 
        source, 
@@ -738,7 +808,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_Name(), 
        source, 
@@ -747,7 +817,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_Description(), 
        source, 
@@ -756,7 +826,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_URL(), 
        source, 
@@ -765,7 +835,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (resizingActionEClass, 
        source, 
@@ -773,7 +843,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "ResizingAction",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getResizingAction_UID(), 
        source, 
@@ -782,7 +852,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_Name(), 
        source, 
@@ -791,7 +861,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_Description(), 
        source, 
@@ -800,7 +870,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_URL(), 
        source, 
@@ -809,7 +879,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (softwareDependencyEClass, 
        source, 
@@ -817,7 +887,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "SoftwareDependency",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_UID(), 
        source, 
@@ -826,7 +896,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Name(), 
        source, 
@@ -835,7 +905,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Description(), 
        source, 
@@ -844,7 +914,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_URL(), 
        source, 
@@ -853,7 +923,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Type(), 
        source, 
@@ -862,7 +932,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageEClass, 
        source, 
@@ -870,7 +940,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "VirtualMachineImage",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_UID(), 
        source, 
@@ -879,7 +949,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Name(), 
        source, 
@@ -888,7 +958,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Description(), 
        source, 
@@ -897,7 +967,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Type(), 
        source, 
@@ -906,7 +976,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_URL(), 
        source, 
@@ -915,14 +985,14 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageTypeEEnum, 
        source, 
        new String[] 
        {
        "name", "VirtualMachineImageType"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageTypeObjectEDataType, 
        source, 
@@ -930,7 +1000,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "VirtualMachineImageType:Object",
        "baseType", "VirtualMachineImageType"
-       });		
+       });	
     addAnnotation
       (userApplicationEClass, 
        source, 
@@ -938,7 +1008,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "SoftwareDependency",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getUserApplication_UID(), 
        source, 
@@ -947,7 +1017,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Name(), 
        source, 
@@ -956,7 +1026,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Description(), 
        source, 
@@ -965,7 +1035,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_URL(), 
        source, 
@@ -974,7 +1044,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Type(), 
        source, 
@@ -983,7 +1053,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (keyPairEClass, 
        source, 
@@ -991,7 +1061,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "KeyPair",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getKeyPair_UID(), 
        source, 
@@ -1000,7 +1070,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_Name(), 
        source, 
@@ -1009,7 +1079,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_Description(), 
        source, 
@@ -1018,9 +1088,53 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_URL(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "URL",
+       "namespace", "##targetNamespace"
+       });	
+    addAnnotation
+      (virtualNetworkEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "VirtualMachineImage",
+       "kind", "elementOnly"
+       });	
+    addAnnotation
+      (getVirtualNetwork_UID(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "UID",
+       "namespace", "##targetNamespace"
+       });	
+    addAnnotation
+      (getVirtualNetwork_Name(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Name",
+       "namespace", "##targetNamespace"
+       });	
+    addAnnotation
+      (getVirtualNetwork_Description(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "Description",
+       "namespace", "##targetNamespace"
+       });	
+    addAnnotation
+      (getVirtualNetwork_URL(), 
        source, 
        new String[] 
        {

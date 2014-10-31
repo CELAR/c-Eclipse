@@ -12,10 +12,52 @@ import eu.celar.core.model.ICloudResourceCategory;
 
 /**
  * Factory class for resource categories. The class looks up all extensions
- * of the eu.geclipse.core.gridResourceCategory extension point for possible
+ * of the eu.celar.core.gridResourceCategory extension point for possible
  * implementations.
  */
 public class CloudResourceCategoryFactory {
+  
+  /**
+   * Unique ID for the default applications category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_APPLICATIONS = "eu.celar.core.model.category.applications"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default computing category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_COMPUTING = "eu.celar.core.model.category.computing"; //$NON-NLS-1$
+ 
+  
+  /**
+   * Unique ID for the default data services category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_DATA_SERVICES = "eu.celar.core.model.category.services.data"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default info services category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_INFO_SERVICES = "eu.celar.core.model.category.services.info"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default job services category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_JOB_SERVICES = "eu.celar.core.model.category.services.jobs"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default instrumentation services category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_INSTRUMENTATION_SERVICES = "eu.celar.core.model.category.services.instrumentation"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default other services category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_OTHER_SERVICES = "eu.celar.core.model.category.services.others"; //$NON-NLS-1$
+  
+  /**
+   * Unique ID for the default storage category as defined by the g-Eclipse core plug-in.
+   */
+  public static final String ID_STORAGE = "eu.celar.core.model.category.storage"; //$NON-NLS-1$
+  
   
   
   /**

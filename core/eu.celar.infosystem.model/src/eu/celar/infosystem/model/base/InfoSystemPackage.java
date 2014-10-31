@@ -452,6 +452,61 @@ public interface InfoSystemPackage extends EPackage
   int VIRTUAL_MACHINE_IMAGE_FLAVOR_FEATURE_COUNT = 2;
 
   /**
+   * The meta object id for the '{@link eu.celar.infosystem.model.base.impl.VirtualNetworkImpl <em>Virtual Network</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see eu.celar.infosystem.model.base.impl.VirtualNetworkImpl
+   * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualNetwork()
+   * @generated
+   */
+  int VIRTUAL_NETWORK = 7;
+
+  /**
+   * The feature id for the '<em><b>UID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_NETWORK__UID = 0;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_NETWORK__NAME = 1;
+
+  /**
+   * The feature id for the '<em><b>Description</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_NETWORK__DESCRIPTION = 2;
+
+  /**
+   * The feature id for the '<em><b>URL</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_NETWORK__URL = 3;
+
+  /**
+   * The number of structural features of the '<em>Virtual Network</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VIRTUAL_NETWORK_FEATURE_COUNT = 4;
+
+  /**
    * The meta object id for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -459,7 +514,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageType()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE = 7;
+  int VIRTUAL_MACHINE_IMAGE_TYPE = 8;
 
   /**
    * The meta object id for the '<em>Virtual Machine Image Type Object</em>' data type.
@@ -469,7 +524,7 @@ public interface InfoSystemPackage extends EPackage
    * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualMachineImageTypeObject()
    * @generated
    */
-  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 8;
+  int VIRTUAL_MACHINE_IMAGE_TYPE_OBJECT = 9;
 
 
   /**
@@ -862,6 +917,60 @@ public interface InfoSystemPackage extends EPackage
   EAttribute getVirtualMachineImageFlavor_UID();
 
   /**
+   * Returns the meta object for class '{@link eu.celar.infosystem.model.base.VirtualNetwork <em>Virtual Network</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Virtual Network</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork
+   * @generated
+   */
+  EClass getVirtualNetwork();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualNetwork#getUID <em>UID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>UID</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork#getUID()
+   * @see #getVirtualNetwork()
+   * @generated
+   */
+  EAttribute getVirtualNetwork_UID();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualNetwork#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork#getName()
+   * @see #getVirtualNetwork()
+   * @generated
+   */
+  EAttribute getVirtualNetwork_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualNetwork#getDescription <em>Description</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Description</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork#getDescription()
+   * @see #getVirtualNetwork()
+   * @generated
+   */
+  EAttribute getVirtualNetwork_Description();
+
+  /**
+   * Returns the meta object for the attribute '{@link eu.celar.infosystem.model.base.VirtualNetwork#getURL <em>URL</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>URL</em>'.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork#getURL()
+   * @see #getVirtualNetwork()
+   * @generated
+   */
+  EAttribute getVirtualNetwork_URL();
+
+  /**
    * Returns the meta object for enum '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1207,6 +1316,48 @@ public interface InfoSystemPackage extends EPackage
      * @generated
      */
     EAttribute VIRTUAL_MACHINE_IMAGE_FLAVOR__UID = eINSTANCE.getVirtualMachineImageFlavor_UID();
+
+    /**
+     * The meta object literal for the '{@link eu.celar.infosystem.model.base.impl.VirtualNetworkImpl <em>Virtual Network</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see eu.celar.infosystem.model.base.impl.VirtualNetworkImpl
+     * @see eu.celar.infosystem.model.base.impl.InfoSystemPackageImpl#getVirtualNetwork()
+     * @generated
+     */
+    EClass VIRTUAL_NETWORK = eINSTANCE.getVirtualNetwork();
+
+    /**
+     * The meta object literal for the '<em><b>UID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_NETWORK__UID = eINSTANCE.getVirtualNetwork_UID();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_NETWORK__NAME = eINSTANCE.getVirtualNetwork_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_NETWORK__DESCRIPTION = eINSTANCE.getVirtualNetwork_Description();
+
+    /**
+     * The meta object literal for the '<em><b>URL</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VIRTUAL_NETWORK__URL = eINSTANCE.getVirtualNetwork_URL();
 
     /**
      * The meta object literal for the '{@link eu.celar.infosystem.model.base.VirtualMachineImageType <em>Virtual Machine Image Type</em>}' enum.

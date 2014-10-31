@@ -12,19 +12,26 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.jclouds.compute.ComputeService;
+import org.jclouds.openstack.neutron.v2.domain.Network;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
+import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 import org.jclouds.openstack.nova.v2_0.domain.ServerCreated;
 import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
+import org.jclouds.openstack.nova.v2_0.features.FlavorApi;
 import org.jclouds.openstack.nova.v2_0.features.ServerApi;
 import org.jclouds.openstack.nova.v2_0.options.CreateServerOptions;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Ordering;
 
 import eu.celar.connectors.openstack.OpenStackClient;
 import eu.celar.core.model.ICloudProject;
@@ -64,12 +71,12 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
     setException( null );
     try {
  
-      NovaApi nova = OpenStackClient.getInstance().getNova();
+      NovaApi nova = OpenStackClient.getInstance().getNova();      
       //TODO - Hack for Nephelae. Only one region there. Fix it for other providers with more zones.
-      String zone = "RegionOne";
-      ServerApi serverApi = nova.getServerApiForZone( zone );
+      String zone = "regionOne";
       KeyPairApi keyPairApi = nova.getKeyPairExtensionForZone( zone ).get();      
-      
+      ServerApi serverApi = nova.getServerApiForZone( zone );      
+            
       TOSCAModel toscaModel = this.toscaResource.getTOSCAModel();
       TServiceTemplate serviceTemplate = toscaModel.getServiceTemplate();
       if( serviceTemplate != null ) {
@@ -92,6 +99,7 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
               String keypairName = null;
               KeyPair keyPair = null;
               boolean keyPairExists = false;
+              String networks = null;
               
                         
               for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
@@ -102,13 +110,19 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                   amiID = artifact.getName();
                 } else if( artifactType.equals( "KeyPair" ) ) { //$NON-NLS-1$
                   keyPairArtifact = artifact.getName();
+                } else if (artifactType.equals( "Network" )) {
+                  networks = artifact.getName() ;
                 }
                 
                 if (keyPairArtifact != null) {
                   String encodedPublicKey = importKeyPair(keyPairArtifact, this.project); 
                                     
                   //Strip extension. - Get file name only
-                  keypairName = keyPairArtifact.substring( 0, keyPairArtifact.indexOf( "." ) ); //$NON-NLS-1$
+                  if (encodedPublicKey != null) {
+                    keypairName = keyPairArtifact.substring( 0, keyPairArtifact.indexOf( "." ) ); //$NON-NLS-1$
+                  } else {
+                    keypairName = keyPairArtifact;
+                  }
                   keyPairExists = keyPairExists( keyPairApi, keypairName );
                   if (!keyPairExists){
                     keyPair = keyPairApi.createWithPublicKey( keypairName, encodedPublicKey );
@@ -118,7 +132,8 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                 
               }
               
-              CreateServerOptions sv = CreateServerOptions.Builder.adminPass("nickl"); //$NON-NLS-1$
+              CreateServerOptions sv = CreateServerOptions.Builder.adminPass("nickl").networks( networks ); //$NON-NLS-1$
+              
               
               if (!keyPairExists) {
                 if (keyPair != null) {
@@ -129,9 +144,8 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
               }
               
               
-              ServerCreated newServer = serverApi.create(node.getName(), amiID, "1", sv);              
-              
-
+              ServerCreated newServer = serverApi.create(node.getName(), amiID, "3", sv);   
+  
             }
           }
         }
@@ -142,6 +156,18 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
       ex.printStackTrace();
     }
   }
+  
+  protected String flavorRefForRegion(NovaApi api, String regionId) {
+    FlavorApi flavorApi = api.getFlavorApiForZone(regionId);
+    return DEFAULT_FLAVOR_ORDERING.min(flavorApi.listInDetail().concat()).getId();
+ }
+  
+  static final Ordering<Flavor> DEFAULT_FLAVOR_ORDERING = new Ordering<Flavor>() {
+    public int compare(Flavor left, Flavor right) {
+       return ComparisonChain.start().compare(left.getVcpus(), right.getVcpus()).compare(left.getRam(), right.getRam())
+             .compare(left.getDisk(), right.getDisk()).result();
+    }
+ };
   
   
   public Object getResult() {
@@ -169,33 +195,37 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
    * @param keyp
    * @throws IOException 
    */
-  private static String importKeyPair( final String publicKeyFile, final ICloudProject project) throws IOException {    
+  private static String importKeyPair( final String publicKeyFile,
+                                       final ICloudProject project )
+    throws IOException
+  {
     /* Read Public Key */
     String encodedPublicKey = null;
     BufferedReader br = null;
     try {
-     
-//      ICloudElement element = CloudModel.getRoot().findChildWithResource( publicKeyFile );
-      
-      // For now get the File 
+      // ICloudElement element = CloudModel.getRoot().findChildWithResource(
+      // publicKeyFile );
+      // For now get the File
       // TODO - Incorporate Keypairs in CloudModel
-      File file = new File(Platform.getLocation() + "/" + project.getName() + "/Artifacts/Deployment Scripts/" + publicKeyFile); //$NON-NLS-1$ //$NON-NLS-2$
-           
-      br = new BufferedReader( new FileReader( file ) );
-      encodedPublicKey = br.readLine();
-      
-    } catch (IOException ioe) {
-        throw ioe;
+      File file = new File( Platform.getLocation()
+                            + "/" + project.getName() + "/Artifacts/Deployment Scripts/" + publicKeyFile ); //$NON-NLS-1$ //$NON-NLS-2$
+      if( file.exists() ) {
+        br = new BufferedReader( new FileReader( file ) );
+        encodedPublicKey = br.readLine();
+        encodedPublicKey.trim();
+      }
+    } catch( IOException ioe ) {
+      throw ioe;
     } finally {
-        if (br != null) {
-            try {
-                br.close();
-                br = null;
-            } catch (IOException ioe) {
-                throw ioe;
-            }
+      if( br != null ) {
+        try {
+          br.close();
+          br = null;
+        } catch( IOException ioe ) {
+          throw ioe;
         }
+      }
     }
-    return encodedPublicKey.trim();
+    return encodedPublicKey;
   }
 }

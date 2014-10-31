@@ -8,6 +8,7 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
+import eu.celar.connectors.aws.info.IAWSServiceCreator;
 import eu.celar.connectors.aws.internal.Activator;
 import eu.celar.core.Extensions;
 import eu.celar.core.model.CloudModel;

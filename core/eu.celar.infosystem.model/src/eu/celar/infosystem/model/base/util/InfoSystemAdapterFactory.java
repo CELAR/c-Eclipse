@@ -110,6 +110,11 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
         return createVirtualMachineImageFlavorAdapter();
       }
       @Override
+      public Adapter caseVirtualNetwork(VirtualNetwork object)
+      {
+        return createVirtualNetworkAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -232,6 +237,21 @@ public class InfoSystemAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createVirtualMachineImageFlavorAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link eu.celar.infosystem.model.base.VirtualNetwork <em>Virtual Network</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see eu.celar.infosystem.model.base.VirtualNetwork
+   * @generated
+   */
+  public Adapter createVirtualNetworkAdapter()
   {
     return null;
   }

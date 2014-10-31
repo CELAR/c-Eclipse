@@ -86,6 +86,15 @@ public interface InfoSystemFactory extends EFactory
   VirtualMachineImageFlavor createVirtualMachineImageFlavor();
 
   /**
+   * Returns a new object of class '<em>Virtual Network</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Virtual Network</em>'.
+   * @generated
+   */
+  VirtualNetwork createVirtualNetwork();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

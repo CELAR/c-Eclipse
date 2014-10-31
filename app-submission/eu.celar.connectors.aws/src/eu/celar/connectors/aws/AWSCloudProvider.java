@@ -13,6 +13,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import eu.celar.connectors.aws.info.AWSInfoService;
+import eu.celar.connectors.aws.info.IAWSCategories;
+import eu.celar.connectors.aws.info.IAWSServiceCreator;
 import eu.celar.connectors.aws.internal.Activator;
 import eu.celar.connectors.aws.internal.Messages;
 import eu.celar.core.Extensions;
@@ -26,6 +28,7 @@ import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.ICloudResourceCategory;
 import eu.celar.core.model.ISerializableElement;
 import eu.celar.core.model.impl.AbstractCloudProvider;
+import eu.celar.core.model.impl.CloudResourceCategoryFactory;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -54,17 +57,25 @@ public class AWSCloudProvider extends AbstractCloudProvider {
    * The id of the wizard to use for VO creation as specified in the
    * <code>plugin.xml</code>.
    */
-  private static final String AWS_VO_WIZARD_ID = "eu.celar.connectors.aws.ui.wizard.awsCloudProviderWizard"; //$NON-NLS-1$
+  private static final String AWS_CP_WIZARD_ID = "eu.celar.connectors.aws.ui.wizard.awsCloudProviderWizard"; //$NON-NLS-1$
 
   /**
    * The type name of this VO implementation.
    */
-  private static final String VO_TYPE_NAME = Messages.getString( "AWSCloudProvider.cp_type_name" ); //$NON-NLS-1$
+  private static final String CP_TYPE_NAME = Messages.getString( "AWSCloudProvider.cp_type_name" ); //$NON-NLS-1$
 
   /**
    * Name of this Cloud Provider used in the {@link IFileStore}.
    */
   private String cpName;
+  
+  /** The categories published by this {@link IVirtualOrganization}. */
+  public static ICloudResourceCategory[] STANDARD_RESOURCE_CATEGORIES = new ICloudResourceCategory[]{
+    CloudResourceCategoryFactory.getCategory( IAWSCategories.CATEGORY_AWS_IMAGES ),
+    CloudResourceCategoryFactory.getCategory( IAWSCategories.CATEGORY_AWS_NETWORKING ),
+    CloudResourceCategoryFactory.getCategory( IAWSCategories.CATEGORY_AWS_SECURITY),
+    CloudResourceCategoryFactory.getCategory( IAWSCategories.CATEGORY_AWS_STORAGE )
+  };
 
 
   /**
@@ -119,13 +130,13 @@ public class AWSCloudProvider extends AbstractCloudProvider {
    * This Method transfers the name and the properties of the
    * {@link AWSCloudProviderCreator} to the {@link AWSCloudProvider}.
    * 
-   * @param voCreator the {@link AWSCloudProviderCreator} to apply the data from
+   * @param cpCreator the {@link AWSCloudProviderCreator} to apply the data from
    * @throws GridModelExc8eption arises when interaction with the
    *           {@link GridModel} fails
    */
-  void apply( final AWSCloudProviderCreator voCreator ) throws ProblemException {
-    this.cpName = voCreator.getCloudProviderName();
-    AWSCloudProviderProperties voProperties = new AWSCloudProviderProperties( this, voCreator );
+  void apply( final AWSCloudProviderCreator cpCreator ) throws ProblemException {
+    this.cpName = cpCreator.getCloudProviderName();
+    AWSCloudProviderProperties voProperties = new AWSCloudProviderProperties( this, cpCreator );
     // add properties to this vo, replacing the existing props
     addElement( voProperties );
 
@@ -194,8 +205,8 @@ public class AWSCloudProvider extends AbstractCloudProvider {
                      problemEx );
     }
 
-//    Collections.addAll( categoriesList,
-//                        AWSCloudProvider.STANDARD_RESOURCE_CATEGORIES );
+    Collections.addAll( categoriesList,
+                        AWSCloudProvider.STANDARD_RESOURCE_CATEGORIES );
     return categoriesList.toArray( new ICloudResourceCategory[ categoriesList.size() ] );
   }
 
@@ -214,11 +225,11 @@ public class AWSCloudProvider extends AbstractCloudProvider {
   }
 
   public String getTypeName() {
-    return AWSCloudProvider.VO_TYPE_NAME;
+    return AWSCloudProvider.CP_TYPE_NAME;
   }
 
   public String getWizardId() {
-    return AWSCloudProvider.AWS_VO_WIZARD_ID;
+    return AWSCloudProvider.AWS_CP_WIZARD_ID;
   }
 
   public boolean isLazy() {

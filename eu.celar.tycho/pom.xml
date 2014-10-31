@@ -105,5 +105,9 @@
 		<module>../eu.celar.tycho.target</module>
 		<module>../eu.celar.tycho.feature</module>
 		<module>../eu.celar.tycho.p2.updatesite</module>
+		
+		
+		<module>../core/eu.celar.infosystem</module>
+		<module>../core/eu.celar.infosystem.ui</module>
 	</modules>
 </project> 

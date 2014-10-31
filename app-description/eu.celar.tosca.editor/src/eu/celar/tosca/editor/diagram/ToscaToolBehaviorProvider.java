@@ -43,6 +43,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.IToolEntry;
+import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
@@ -65,6 +66,7 @@ import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
 import eu.celar.infosystem.model.base.VirtualMachineImageType;
+import eu.celar.infosystem.model.base.VirtualNetwork;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.ToscaFactory;
@@ -73,6 +75,7 @@ import eu.celar.tosca.editor.features.CreateApplicationComponentFeature;
 import eu.celar.tosca.editor.features.CreateGroupFeature;
 import eu.celar.tosca.editor.features.CreateKeyPairFeature;
 import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
+import eu.celar.tosca.editor.features.CreateNetworkFeature;
 import eu.celar.tosca.editor.features.CreateResizeActionFeature;
 import eu.celar.tosca.editor.features.CreateSoftwareDependencyFeature;
 import eu.celar.tosca.editor.features.CreateUserApplicationFeature;
@@ -214,6 +217,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     
     this.mockUpInfoSystemInstance = MockUpInfoSystem.getInstance();
     addVMImageCompartment( ret );
+    addNetworkCompartment( ret );
     addMonitorProbeCompartment( ret );
     addResizeActionsCompartment( ret );
     
@@ -222,6 +226,53 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
     addDeployScriptCompartment( ret );
 
     return ret.toArray( new IPaletteCompartmentEntry[ ret.size() ] );
+  }
+
+  private void addNetworkCompartment( final List<IPaletteCompartmentEntry> ret ) {
+    
+    ArrayList<VirtualNetwork> networks = this.mockUpInfoSystemInstance.getNetworks();
+    // add new compartment at the end of the existing compartments
+    PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Networks", null ); //$NON-NLS-1$
+    compartmentEntry.setInitiallyOpen( false );
+    ret.add( compartmentEntry );
+    for( VirtualNetwork vn : networks ) {
+      // add new stack entry to new compartment
+      StackEntry stackEntry = new StackEntry( vn.getUID(), vn.getName(), null );
+      compartmentEntry.addToolEntry( stackEntry );
+      compartmentEntry.setInitiallyOpen( false );
+      // add all create-features to the new stack-entry
+      IFeatureProvider featureProvider = getFeatureProvider();
+      ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+      for( ICreateFeature cf : createFeatures ) {
+        if( cf instanceof CreateNetworkFeature ) {
+          CreateNetworkFeature vnCF = ( CreateNetworkFeature )cf;
+
+          TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
+          deploymentArtifact.setName( vn.getUID() );
+          deploymentArtifact.setArtifactType( new QName( "Network" ) );
+          vnCF.setContextObject( deploymentArtifact );
+
+          ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vn.getUID(),
+                                                                                         vnCF.getName(),
+                                                                                         vnCF.getCreateImageId(),
+                                                                                         vnCF.getCreateLargeImageId(),
+                                                                                         vnCF );
+          stackEntry.addCreationToolEntry( objectCreationToolEntry );
+          
+        }
+      }
+      
+      // add all create-connection-features to the new stack-entry
+      ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
+      for( ICreateConnectionFeature cf : createConnectionFeatures ) {
+        ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( vn.getName(),
+                                                                                                   cf.getName(),
+                                                                                                   cf.getCreateImageId(),
+                                                                                                   cf.getCreateLargeImageId() );
+        connectionCreationToolEntry.addCreateConnectionFeature( cf );
+        stackEntry.addCreationToolEntry( connectionCreationToolEntry );
+      }
+    }    
   }
 
   /**
@@ -449,6 +500,10 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           }
         }
       }
+      
+      // Now check the InfoService for additional KeyPairs
+      keyPairList.addAll( this.mockUpInfoSystemInstance.getKeyPairs() );
+      
       // add new compartment at the end of the existing compartments
       PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Key Pairs", null ); //$NON-NLS-1$
       ret.add( compartmentEntry );
@@ -575,6 +630,17 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           stackEntry.addCreationToolEntry( objectCreationToolEntry );
         }
       }
+      
+    // add all create-connection-features to the new stack-entry    
+    ICreateConnectionFeature[] createConnectionFeatures = featureProvider.getCreateConnectionFeatures();
+    for( ICreateConnectionFeature connFeat : createConnectionFeatures ) {
+      ConnectionCreationToolEntry connectionCreationToolEntry = new ConnectionCreationToolEntry( vmi.getName(),
+                                                                                                 connFeat.getName(),
+                                                                                                 connFeat.getCreateImageId(),
+                                                                                                 connFeat.getCreateLargeImageId() );
+      connectionCreationToolEntry.addCreateConnectionFeature( connFeat );
+      stackEntry.addCreationToolEntry( connectionCreationToolEntry );
+    }
     }
   }
   
