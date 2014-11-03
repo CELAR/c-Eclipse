@@ -12,6 +12,7 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IContext;
+import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.features.impl.AbstractFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
@@ -39,8 +40,7 @@ import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.StyleUtil;
 import eu.celar.tosca.editor.ToscaModelLayer;
 
-public class AddSoftwareDependencyFeature extends AbstractFeature
-  implements IAddFeature
+public class AddSoftwareDependencyFeature extends AbstractAddShapeFeature
 {
 
   private static final IColorConstant E_CLASS_TEXT_FOREGROUND = IColorConstant.BLACK;
@@ -156,15 +156,6 @@ public class AddSoftwareDependencyFeature extends AbstractFeature
     return containerShape;
   }
 
-  @Override
-  public boolean canExecute( final IContext context ) {
-    return false;
-  }
-
-  @Override
-  public void execute( final IContext context ) {
-    // TODO Auto-generated method stub
-  }
   
 //  private String findImplementationArtifactName(String artifactId){
 //    ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );

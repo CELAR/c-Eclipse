@@ -8,6 +8,8 @@ import java.io.File;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
@@ -77,16 +79,19 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     }
     TArtifactTemplate artifactTemplate = ( TArtifactTemplate )this.contextObject;
     // Create Image Artifact Template
-    createArtifactTemplate( tNode.getName(), artifactTemplate.getId() );
+    TArtifactTemplate newArtifactTemplate = createArtifactTemplate( tNode.getName(), artifactTemplate.getId() );
     // Create Implementation Artifact
     createImplementationArtifact( new QName( tNode.getName() ),
                                   new QName( tNode.getName() + "Script" ) );
-    addGraphicalRepresentation( context, artifactTemplate );
+        
+    //addGraphicalRepresentation( context, artifactTemplate );
+    addGraphicalRepresentation( context, newArtifactTemplate );
+    
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
     // return newly created business object(s)
     return new Object[]{
-      artifactTemplate
+      newArtifactTemplate
     };
   }
 
@@ -114,6 +119,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
     artifactRefType.getArtifactReference().add( artifactRef );
     artifactTemplate.setArtifactReferences( artifactRefType );
+    
     // Add the new Artifact Template to the TOSCA Definitions element
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
@@ -129,6 +135,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
             .add( artifactTemplate );
         }
       } );
+    
     return artifactTemplate;
   }
 
@@ -136,9 +143,10 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
   private void createImplementationArtifact( QName nodeType,
                                                                    QName artifactID )
   {
+
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    final DefinitionsType definitions = model.getDocumentRoot()
-      .getDefinitions();
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    
     TNodeTypeImplementation nodeTypeImplementation = null;
     // Test if NodeTypeImplementation for nodeType already exists
     for( TNodeTypeImplementation tempNodeTypeImplementation : definitions.getNodeTypeImplementation() )
@@ -156,18 +164,21 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
       // NodeTypeImplementation does not exists
       final TNodeTypeImplementation newNodeTypeImplementation = ToscaFactory.eINSTANCE.createTNodeTypeImplementation();
       newNodeTypeImplementation.setNodeType( nodeType );
+      newNodeTypeImplementation.setName( "name" );
       TImplementationArtifacts implementationArtifacts = ToscaFactory.eINSTANCE.createTImplementationArtifacts();
       newNodeTypeImplementation.setImplementationArtifacts( implementationArtifacts );
+      
       TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
       editingDomain.getCommandStack()
         .execute( new RecordingCommand( editingDomain ) {
 
           @Override
           protected void doExecute() {
-            definitions.getNodeTypeImplementation()
+            model.getDocumentRoot().getDefinitions().getNodeTypeImplementation()
               .add( newNodeTypeImplementation );
           }
         } );
+      
       nodeTypeImplementation = newNodeTypeImplementation;
     }
     // Create Implementation Artifact

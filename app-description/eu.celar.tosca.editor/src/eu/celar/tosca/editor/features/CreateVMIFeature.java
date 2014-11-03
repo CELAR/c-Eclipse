@@ -126,11 +126,8 @@ public class CreateVMIFeature extends AbstractCreateFeature {
         }
       } );
     
-    //addGraphicalRepresentation( context, vmi );
-    
-    /////////////////////////////////////////////
+  
     addGraphicalRepresentation( context, deploymentArtifact );
-    /////////////////////////////////////////////
 
     //Create Image Artifact Template
    
