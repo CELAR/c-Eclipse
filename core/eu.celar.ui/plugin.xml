@@ -44,6 +44,29 @@ relationship="right"
 id="eu.celar.ui.views.CloudProjectView">
 </view>
 </perspectiveExtension>
+<perspectiveExtension
+      targetID="c-EclipsePerspective">
+   <view
+         id="org.eclipse.ui.console.ConsoleView"
+         relationship="stack">
+   </view>
+   <view
+         id="org.eclipse.ui.views.PropertySheet"
+         relationship="stack">
+   </view>
+   <view
+         id="eu.celar.ui.views.deploymentview"
+         relationship="stack">
+   </view>
+   <view
+         id="eu.celar.ui.views.authenticationTokenView"
+         relationship="stack">
+   </view>
+   <view
+         id="eu.celar.ui.views.CloudProjectView"
+         relationship="stack">
+   </view>
+</perspectiveExtension>
 </extension>
 <extension
 point="org.eclipse.help.contexts">
@@ -252,5 +275,13 @@ name="Generic Cloud Provider">
 </extension>
 <extension
 point="org.eclipse.ui.handlers">
+</extension>
+<extension
+      point="org.eclipse.ui.perspectives">
+   <perspective
+         class="eu.celar.ui.perspectives.CELARPerspectiveFactory"
+         id="c-EclipsePerspective"
+         name="c-EclipsePerspective">
+   </perspective>
 </extension>
 </plugin>

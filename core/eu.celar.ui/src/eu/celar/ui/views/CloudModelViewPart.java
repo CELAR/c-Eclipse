@@ -122,7 +122,6 @@ public abstract class CloudModelViewPart extends ViewPart implements ICloudModel
           
           ToscaDiagramEditor.db.refreshPalette(); 
         }
-          System.out.println("Palette Refreshed");
       }
   });
     

@@ -79,7 +79,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
 {
 
   private Text nameText;
-  private Text descrText;
+//  private Text descrText;
   private Text imageText;
   private Text keypairText;
   private Text initialInstancesText;
@@ -239,23 +239,23 @@ public class ApplicationComponentNameSection extends GFPropertySection
         // TODO Auto-generated method stub
       }
     } );
-    // VM Description Label
-    CLabel vmDecsrLabel = factory.createCLabel( client, "VM Description:" ); //$NON-NLS-1$
-    gd = new GridData();
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gd.widthHint = 80;
-    // gd.widthHint=STANDARD_LABEL_WIDTH;
-    // VM Description text
-    vmDecsrLabel.setLayoutData( gd );
-    this.descrText = factory.createText( client, "" ); //$NON-NLS-1$
-    this.descrText.setEditable( false );
-    gd = new GridData();
-    gd.horizontalSpan = 2;
-    gd.widthHint = 160;
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-    this.descrText.setLayoutData( gd );
+//    // VM Description Label
+//    CLabel vmDecsrLabel = factory.createCLabel( client, "VM Description:" ); //$NON-NLS-1$
+//    gd = new GridData();
+//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
+//    gd.widthHint = 80;
+//    // gd.widthHint=STANDARD_LABEL_WIDTH;
+//    // VM Description text
+//    vmDecsrLabel.setLayoutData( gd );
+//    this.descrText = factory.createText( client, "" ); //$NON-NLS-1$
+//    this.descrText.setEditable( false );
+//    gd = new GridData();
+//    gd.horizontalSpan = 2;
+//    gd.widthHint = 160;
+//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+//    this.descrText.setLayoutData( gd );
     // VM Image Flavor label
     CLabel vmImageLabel = factory.createCLabel( client, "VM Type:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -739,8 +739,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     toolkit.adapt( this.imageText, true, true );
     toolkit.adapt( keypairLabel, true, true );
     toolkit.adapt( this.keypairText, true, true );
-    toolkit.adapt( vmDecsrLabel, true, true );
-    toolkit.adapt( this.descrText, true, true);
+//    toolkit.adapt( vmDecsrLabel, true, true );
+//    toolkit.adapt( this.descrText, true, true);
     section.setClient( client );
     // Application Component Instances Section
     Section sectionInstances = toolkit.createSection( parent, Section.TITLE_BAR );
