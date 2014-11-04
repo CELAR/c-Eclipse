@@ -4,10 +4,14 @@
  ************************************************************/
 package eu.celar.tosca.editor.features;
 
+import java.io.File;
+
 import javax.xml.namespace.QName;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -21,9 +25,13 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 
 import eu.celar.infosystem.model.base.ResizingAction;
+import eu.celar.tosca.ArtifactReferencesType;
 import eu.celar.tosca.DefinitionsType;
 import eu.celar.tosca.PoliciesType;
 import eu.celar.tosca.PoliciesType1;
+import eu.celar.tosca.PropertiesType;
+import eu.celar.tosca.TArtifactReference;
+import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TPolicyTemplate;
@@ -31,7 +39,10 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ModelHandler;
 import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 public class CreateResizeActionFeature extends AbstractCreateFeature {
 
@@ -68,6 +79,8 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     String level = null;
     
     ResizingAction ra = ( ResizingAction )this.contextObject;
+    
+    createArtifactTemplate(ra.getName());
     
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
 
@@ -287,5 +300,42 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
       myConsole
     } );
     return myConsole;
+  }
+  
+  private void createArtifactTemplate( String artifactName ) {
+    // Create Artifact Template
+    final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
+    // Create Script Artifact Properties
+    ScriptArtifactPropertiesType scriptProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createScriptArtifactPropertiesType();
+    scriptProperties.setLanguage( "Shell" );
+    // Set the Properties of the Policy Template
+    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();
+    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
+    Entry e = FeatureMapUtil.createEntry( Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),
+                                          scriptProperties );
+    properties.getAny().add( e );
+    artifactTemplate.setProperties( properties );
+    artifactTemplate.setId( artifactName );
+    // Set artifact ref
+    TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
+    artifactRef.setReference( "Scripts" + File.separator + artifactName );
+    ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
+    artifactRefType.getArtifactReference().add( artifactRef );
+    artifactTemplate.setArtifactReferences( artifactRefType );
+    // Add the new Artifact Template to the TOSCA Definitions element
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
+    editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          model.getDocumentRoot()
+            .getDefinitions()
+            .getArtifactTemplate()
+            .add( artifactTemplate );
+        }
+      } );
   }
 }
