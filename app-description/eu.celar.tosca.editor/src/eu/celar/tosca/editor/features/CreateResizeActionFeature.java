@@ -19,10 +19,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.MessageConsole;
 
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.tosca.ArtifactReferencesType;
@@ -287,21 +283,6 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     return newPolicy;
   }
   
-  private MessageConsole findConsole( String name ) {
-    ConsolePlugin plugin = ConsolePlugin.getDefault();
-    IConsoleManager conMan = plugin.getConsoleManager();
-    IConsole[] existing = conMan.getConsoles();
-    for( int i = 0; i < existing.length; i++ )
-      if( name.equals( existing[ i ].getName() ) )
-        return ( MessageConsole )existing[ i ];
-    // no console found, so create a new one
-    MessageConsole myConsole = new MessageConsole( name, null );
-    conMan.addConsoles( new IConsole[]{
-      myConsole
-    } );
-    return myConsole;
-  }
-  
   private void createArtifactTemplate( String artifactName ) {
     // Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
@@ -316,6 +297,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     properties.getAny().add( e );
     artifactTemplate.setProperties( properties );
     artifactTemplate.setId( artifactName );
+    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
     artifactRef.setReference( "Scripts" + File.separator + artifactName );

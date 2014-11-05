@@ -79,10 +79,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
 {
 
   private Text nameText;
-//  private Text descrText;
   private Text imageText;
   private Text keypairText;
-  private Text initialInstancesText;
   private Text minInstancesText;
   private Text maxInstancesText;
   private CCombo cmbImageSize;
@@ -239,23 +237,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
         // TODO Auto-generated method stub
       }
     } );
-//    // VM Description Label
-//    CLabel vmDecsrLabel = factory.createCLabel( client, "VM Description:" ); //$NON-NLS-1$
-//    gd = new GridData();
-//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-//    gd.widthHint = 80;
-//    // gd.widthHint=STANDARD_LABEL_WIDTH;
-//    // VM Description text
-//    vmDecsrLabel.setLayoutData( gd );
-//    this.descrText = factory.createText( client, "" ); //$NON-NLS-1$
-//    this.descrText.setEditable( false );
-//    gd = new GridData();
-//    gd.horizontalSpan = 2;
-//    gd.widthHint = 160;
-//    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-//    gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-//    this.descrText.setLayoutData( gd );
+
     // VM Image Flavor label
     CLabel vmImageLabel = factory.createCLabel( client, "VM Type:" ); //$NON-NLS-1$
     gd = new GridData();
@@ -755,21 +737,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     layoutInstances.marginHeight = 2;
     clientInstances.setLayout( layoutInstances );
     GridData gdInstances;
-    CLabel initialInstancesLabel = factory.createCLabel( clientInstances,
-                                                         "Initial:" ); //$NON-NLS-1$
-    gdInstances = new GridData();
-    gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    // gd.widthHint=STANDARD_LABEL_WIDTH;
-    initialInstancesLabel.setLayoutData( gdInstances );
-    this.initialInstancesText = factory.createText( clientInstances, "1" ); //$NON-NLS-1$
-    this.initialInstancesText.setEditable( true );
-    gdInstances = new GridData();
-    gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
-    gdInstances.widthHint = 160;
-    this.initialInstancesText.setLayoutData( gdInstances );
-    this.initialInstancesText.addModifyListener( this );
+
     CLabel minInstancesLabel = factory.createCLabel( clientInstances, "Min:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
@@ -830,8 +798,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
       } else { // bo instanceof TNodeTemplate
         appComponent = ( TNodeTemplateExtension )bo;
       }
-      String initInstances = Integer.toString( appComponent.getInitInstances() );
-      this.initialInstancesText.setText( initInstances );
+
       String minInstances = Integer.toString( appComponent.getMinInstances() );
       String maxInstances = ( ( BigInteger )appComponent.getMaxInstances() ).toString();
       if( minInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
@@ -958,30 +925,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
                 nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
             }
           } );
-      }
-      // initialInstancesText Listener
-      else if( e.widget == this.initialInstancesText ) {
-        if( ApplicationComponentNameSection.this.initialInstancesText.getText()
-          .compareTo( "" ) == 0 ) { //$NON-NLS-1$
-          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-          editingDomain.getCommandStack()
-            .execute( new RecordingCommand( editingDomain ) {
-
-              protected void doExecute() {
-                nodeTemplate.setInitInstances( 1 );
-              }
-            } );
-        } else if( nodeTemplate.getInitInstances() != Integer.parseInt( ApplicationComponentNameSection.this.initialInstancesText.getText() ) )
-        {
-          TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-          editingDomain.getCommandStack()
-            .execute( new RecordingCommand( editingDomain ) {
-
-              protected void doExecute() {
-                nodeTemplate.setInitInstances( Integer.parseInt( ApplicationComponentNameSection.this.initialInstancesText.getText() ) );
-              }
-            } );
-        }
       }
     }
   }

@@ -33,7 +33,6 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
   
   //-1 means not specified by user
   private static int DEFAULT_MAX_INSTANCES = -1;
-  private static int DEFAULT_INIT_INSTANCES = 1;
   
   private Object contextObject = null;
 
@@ -74,7 +73,6 @@ public class CreateApplicationComponentFeature extends AbstractCreateFeature {
     
     // initialize Application Component
     // Max or Min instances == 0 => nothing specified by user
-    newClass.setInitInstances( DEFAULT_INIT_INSTANCES );
     newClass.setMinInstances( DEFAULT_MIN_INSTANCES );
     newClass.setMaxInstances(  BigInteger.valueOf( DEFAULT_MAX_INSTANCES ) );
     newClass.setId( ( "C" + ( Integer )newClass.hashCode() ).toString() );

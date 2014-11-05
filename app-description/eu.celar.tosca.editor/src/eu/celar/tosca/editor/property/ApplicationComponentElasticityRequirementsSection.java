@@ -814,6 +814,7 @@ public class ApplicationComponentElasticityRequirementsSection
     properties.getAny().add( e );
     artifactTemplate.setProperties( properties );
     artifactTemplate.setId( nodeName + "_" + artifactName + "_" + "Script" );
+    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
     artifactRef.setReference( "Scripts" + File.separator + artifactName );
