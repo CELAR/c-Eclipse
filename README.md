@@ -16,9 +16,8 @@ http://snf-153388.vm.okeanos.grnet.gr/ceclipse/p2/
 
 ###Getting Started
 
-##### Prepare c-Eclipse Prespective 
- * Open the Cloud Project View ( Windows -> Show View -> CELAR -> Cloud Project View )
- * Open the Properties View ( Windows -> Show View -> General -> Properties )
+##### Open c-Eclipse Prespective 
+ * Window -> Open Perspective -> Other -> c-EclipsePerspective -> OK
 
 #####Create a new c-Eclipse Project
  * Right Click in Cloud Project View -> New -> Other -> CELAR / CELAR Project
