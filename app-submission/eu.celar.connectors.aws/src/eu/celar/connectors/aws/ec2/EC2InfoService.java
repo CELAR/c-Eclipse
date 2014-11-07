@@ -12,9 +12,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
-import com.amazonaws.services.ec2.AmazonEC2Client;
-import com.amazonaws.services.ec2.model.Image;
+import org.jclouds.ec2.domain.Image;
 
 import eu.celar.connectors.aws.AWSCloudProvider;
 import eu.celar.connectors.aws.EC2Client;
@@ -238,7 +236,7 @@ public class EC2InfoService extends AbstractCloudInfoSystem implements IExtended
 
       for( Image ami : operation.getResult() ) {
         VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
-        vmi.setUID( ami.getImageId() );
+        vmi.setUID( ami.getId() );
         vmi.setDescription( ami.getDescription() );
         vmi.setName( ami.getName() );
         vmi.setURL( ami.getImageLocation() );
@@ -252,8 +250,8 @@ public class EC2InfoService extends AbstractCloudInfoSystem implements IExtended
     return null;
   }
   
-  private AmazonEC2Client getEc2() {
-    return EC2Client.getEC2();
+  private EC2Client getEc2() {
+    return EC2Client.getInstance();
  }
 
   @Override

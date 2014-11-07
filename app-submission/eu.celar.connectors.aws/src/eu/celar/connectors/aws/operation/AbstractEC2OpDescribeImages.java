@@ -2,7 +2,8 @@ package eu.celar.connectors.aws.operation;
 
 import java.util.List;
 
-import com.amazonaws.services.ec2.model.Image;
+import org.jclouds.ec2.domain.Image;
+
 
 
 /**

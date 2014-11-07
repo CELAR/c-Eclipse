@@ -8,11 +8,18 @@
 package eu.celar.connectors.aws;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jclouds.ContextBuilder;
+import org.jclouds.apis.ApiMetadata;
+import org.jclouds.cloudwatch.CloudWatchApi;
+import org.jclouds.cloudwatch.CloudWatchApiMetadata;
+import org.jclouds.compute.ComputeService;
+import org.jclouds.compute.ComputeServiceContext;
+import org.jclouds.ec2.EC2Api;
+import org.jclouds.ec2.EC2ApiMetadata;
+import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.RegionUtils;
-import com.amazonaws.services.ec2.AmazonEC2Client;
+import com.google.common.collect.ImmutableSet;
+import com.google.inject.Module;
 
 import eu.celar.connectors.aws.auth.AWSAuthToken;
 import eu.celar.connectors.aws.auth.AWSAuthTokenDescription;
@@ -23,64 +30,156 @@ import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.reporting.ProblemException;
 
-
 /**
  * @author Nicholas Loulloudes
  *
  */
 public class EC2Client {
-  private static AmazonEC2Client ec2;
-  private static AWSCredentials awsCredentials;
-  
-  public static AmazonEC2Client getEC2() {
-    if( ec2 == null ) {
-      awsCredentials = getAWSAuthCredentials();
-      if( awsCredentials != null ) {
-        ec2 = new AmazonEC2Client( awsCredentials );
-        ec2.setRegion( RegionUtils.getRegion( "eu-west-1" ) ); //$NON-NLS-1$        
-      }
-    }
-    return ec2;
-  }
-  
-  public static AWSCredentials getCredentials() {
-    if (awsCredentials != null) {
-      awsCredentials = getAWSAuthCredentials();
-    }
-    return awsCredentials;
-  }
-  
-  private static AWSCredentials getAWSAuthCredentials()  {
-    AWSCredentials credentials = null;
-    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
-    ICloudElement[] children;
-    try {
-      children = cpManager.getChildren( new NullProgressMonitor() );
-      String accessId = null;
-      for( ICloudElement CloudElement : children ) {
-        if( CloudElement instanceof AWSCloudProvider ) {
-          AWSCloudProvider awsCp = ( AWSCloudProvider )CloudElement;
-          accessId = awsCp.getProperties().getAwsAccessId();
-        }
-      }
-      if( accessId != null ) {
-        // get the auth token
-        AWSAuthTokenDescription awsAuthTokenDesc = new AWSAuthTokenDescription( accessId );
-        AuthTokenRequest request = new AuthTokenRequest( awsAuthTokenDesc,
-                                                         "AmazonAWSFetch", //$NON-NLS-1$
-                                                         "Fectch AWS Info" ); //$NON-NLS-1$
-        AWSAuthToken awsAuthToken = ( AWSAuthToken )AbstractAuthTokenProvider.staticRequestToken( request );
-        if( awsAuthToken != null ) {
-          credentials = new BasicAWSCredentials( awsAuthTokenDesc.getAwsAccessId(),
-                                                    awsAuthTokenDesc.getAwsSecretId() );
-        }
-      }
-    } catch( ProblemException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
 
-    
-    return credentials;
-  }
+	private static EC2Client instance = null;
+	private static EC2Api ec2Api = null;
+	private static CloudWatchApi cloudWatchApi;
+	private static ContextBuilder computeContextBuilder = null;
+	private static ContextBuilder cloudWatchContextBuilder = null;
+	private static ComputeService computeService = null;
+	private static String REGION = "eu-west-1";
+
+	// public static AmazonEC2Client getInstance() {
+	// if( ec2 == null ) {
+	// awsCredentials = getAWSAuthCredentials();
+	// if( awsCredentials != null ) {
+	// ec2 = new AmazonEC2Client( awsCredentials );
+	//        ec2.setRegion( RegionUtils.getRegion( "eu-west-1" ) ); //$NON-NLS-1$        
+	// }
+	// }
+	// return ec2;
+	// }
+
+	public static EC2Client getInstance() {
+		if (instance == null) {
+			instance = new EC2Client();
+		}
+		return instance;
+	}
+
+
+	// public static AWSCredentials getCredentials() {
+	// if (awsCredentials != null) {
+	// awsCredentials = getAWSAuthCredentials();
+	// }
+	// return awsCredentials;
+	// }
+
+	private EC2Client() {
+		if (computeContextBuilder == null) {
+			computeContextBuilder = getContextBuilder(new EC2ApiMetadata());
+			if (computeContextBuilder != null) {
+				ec2Api = computeContextBuilder.buildApi(EC2Api.class);
+				computeContextBuilder.buildView(ComputeServiceContext.class).getComputeService();
+			}
+		}
+		
+		if (cloudWatchContextBuilder == null) {
+			cloudWatchContextBuilder = getContextBuilder(new CloudWatchApiMetadata());
+			if (cloudWatchContextBuilder != null) {
+				cloudWatchApi = cloudWatchContextBuilder.buildApi(CloudWatchApi.class);
+			}
+		}
+	}
+
+	private static ContextBuilder getContextBuilder(final ApiMetadata metadata) {
+		ContextBuilder cb = null;
+
+		ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
+		ICloudElement[] children;
+
+		/*
+		 * Get the Authentication details for the specific Cloud provider
+		 */
+		try {
+			children = cpManager.getChildren(new NullProgressMonitor());
+			String accessId = null;
+			for (ICloudElement CloudElement : children) {
+				if (CloudElement instanceof AWSCloudProvider) {
+					AWSCloudProvider awsCp = (AWSCloudProvider) CloudElement;
+					accessId = awsCp.getProperties().getAwsAccessId();
+				}
+			}
+			if (accessId != null) {
+				// get the auth token
+				AWSAuthTokenDescription awsAuthTokenDesc = new AWSAuthTokenDescription(
+						accessId);
+				AuthTokenRequest request = new AuthTokenRequest(
+						awsAuthTokenDesc, "AmazonAWSFetch", //$NON-NLS-1$
+						"Fectch AWS Info"); //$NON-NLS-1$
+				AWSAuthToken awsAuthToken = (AWSAuthToken) AbstractAuthTokenProvider
+						.staticRequestToken(request);
+				if (awsAuthToken != null) {
+					Iterable<Module> modules = ImmutableSet
+							.<Module> of(new SLF4JLoggingModule());
+					cb = ContextBuilder
+							.newBuilder(metadata)
+							.credentials(awsAuthTokenDesc.getAwsAccessId(),
+									awsAuthTokenDesc.getAwsSecretId())
+							.modules(modules);
+				}
+			}
+		} catch (ProblemException e) {
+			e.printStackTrace();
+		}
+
+		return cb;
+	}
+
+	// private static AWSCredentials getAWSAuthCredentials() {
+	// AWSCredentials credentials = null;
+	// ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
+	// ICloudElement[] children;
+	// try {
+	// children = cpManager.getChildren( new NullProgressMonitor() );
+	// String accessId = null;
+	// for( ICloudElement CloudElement : children ) {
+	// if( CloudElement instanceof AWSCloudProvider ) {
+	// AWSCloudProvider awsCp = ( AWSCloudProvider )CloudElement;
+	// accessId = awsCp.getProperties().getAwsAccessId();
+	// }
+	// }
+	// if( accessId != null ) {
+	// // get the auth token
+	// AWSAuthTokenDescription awsAuthTokenDesc = new AWSAuthTokenDescription(
+	// accessId );
+	// AuthTokenRequest request = new AuthTokenRequest( awsAuthTokenDesc,
+	//                                                         "AmazonAWSFetch", //$NON-NLS-1$
+	//                                                         "Fectch AWS Info" ); //$NON-NLS-1$
+	// AWSAuthToken awsAuthToken = ( AWSAuthToken
+	// )AbstractAuthTokenProvider.staticRequestToken( request );
+	// if( awsAuthToken != null ) {
+	// credentials = new BasicAWSCredentials( awsAuthTokenDesc.getAwsAccessId(),
+	// awsAuthTokenDesc.getAwsSecretId() );
+	// }
+	// }
+	// } catch( ProblemException e ) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	//
+	// return credentials;
+	// }
+
+	public ComputeService getComputeService() {
+		return EC2Client.computeService;
+	}
+	
+	public EC2Api getEC2Api(){
+		return EC2Client.ec2Api;
+	}
+	
+	public String getRegion(){
+		return EC2Client.REGION;
+	}
+	
+	public CloudWatchApi getCloudWatchApi() {
+		return cloudWatchApi;
+	}
 }

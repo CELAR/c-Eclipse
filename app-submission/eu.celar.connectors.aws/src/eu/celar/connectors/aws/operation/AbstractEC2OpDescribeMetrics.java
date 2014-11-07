@@ -2,7 +2,8 @@ package eu.celar.connectors.aws.operation;
 
 import java.util.List;
 
-import com.amazonaws.services.cloudwatch.model.Metric;
+import org.jclouds.cloudwatch.domain.Metric;
+
 
 /**
  * This base class provides some common functionality for classes wanting to

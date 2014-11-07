@@ -1,14 +1,11 @@
 package eu.celar.connectors.aws.operation;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import com.amazonaws.regions.RegionUtils;
-import com.amazonaws.services.cloudwatch.AmazonCloudWatch;
-import com.amazonaws.services.cloudwatch.AmazonCloudWatchClient;
-import com.amazonaws.services.cloudwatch.model.ListMetricsRequest;
-import com.amazonaws.services.cloudwatch.model.ListMetricsResult;
-import com.amazonaws.services.cloudwatch.model.Metric;
-import com.amazonaws.services.ec2.AmazonEC2;
+import org.jclouds.cloudwatch.CloudWatchApi;
+import org.jclouds.cloudwatch.domain.Metric;
+
+import com.google.common.collect.ImmutableSet;
 
 import eu.celar.connectors.aws.EC2Client;
 
@@ -21,18 +18,19 @@ import eu.celar.connectors.aws.EC2Client;
  */
 public class EC2OpDescribeMetrics extends AbstractEC2OpDescribeMetrics {
 
-  private final AmazonEC2 ec2;
-  private final AmazonCloudWatch cloudWatch;
+  private final EC2Client ec2;
+  private final CloudWatchApi cloudWatch;
   /**
    * Creates a new {@link EC2OpDescribeMetrics} with the given owners as
    * parameter.
    * 
    * @param ec2 the {@link AmazonEC2} to obtain data from
    */
-  public EC2OpDescribeMetrics( final AmazonEC2 ec2 ) {
+  public EC2OpDescribeMetrics( final EC2Client ec2 ) {
     this.ec2 = ec2;
-    this.cloudWatch = new AmazonCloudWatchClient( EC2Client.getCredentials() );
-    this.cloudWatch.setRegion( RegionUtils.getRegion( "eu-west-1" ) );
+    this.cloudWatch = ec2.getCloudWatchApi();
+//    this.cloudWatch = new AmazonCloudWatchClient( EC2Client.getCredentials() );
+//    this.cloudWatch.setRegion( RegionUtils.getRegion( "eu-west-1" ) );
   }
  
 
@@ -41,13 +39,12 @@ public class EC2OpDescribeMetrics extends AbstractEC2OpDescribeMetrics {
     setResult( null );
     setException( null );
     try {
-
-     ListMetricsRequest request = new ListMetricsRequest();
-     request.setNamespace( "AWS/EC2");
-     ListMetricsResult listMetrics = this.cloudWatch.listMetrics( request );
-     List<Metric> metrics = listMetrics.getMetrics();
-     
-      setResult( metrics );
+    	ImmutableSet<Metric> metrics = cloudWatch.getMetricApiForRegion("AWS/EC2").list().concat().toSet();
+//     ListMetricsRequest request = new ListMetricsRequest();
+//     request.setNamespace( "AWS/EC2");
+//     ListMetricsResult listMetrics = this.cloudWatch.listMetrics( request );
+//     List<Metric> metrics = listMetrics.getMetrics();
+      setResult( new ArrayList<Metric>(metrics) );
     } catch( Exception ex ) {
       setException( ex );
     }
