@@ -15,12 +15,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench,
- com.amazon.aws;bundle-version="1.0.0",
  eu.celar.connectors.openstack,
  jclouds-core;bundle-version="1.8.0",
  eu.celar.connectors.aws,
  openstack-neutron-custom;bundle-version="1.8.0",
- openstack-nova;bundle-version="1.8.0"
+ openstack-nova;bundle-version="1.8.0",
+ openstack-keystone;bundle-version="1.8.0",
+ ec2;bundle-version="1.8.0",
+ cloudwatch
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: eu.celar.infosystem.mockup.info;

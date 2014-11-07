@@ -42,6 +42,7 @@ Contains post-integration meeting codebase for CELAR Review Y2.
       <import plugin="org.eclipse.ui.workbench"/>
       <import plugin="com.amazon.aws" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="jclouds-core" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="openstack-neutron-custom" version="1.8.0" match="greaterOrEqual"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.apache.httpcomponents.httpcore"/>
       <import plugin="jclouds-compute"/>
@@ -73,10 +74,11 @@ Contains post-integration meeting codebase for CELAR Review Y2.
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="com.google.guava" version="15.0.0" match="greaterOrEqual"/>
       <import plugin="jclouds-slf4j"/>
-      <import plugin="openstack-keystone"/>
-      <import plugin="openstack-nova"/>
       <import plugin="com.google.inject"/>
-      <import plugin="openstack-neutron-custom" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="openstack-nova" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="openstack-keystone" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="ec2"/>
+      <import plugin="cloudwatch"/>
    </requires>
 
    <plugin

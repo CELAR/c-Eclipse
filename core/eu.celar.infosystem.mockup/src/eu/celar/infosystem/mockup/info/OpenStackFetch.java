@@ -17,8 +17,10 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.jclouds.compute.ComputeService;
 import org.jclouds.compute.domain.Image;
 import org.jclouds.openstack.neutron.v2.domain.Network;
+import org.jclouds.openstack.v2_0.domain.Resource;
 
 import eu.celar.connectors.openstack.OpenStackClient;
+import eu.celar.connectors.openstack.operation.OpenStackOpDescribeFlavors;
 import eu.celar.connectors.openstack.operation.OpenStackOpDescribeImages;
 import eu.celar.connectors.openstack.operation.OpenStackOpDescribeKeyPairs;
 import eu.celar.connectors.openstack.operation.OpenStackOpDescribeNetworks;
@@ -30,6 +32,7 @@ import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 import eu.celar.infosystem.model.base.VirtualNetwork;
 
 
@@ -41,14 +44,13 @@ public class OpenStackFetch extends Job  {
     
   private ComputeService computeService;
   private ArrayList<VirtualMachineImage> base_images = null;
-  private ArrayList<VirtualMachineImage> custom_images = null;
   private ArrayList<SoftwareDependency> software_dependencies = new ArrayList<SoftwareDependency>();
   private ArrayList<MonitoringProbe> monitor_probes = new ArrayList<MonitoringProbe>();
   private ArrayList<ResizingAction> resize_actions = new ArrayList<ResizingAction>();
   private ArrayList<UserApplication> user_apps = new ArrayList<UserApplication>();
   private ArrayList<VirtualNetwork> networks = new ArrayList<VirtualNetwork>();
   private ArrayList<KeyPair> keypairs = new ArrayList<KeyPair>();
-  
+  private ArrayList<VirtualMachineImageFlavor> flavors = new ArrayList<VirtualMachineImageFlavor>();
   /**
    * @param name
    */
@@ -78,7 +80,7 @@ public class OpenStackFetch extends Job  {
     IProgressMonitor localMonitor = ( monitor != null )
                                                        ? monitor
                                                        : new NullProgressMonitor();
-    localMonitor.beginTask( "Authenticating with OpenStack endpoint", 6 ); //$NON-NLS-1$
+    localMonitor.beginTask( "Authenticating with OpenStack endpoint", 7 ); //$NON-NLS-1$
     try {
       
 //      localMonitor.beginTask( "Creating OpenStack client", 1 ); //$NON-NLS-1$      
@@ -92,7 +94,6 @@ public class OpenStackFetch extends Job  {
       
       if( operation.getException() == null ) {
         int size = operation.getResult().size();
-        System.out.println("Size: " + size); //$NON-NLS-1$
         this.base_images = new ArrayList<VirtualMachineImage>( size );
         
         for( Image ami : operation.getResult() ) {
@@ -135,7 +136,21 @@ public class OpenStackFetch extends Job  {
             this.keypairs.add( key );
           }
         }
-        localMonitor.worked( 4 );
+        localMonitor.worked( 5 );
+        
+        OpenStackOpDescribeFlavors oper_flavors = new OpenStackOpDescribeFlavors();
+        new OperationExecuter().execOp( oper_flavors );
+        
+        if( oper_flavors.getException() == null ) {
+          
+          for( Resource flavor : oper_flavors.getResult() ) {
+            VirtualMachineImageFlavor vmFlavor = InfoSystemFactory.eINSTANCE.createVirtualMachineImageFlavor();
+            vmFlavor.setName(flavor.getName());
+            vmFlavor.setUID(flavor.getId());
+            this.flavors.add( vmFlavor );
+          }
+        }
+        localMonitor.worked( 6 );
         
         
       } else {
@@ -198,18 +213,9 @@ public class OpenStackFetch extends Job  {
   /**
    * @return
    */
-  public ArrayList<String> getInstanceTypes() {
+  public ArrayList<VirtualMachineImageFlavor> getFlavors() {
     
-//    InstanceType types = null;
-    
-//    InstanceType[] vals = InstanceType.values();
-//    
-//    ArrayList<String> availTypes = new ArrayList<String>();
-//    for (InstanceType t : vals) {
-//      availTypes.add( t.toString() );
-//    }
-    
-    return null;
+    return instance.flavors;
   }
   
   public ArrayList<VirtualNetwork> getNetworks(){

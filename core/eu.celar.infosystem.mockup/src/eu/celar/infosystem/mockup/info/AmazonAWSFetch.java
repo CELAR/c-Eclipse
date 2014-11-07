@@ -14,13 +14,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.cloudwatch.model.Metric;
-import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.model.Image;
-import com.amazonaws.services.ec2.model.InstanceType;
+import org.jclouds.cloudwatch.domain.Metric;
+import org.jclouds.ec2.domain.Image;
 
 import eu.celar.connectors.aws.AWSCloudProvider;
 import eu.celar.connectors.aws.EC2Client;
@@ -36,11 +31,14 @@ import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
+import eu.celar.infosystem.model.base.KeyPair;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
+import eu.celar.infosystem.model.base.VirtualNetwork;
 
 
 /**
@@ -49,7 +47,7 @@ import eu.celar.infosystem.model.base.VirtualMachineImage;
  */
 public class AmazonAWSFetch extends Job  {  
     
-  private AmazonEC2 ec2;
+  private EC2Client ec2;
   private ArrayList<VirtualMachineImage> base_images = null;
   private ArrayList<VirtualMachineImage> custom_images = null;
   private ArrayList<SoftwareDependency> software_dependencies = new ArrayList<SoftwareDependency>();
@@ -89,7 +87,7 @@ public class AmazonAWSFetch extends Job  {
     try {
       
       localMonitor.beginTask( "Creating AWS EC2 client", 6 * 10 ); //$NON-NLS-1$
-      this.ec2 = EC2Client.getEC2();
+      this.ec2 = EC2Client.getInstance();
       
       EC2OpDescribeImages imagesOperation = new EC2OpDescribeImages( this.ec2 );
       new OperationExecuter().execOp( imagesOperation );
@@ -105,7 +103,7 @@ public class AmazonAWSFetch extends Job  {
 //            continue;
 //          }
           VirtualMachineImage vmi = InfoSystemFactory.eINSTANCE.createVirtualMachineImage();
-          vmi.setUID( ami.getImageId() );
+          vmi.setUID( ami.getId() );
           vmi.setDescription( ami.getDescription() );
           vmi.setName( ami.getName() );
           vmi.setURL( ami.getImageLocation() );
@@ -135,7 +133,7 @@ public class AmazonAWSFetch extends Job  {
         
         localMonitor.worked( 2 );
       }  else {
-        throw new Exception(imagesOperation.getException());
+        throw new Exception(metricsOperation.getException());
       }
       
       
@@ -149,45 +147,6 @@ public class AmazonAWSFetch extends Job  {
                                 "Information data fetched successfully." ); //$NON-NLS-1$
     return status;
   }
-
-  /**
-   * @throws ProblemException 
-   * 
-   */
-  private AWSCredentials getAWSAuthCredentials()  {
-    AWSCredentials awsCredentials = null;
-    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
-    ICloudElement[] children;
-    try {
-      children = cpManager.getChildren( new NullProgressMonitor() );
-      String accessId = null;
-      for( ICloudElement CloudElement : children ) {
-        if( CloudElement instanceof AWSCloudProvider ) {
-          AWSCloudProvider awsCp = ( AWSCloudProvider )CloudElement;
-          accessId = awsCp.getProperties().getAwsAccessId();
-        }
-      }
-      if( accessId != null ) {
-        // get the auth token
-        AWSAuthTokenDescription awsAuthTokenDesc = new AWSAuthTokenDescription( accessId );
-        AuthTokenRequest request = new AuthTokenRequest( awsAuthTokenDesc,
-                                                         "AmazonAWSFetch", //$NON-NLS-1$
-                                                         "Fectch AWS Info" ); //$NON-NLS-1$
-        AWSAuthToken awsAuthToken = ( AWSAuthToken )AbstractAuthTokenProvider.staticRequestToken( request );
-        if( awsAuthToken != null ) {
-          awsCredentials = new BasicAWSCredentials( awsAuthTokenDesc.getAwsAccessId(),
-                                                    awsAuthTokenDesc.getAwsSecretId() );
-        }
-      }
-    } catch( ProblemException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    
-    return awsCredentials;
-  }
-  
   
   /**
    * @return A list with the available Base Machine Images
@@ -234,19 +193,23 @@ public class AmazonAWSFetch extends Job  {
   /**
    * @return
    */
-  public ArrayList<String> getInstanceTypes() {
-    
-    InstanceType types = null;
-    
-    InstanceType[] vals = InstanceType.values();
-    
-    ArrayList<String> availTypes = new ArrayList<String>();
-    for (InstanceType t : vals) {
-      availTypes.add( t.toString() );
-    }
-    
-    return availTypes;
+  public ArrayList<VirtualMachineImageFlavor> getFlavors() {
+    ArrayList<VirtualMachineImageFlavor> flavors = new ArrayList<VirtualMachineImageFlavor>(); 
+    		
+    return flavors;
   }
+  
+	public ArrayList<VirtualNetwork> getNetworks() {
+		ArrayList<VirtualNetwork> vns = new ArrayList<VirtualNetwork>();
+
+		return vns;
+	}
+
+	public ArrayList<KeyPair> getKeyPairs() {
+		ArrayList<KeyPair> kps = new ArrayList<KeyPair>();
+
+		return kps;
+	}
 
   
 }

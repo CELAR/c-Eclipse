@@ -12,14 +12,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.jclouds.compute.ComputeService;
-import org.jclouds.openstack.neutron.v2.domain.Network;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
@@ -28,6 +27,7 @@ import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
 import org.jclouds.openstack.nova.v2_0.features.FlavorApi;
 import org.jclouds.openstack.nova.v2_0.features.ServerApi;
 import org.jclouds.openstack.nova.v2_0.options.CreateServerOptions;
+import org.jclouds.openstack.v2_0.domain.Resource;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
@@ -35,6 +35,7 @@ import com.google.common.collect.Ordering;
 
 import eu.celar.connectors.openstack.OpenStackClient;
 import eu.celar.core.model.ICloudProject;
+import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TDeploymentArtifacts;
 import eu.celar.tosca.TNodeTemplate;
@@ -42,6 +43,7 @@ import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.TTopologyTemplate;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.elasticity.NodePropertiesType;
 
 
 
@@ -51,13 +53,11 @@ import eu.celar.tosca.core.TOSCAResource;
  */
 public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployApplication {
   
-  private final ComputeService computeService;
   private final TOSCAResource toscaResource;
   private final ICloudProject project;
   
   
   public OpenStackOpDeployApplication(final OpenStackClient client, final TOSCAResource tosca ) {
-    this.computeService =client.getComputeService();
     this.toscaResource = tosca;
     this.project = this.toscaResource.getProject();
   }
@@ -87,19 +87,31 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
             // Instantiate each node in the topology
             for( TNodeTemplate node : nodeTemplateList ) {
 
-
-              
               int minCount = node.getMinInstances();
               int maxCount =  ((BigInteger) node.getMaxInstances()).intValue();
+              
+              PropertiesType properties = node.getProperties();
+              String nodeFlavor = null;
+              
+              FeatureMap propFeatMap = properties.getAny();
+              for (Entry entry : propFeatMap){
+            	  if (entry instanceof NodePropertiesType)
+            		    nodeFlavor = ((NodePropertiesType) entry).getFlavor();
+              }
+
+              
+              
               // Get Deployment Artifacts
               TDeploymentArtifacts deploymentArtifacts = node.getDeploymentArtifacts();
               
               String amiID = null;
+              String flavorID = null;
               String keyPairArtifact = null;
               String keypairName = null;
               KeyPair keyPair = null;
               boolean keyPairExists = false;
               String networks = null;
+              String script = null;
               
                         
               for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
@@ -112,6 +124,8 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                   keyPairArtifact = artifact.getName();
                 } else if (artifactType.equals( "Network" )) {
                   networks = artifact.getName() ;
+                } else if (artifactType.equals("Script")){
+                	script = artifact.getName();
                 }
                 
                 if (keyPairArtifact != null) {
@@ -130,10 +144,26 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                   
                 }
                 
+                if (nodeFlavor != null) {
+                	flavorID = flavorRefForRegion(nova, zone);
+                } else {
+                	flavorID = "1";
+                }
+                
+                String statements = null;
+                if (script != null) {
+                	 statements = importScript(script, this.project);
+                	
+                }
+                
               }
               
-              CreateServerOptions sv = CreateServerOptions.Builder.adminPass("nickl").networks( networks ); //$NON-NLS-1$
-              
+        	  CreateServerOptions sv;
+        	  if (networks != null)
+        		  sv = CreateServerOptions.Builder.adminPass("nickl").networks( networks ); //$NON-NLS-1$
+        	  else
+        		  sv = CreateServerOptions.Builder.adminPass("nickl"); //$NON-NLS-1$
+            
               
               if (!keyPairExists) {
                 if (keyPair != null) {
@@ -143,8 +173,9 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                 sv.keyPairName( keypairName );
               }
               
-              
-              ServerCreated newServer = serverApi.create(node.getName(), amiID, "3", sv);   
+              for (int i=1; i<=maxCount; i++){
+            	  ServerCreated newServer = serverApi.create(node.getName() +"_"+i, amiID, "3", sv);
+              }
   
             }
           }
@@ -228,4 +259,40 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
     }
     return encodedPublicKey;
   }
+  
+  
+	private static String importScript(final String scriptFile,
+			final ICloudProject project) throws IOException {
+		
+		/* Read Script */
+		String scriptContent = null;
+		BufferedReader br = null;
+		try {
+			// ICloudElement element =
+			// CloudModel.getRoot().findChildWithResource(
+			// publicKeyFile );
+			// For now get the File
+			// TODO - Incorporate Keypairs in CloudModel
+			File file = new File(
+					Platform.getLocation()
+							+ "/" + project.getName() + "/Artifacts/Deployment Scripts/" + scriptFile	); //$NON-NLS-1$ //$NON-NLS-2$
+			if (file.exists()) {
+				br = new BufferedReader(new FileReader(file));
+				scriptContent = br.readLine();
+				scriptContent.trim();
+			}
+		} catch (IOException ioe) {
+			throw ioe;
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+					br = null;
+				} catch (IOException ioe) {
+					throw ioe;
+				}
+			}
+		}
+		return scriptContent;
+	}
 }

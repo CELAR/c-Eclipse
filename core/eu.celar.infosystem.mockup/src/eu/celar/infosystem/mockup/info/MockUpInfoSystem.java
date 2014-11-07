@@ -15,87 +15,89 @@ import eu.celar.infosystem.model.base.KeyPair;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 import eu.celar.infosystem.model.base.VirtualNetwork;
 
-
-
 /**
- * @author Nicholas Loulloudes
- * MockUpInfoSystem - v1.0.1
- * another doc
+ * @author Nicholas Loulloudes MockUpInfoSystem - v1.0.1 another doc
  */
-public class MockUpInfoSystem  {
-  
-  private static MockUpInfoSystem instance = null;
-//  private AmazonAWSFetch resourceFetcher;
-  private OpenStackFetch resourceFetcher;
-//  private FetchJob resourceFetcher;
-  
-  /**
-   * @return The Mockup Information System
-   */
-  public static MockUpInfoSystem getInstance () {
-    if (instance == null) {
-      instance = new MockUpInfoSystem();      
-    }    
-    return instance;
-  }
-  
-  private MockUpInfoSystem () {
-//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher.schedule();    
-  }
-  
-  
-  public static MockUpInfoSystem getInstance (IFile toscaFile) {
-    if (instance == null) {
-      instance = new MockUpInfoSystem(toscaFile);      
-    }    
-    return instance;
-  }
-  
-  private MockUpInfoSystem (IFile toscaFile) {
-//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
-//    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher = OpenStackFetch.getInstance( "OpenStack Resource Fetcher" ); //$NON-NLS-1$
-    this.resourceFetcher.schedule();    
-  }
-  
-  /**
-   * @return A list of available base machine images
-   */
-  public ArrayList<VirtualMachineImage> getBaseMachineImages () {
-    return this.resourceFetcher.getBaseMachineImages();
-  } 
-  
-  /**
-   * @return A list of available monitoring probes
-   */
-  public ArrayList<MonitoringProbe> getMonitoringProbes () {
-    return this.resourceFetcher.getMonitoringProbes();
-  }
-  
-  /**
-   * @return A list of available resizing actions
-   */
-  public ArrayList<ResizingAction> getResizingActions () {
-    return this.resourceFetcher.getResizingActions();
-  }
-  
-  
-//  // TODO - nickl Reflect this to the infosystem model
-//  public ArrayList<String> getInstanceTypes () {
-//    return this.resourceFetcher.getInstanceTypes();
-//  }
-  
-  public ArrayList<VirtualNetwork> getNetworks(){
-    return this.resourceFetcher.getNetworks();
-  }
-  
-  public ArrayList<KeyPair> getKeyPairs(){
-    return this.resourceFetcher.getKeyPairs();
-  }
-  
+public class MockUpInfoSystem {
+
+	private static MockUpInfoSystem instance = null;
+//	 private AmazonAWSFetch resourceFetcher;
+	private OpenStackFetch resourceFetcher;
+
+	// private FetchJob resourceFetcher;
+
+	/**
+	 * @return The Mockup Information System
+	 */
+	public static MockUpInfoSystem getInstance() {
+		if (instance == null) {
+			instance = new MockUpInfoSystem();
+		}
+		return instance;
+	}
+
+	private MockUpInfoSystem() {
+		//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//		    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+		this.resourceFetcher = OpenStackFetch
+				.getInstance("OpenStack Resource Fetcher"); //$NON-NLS-1$
+		this.resourceFetcher.schedule();
+	}
+
+	public static MockUpInfoSystem getInstance(IFile toscaFile) {
+		if (instance == null) {
+			instance = new MockUpInfoSystem(toscaFile);
+		}
+		return instance;
+	}
+
+	private MockUpInfoSystem(IFile toscaFile) {
+		//    this.resourceFetcher = FetchJob.getInstance( "Mockup Resource Fetcher" ); //$NON-NLS-1$
+//		    this.resourceFetcher = AmazonAWSFetch.getInstance( "AWS Resource Fetcher" ); //$NON-NLS-1$
+		this.resourceFetcher = OpenStackFetch
+				.getInstance("OpenStack Resource Fetcher"); //$NON-NLS-1$
+		this.resourceFetcher.schedule();
+	}
+
+	/**
+	 * @return A list of available base machine images
+	 */
+	public ArrayList<VirtualMachineImage> getBaseMachineImages() {
+		return this.resourceFetcher.getBaseMachineImages();
+	}
+
+	/**
+	 * @return A list of available monitoring probes
+	 */
+	public ArrayList<MonitoringProbe> getMonitoringProbes() {
+		return this.resourceFetcher.getMonitoringProbes();
+	}
+
+	/**
+	 * @return A list of available resizing actions
+	 */
+	public ArrayList<ResizingAction> getResizingActions() {
+		return this.resourceFetcher.getResizingActions();
+	}
+
+	// // TODO - nickl Reflect this to the infosystem model
+	public ArrayList<VirtualMachineImageFlavor> getFlavors() {
+		return this.resourceFetcher.getFlavors();
+	}
+
+	// public ArrayList<String> getInstanceTypes () {
+	// return this.resourceFetcher.getInstanceTypes();
+	// }
+
+	public ArrayList<VirtualNetwork> getNetworks() {
+		return this.resourceFetcher.getNetworks();
+	}
+	
+	public ArrayList<KeyPair> getKeyPairs() {
+		return this.resourceFetcher.getKeyPairs();
+	}
+
 }

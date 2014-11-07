@@ -79,13 +79,7 @@
                         <configuration>
                             <artifacts>
                             
-                            <!-- 
-                                <artifact>
-                                    <id>org.json:json:20090211</id>
-                                </artifact>
-                                
-                             -->
-                                <!-- jclouds dependencies -->
+                                <!-- jclouds Core dependencies -->
 
                                 <artifact>
                                     <id>org.apache.jclouds.driver:jclouds-slf4j:${jclouds.version}</id>
@@ -95,6 +89,8 @@
                                     <id>org.apache.jclouds.driver:jclouds-sshj:${jclouds.version}</id>
                                 </artifact>
                                  -->
+                                 
+                                 <!--  JClouds OpenStack Dependencies -->
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-nova:${jclouds.version}</id>
                                 </artifact>
@@ -107,10 +103,20 @@
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-cinder:${jclouds.version}</id>
                                 </artifact> 
-                                                        		
 								<artifact>
                                     <id>org.apache.jclouds.labs:openstack-neutron:${jclouds.version}</id>
                                 </artifact>   
+                                
+                                
+                                <!-- JClouds Amazon AWS EC2 Dependencies -->
+                                <artifact>
+                                    <id>org.apache.jclouds.api:ec2:${jclouds.version}</id>
+                                </artifact>  
+                                 <artifact>
+                                    <id>org.apache.jclouds.api:cloudwatch:${jclouds.version}</id>
+                                </artifact>
+                                
+                                
                                 <!-- 
                      			<artifact>
                                     <id>com.sun.jersey:jersey-bundle:1.18</id>
@@ -141,7 +147,6 @@
                                 </artifact>                                
                             </artifacts>
                         </configuration>
-
                     </execution>
                 </executions>
             </plugin>
