@@ -1,17 +1,17 @@
 /*******************************************************************************
- * <copyright>
- *
- * Copyright (c) 2005, 2010 SAP AG.
+ * Copyright (c) 2013 CELAR Consortium.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
+ * Initial development of the original code was made for the 
+ * CELAR project founded by European Union
+ * project number: FP7-317790  http://www.celarcloud.eu
+ *
  * Contributors:
- *    SAP AG - initial API, implementation and documentation
- *
- * </copyright>
- *
+ * 	Stalo Sofokleous - initial API and implementation
+ * 	Nicholas Loulloudes - implementation extensions
  *******************************************************************************/
 package eu.celar.tosca.editor;
 
