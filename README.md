@@ -2,6 +2,10 @@
 
 c-Eclipse is an ongoing project, part of the EU [CELAR](http://www.celarcloud.eu/) project. The c-Eclipse plugin consists of several modules, enabling the description of the structure, elasticity requirements and other behavioral features of an application to be run over a Cloud platform. The description is translated on the fly into [TOSCA](http://docs.oasis-open.org/tosca/TOSCA/v1.0/cs01/TOSCA-v1.0-cs01.html) xml.
 
+###Licence
+The complete source code of c-Eclipse is made available under the terms of the [Eclipse Public License v1.0] ( http://www.eclipse.org/legal/epl-v10.html)
+
+
 ###Installation
 
 Install c-Eclipse Plugin by adding the following URL in Eclipses' Available Software Sites.
