@@ -113,7 +113,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
     deploymentArtifact.setName( tempDeploymentArtifact.getName() );
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
-    deploymentArtifact.setArtifactRef( tempDeploymentArtifact.getArtifactRef() );
+    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+","")) );
     
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
@@ -131,7 +131,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
 
     //Create Image Artifact Template
    
-    createArtifactTemplate("not_specified", tempDeploymentArtifact.getArtifactRef().toString());
+    createArtifactTemplate("not_specified", tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+",""));
     
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
