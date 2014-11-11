@@ -91,6 +91,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private IFile deploymentIFile;
   private String deploymentURI;
   private GenericCloudProvider genericSelectedProvider = null;
+  private ArrayList<String> zipEntries = new ArrayList<String>();
 
   public NewDeploymentWizard() {
     setNeedsProgressMonitor( true );
@@ -633,9 +634,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
       String fileName = tempFile.getName();
-      String content = getFileContents( tempFile );
-
-      addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
+      if (this.zipEntries.contains( fileName )){
+        System.out.println("zip entry exists");
+      }
+      else{
+        this.zipEntries.add( fileName );
+        String content = getFileContents( tempFile );
+        addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
+      }
     }   
     
     IFolder resizingScriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Reconfiguration Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
@@ -643,9 +649,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
       String fileName = tempFile.getName();
-      String content = getFileContents( tempFile );
+      if (this.zipEntries.contains( fileName )){
+        System.out.println("zip entry exists");
+      }
+      else{
+        String content = getFileContents( tempFile );
+        addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
+      }
 
-      addToCSARFile("Scripts", fileName, content, zos ); //$NON-NLS-1$
     }   
     
     zos.close();
@@ -792,12 +803,13 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    * @throws FileNotFoundException
    * @throws IOException
    */
-  public static void addToCSARFile( final String dir,
+  public void addToCSARFile( final String dir,
                                     final String fileName,
                                     final String content,
                                     final ZipOutputStream zos )
     throws FileNotFoundException, IOException
   {
+
     String tmpDir = System.getProperty("java.io.tmpdir") + File.separator; //$NON-NLS-1$
     File file = new File( tmpDir + fileName );
     if( !file.exists() ) {
@@ -809,7 +821,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     fos.flush();
     fos.close();
     FileInputStream fis = new FileInputStream( file );
-    ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );
+    ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );    
     zos.putNextEntry( zipEntry );
     byte[] bytes = new byte[ 1024 ];
     int length;
