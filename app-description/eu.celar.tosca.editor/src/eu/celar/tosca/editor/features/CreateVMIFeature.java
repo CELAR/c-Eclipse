@@ -113,7 +113,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
     deploymentArtifact.setName( tempDeploymentArtifact.getName() );
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
-    deploymentArtifact.setArtifactRef( new QName (tNode.getName() + "Image" ));
+    deploymentArtifact.setArtifactRef( tempDeploymentArtifact.getArtifactRef() );
     
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
@@ -131,9 +131,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
 
     //Create Image Artifact Template
    
-    createArtifactTemplate(tNode.getName(), "not_specified", tempDeploymentArtifact.getArtifactRef().toString());
-    
-    
+    createArtifactTemplate("not_specified", tempDeploymentArtifact.getArtifactRef().toString());
     
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
@@ -143,8 +141,17 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     };
   }
   
-  private void createArtifactTemplate(String nodeName, String description, String imageId){
+  private void createArtifactTemplate(String description, String imageId){
     
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    
+    for (TArtifactTemplate tempArtifactTemplate : model.getDocumentRoot()
+        .getDefinitions()
+        .getArtifactTemplate()){
+      if (tempArtifactTemplate.getId().equals( imageId ))
+        return;
+    }
+  
     //Create Artifact Template
     final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
     
@@ -164,12 +171,10 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     properties.getAny().add( e );   
     
     artifactTemplate.setProperties( properties );
-    
-    artifactTemplate.setId( nodeName + "Image" );
+ 
+    artifactTemplate.setId( imageId );
     
     // Add the new Artifact Template to the TOSCA Definitions element
-    
-    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
     DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
        

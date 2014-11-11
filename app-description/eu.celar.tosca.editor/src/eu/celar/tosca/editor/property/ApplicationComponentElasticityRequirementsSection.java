@@ -79,6 +79,7 @@ import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
+import eu.celar.tosca.elementCreators.CreateArtifactTemplate;
 
 /**
  * Application Component Properties - Elasticity Tab
@@ -714,18 +715,17 @@ public class ApplicationComponentElasticityRequirementsSection
         appComponent = ( TNodeTemplateExtension )bo;
       }
       // Create Resizing Artifact Template
-      createArtifactTemplate( appComponent.getName(), dialog.getFileName() );
+      
+      CreateArtifactTemplate artTempl = new CreateArtifactTemplate(dialog.getFileName(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+      
       // Create Implementation Artifact
       String operationName = selectedObject.getName();
       // String operationName = "";
       createImplementationArtifact( operationName,
                                     dialog.getFileName(),
                                     new QName( appComponent.getName() ),
-                                    new QName( appComponent.getName()
-                                               + "_"
-                                               + dialog.getFileName()
-                                               + "_"
-                                               + "Script" ) );
+                                    new QName( dialog.getFileName() ) );
+      
       // Add uploaded resizing scripts to Project Artifacts folder
       IWorkbenchPage activePage = PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow()

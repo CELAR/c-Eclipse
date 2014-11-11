@@ -39,6 +39,7 @@ import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
+import eu.celar.tosca.elementCreators.CreateArtifactTemplate;
 
 public class CreateResizeActionFeature extends AbstractCreateFeature {
 
@@ -76,7 +77,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     
     ResizingAction ra = ( ResizingAction )this.contextObject;
     
-    createArtifactTemplate(ra.getName());
+    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(ra.getName(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
     
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
 
@@ -283,41 +284,4 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     return newPolicy;
   }
   
-  private void createArtifactTemplate( String artifactName ) {
-    // Create Artifact Template
-    final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
-    // Create Script Artifact Properties
-    ScriptArtifactPropertiesType scriptProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createScriptArtifactPropertiesType();
-    scriptProperties.setLanguage( "Shell" );
-    // Set the Properties of the Policy Template
-    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();
-    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
-    Entry e = FeatureMapUtil.createEntry( Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),
-                                          scriptProperties );
-    properties.getAny().add( e );
-    artifactTemplate.setProperties( properties );
-    artifactTemplate.setId( artifactName );
-    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
-    // Set artifact ref
-    TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts" + File.separator + artifactName );
-    ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
-    artifactRefType.getArtifactReference().add( artifactRef );
-    artifactTemplate.setArtifactReferences( artifactRefType );
-    // Add the new Artifact Template to the TOSCA Definitions element
-    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
-    editingDomain.getCommandStack()
-      .execute( new RecordingCommand( editingDomain ) {
-
-        @Override
-        protected void doExecute() {
-          model.getDocumentRoot()
-            .getDefinitions()
-            .getArtifactTemplate()
-            .add( artifactTemplate );
-        }
-      } );
-  }
 }

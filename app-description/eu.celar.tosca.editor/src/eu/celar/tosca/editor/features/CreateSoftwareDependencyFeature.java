@@ -38,6 +38,7 @@ import eu.celar.tosca.editor.ToscaModelLayer;
 import eu.celar.tosca.elasticity.ScriptArtifactPropertiesType;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
+import eu.celar.tosca.elementCreators.CreateArtifactTemplate;
 
 public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
 
@@ -78,12 +79,14 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
       return null;
     }
     TArtifactTemplate artifactTemplate = ( TArtifactTemplate )this.contextObject;
-    // Create Image Artifact Template
-    TArtifactTemplate newArtifactTemplate = createArtifactTemplate( tNode.getName(), artifactTemplate.getId() );
+    // Create Script Artifact Template
+    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(artifactTemplate.getId(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+    TArtifactTemplate newArtifactTemplate = artTempl.getNewArtifactTemplate();
+    
     // Create Implementation Artifact
     createImplementationArtifact( new QName( tNode.getName() ),
-                                  new QName( tNode.getName() + "Script" ) );
-        
+                                  new QName( artifactTemplate.getId()) );
+            
     //addGraphicalRepresentation( context, artifactTemplate );
     addGraphicalRepresentation( context, newArtifactTemplate );
     
@@ -93,50 +96,6 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     return new Object[]{
       newArtifactTemplate
     };
-  }
-
-  private TArtifactTemplate createArtifactTemplate( String nodeName,
-                                                    String artifactName )
-  {
-    // Create Artifact Template
-    final TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
-    // Create Script Artifact Properties
-    ScriptArtifactPropertiesType scriptProperties = Tosca_Elasticity_ExtensionsFactory.eINSTANCE.createScriptArtifactPropertiesType();
-    scriptProperties.setLanguage( "Shell" );
-    // Set the Properties of the Policy Template
-    PropertiesType properties = ToscaFactory.eINSTANCE.createPropertiesType();
-    // Add the SYBL Policy to the FeatureMap of the Policy's Properties element
-    Entry e = FeatureMapUtil.createEntry( Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getDocumentRoot_ScriptArtifactProperties(),
-                                          scriptProperties );
-    properties.getAny().add( e );
-    artifactTemplate.setProperties( properties );
-    artifactTemplate.setId( nodeName + "Script" );
-    artifactTemplate.setName( "SD"+artifactName );
-    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
-    // Set artifact ref
-    TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts" + File.separator + artifactName );
-    ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
-    artifactRefType.getArtifactReference().add( artifactRef );
-    artifactTemplate.setArtifactReferences( artifactRefType );
-    
-    // Add the new Artifact Template to the TOSCA Definitions element
-    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
-    DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
-    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( definitions );
-    editingDomain.getCommandStack()
-      .execute( new RecordingCommand( editingDomain ) {
-
-        @Override
-        protected void doExecute() {
-          model.getDocumentRoot()
-            .getDefinitions()
-            .getArtifactTemplate()
-            .add( artifactTemplate );
-        }
-      } );
-    
-    return artifactTemplate;
   }
 
   // Creates the install implementation artifact
