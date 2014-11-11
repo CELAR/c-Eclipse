@@ -380,9 +380,12 @@ public class ToscaDiagramEditor extends DiagramEditor {
                   if (nodeTypeImplementation!=null && nodeTypeImplementation.getImplementationArtifacts()!=null){
                     EList<ImplementationArtifactType> implementationArtifacts = nodeTypeImplementation.getImplementationArtifacts().getImplementationArtifact();
                     for (ImplementationArtifactType tempImplementationArtifact : implementationArtifacts){
-                      for (TArtifactTemplate tempArtifactTemplate : artifactTemplates){
-                        if (tempArtifactTemplate.getId().equals(tempImplementationArtifact.getArtifactRef().toString()))
-                          addContainerElement( tempArtifactTemplate, containerShapeTNT, 0, 0, 0, 0 );
+                      if (tempImplementationArtifact.getOperationName().equals( "execute" ))
+                      {
+                        for (TArtifactTemplate tempArtifactTemplate : artifactTemplates){
+                          if (tempArtifactTemplate.getId().equals(tempImplementationArtifact.getArtifactRef().toString()))
+                            addContainerElement( tempArtifactTemplate, containerShapeTNT, 0, 0, 0, 0 );
+                        }
                       }
      
                     }

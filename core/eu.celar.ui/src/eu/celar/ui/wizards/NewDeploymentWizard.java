@@ -625,8 +625,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 //    addToCSARFile( "Definitions", defFileName, convertToXml( toscaDescription ), zos ); //$NON-NLS-1$
     addToCSARFile("Definitions", defFileName, getFileContents(this.deploymentIFile), zos);
     // Create a dummy SSH public key-pair file
-    addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$
-    
+    addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$   
     
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
     IFolder scriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Deployment Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
