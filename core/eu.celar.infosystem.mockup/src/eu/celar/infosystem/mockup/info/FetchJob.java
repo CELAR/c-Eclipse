@@ -257,6 +257,14 @@ public class FetchJob extends Job {
          instance.monitor_probes.add( mp ); 
       }
       
+      MonitoringProbe mpSCAN = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+      
+      mpSCAN.setName( "SCAN" );
+      mpSCAN.setDescription( "[ \"gatk_rtc_queueLength\" , \"gatk_rtc_workerUtilisation \", \"gatk_rtc_workPerHour\"]" );
+      
+      //add new monitor probe to probes list
+      instance.monitor_probes.add( mpSCAN ); 
+      
       MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
       
       mp.setName( "QueueLength" ); //$NON-NLS-1$ );

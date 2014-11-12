@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
@@ -599,6 +600,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
   public void exportCSAR() throws IOException, CoreException {
     
+    //getFileFromGit();
+    
     // Export monitoring probes to jar files
 //    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 //    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
@@ -794,6 +797,49 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     }
   }
 
+  private boolean isRedirected( Map<String, List<String>> header ) {
+    for( String hv : header.get( null )) {
+       if(   hv.contains( " 301 " )
+          || hv.contains( " 302 " )) return true;
+    }
+    return false;
+  }
+  
+  private void getFileFromGit() throws IOException{
+    String link =
+        "https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml";
+     String            fileName = "pom.xml";
+     URL               url  = new URL( link );
+     HttpURLConnection http = (HttpURLConnection)url.openConnection();
+     Map< String, List< String >> header = http.getHeaderFields();
+     while( isRedirected( header )) {
+        link = header.get( "Location" ).get( 0 );
+        url    = new URL( link );
+        http   = (HttpURLConnection)url.openConnection();
+        header = http.getHeaderFields();
+     }
+     InputStream  input  = http.getInputStream();
+     
+     BufferedReader in = new BufferedReader(new InputStreamReader(input));
+     String inputLine;
+     while ((inputLine = in.readLine()) != null) {
+         System.out.println(inputLine);
+     }
+     in.close();
+     
+     
+     
+     
+//     byte[]       buffer = new byte[4096];
+//     int          n      = -1;
+//     OutputStream output = new FileOutputStream( new File( fileName ));
+//     while ((n = input.read(buffer)) != -1) {
+//        output.write( buffer, 0, n );
+//     }
+//     output.close();
+  }
+  
+  
   /**
    * @param dir
    * @param fileName
