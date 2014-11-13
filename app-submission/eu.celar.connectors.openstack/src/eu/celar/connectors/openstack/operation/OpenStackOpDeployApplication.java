@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
-import org.jclouds.compute.ComputeService;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
@@ -34,7 +33,6 @@ import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
 import org.jclouds.openstack.nova.v2_0.features.FlavorApi;
 import org.jclouds.openstack.nova.v2_0.features.ServerApi;
 import org.jclouds.openstack.nova.v2_0.options.CreateServerOptions;
-import org.jclouds.openstack.v2_0.domain.Resource;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
@@ -167,9 +165,9 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
               
         	  CreateServerOptions sv;
         	  if (networks != null)
-        		  sv = CreateServerOptions.Builder.adminPass("nickl").networks( networks ); //$NON-NLS-1$
+        		  sv = CreateServerOptions.Builder.adminPass("test").networks( networks ); //$NON-NLS-1$
         	  else
-        		  sv = CreateServerOptions.Builder.adminPass("nickl"); //$NON-NLS-1$
+        		  sv = CreateServerOptions.Builder.adminPass("test"); //$NON-NLS-1$
             
               
               if (!keyPairExists) {
@@ -180,8 +178,10 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
                 sv.keyPairName( keypairName );
               }
               
-              for (int i=1; i<=maxCount; i++){
-            	  ServerCreated newServer = serverApi.create(node.getName() +"_"+i, amiID, "3", sv);
+              for( int i = 1; i <= maxCount; i++ ) {
+                ServerCreated newServer = serverApi.create( node.getName()
+                                                            + "_"
+                                                            + i, amiID, "3", sv );
               }
   
             }

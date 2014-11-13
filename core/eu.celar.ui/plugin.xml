@@ -14,7 +14,7 @@
       </category>
       <view
             name="Cloud Project View"
-            icon="icons/sample.gif"
+            icon="icons/celar.gif"
             category="eu.celar.ui"
             class="eu.celar.ui.views.CloudProjectView"
             id="eu.celar.ui.views.CloudProjectView">
@@ -34,18 +34,6 @@
             name="Application Deployments"
             restorable="true">
       </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.eclipse.jdt.ui.JavaPerspective">
-         <view
-               ratio="0.5"
-               relative="org.eclipse.ui.views.ProblemView"
-               relationship="right"
-               id="eu.celar.ui.views.CloudProjectView">
-         </view>
-      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.help.contexts">
@@ -227,6 +215,15 @@
                   style="push">
             </command>
          </menuContribution>
+         <menuContribution
+               allPopups="false"
+               locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <command
+                  commandId="org.eclipse.ui.file.export"
+                  label="Export"
+                  style="push">
+            </command>
+         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.ui.ide.projectNatureImages">
@@ -271,5 +268,27 @@
          <handler
                commandId="org.eclipse.ui.edit.delete">
          </handler>
+      </extension>
+      <extension
+            point="org.eclipse.ui.exportWizards">
+         <category
+               id="eu.celar.ui.newExportCategory"
+               name="Cloud Application Management Framework">
+         </category>
+         <wizard
+               category="eu.celar.ui.newExportCategory"
+               class="eu.celar.ui.wizards.ApplicationDescriptionExportWizard"
+               id="eu.celar.ui.wizards.ApplicationDescriptionExportWizard"
+               name="Cloud Service Archive (CSAR)">
+         </wizard>
+      </extension>
+      <extension
+            point="org.eclipse.ui.perspectives">
+         <perspective
+               class="eu.celar.ui.perspectives.PerspectiveFactory"
+               icon="icons/celar.gif"
+               id="eu.celar.ui.perspective"
+               name="CAMF">
+         </perspective>
       </extension>
 </plugin>

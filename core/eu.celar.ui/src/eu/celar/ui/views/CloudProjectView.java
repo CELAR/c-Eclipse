@@ -15,18 +15,16 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.ui.internal.actions.ActionGroupManager;
 import eu.celar.ui.internal.actions.EditorActions;
+import eu.celar.ui.internal.actions.ExportDescriptionActions;
 import eu.celar.ui.internal.actions.NewWizardActions;
 import eu.celar.ui.providers.CloudModelContentProvider;
 
@@ -91,6 +89,9 @@ public class CloudProjectView extends TreeControlViewPart  {
     BuildActions buildActions = new BuildActions( site );
     groups.addGroup( buildActions );
     
+    ExportDescriptionActions exportActions = new ExportDescriptionActions (site);
+    groups.addGroup( exportActions );
+        
     this.editorActions = new EditorActions( this );
     groups.addGroup( this.editorActions );
     

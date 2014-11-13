@@ -206,7 +206,7 @@ public abstract class CloudModelViewPart extends ViewPart implements ICloudModel
     menu.add( new Separator( ICommonMenuConstants.GROUP_NEW ) );
     menu.add( new GroupMarker( ICommonMenuConstants.GROUP_GOTO ) );
     menu.add( new GroupMarker( ICommonMenuConstants.GROUP_OPEN ) );
-    menu.add( new GroupMarker( ICommonMenuConstants.GROUP_OPEN_WITH ) );
+    menu.add( new GroupMarker( ICommonMenuConstants.GROUP_OPEN_WITH ) );    
     menu.add( new Separator( ICommonMenuConstants.GROUP_EDIT ) );
     menu.add( new GroupMarker( ICommonMenuConstants.GROUP_SHOW ) );
     menu.add( new GroupMarker( ICommonMenuConstants.GROUP_REORGANIZE ) );
