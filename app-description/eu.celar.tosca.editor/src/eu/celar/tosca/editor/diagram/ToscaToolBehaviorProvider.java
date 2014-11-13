@@ -831,7 +831,12 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
   public GraphicsAlgorithm[] getClickArea( final PictogramElement pe ) {
     IFeatureProvider featureProvider = getFeatureProvider();
     Object bo = featureProvider.getBusinessObjectForPictogramElement( pe );
-    if( bo instanceof TNodeTemplate ) {
+    
+    if (bo instanceof TNodeTemplate)
+      if ( ((TNodeTemplate) bo)==null || ((TNodeTemplate) bo).getType() == null)
+        return null;
+    
+    if( bo instanceof TNodeTemplate && ((TNodeTemplate) bo).getType().toString().contains("substituteNode")==false) {
       GraphicsAlgorithm invisible = pe.getGraphicsAlgorithm();
       GraphicsAlgorithm rectangle = invisible.getGraphicsAlgorithmChildren()
         .get( 0 );

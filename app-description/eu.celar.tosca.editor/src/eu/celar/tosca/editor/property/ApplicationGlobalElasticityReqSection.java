@@ -357,19 +357,22 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
     ElasticityStrategyDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
+      PictogramElement pe = getSelectedPictogramElement();
+      Object bo = null;
+      if( pe != null ) {
+        bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( pe );
+      }
+      TServiceTemplate application = (TServiceTemplate) bo;
+      
       dialog = new ElasticityStrategyDialog( this.section.getShell(),
-                                             "Application" ); //$NON-NLS-1$
+                                             "Application", application.getName() ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityStrategy = dialog.getElasticityStrategy();
         if( newElasticityStrategy != null ) {
           // Add Application Component Elasticity Strategy to TOSCA
-          PictogramElement pe = getSelectedPictogramElement();
-          Object bo = null;
-          if( pe != null ) {
-            bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement( pe );
-          }
-          final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
+
+          final TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( application.getBoundaryDefinitions() );
           if( boundaryDef.getPolicies() == null ) {
             final PoliciesType1 boundaryPolicies = ToscaFactory.eINSTANCE.createPoliciesType1();
             TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -521,6 +524,9 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
+    if (bo == null)
+      return;
+    
     TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
     PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
     if( nodePolicyList == null )
@@ -543,6 +549,9 @@ public class ApplicationGlobalElasticityReqSection extends GFPropertySection
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
+    if (bo == null)
+      return;
+    
     TBoundaryDefinitionsExtension boundaryDef = ( TBoundaryDefinitionsExtension )( ( ( TServiceTemplate )bo ).getBoundaryDefinitions() );
     PoliciesType1 nodePolicyList = boundaryDef.getPolicies();
     if( nodePolicyList == null )

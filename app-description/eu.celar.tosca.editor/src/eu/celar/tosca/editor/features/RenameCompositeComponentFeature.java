@@ -79,8 +79,7 @@ public class RenameCompositeComponentFeature extends AbstractCustomFeature {
       if( newName != null && !newName.equals( currentName ) ) {
         this.hasDoneChanges = true;
         tServiceTemplate.setName( newName );
-        
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
         tServiceTemplate.setSubstitutableNodeType(new QName("substituteNode_"+newName));
         
         // Find the substitute TNodeTemplate
@@ -93,7 +92,7 @@ public class RenameCompositeComponentFeature extends AbstractCustomFeature {
           .getTopologyTemplate()
           .getNodeTemplate()){
            
-          if (tempNodeTemplate.getId() ==  tServiceTemplate.getId() )
+          if (tempNodeTemplate.getId().equals( tServiceTemplate.getId()) )
           {
             substituteNode = tempNodeTemplate;
             break;
@@ -102,7 +101,6 @@ public class RenameCompositeComponentFeature extends AbstractCustomFeature {
         }
         
         substituteNode.setType(new QName("substituteNode_"+newName));
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////
         
         updatePictogramElement( pes[ 0 ] );
       }

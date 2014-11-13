@@ -29,13 +29,15 @@ public class ElasticityStrategyDialog extends Dialog {
   private CCombo cmbStrategy;
   private CCombo cmbMetric;
   private CCombo cmbElasticityAction;
+  private String nodeName;
 
   /**
    * @param parentShell
    */
-  public ElasticityStrategyDialog( final Shell parentShell, String component ) {
+  public ElasticityStrategyDialog( final Shell parentShell, String component, String nodeName ) {
     super( parentShell );
     this.addMode = true;
+    this.nodeName = nodeName;
   }
 
   @Override
@@ -61,8 +63,10 @@ public class ElasticityStrategyDialog extends Dialog {
     this.cmbElasticityAction.setEnabled( true );
     GridData gd = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbElasticityAction.setLayoutData( gd );
-    this.cmbElasticityAction.add( "AddVM" );
-    this.cmbElasticityAction.add( "RemoveVM" );
+//    this.cmbElasticityAction.add( "AddVM" );
+//    this.cmbElasticityAction.add( "RemoveVM" );
+    this.cmbElasticityAction.add( "scaleIn" );
+    this.cmbElasticityAction.add( "scaleOut" );
     this.cmbElasticityAction.setText( this.cmbElasticityAction.getItem( 0 ) );
     this.cmbElasticityAction.setEditable( false );
     // Create New Strategy Group
@@ -108,7 +112,11 @@ public class ElasticityStrategyDialog extends Dialog {
                                                          + this.cmbMetric.getText()
                                                          + ")";
     } else {
-      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText();
+      //ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText();
+      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
+          + " ("
+          + this.nodeName
+          + ")";
     }
     super.okPressed();
   }

@@ -599,9 +599,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   }
 
   public void exportCSAR() throws IOException, CoreException {
-    
-    //getFileFromGit();
-    
+        
     // Export monitoring probes to jar files
 //    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 //    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
@@ -660,6 +658,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       }
 
     }   
+    
+    addToCSARFile("TUW", "CompositionRules", getFileFromGit("https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml", "pom.xml"), zos);
     
     zos.close();
     fos.close();
@@ -805,10 +805,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return false;
   }
   
-  private void getFileFromGit() throws IOException{
-    String link =
-        "https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml";
-     String            fileName = "pom.xml";
+  private String getFileFromGit(String link, String fileName) throws IOException{
      URL               url  = new URL( link );
      HttpURLConnection http = (HttpURLConnection)url.openConnection();
      Map< String, List< String >> header = http.getHeaderFields();
@@ -820,23 +817,15 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
      }
      InputStream  input  = http.getInputStream();
      
+     String fileContents="";
      BufferedReader in = new BufferedReader(new InputStreamReader(input));
      String inputLine;
      while ((inputLine = in.readLine()) != null) {
-         System.out.println(inputLine);
+         fileContents = fileContents + inputLine + System.getProperty("line.separator");
+         //System.out.println(inputLine);
      }
      in.close();
-     
-     
-     
-     
-//     byte[]       buffer = new byte[4096];
-//     int          n      = -1;
-//     OutputStream output = new FileOutputStream( new File( fileName ));
-//     while ((n = input.read(buffer)) != -1) {
-//        output.write( buffer, 0, n );
-//     }
-//     output.close();
+     return fileContents;
   }
   
   

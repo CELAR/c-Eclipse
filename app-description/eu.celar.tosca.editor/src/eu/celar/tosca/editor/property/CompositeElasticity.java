@@ -379,20 +379,22 @@ public class CompositeElasticity extends GFPropertySection
     ElasticityStrategyDialog dialog;
     if( selectedObject == null ) {
       // Add button is pressed
+      PictogramElement pe = getSelectedPictogramElement();
+      Object bo = null;
+      if( pe != null ) {
+        bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement( pe );
+      }
+      // Find the substitute TNodeTemplate
+      TServiceTemplate serviceTemplate = ( TServiceTemplate )bo;
+      
       dialog = new ElasticityStrategyDialog( this.section.getShell(),
-                                             "Application Component" ); //$NON-NLS-1$
+                                             "Application Component", serviceTemplate.getName() ); //$NON-NLS-1$
       if( dialog.open() == Window.OK ) {
         String newElasticityStrategy = dialog.getElasticityStrategy();
         if( newElasticityStrategy != null ) {
           // Add Application Component Elasticity Strategy to TOSCA
-          PictogramElement pe = getSelectedPictogramElement();
-          Object bo = null;
-          if( pe != null ) {
-            bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement( pe );
-          }
-          // Find the substitute TNodeTemplate
-          TServiceTemplate serviceTemplate = ( TServiceTemplate )bo;
+
           TNodeTemplate substituteNode = null;
           ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
           for( TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
@@ -590,6 +592,8 @@ public class CompositeElasticity extends GFPropertySection
     }
     // Find the substitute TNodeTemplate
     TServiceTemplate serviceTemplate = ( TServiceTemplate )bo;
+    if (serviceTemplate == null)
+      return;
     TNodeTemplate substituteNode = null;
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     for( TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
@@ -631,8 +635,13 @@ public class CompositeElasticity extends GFPropertySection
     }
     // Find the substitute TNodeTemplate
     TServiceTemplate serviceTemplate = ( TServiceTemplate )bo;
+    
+    if (serviceTemplate == null)
+      return;
+    
     TNodeTemplate substituteNode = null;
     ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+
     for( TNodeTemplate tempNodeTemplate : model.getDocumentRoot()
       .getDefinitions()
       .getServiceTemplate()
