@@ -77,7 +77,7 @@ public class CreateResizeActionFeature extends AbstractCreateFeature {
     
     ResizingAction ra = ( ResizingAction )this.contextObject;
     
-    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(ra.getName(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(ra.getName(), new QName("RA"), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
     
     Object parentObject = getFeatureProvider().getBusinessObjectForPictogramElement( context.getTargetContainer() );
 

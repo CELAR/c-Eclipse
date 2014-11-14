@@ -87,6 +87,12 @@ public class ApplicationComponentNameSection extends GFPropertySection
   private Button uploadImage;
   private Button keypairSelect;
 
+  private String typesPrefix = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getNsPrefix();
+  
+  private String typesNamespace = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getNsURI();
+  
+  private String imageType = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getImageArtifactPropertiesType().getName();
+  
   @Override
   public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
@@ -200,8 +206,6 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
           String imageId = stringBuilder.toString();
           
-          
-          
           copySelectedFileToCloudProject( new File(result), tmp );
           
           IProgressMonitor monitor = null;
@@ -221,7 +225,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName());
           deploymentArtifact.setArtifactRef( new QName (imageId) );
-          deploymentArtifact.setArtifactType( new QName( "VMI" ) ); //$NON-NLS-1$
+          deploymentArtifact.setArtifactType( new QName( typesNamespace, imageType, typesPrefix ) ); //$NON-NLS-1$
           createImageFeature.setContextObject( deploymentArtifact );
           CreateContext createContext = new CreateContext();
           createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );
@@ -837,7 +841,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
       if( deploymentArtifacts != null ) {
         for( TDeploymentArtifact artifact : deploymentArtifacts.getDeploymentArtifact() )
         {
-          if( artifact.getArtifactType().toString().equals( "VMI" ) ) { //$NON-NLS-1$
+          if( artifact.getArtifactType().getLocalPart().equals( imageType ) ) { //$NON-NLS-1$
             imageName = artifact.getName();
             break;
           }

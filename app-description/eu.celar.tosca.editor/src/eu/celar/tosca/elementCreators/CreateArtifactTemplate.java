@@ -27,7 +27,7 @@ public class CreateArtifactTemplate {
   
   TArtifactTemplate newArtifactTemplate = null;
   
-  public CreateArtifactTemplate(String artifactName, final ToscaModelLayer model){
+  public CreateArtifactTemplate(String artifactName, QName artifactType, final ToscaModelLayer model){
     if (templateExists(model, artifactName)){
       return;
     }
@@ -46,7 +46,7 @@ public class CreateArtifactTemplate {
     artifactTemplate.setProperties( properties );
     artifactTemplate.setId( artifactName );
     artifactTemplate.setName( "SD"+artifactName );
-    artifactTemplate.setType( new QName( "ScriptArtifact" ) );
+    artifactTemplate.setType( artifactType );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
     artifactRef.setReference( "Scripts" + File.separator + artifactName );

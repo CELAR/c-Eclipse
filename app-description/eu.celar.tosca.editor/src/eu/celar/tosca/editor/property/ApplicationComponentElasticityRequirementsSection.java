@@ -721,7 +721,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
       // Create Resizing Artifact Template
       
-      CreateArtifactTemplate artTempl = new CreateArtifactTemplate(dialog.getFileName(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+      CreateArtifactTemplate artTempl = new CreateArtifactTemplate(dialog.getFileName(), new QName("RA"), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
       
       // Create Implementation Artifact
       String operationName = selectedObject.getName();

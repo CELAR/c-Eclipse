@@ -80,11 +80,11 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     }
     TArtifactTemplate artifactTemplate = ( TArtifactTemplate )this.contextObject;
     // Create Script Artifact Template
-    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(artifactTemplate.getId(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+    CreateArtifactTemplate artTempl = new CreateArtifactTemplate(artifactTemplate.getId(), artifactTemplate.getType(), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
     TArtifactTemplate newArtifactTemplate = artTempl.getNewArtifactTemplate();
     
     // Create Implementation Artifact
-    createImplementationArtifact( new QName( tNode.getName() ),
+    createImplementationArtifact( new QName( tNode.getName() ), artifactTemplate.getType(),
                                   new QName( artifactTemplate.getId()) );
             
     //addGraphicalRepresentation( context, artifactTemplate );
@@ -99,7 +99,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
   }
 
   // Creates the install implementation artifact
-  private void createImplementationArtifact( QName nodeType,
+  private void createImplementationArtifact( QName nodeType, QName artifactType,
                                                                    QName artifactID )
   {
 
@@ -142,7 +142,7 @@ public class CreateSoftwareDependencyFeature extends AbstractCreateFeature {
     }
     // Create Implementation Artifact
     final ImplementationArtifactType installArtifactType = ToscaFactory.eINSTANCE.createImplementationArtifactType();
-    installArtifactType.setArtifactType( new QName( "ScriptArtifact" ) );
+    installArtifactType.setArtifactType( artifactType );
     installArtifactType.setArtifactRef( artifactID );
     installArtifactType.setInterfaceName( "Lifecycle" );
     installArtifactType.setOperationName( "execute" );

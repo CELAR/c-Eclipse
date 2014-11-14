@@ -23,6 +23,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.editor.StyleUtil;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
 
@@ -33,7 +34,8 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
   private static final IColorConstant E_CLASS_BACKGROUND = new ColorConstant( 32,
                                                                               178,
                                                                               170 );
-
+  private String imageType = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getImageArtifactPropertiesType().getName();
+  
   public AddVirtualMachineFeature( final IFeatureProvider fp ) {
     super( fp );
   }
@@ -51,7 +53,8 @@ public class AddVirtualMachineFeature extends AbstractAddShapeFeature {
     if( context.getNewObject() instanceof TDeploymentArtifact
         && !diagraminstance )
     {
-      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
+      //if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
+      if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().getLocalPart().compareTo( imageType )==0)
         result = true;
     }
     return result;

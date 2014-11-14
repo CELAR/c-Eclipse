@@ -79,8 +79,11 @@ import eu.celar.tosca.editor.features.ResizeApplicationComponentFeature;
 import eu.celar.tosca.editor.features.ResizeCompositeComponentFeature;
 import eu.celar.tosca.editor.features.UpdateApplicationComponentFeature;
 import eu.celar.tosca.editor.features.UpdateCompositeComponentFeature;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 public class ToscaFeatureProvider extends DefaultFeatureProvider {
+  
+  private String imageType = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getImageArtifactPropertiesType().getName();
 
   public ToscaFeatureProvider( final IDiagramTypeProvider dtp ) {
     super( dtp );
@@ -92,18 +95,13 @@ public class ToscaFeatureProvider extends DefaultFeatureProvider {
     if( context.getNewObject() instanceof TNodeTemplate ) {
       return new AddApplicationComponentFeature( this );
     } 
-//    else if( context.getNewObject() instanceof TRelationshipTemplate
-//               && ( ( TRelationshipTemplate )context.getNewObject() ).getType().toString().compareTo("Bidirected") == 0 ) //$NON-NLS-1$
-//    {
-//      return new AddBidirectionalRelationFeature( this );
-//    }
     else if( context.getNewObject() instanceof TRelationshipTemplate ) {
       return new AddDirectedRelationFeature( this );
     } else if( context.getNewObject() instanceof TDeploymentArtifact ) {
       if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "UA" )==0)
           return new AddUserApplicationFeature( this );
-      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "VMI" )==0)
-          return new AddVirtualMachineFeature( this );
+      else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().getLocalPart().compareTo( imageType )==0)
+        return new AddVirtualMachineFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "KeyPair" )==0)
         return new AddKeyPairFeature( this );
       else if (((TDeploymentArtifact)context.getNewObject()).getArtifactType().toString().compareTo( "MonitoringProbe" )==0)

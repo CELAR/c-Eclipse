@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 //import java.util.concurrent.TimeUnit;
 
+
 import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IFile;
@@ -83,10 +84,19 @@ import eu.celar.tosca.editor.features.RenameCompositeComponentFeature;
 import eu.celar.tosca.elasticity.TNodeTemplateExtension;
 import eu.celar.tosca.elasticity.TServiceTemplateExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
+import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
 
 public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
   MockUpInfoSystem mockUpInfoSystemInstance; 
+  
+  private String typesPrefix = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getNsPrefix();
+  
+  private String typesNamespace = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getNsURI();
+  
+  private String imageType = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getImageArtifactPropertiesType().getName();
+
+  private String scriptArtifactType = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getScriptArtifactPropertiesType().getName();
   
   public ToscaToolBehaviorProvider( final IDiagramTypeProvider dtp ) {
     super( dtp );
@@ -342,7 +352,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
             TArtifactTemplate artifactTemplate = ToscaFactory.eINSTANCE.createTArtifactTemplate();
             artifactTemplate.setName( "SD"+script.getName() );
             artifactTemplate.setId( script.getName() );
-            artifactTemplate.setType( new QName( "ScriptArtifact" ) );
+            artifactTemplate.setType( new QName( typesNamespace, scriptArtifactType, typesPrefix ) );
             sdCF.setContextObject( artifactTemplate );
                         
             
@@ -565,7 +575,8 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( vmi.getUID() );
           deploymentArtifact.setArtifactRef( new QName(vmi.getUID()) );
-          deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          //deploymentArtifact.setArtifactType( new QName( "VMI" ) );
+          deploymentArtifact.setArtifactType( new QName( typesNamespace, imageType, typesPrefix ));
           vmiCF.setContextObject( deploymentArtifact );
 
           ObjectCreationToolEntry objectCreationToolEntry = new ObjectCreationToolEntry( vmi.getUID(),
