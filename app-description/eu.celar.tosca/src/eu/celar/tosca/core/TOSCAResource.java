@@ -17,7 +17,6 @@
 package eu.celar.tosca.core;
 
 import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -27,11 +26,7 @@ import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
 
 import eu.celar.core.model.ICloudApplicationDescription;
 import eu.celar.core.model.impl.ResourceCloudContainer;
-import eu.celar.tosca.PoliciesType1;
-import eu.celar.tosca.TBoundaryDefinitions;
-import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.ToscaFactory;
-import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsFactory;
 
 public class TOSCAResource extends ResourceCloudContainer implements ICloudApplicationDescription {

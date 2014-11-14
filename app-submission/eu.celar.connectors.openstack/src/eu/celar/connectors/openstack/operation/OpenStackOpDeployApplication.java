@@ -104,8 +104,7 @@ public class OpenStackOpDeployApplication extends AbstractOpenStackOpDeployAppli
             		    nodeFlavor = ((NodePropertiesType) entry).getFlavor();
               }
 
-              
-              
+             
               // Get Deployment Artifacts
               TDeploymentArtifacts deploymentArtifacts = node.getDeploymentArtifacts();
               

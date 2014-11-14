@@ -14,35 +14,90 @@
  ******************************************************************************/
 package eu.celar.ui.wizards;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.dialogs.WizardExportResourcesPage;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IExportWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.internal.ExceptionHandler;
+
+import eu.celar.tosca.core.TOSCAModel;
+import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.ui.wizards.jobs.CSARExportOperation;
 
 
 /**
  * @author nickl
  *
  */
-public class ApplicationDescriptionExportWizard extends WizardExportResourcesPage {
-
-  protected ApplicationDescriptionExportWizard( final String pageName,
-                                                final IStructuredSelection selection )
-  {
-    super( pageName, selection );
-  }
+public class ApplicationDescriptionExportWizard extends Wizard
+  implements IExportWizard
+{
 
   /* (non-Javadoc)
-   * @see org.eclipse.ui.dialogs.WizardExportPage#createDestinationGroup(org.eclipse.swt.widgets.Composite)
+   * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+   */
+  
+  private ApplicationDescriptionExportWizardPage exportPage;
+  private IStructuredSelection selection;
+  
+  @Override
+  public void init( final IWorkbench workbench, final IStructuredSelection selection ) {
+    this.selection = selection;
+    setWindowTitle( "Application Description Export Wizard" );
+    setNeedsProgressMonitor( true );
+  }
+  
+  public void addPages() {
+   super.addPages();
+   IStructuredSelection modelSelection = null;
+   if (this.selection instanceof TOSCAResource) {
+     TOSCAModel model= ((TOSCAResource) this.selection.getFirstElement()).getTOSCAModel();
+     modelSelection = (IStructuredSelection) model;
+   }
+   exportPage = new ApplicationDescriptionExportWizardPage( "Application", modelSelection );
+   addPage( exportPage );
+  }
+  
+  /**
+   * Exports the CSAR.
+   *
+   * @param op the op
+   * @return a boolean indicating success or failure
+   */
+  protected boolean executeExportOperation( CSARExportOperation op ) {
+    try {
+      getContainer().run( true, true, op );
+    } catch( InterruptedException e ) {
+      return false;
+    } catch( InvocationTargetException ex ) {
+      if( ex.getTargetException() != null ) {
+
+        return false;
+      }
+    }
+    /*IStatus status = op.getStatus();
+    if( !status.isOK() ) {
+      ErrorDialog.openError( getShell(),
+                             "CSAR export title",
+                             null,
+                             status );
+      return !( status.matches( IStatus.ERROR ) );
+    }*/
+    return true;
+  }
+  
+  
+
+  /* (non-Javadoc)
+   * @see org.eclipse.jface.wizard.Wizard#performFinish()
    */
   @Override
-  protected void createDestinationGroup( Composite parent ) {
-    // TODO Auto-generated method stub
-  }
-
-  @Override
-  public void handleEvent( Event event ) {
-    // TODO Auto-generated method stub
-    
+  public boolean performFinish() {
+    executeExportOperation( new CSARExportOperation( this.exportPage.getSelectedResources(), this.exportPage.getDestinationValue() ) );
+    return true;
   }
 }
