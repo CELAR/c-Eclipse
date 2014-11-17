@@ -264,6 +264,13 @@ public class FetchJob extends Job {
       //add new monitor probe to probes list
       instance.monitor_probes.add( mpSCAN ); 
       
+      MonitoringProbe mpDBalancer = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+      
+      mpDBalancer.setName( "DBalancer" );
+      mpDBalancer.setDescription( "[\"dataInbalanceRatio\"]" );
+      //add new monitor probe to probes list
+      instance.monitor_probes.add( mpDBalancer ); 
+      
       MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
       
       mp.setName( "QueueLength" ); //$NON-NLS-1$ );
