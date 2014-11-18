@@ -49,7 +49,7 @@ public class CreateArtifactTemplate {
     artifactTemplate.setType( artifactType );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts" + File.separator + artifactName );
+    artifactRef.setReference( "Scripts" + System.getProperty( "file.separator" ) + artifactName );
     ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
     artifactRefType.getArtifactReference().add( artifactRef );
     artifactTemplate.setArtifactReferences( artifactRefType );

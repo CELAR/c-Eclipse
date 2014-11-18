@@ -742,10 +742,10 @@ public class ApplicationComponentElasticityRequirementsSection
       }
       IProject project = file.getProject();
       String targetPath = Platform.getLocation()
-                          + File.separator
+                          + System.getProperty( "file.separator" )
                           + project.getName()
-                          + File.separator
-                          + "Artifacts" + File.separator + "Reconfiguration Scripts" + File.separator + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                          + System.getProperty( "file.separator" )
+                          + "Artifacts" + System.getProperty( "file.separator" ) + "Reconfiguration Scripts" + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
       File tmp = new File( targetPath );
       try {
         tmp.createNewFile();
@@ -822,7 +822,7 @@ public class ApplicationComponentElasticityRequirementsSection
     artifactTemplate.setType( new QName( "ScriptArtifact" ) );
     // Set artifact ref
     TArtifactReference artifactRef = ToscaFactory.eINSTANCE.createTArtifactReference();
-    artifactRef.setReference( "Scripts" + File.separator + artifactName );
+    artifactRef.setReference( "Scripts" + System.getProperty( "file.separator" ) + artifactName );
     ArtifactReferencesType artifactRefType = ToscaFactory.eINSTANCE.createArtifactReferencesType();
     artifactRefType.getArtifactReference().add( artifactRef );
     artifactTemplate.setArtifactReferences( artifactRefType );

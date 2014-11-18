@@ -174,8 +174,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
             file = ( ( ToscaDiagramEditorInput )input ).getToscaFile();
           }
           IProject project = file.getProject();
+
           String targetPath = Platform.getLocation()
-                              + File.separator + project.getName() + File.separator + "Artifacts"+ File.separator + "Virtual Machine Images" + File.separator + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                              + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts"+ System.getProperty( "file.separator" ) + "Virtual Machine Images" + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           File tmp = new File( targetPath );
           try {
             tmp.createNewFile();

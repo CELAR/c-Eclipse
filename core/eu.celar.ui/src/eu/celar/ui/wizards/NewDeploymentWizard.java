@@ -611,7 +611,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // Create CSAR
     String csarName = this.deploymentFile.getName();
 
-    this.csar = new File ( System.getProperty("user.home") + File.separator + "Desktop" + File.separator + csarName.replace( "tosca", "csar" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    this.csar = new File ( System.getProperty("user.home") + System.getProperty( "file.separator" ) + "Desktop" + System.getProperty( "file.separator" ) + csarName.replace( "tosca", "csar" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     
     FileOutputStream fos = new FileOutputStream( csar );
     ZipOutputStream zos = new ZipOutputStream( fos );
@@ -629,7 +629,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$   
     
     IProject activeProject = ToscaDiagramEditor.getActiveProject();
-    IFolder scriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Deployment Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
+    IFolder scriptsFolder = activeProject.getFolder( new Path(System.getProperty( "file.separator" ) + "Artifacts" + System.getProperty( "file.separator" ) +"Deployment Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
     IResource[] scriptFiles = scriptsFolder.members();
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
@@ -644,7 +644,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       }
     }   
     
-    IFolder resizingScriptsFolder = activeProject.getFolder( new Path(File.separator + "Artifacts" + File.separator +"Reconfiguration Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
+    IFolder resizingScriptsFolder = activeProject.getFolder( new Path(System.getProperty( "file.separator" ) + "Artifacts" + System.getProperty( "file.separator" ) +"Reconfiguration Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
     scriptFiles = resizingScriptsFolder.members();
     for (IResource resource : scriptFiles){
       IFile tempFile = (IFile) resource;
@@ -844,7 +844,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     throws FileNotFoundException, IOException
   {
 
-    String tmpDir = System.getProperty("java.io.tmpdir") + File.separator; //$NON-NLS-1$
+    String tmpDir = System.getProperty("java.io.tmpdir") + System.getProperty( "file.separator" ); //$NON-NLS-1$
     File file = new File( tmpDir + fileName );
     if( !file.exists() ) {
       file.createNewFile();
@@ -875,7 +875,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     sb.append( "TOSCA-Meta-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "CSAR-Version: 1.0\n" ); //$NON-NLS-1$
     sb.append( "Created-By: c-Eclipse\n\n" ); //$NON-NLS-1$
-    sb.append( "Name: Definitions" + File.separator + defFile + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+    sb.append( "Name: Definitions" + System.getProperty( "file.separator" ) + defFile + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
     sb.append( "Content-Type: application/vnd.oasis.tosca.definitions\n" ); //$NON-NLS-1$
     return sb.toString();
   }

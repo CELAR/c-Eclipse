@@ -122,7 +122,7 @@ public class NewApplicationDescription extends Wizard implements INewWizard {
       String cloudProjectPath = (this.file).getFullPath().segment( 0 );
       IProgressMonitor monitor = null;
       try {
-        this.file.move( new Path(File.separator + cloudProjectPath+ File.separator + "Application Descriptions" + File.separator + fileName), true, monitor );
+        this.file.move( new Path(System.getProperty( "file.separator" ) + cloudProjectPath+ System.getProperty( "file.separator" ) + "Application Descriptions" + System.getProperty( "file.separator" ) + fileName), true, monitor );
       } catch( IllegalStateException e ) {
         // TODO Auto-generated catch block
         e.printStackTrace();

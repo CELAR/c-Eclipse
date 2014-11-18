@@ -108,7 +108,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
 //    String cloudProjectPath = project.getFullPath().segment( 0 );
 //
 //    try {
-//      resource.getResource().copy( new Path(File.separator+cloudProjectPath+ File.separator+ "Application Submissions" +File.separator+ fileName), true, monitor );
+//      resource.getResource().copy( new Path(File.separator+cloudProjectPath+ System.getProperty( "file.separator" )+ "Application Submissions" +File.separator+ fileName), true, monitor );
 //    } catch( CoreException e ) {
 //      // TODO Auto-generated catch block
 //      e.printStackTrace();
@@ -128,7 +128,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
      
   IProject project = resource.getProject().getResource().getProject();
   
-  IFile file = project.getFile( File.separator + "Application Submissions" + File.separator + fileName ); //$NON-NLS-1$
+  IFile file = project.getFile( System.getProperty( "file.separator" ) + "Application Submissions" + System.getProperty( "file.separator" ) + fileName ); //$NON-NLS-1$
   
   try {
     IResource resourceName = resource.getResource();
