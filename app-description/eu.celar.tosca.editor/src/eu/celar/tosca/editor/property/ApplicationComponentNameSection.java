@@ -676,7 +676,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           }
           IProject project = file.getProject();
           String target = Platform.getLocation()
-                          + "/" + project.getName() + "/Artifacts/Deployment Scripts/" + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                          + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts" +System.getProperty( "file.separator" )+"Deployment Scripts"+System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
           String source = dialog.getFilterPath()
                           + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$
           File targetFile = new File( target );
