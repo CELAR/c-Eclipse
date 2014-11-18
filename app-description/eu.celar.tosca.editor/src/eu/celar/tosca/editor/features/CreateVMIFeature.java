@@ -113,8 +113,9 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
     deploymentArtifact.setName( tempDeploymentArtifact.getName() );
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
-    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+","")) );
     
+    //deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+","")) );
+    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getName().replaceAll("\\s+","")) );
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
@@ -131,7 +132,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
 
     //Create Image Artifact Template
    
-    createArtifactTemplate("not_specified", tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+",""));
+    createArtifactTemplate("not_specified", tempDeploymentArtifact.getName().replaceAll("\\s+",""), tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+",""));
     
     // activate direct editing after object creation
     getFeatureProvider().getDirectEditingInfo().setActive( true );
@@ -141,7 +142,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     };
   }
   
-  private void createArtifactTemplate(String description, String imageId){
+  private void createArtifactTemplate(String description, String artifactRef, String imageId){
     
     final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
     
@@ -172,7 +173,8 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     
     artifactTemplate.setProperties( properties );
  
-    artifactTemplate.setId( imageId );
+    //artifactTemplate.setId( imageId );
+    artifactTemplate.setId( artifactRef );
     
     // Add the new Artifact Template to the TOSCA Definitions element
     
