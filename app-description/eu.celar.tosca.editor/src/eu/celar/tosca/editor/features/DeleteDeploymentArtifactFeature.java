@@ -15,7 +15,6 @@ public class DeleteDeploymentArtifactFeature extends DefaultDeleteFeature{
 
   public DeleteDeploymentArtifactFeature( IFeatureProvider fp ) {
     super( fp );
-    // TODO Auto-generated constructor stub
   }
   
   @Override
