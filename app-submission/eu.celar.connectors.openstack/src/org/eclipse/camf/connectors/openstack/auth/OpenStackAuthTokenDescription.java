@@ -37,7 +37,7 @@ public class OpenStackAuthTokenDescription implements IAuthenticationTokenDescri
 {
 
   /** The path for OpenStack related secure storage data. */
-  public static final String SECURE_STORAGE_NODE = "/eu/celar/connectors/openstack/"; //$NON-NLS-1$
+  public static final String SECURE_STORAGE_NODE = "/org/eclipse/camf/connectors/openstack/"; //$NON-NLS-1$
 
   /** The token type name. */
   private static final String TOKEN_TYPE_NAME = Messages.getString( "OSAuthTokenDescription.token_type_name" ); //$NON-NLS-1$

@@ -53,7 +53,7 @@ public class HiddenProject extends ResourceCloudContainer implements ICloudProje
   /**
    * The name of the project.
    */
-  public static final String NAME = ".celar"; //$NON-NLS-1$
+  public static final String NAME = ".camf"; //$NON-NLS-1$
   /**
    * Folder name of the temporary folder.
    */

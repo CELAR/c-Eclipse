@@ -21,7 +21,7 @@ public class AWSAuthTokenDescription implements IAuthenticationTokenDescription
 {
 
   /** The path for AWS related secure storage data. */
-  public static final String SECURE_STORAGE_NODE = "/eu/celar/connectors/aws/"; //$NON-NLS-1$
+  public static final String SECURE_STORAGE_NODE = "/org/eclipse/camf/connectors/aws/"; //$NON-NLS-1$
 
   /** The token type name. */
   private static final String TOKEN_TYPE_NAME = Messages.getString( "AWSAuthTokenDescription.token_type_name" ); //$NON-NLS-1$
