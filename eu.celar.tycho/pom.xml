@@ -99,7 +99,7 @@
 		<module>../app-description/eu.celar.tosca.editor</module>
 		<module>../app-submission/eu.celar.connectors.openstack</module>
 		<module>../app-submission/eu.celar.connectors.openstack.ui</module>
-		<module>../app-submission/com.amazon.aws</module>
+		
 		<module>../app-submission/eu.celar.connectors.aws</module>
 		<module>../core/eu.celar.connectors.aws.ui</module>
 		<module>../eu.celar.tycho.target</module>
