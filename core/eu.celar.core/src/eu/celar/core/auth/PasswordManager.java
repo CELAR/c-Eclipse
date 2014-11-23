@@ -13,6 +13,7 @@
  *    Mathias Stuempert - initial API and implementation
  *    Moritz Post       - switch to use new Equinox secure storage
  *    Ariel Garcia      - updated to allow both secure storage or internal
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
  *****************************************************************************/
 
 package eu.celar.core.auth;

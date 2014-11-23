@@ -11,6 +11,7 @@
  *
  * Contributors:
  *    Mathias Stuempert - initial API and implementation
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
  *****************************************************************************/
 package eu.celar.core.model;
 

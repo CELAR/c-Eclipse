@@ -1,10 +1,25 @@
+/*****************************************************************************
+ * Copyright (c) 2006, 2007 g-Eclipse Consortium 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Initial development of the original code was made for the
+ * g-Eclipse project founded by European Union
+ * project number: FP6-IST-034327  http://www.geclipse.eu/
+ *
+ * Contributors:
+ *    Mathias Stuempert - initial API and implementation
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
+ *    Stalo Sofokleous
+ *****************************************************************************/
 package eu.celar.ui.wizards;
 
 import java.net.URL;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -16,14 +31,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.model.impl.GenericCloudProviderCreator;
-import eu.celar.core.reporting.ProblemException;
 import eu.celar.ui.internal.Activator;
 
 

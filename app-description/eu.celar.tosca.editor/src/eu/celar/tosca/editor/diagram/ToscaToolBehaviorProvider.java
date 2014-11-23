@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2014 CELAR Consortium.
+ * Copyright (c) 2013 CELAR Consortium.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,9 @@
  * project number: FP7-317790  http://www.celarcloud.eu
  *
  * Contributors:
- * 	Stalo Sofokleous - initial API and implementation
- * 	Nicholas Loulloudes - implementation extensions
+ *   Stalo Sofokleous - initial API and implementation
+ *   Nicholas Loulloudes - API and implementation extensions
+ *   
  *******************************************************************************/
 package eu.celar.tosca.editor.diagram;
 

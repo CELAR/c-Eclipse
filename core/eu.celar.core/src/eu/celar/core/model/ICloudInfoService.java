@@ -17,7 +17,6 @@ package eu.celar.core.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import eu.celar.core.model.impl.AbstractInfoCache;
 import eu.celar.core.reporting.ProblemException;
 
 

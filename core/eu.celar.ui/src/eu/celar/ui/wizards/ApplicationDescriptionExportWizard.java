@@ -16,13 +16,10 @@ package eu.celar.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.internal.ExceptionHandler;
 
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;

@@ -1,7 +1,4 @@
-package eu.celar.core.model.impl;
-
 /*****************************************************************************
- * Copyright (c) 2006-2009 g-Eclipse Consortium 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,9 +11,9 @@ package eu.celar.core.model.impl;
  * Contributors:
  *    Mathias Stuempert - initial API and implementation
  *    Ariel Garcia      - updated to new problem reporting
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
  *****************************************************************************/
-
-
+package eu.celar.core.model.impl;
 
 import java.util.Arrays;
 import java.util.HashSet;

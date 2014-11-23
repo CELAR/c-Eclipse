@@ -1,20 +1,25 @@
-/************************************************************
- * Copyright (C), 2013 CELAR Consortium
- * http://www.celarcloud.eu
+/*****************************************************************************
+ * Copyright (c) 2008 g-Eclipse Consortium 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Initial development of the original code was made for the
+ * g-Eclipse project founded by European Union
+ * project number: FP6-IST-034327  http://www.geclipse.eu/
  *
  * Contributors:
- *      Nicholas Loulloudes - initial API and implementation 
- ************************************************************/
+ *    Mathias Stuempert - initial API and implementation
+ *    Ariel Garcia      - modified to work for any Throwable
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
+ *****************************************************************************/
+
 package eu.celar.ui.internal.dialogs;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;

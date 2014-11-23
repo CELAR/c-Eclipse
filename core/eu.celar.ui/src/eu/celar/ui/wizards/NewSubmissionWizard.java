@@ -1,19 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 2013 CELAR Consortium.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Initial development of the original code was made for the 
+ * CELAR project founded by European Union
+ * project number: FP7-317790  http://www.celarcloud.eu
+ *
+ * Contributors:
+ *   Nicholas Loulloudes - initial API and implementation
+ *   Stalo Sofokleous - TOSCA related extensions
+ *   
+ *******************************************************************************/
 package eu.celar.ui.wizards;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Dictionary;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -23,7 +30,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import eu.celar.core.model.CloudModel;
-import eu.celar.core.model.ICloudElement;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;

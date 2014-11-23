@@ -12,6 +12,7 @@
  * Contributors:
  *    Mathias Stuempert - initial API and implementation
  *    Ariel Garcia      - added table sorting
+ *    Nicholas Loulloudes - code adapted for CELAR project, 2013
  *****************************************************************************/
 
 package eu.celar.ui.views;

@@ -12,7 +12,6 @@
  * Contributors:
  *    Mathias Stuempert - initial API and implementation
  *****************************************************************************/
-
 package eu.celar.ui;
 
 import org.eclipse.swt.widgets.Shell;

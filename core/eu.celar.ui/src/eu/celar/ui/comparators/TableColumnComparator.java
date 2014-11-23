@@ -12,7 +12,6 @@
  * Contributors:
  *    Ariel Garcia - initial API and implementation
  *****************************************************************************/
-
 package eu.celar.ui.comparators;
 
 import org.eclipse.core.resources.IResource;

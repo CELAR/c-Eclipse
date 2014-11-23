@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 CELAR Consortium.
+ * Copyright (c) 2013 CELAR Consortium.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,9 @@
  * project number: FP7-317790  http://www.celarcloud.eu
  *
  * Contributors:
- * 	Nicholas Loulloudes - Initial Implementation
- ******************************************************************************/
+ *   Nicholas Loulloudes - initial API and implementation
+ *   
+ *******************************************************************************/
 package eu.celar.ui.wizards.jobs;
 
 import java.io.BufferedReader;

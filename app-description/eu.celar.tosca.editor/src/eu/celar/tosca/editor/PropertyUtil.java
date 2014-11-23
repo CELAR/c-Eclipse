@@ -10,8 +10,9 @@
  * project number: FP7-317790  http://www.celarcloud.eu
  *
  * Contributors:
- * 	Stalo Sofokleous - initial API and implementation
- * 	Nicholas Loulloudes - implementation extensions
+ *   Stalo Sofokleous - initial API and implementation
+ *   Nicholas Loulloudes - API and implementation extensions
+ *   
  *******************************************************************************/
 package eu.celar.tosca.editor;
 

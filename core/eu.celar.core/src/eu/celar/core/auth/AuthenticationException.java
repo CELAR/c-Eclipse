@@ -12,6 +12,7 @@
  * Contributors:
  *    Mathias Stuempert - initial API and implementation
  *    Ariel Garcia      - updated to new problem reporting
+ *    Nicholas Loulloudes - code adapter for CELAR project, 2013
  *****************************************************************************/
 
 package eu.celar.core.auth;

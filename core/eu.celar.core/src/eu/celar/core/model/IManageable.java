@@ -13,7 +13,6 @@
  *    Mathias Stuempert - initial API and implementation
  *    Nicholas Loulloudes - code adapter for CELAR project, 2013
  *****************************************************************************/
-
 package eu.celar.core.model;
 
 
