@@ -84,11 +84,10 @@
                                 <artifact>
                                     <id>org.apache.jclouds.driver:jclouds-slf4j:${jclouds.version}</id>
                                 </artifact>
-                                <!-- 
 								<artifact>
-                                    <id>org.apache.jclouds.driver:jclouds-sshj:${jclouds.version}</id>
-                                </artifact>
-                                 -->
+                                    <id>org.apache.jclouds.api:swift:${jclouds.version}</id>
+                                </artifact>                                
+
                                  
                                  <!--  JClouds OpenStack Dependencies -->
 								<artifact>
@@ -97,9 +96,6 @@
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-keystone:${jclouds.version}</id>
                                 </artifact>
-								<artifact>
-                                    <id>org.apache.jclouds.api:swift:${jclouds.version}</id>
-                                </artifact>                                
 								<artifact>
                                     <id>org.apache.jclouds.api:openstack-cinder:${jclouds.version}</id>
                                 </artifact> 
@@ -117,34 +113,19 @@
                                 </artifact>
                                 
                                 
-                                <!-- 
-                     			<artifact>
-                                    <id>com.sun.jersey:jersey-bundle:1.18</id>
-                                </artifact> 
+                                <!-- JClouds Docker Dependencies -->
                                 <artifact>
-                                    <id>com.sun.jersey.contribs:jersey-multipart:1.18</id>
+                                	<id>org.apache.jclouds.labs:docker:${jclouds.version}</id>
                                 </artifact>
-								<artifact>
-                                    <id>org.apache.jclouds.api:openstack-trove:${jclouds.version}</id>
-                                </artifact>
-								<artifact>
-                                    <id>org.apache.jclouds.labs:openstack-glance:${jclouds.version}</id>
-                                </artifact>   
-								<artifact>
-                                    <id>org.apache.jclouds.labs:openstack-marconi:${jclouds.version}</id>
-                                </artifact>
-                               -->
-                               
-                                <!-- 3rd party dependencies -->
+                                
+                                
+                                <!-- Other 3rd party dependencies -->
 								<artifact>
                                     <id>ch.qos.logback:logback-classic:1.0.13</id>
                                 </artifact>                                                                                     
                                 <artifact>
                                     <id>mysql:mysql-connector-java:5.1.25</id>
-                                </artifact>                                
-                                <artifact>
-                                    <id>mysql:mysql-connector-java:5.1.25</id>
-                                </artifact>                                
+                                </artifact>                                                                
                             </artifacts>
                         </configuration>
                     </execution>
