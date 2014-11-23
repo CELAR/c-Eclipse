@@ -100,7 +100,7 @@
 		<module>../app-submission/eu.celar.connectors.openstack</module>
 		<module>../app-submission/eu.celar.connectors.openstack.ui</module>
 		
-		<module>../app-submission/eu.celar.connectors.aws</module>
+		
 		<module>../core/eu.celar.connectors.aws.ui</module>
 		<module>../eu.celar.tycho.target</module>
 		<module>../eu.celar.tycho.feature</module>
@@ -109,5 +109,6 @@
 		
 		<module>../core/eu.celar.infosystem</module>
 		<module>../core/eu.celar.infosystem.ui</module>
+		<module>../app-submission/eu.celar.connectors.aws</module>
 	</modules>
 </project> 
