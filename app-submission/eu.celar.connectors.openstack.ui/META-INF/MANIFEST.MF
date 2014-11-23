@@ -1,20 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OpenStack UI
-Bundle-SymbolicName: eu.celar.connectors.openstack.ui;singleton:=true
+Bundle-SymbolicName: org.eclipse.camf.connectors.openstack.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: eu.celar.connectors.openstack.ui.internal.Activator
+Bundle-Activator: org.eclipse.camf.connectors.openstack.ui.internal.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: eu.celar.connectors.openstack,
- eu.celar.connectors.openstack.auth,
- eu.celar.core,
- eu.celar.core.auth,
- eu.celar.core.model,
- eu.celar.core.reporting,
- eu.celar.ui,
- eu.celar.ui.dialogs,
- eu.celar.ui.wizards,
- eu.celar.ui.wizards.wizardselection
+Import-Package: org.eclipse.camf.connectors.openstack,
+ org.eclipse.camf.connectors.openstack.auth,
+ org.eclipse.camf.core,
+ org.eclipse.camf.core.auth,
+ org.eclipse.camf.core.model,
+ org.eclipse.camf.core.reporting,
+ org.eclipse.camf.ui,
+ org.eclipse.camf.ui.dialogs,
+ org.eclipse.camf.ui.wizards,
+ org.eclipse.camf.ui.wizards.wizardselection

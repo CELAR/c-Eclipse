@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.ui" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.ui" id="PropertiesFactory" name="PropertiesFactory"/>
+         <meta.schema plugin="org.eclipse.camf.ui" id="PropertiesFactory" name="PropertiesFactory"/>
       </appinfo>
       <documentation>
          Defines factories, which can produce property-sources for different java classes.
@@ -101,7 +101,7 @@ Used for plugin lazy-loading. If you put here Object, then your plugin will be l
          <meta.section type="apiInfo"/>
       </appinfo>
       <documentation>
-         See eu.celar.ui.properties.IPropertiesFactory interface.
+         See org.eclipse.camf.ui.properties.IPropertiesFactory interface.
       </documentation>
    </annotation>
 
@@ -110,8 +110,8 @@ Used for plugin lazy-loading. If you put here Object, then your plugin will be l
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         eu.celar.jsdl.ui.properties.PropertiesFactory
-eu.celar.ui.properties.PropertiesFactory
+         org.eclipse.camf.jsdl.ui.properties.PropertiesFactory
+org.eclipse.camf.ui.properties.PropertiesFactory
       </documentation>
    </annotation>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>eu.celar.tycho.target</name>
+	<name>org.eclipse.camf.tycho.target</name>
 	<comment></comment>
 	<projects>
 	</projects>

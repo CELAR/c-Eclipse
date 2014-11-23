@@ -4,9 +4,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="eu.celar.ui"
-            class="eu.celar.infosystem.ui.InfoSystemView"
-            id="eu.celar.infosystem.ui.InfoSystemView"
+            category="org.eclipse.camf.ui"
+            class="org.eclipse.camf.infosystem.ui.InfoSystemView"
+            id="org.eclipse.camf.infosystem.ui.InfoSystemView"
             name="Cloud Information Tool"
             restorable="true">
       </view>

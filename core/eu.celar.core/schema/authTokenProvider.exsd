@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.core" id="authTokenProvider" name="Authentication Token Provider"/>
+         <meta.schema plugin="org.eclipse.camf.core" id="authTokenProvider" name="Authentication Token Provider"/>
       </appinfo>
       <documentation>
          This extension point is only for internal use. It is not intended to be used outside the g-Eclipse core plugins.
@@ -52,10 +52,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  Implementation of the &lt;code&gt;eu.celar.core.auth.IAuthTokenProvider&lt;/code&gt; interface that is intended to provide authentication tokens.
+                  Implementation of the &lt;code&gt;org.eclipse.camf.core.auth.IAuthTokenProvider&lt;/code&gt; interface that is intended to provide authentication tokens.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":eu.celar.core.auth.IAuthTokenProvider"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.camf.core.auth.IAuthTokenProvider"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -84,9 +84,9 @@
       </appinfo>
       <documentation>
          &lt;pre&gt;
-&lt;extension point=&quot;eu.celar.core.authTokenProvider&quot;&gt;
+&lt;extension point=&quot;org.eclipse.camf.core.authTokenProvider&quot;&gt;
   &lt;provider
-    class=&quot;eu.celar.core.auth.CoreAuthTokenProvider&quot;
+    class=&quot;org.eclipse.camf.core.auth.CoreAuthTokenProvider&quot;
     priority=&quot;0&quot;&gt;
   &lt;/provider&gt;
 &lt;/extension&gt;
@@ -99,7 +99,7 @@
          <meta.section type="apiInfo"/>
       </appinfo>
       <documentation>
-         See the &lt;code&gt;eu.celar.core.auth.IAuthTokenProvider&lt;/code&gt; interface.
+         See the &lt;code&gt;org.eclipse.camf.core.auth.IAuthTokenProvider&lt;/code&gt; interface.
       </documentation>
    </annotation>
 

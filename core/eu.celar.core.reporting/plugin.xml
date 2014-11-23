@@ -3,10 +3,10 @@
 <plugin>
 	<extension-point id="problemReporting" name="ProblemReporting" schema="schema/problemReporting.exsd"/>
    <extension
-         point="eu.celar.core.reporting.problemReporting">
+         point="org.eclipse.camf.core.reporting.problemReporting">
       <problem
             description="An unknown problem occurred"
-            id="eu.celar.core.reporting.problem.unknown">
+            id="org.eclipse.camf.core.reporting.problem.unknown">
       </problem>
    </extension>
 

@@ -8,168 +8,168 @@
  <extension-point id="authTokens" name="Authentication Tokens" schema="schema/authTokens.exsd"/>
 	
 	<extension
-         id="eu.celar.core.project.CloudProjectBuilder"
+         id="org.eclipse.camf.core.project.CloudProjectBuilder"
          name="%extension.cloudProjectBuilder"
          point="org.eclipse.core.resources.builders">
       <builder>
-         <run class="eu.celar.core.project.CloudProjectBuilder"/>
+         <run class="org.eclipse.camf.core.project.CloudProjectBuilder"/>
       </builder>
    </extension>
    <extension
-         id="eu.celar.core.project.CloudProjectNature"
+         id="org.eclipse.camf.core.project.CloudProjectNature"
          name="%extension.cloudProjectNature"
          point="org.eclipse.core.resources.natures">
       <runtime>
-         <run class="eu.celar.core.project.CloudProjectNature"/>
+         <run class="org.eclipse.camf.core.project.CloudProjectNature"/>
       </runtime>
    </extension>
   <extension
      point="org.eclipse.core.runtime.preferences">
      <scope
-           class="eu.celar.core.project.CloudProjectScope"
-           name="eu.celar.core.projectScope">
+           class="org.eclipse.camf.core.project.CloudProjectScope"
+           name="org.eclipse.camf.core.projectScope">
      </scope>
    </extension>
    <extension
-         point="eu.celar.core.reporting.problemReporting">
+         point="org.eclipse.camf.core.reporting.problemReporting">
                <problem
             description="Token request canceled"
-            id="eu.celar.core.problem.auth.tokenRequestCanceled">
+            id="org.eclipse.camf.core.problem.auth.tokenRequestCanceled">
       </problem>
       <problem
             description="Unable to create credential"
-            id="eu.celar.core.problem.auth.credentialCreateFailed"
+            id="org.eclipse.camf.core.problem.auth.credentialCreateFailed"
             mailto="">
       </problem>
       <problem
             description="Unable to save credential"
-            id="eu.celar.core.problem.auth.credentialSaveFailed"
+            id="org.eclipse.camf.core.problem.auth.credentialSaveFailed"
             mailto="">
       </problem>
       <problem
             description="Invalid token description"
-            id="eu.celar.core.problem.auth.invalidTokenDescription"
+            id="org.eclipse.camf.core.problem.auth.invalidTokenDescription"
             mailto="">
       </problem>
       <problem
             description="Unable to load key file"
-            id="eu.celar.core.problem.auth.keyLoadFailed"
+            id="org.eclipse.camf.core.problem.auth.keyLoadFailed"
             mailto="">
       </problem>
       <problem
             description="Login failed"
-            id="eu.celar.core.problem.auth.loginFailed">
+            id="org.eclipse.camf.core.problem.auth.loginFailed">
       </problem>
       <problem
             description="Permission denied"
-            id="eu.celar.core.problem.auth.permissionDenied">
+            id="org.eclipse.camf.core.problem.auth.permissionDenied">
       </problem>
       <problem
             description="Unable to activate token"
-            id="eu.celar.core.problem.auth.tokenActivateFailed"
+            id="org.eclipse.camf.core.problem.auth.tokenActivateFailed"
             mailto="">
       </problem>
       <problem
             description="Authentication token has not been activated yet"
-            id="eu.celar.core.problem.auth.tokenNotYetValid"
+            id="org.eclipse.camf.core.problem.auth.tokenNotYetValid"
             mailto="">
       </problem>
       <problem
             description="Failed to get an authentication token"
-            id="eu.celar.core.problem.auth.didNotGetToken"
+            id="org.eclipse.camf.core.problem.auth.didNotGetToken"
             mailto="">
       </problem>
       <problem
             description="Corrupted file"
-            id="eu.celar.core.problem.io.corruptedFile">
+            id="org.eclipse.camf.core.problem.io.corruptedFile">
       </problem>
       <problem
             description="File not found"
-            id="eu.celar.core.problem.io.fileNotFound">
+            id="org.eclipse.camf.core.problem.io.fileNotFound">
       </problem>
       <problem
             description="A file or folder operation failed"
-            id="eu.celar.core.problem.io.operationFailed">
+            id="org.eclipse.camf.core.problem.io.operationFailed">
       </problem>
       <problem
             description="Unspecified IO problem"
-            id="eu.celar.core.problem.io.unspecified"
+            id="org.eclipse.camf.core.problem.io.unspecified"
             mailto="bugreports@celar.eu">
       </problem>
       <problem
             description="Container cannot contain elements of the specified type"
-            id="eu.celar.core.problem.model.containerCanNotContain"
+            id="org.eclipse.camf.core.problem.model.containerCanNotContain"
             mailto="bugreports@celar.eu">
       </problem>
       <problem
             description="Failed to create cloud element"
-            id="eu.celar.core.problem.model.elementCreateFailed">
+            id="org.eclipse.camf.core.problem.model.elementCreateFailed">
       </problem>
       <problem
             description="Error while deleting model element"
-            id="eu.celar.core.problem.model.elementDeleteFailed">
+            id="org.eclipse.camf.core.problem.model.elementDeleteFailed">
       </problem>
       <problem
             description="Failed to load cloud element"
-            id="eu.celar.core.problem.model.elementLoadFailed">
+            id="org.eclipse.camf.core.problem.model.elementLoadFailed">
       </problem>
       <problem
             description="The manager cannot manage the specified element"
-            id="eu.celar.core.problem.model.elementNotManageable">
+            id="org.eclipse.camf.core.problem.model.elementNotManageable">
       </problem>
       <problem
             description="Failed to save cloud element"
-            id="eu.celar.core.problem.model.elementSaveFailed">
+            id="org.eclipse.camf.core.problem.model.elementSaveFailed">
       </problem>
       <problem
             description="Failed to fetch children"
-            id="eu.celar.core.problem.model.fetchChildrenFailed">
+            id="org.eclipse.camf.core.problem.model.fetchChildrenFailed">
          <reference
-               referenceID="eu.celar.core.solution.net.checkProxySettings">
+               referenceID="org.eclipse.camf.core.solution.net.checkProxySettings">
          </reference>
          <reference
-               referenceID="eu.celar.core.solution.auth.checkTokens">
+               referenceID="org.eclipse.camf.core.solution.auth.checkTokens">
          </reference>
          <reference
-               referenceID="eu.celar.core.solution.auth.checkCaCertificates">
+               referenceID="org.eclipse.camf.core.solution.auth.checkCaCertificates">
          </reference>
       </problem>
       <problem
             description="Unable to create preferences"
-            id="eu.celar.core.problem.model.preferenceCreationFailed">
+            id="org.eclipse.camf.core.problem.model.preferenceCreationFailed">
       </problem>
       <problem
             description="Failed to refresh container"
-            id="eu.celar.core.problem.model.refreshFailed">
+            id="org.eclipse.camf.core.problem.model.refreshFailed">
       </problem>
       <problem
             description="Cannot open closed project"
-            id="eu.celar.core.problem.io.openProjectFailed">
+            id="org.eclipse.camf.core.problem.io.openProjectFailed">
       </problem>
       <problem
             description="Folder creation failed"
-            id="eu.celar.core.problem.io.crateFolderFailed">
+            id="org.eclipse.camf.core.problem.io.crateFolderFailed">
       </problem>
       <problem
             description="The VO import was incomplete for one or more VOs"
-            id="eu.celar.core.problem.vo.importIncomplete">
+            id="org.eclipse.camf.core.problem.vo.importIncomplete">
       </problem>
       <problem
             description="The VO import failed for one or more VOs"
-            id="eu.celar.core.problem.vo.importFailed">
+            id="org.eclipse.camf.core.problem.vo.importFailed">
       </problem>
    </extension>
    <extension
-         point="eu.celar.core.authTokenProvider">
+         point="org.eclipse.camf.core.authTokenProvider">
       <provider
-            class="eu.celar.core.auth.CoreAuthTokenProvider"
+            class="org.eclipse.camf.core.auth.CoreAuthTokenProvider"
             priority="0">
       </provider>
    </extension>
    <extension
-         point="eu.celar.core.cloudResourceCategory">
+         point="org.eclipse.camf.core.cloudResourceCategory">
       <category
-            id="eu.celar.core.model.category.services.deployment"
+            id="org.eclipse.camf.core.model.category.services.deployment"
             name="Cloud Application Deployment Services">
       </category>
    </extension>

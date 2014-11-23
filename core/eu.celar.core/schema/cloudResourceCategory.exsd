@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.core" id="clourResourceCategory" name="Clour Resource Category"/>
+         <meta.schema plugin="org.eclipse.camf.core" id="clourResourceCategory" name="Clour Resource Category"/>
       </appinfo>
       <documentation>
-         This extension point is used to provide categories for Cloud resources (eu.celar.core.model.ICloudResource). These categories are used within Cloud projects to organize the available resources in a tree structure. Categories are either top-level categories or sub-categories. In the later case they have a defined parent.
+         This extension point is used to provide categories for Cloud resources (org.eclipse.camf.core.model.ICloudResource). These categories are used within Cloud projects to organize the available resources in a tree structure. Categories are either top-level categories or sub-categories. In the later case they have a defined parent.
       </documentation>
    </annotation>
 

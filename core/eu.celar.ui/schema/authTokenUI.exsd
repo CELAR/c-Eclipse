@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.ui" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.ui" id="authTokenUI" name="Authentication Token UI Components"/>
+         <meta.schema plugin="org.eclipse.camf.ui" id="authTokenUI" name="Authentication Token UI Components"/>
       </appinfo>
       <documentation>
          This extension point is used to provide UI components for managing authentication tokens. These UI components are used to create tokens and to show token information.
@@ -73,7 +73,7 @@
                   An implementation of the &lt;code&gt;eu.geclipse.ui.IAuthTokenUIFactory&lt;/code&gt; interface that is used to create a dialog showing token related information.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":eu.celar.ui.IAuthTokenUIFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.camf.ui.IAuthTokenUIFactory"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -149,7 +149,7 @@
          <meta.section type="apiInfo"/>
       </appinfo>
       <documentation>
-         See the &lt;code&gt;eu.celar.ui.IAuthTokenUIFactory&lt;/code&gt; and &lt;code&gt;org.eclipse.ui.INewWizard&lt;/code&gt; interfaces.
+         See the &lt;code&gt;org.eclipse.camf.ui.IAuthTokenUIFactory&lt;/code&gt; and &lt;code&gt;org.eclipse.ui.INewWizard&lt;/code&gt; interfaces.
       </documentation>
    </annotation>
 

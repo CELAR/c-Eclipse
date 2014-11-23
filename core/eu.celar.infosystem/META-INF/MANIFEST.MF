@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Infosystem
-Bundle-SymbolicName: eu.celar.infosystem;singleton:=true
+Bundle-SymbolicName: org.eclipse.camf.infosystem;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: eu.celar.infosystem.internal.Activator
+Bundle-Activator: org.eclipse.camf.infosystem.internal.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- eu.celar.core,
- eu.celar.core.reporting
+ org.eclipse.camf.core,
+ org.eclipse.camf.core.reporting
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Export-Package: eu.celar.infosystem.jobs
+Export-Package: org.eclipse.camf.infosystem.jobs

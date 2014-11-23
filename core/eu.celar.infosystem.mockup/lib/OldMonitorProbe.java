@@ -5,12 +5,12 @@
  * Contributors:
  *      Nicholas Loulloudes - initial API and implementation 
  ************************************************************/
-package eu.celar.infosystem.mockup.info;
+package org.eclipse.camf.infosystem.mockup.info;
 
 import java.net.URI;
 
-import eu.celar.core.model.ICloudContainer;
-import eu.celar.core.model.ICloudMonitorProbe;
+import org.eclipse.camf.core.model.ICloudContainer;
+import org.eclipse.camf.core.model.ICloudMonitorProbe;
 
 
 /**

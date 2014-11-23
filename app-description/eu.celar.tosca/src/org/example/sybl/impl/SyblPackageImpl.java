@@ -17,21 +17,15 @@
  */
 package org.example.sybl.impl;
 
-import eu.celar.tosca.ToscaPackage;
-
-import eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
-
-import eu.celar.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl;
-
+import org.eclipse.camf.tosca.ToscaPackage;
+import org.eclipse.camf.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage;
+import org.eclipse.camf.tosca.elasticity.impl.Tosca_Elasticity_ExtensionsPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.example.sybl.BinaryRestriction;
 import org.example.sybl.ConditionType;
 import org.example.sybl.ConditionType1;

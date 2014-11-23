@@ -5,7 +5,7 @@
   <packaging>eclipse-plugin</packaging>
 
 
-  <artifactId>eu.celar.connectors.openstack</artifactId>
+  <artifactId>org.eclipse.camf.connectors.openstack</artifactId>
 <!-- 
   <repositories>
 	<repository>
@@ -34,7 +34,7 @@
 
 
 	<parent>
-		<groupId>eu.celar.tycho</groupId>
+		<groupId>org.eclipse.camf.tycho</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../../eu.celar.tycho</relativePath>

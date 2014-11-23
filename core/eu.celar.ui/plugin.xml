@@ -3,34 +3,34 @@
 <plugin>
    <extension-point id="propertiesFactory" name="propertiesFactory" schema="schema/PropertiesFactory.exsd"/>
    <extension-point id="authTokenUI" name="Authentication Token UI Contributions" schema="schema/authTokenUI.exsd"/>
-   <extension-point id="newCloudProviderWizards" name="eu.celar.ui.newCloudProviderWizards" schema="schema/newCloudProviderWizards.exsd"/>
+   <extension-point id="newCloudProviderWizards" name="org.eclipse.camf.ui.newCloudProviderWizards" schema="schema/newCloudProviderWizards.exsd"/>
    
 
    <extension
          point="org.eclipse.ui.views">
       <category
             name="CELAR"
-            id="eu.celar.ui">
+            id="org.eclipse.camf.ui">
       </category>
       <view
             name="Cloud Project View"
             icon="icons/celar.gif"
-            category="eu.celar.ui"
-            class="eu.celar.ui.views.CloudProjectView"
-            id="eu.celar.ui.views.CloudProjectView">
+            category="org.eclipse.camf.ui"
+            class="org.eclipse.camf.ui.views.CloudProjectView"
+            id="org.eclipse.camf.ui.views.CloudProjectView">
       </view>
       <view
-            category="eu.celar.ui"
-            class="eu.celar.ui.views.AuthTokenView"
+            category="org.eclipse.camf.ui"
+            class="org.eclipse.camf.ui.views.AuthTokenView"
             icon="icons/eview16/authtokens.gif"
-            id="eu.celar.ui.views.authenticationTokenView"
+            id="org.eclipse.camf.ui.views.authenticationTokenView"
             name="Authentication Token UI"
             restorable="true">
       </view>
       <view
-            category="eu.celar.ui"
-            class="eu.celar.ui.views.ApplicationDeploymentMockupView"
-            id="eu.celar.ui.views.deploymentview"
+            category="org.eclipse.camf.ui"
+            class="org.eclipse.camf.ui.views.ApplicationDeploymentMockupView"
+            id="org.eclipse.camf.ui.views.deploymentview"
             name="Application Deployments"
             restorable="true">
       </view>
@@ -46,52 +46,52 @@
          point="org.eclipse.ui.decorators">
       <decorator
             adaptable="false"
-            class="eu.celar.ui.decorators.CloudProjectFolderDecorator"
+            class="org.eclipse.camf.ui.decorators.CloudProjectFolderDecorator"
             id="eu.clear.ui.CloudProjectFolderDecorator"
             label="Cloud Project Folder Decorator"
             lightweight="true"
             state="true">
          <enablement>
             <objectClass
-                  name="eu.celar.core.model.ICloudContainer">
+                  name="org.eclipse.camf.core.model.ICloudContainer">
             </objectClass></enablement>
       </decorator>
    </extension>
    
       <extension
-         point="eu.celar.core.authTokenProvider">
+         point="org.eclipse.camf.core.authTokenProvider">
       <provider
-            class="eu.celar.ui.UIAuthTokenProvider"
+            class="org.eclipse.camf.ui.UIAuthTokenProvider"
             priority="999">
       </provider>
    </extension>
    
       <extension
-         point="eu.celar.core.cloudProjectFolder">
+         point="org.eclipse.camf.core.cloudProjectFolder">
       <folder
-            elementClass="eu.celar.core.model.ICloudApplicationDescription"
-            id="eu.celar.core.projectfolder.appdescriptions"
+            elementClass="org.eclipse.camf.core.model.ICloudApplicationDescription"
+            id="org.eclipse.camf.core.projectfolder.appdescriptions"
             label="Application Descriptions"
             name="Application Description Folder"
             preset="true">
       </folder>
             <folder
-            elementClass="eu.celar.core.model.ICloudApplicationSubmission"
-            id="eu.celar.core.projectfolder.applicationsubmissions"
+            elementClass="org.eclipse.camf.core.model.ICloudApplicationSubmission"
+            id="org.eclipse.camf.core.projectfolder.applicationsubmissions"
             label="Application Submissions"
             name="Application Submissions Folder"
             preset="true">
       </folder>
       <folder
-            elementClass="eu.celar.core.model.ICloudScript"
-            id="eu.celar.core.projectfolder.scripts"
+            elementClass="org.eclipse.camf.core.model.ICloudScript"
+            id="org.eclipse.camf.core.projectfolder.scripts"
             label="Artifacts"
             name="Artifacts Folder"
             preset="true">
       </folder>
       <folder
-            elementClass="eu.celar.core.model.ICloudApplicationMonitorDescription"
-            id="eu.celar.core.projectfolder.monitoring"
+            elementClass="org.eclipse.camf.core.model.ICloudApplicationMonitorDescription"
+            id="org.eclipse.camf.core.projectfolder.monitoring"
             label="Monitoring"
             name="Monitoring Folder"
             preset="true">
@@ -101,11 +101,11 @@
             point="org.eclipse.ui.newWizards">
          <wizard
                canFinishEarly="false"
-               category="eu.celar.ui.newResourceCategory"
-               class="eu.celar.ui.wizards.NewCloudProjectWizard"
+               category="org.eclipse.camf.ui.newResourceCategory"
+               class="org.eclipse.camf.ui.wizards.NewCloudProjectWizard"
                hasPages="true"
                icon="icons/etool16/newcelarprj_wiz.gif"
-               id="eu.celar.ui.wizards.cloudProjectWizard"
+               id="org.eclipse.camf.ui.wizards.cloudProjectWizard"
                name="CELAR Project"
                project="true">
             <description>
@@ -113,16 +113,16 @@
             </description>
          </wizard>
          <category
-               id="eu.celar.ui.newResourceCategory"
+               id="org.eclipse.camf.ui.newResourceCategory"
                name="CELAR">
          </category>
          <wizard
                canFinishEarly="false"
-               category="eu.celar.ui.newResourceCategory"
-               class="eu.celar.ui.wizards.NewApplicationDescription"
+               category="org.eclipse.camf.ui.newResourceCategory"
+               class="org.eclipse.camf.ui.wizards.NewApplicationDescription"
                hasPages="true"
                icon="icons/etool16/newtosca_wiz.gif"
-               id="eu.celar.ui.wizards.applicationDescriptionWizard"
+               id="org.eclipse.camf.ui.wizards.applicationDescriptionWizard"
                name="Application Description"
                project="false">
             <description>
@@ -131,9 +131,9 @@
          </wizard>
          <wizard
                canFinishEarly="false"
-               class="eu.celar.ui.wizards.NewSubmissionWizard"
+               class="org.eclipse.camf.ui.wizards.NewSubmissionWizard"
                icon="icons/etool16/newsubmit_wiz.gif"
-               id="eu.celar.ui.wizards.applicationSubmissionWizard"
+               id="org.eclipse.camf.ui.wizards.applicationSubmissionWizard"
                name="Application Submission"
                project="false">
             <description>
@@ -142,9 +142,9 @@
          </wizard>
          <wizard
                canFinishEarly="false"
-               class="eu.celar.ui.wizards.NewDeploymentWizard"
+               class="org.eclipse.camf.ui.wizards.NewDeploymentWizard"
                icon="icons/etool16/newsubmit_wiz.gif"
-               id="eu.celar.ui.wizards.applicationDeploymentWizard"
+               id="org.eclipse.camf.ui.wizards.applicationDeploymentWizard"
                name="Application Deployment"
                project="false">
          </wizard>
@@ -160,7 +160,7 @@
                   style="push">
                <parameter
                      name="newWizardId"
-                     value="eu.celar.ui.wizards.applicationSubmissionWizard">
+                     value="org.eclipse.camf.ui.wizards.applicationSubmissionWizard">
                </parameter>
         <visibleWhen>
                 <with variable="selection">
@@ -183,7 +183,7 @@
                   style="push">
                <parameter
                      name="newWizardId"
-                     value="eu.celar.ui.wizards.applicationDeploymentWizard">
+                     value="org.eclipse.camf.ui.wizards.applicationDeploymentWizard">
                </parameter>
         <visibleWhen>
                 <with variable="selection">
@@ -229,37 +229,37 @@
             point="org.eclipse.ui.ide.projectNatureImages">
          <image
                icon="icons/ovr16/project_ovr.gif"
-               id="eu.celar.ui.NatureImage"
-               natureId="eu.celar.core.project.CloudProjectNature">
+               id="org.eclipse.camf.ui.NatureImage"
+               natureId="org.eclipse.camf.core.project.CloudProjectNature">
          </image>
       </extension>
       <extension
             point="org.eclipse.ui.preferencePages">
          <page
-               class="eu.celar.ui.internal.preference.CEclipsePreferencePage"
-               id="eu.celar.ui.internal.preference.CEclipsePreferencePage"
+               class="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"
+               id="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"
                name="c-Eclipse">
          </page>
          <page
-               category="eu.celar.ui.internal.preference.CEclipsePreferencePage"
-               class="eu.celar.ui.internal.preference.CloudProviderPreferencePage"
-               id="eu.celar.ui.internal.preference.CloudProviderPreferencePage"
+               category="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"
+               class="org.eclipse.camf.ui.internal.preference.CloudProviderPreferencePage"
+               id="org.eclipse.camf.ui.internal.preference.CloudProviderPreferencePage"
                name="Cloud Providers">
          </page>
       </extension>
       <extension
-            point="eu.celar.ui.newCloudProviderWizards">
+            point="org.eclipse.camf.ui.newCloudProviderWizards">
          <wizard
-               class="eu.celar.ui.wizards.CELARCloudProviderWizard"
-               id="eu.celar.ui.wizards.CELARCloudProviderWizard"
+               class="org.eclipse.camf.ui.wizards.CELARCloudProviderWizard"
+               id="org.eclipse.camf.ui.wizards.CELARCloudProviderWizard"
                name="CELAR Cloud Provider">
          </wizard>
       </extension>
       <extension
-            point="eu.celar.ui.newCloudProviderWizards">
+            point="org.eclipse.camf.ui.newCloudProviderWizards">
          <wizard
-               class="eu.celar.ui.wizards.GenericCloudProviderWizard"
-               id="eu.celar.ui.wizards.GenericCloudProviderWizard"
+               class="org.eclipse.camf.ui.wizards.GenericCloudProviderWizard"
+               id="org.eclipse.camf.ui.wizards.GenericCloudProviderWizard"
                name="Generic Cloud Provider">
          </wizard>
       </extension>
@@ -272,22 +272,22 @@
       <extension
             point="org.eclipse.ui.exportWizards">
          <category
-               id="eu.celar.ui.newExportCategory"
+               id="org.eclipse.camf.ui.newExportCategory"
                name="Cloud Application Management Framework">
          </category>
          <wizard
-               category="eu.celar.ui.newExportCategory"
-               class="eu.celar.ui.wizards.ApplicationDescriptionExportWizard"
-               id="eu.celar.ui.wizards.ApplicationDescriptionExportWizard"
+               category="org.eclipse.camf.ui.newExportCategory"
+               class="org.eclipse.camf.ui.wizards.ApplicationDescriptionExportWizard"
+               id="org.eclipse.camf.ui.wizards.ApplicationDescriptionExportWizard"
                name="Cloud Service Archive (CSAR)">
          </wizard>
       </extension>
       <extension
             point="org.eclipse.ui.perspectives">
          <perspective
-               class="eu.celar.ui.perspectives.PerspectiveFactory"
+               class="org.eclipse.camf.ui.perspectives.PerspectiveFactory"
                icon="icons/celar.gif"
-               id="eu.celar.ui.perspective"
+               id="org.eclipse.camf.ui.perspective"
                name="CAMF">
          </perspective>
       </extension>

@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>eu.celar.tycho</groupId>
+		<groupId>org.eclipse.camf.tycho</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../eu.celar.tycho</relativePath>
 	</parent>
 
-	<artifactId>eu.celar.tycho.p2.updatesite</artifactId>
+	<artifactId>org.eclipse.camf.tycho.p2.updatesite</artifactId>
 	<packaging>eclipse-repository</packaging>
 
 	<build>

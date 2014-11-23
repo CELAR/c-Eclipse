@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.celar.tycho</groupId>
+	<groupId>org.eclipse.camf.tycho</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
@@ -36,7 +36,7 @@
 				<configuration>
 					<target>
 						<artifact>
-							<groupId>eu.celar.tycho</groupId>
+							<groupId>org.eclipse.camf.tycho</groupId>
 							<artifactId>target-definition</artifactId>
 							<version>1.0.0.qualifier</version>
 						</artifact>
@@ -89,26 +89,24 @@
 	</build>
 
 	<modules>
-		<module>../core/eu.celar.core</module>
-		<module>../core/eu.celar.ui</module>
 		<module>../app-submission/org.apache.jclouds</module>
+		<module>../app-submission/eu.celar.connectors.aws</module>
+		<module>../core/eu.celar.connectors.aws.ui</module>
+		<module>../app-submission/eu.celar.connectors.openstack</module>
+		<module>
+			../app-submission/eu.celar.connectors.openstack.ui
+		</module>
+		<module>../core/eu.celar.core</module>
 		<module>../core/eu.celar.core.reporting</module>
-		<module>../core/eu.celar.infosystem.model</module>
+		<module>../core/eu.celar.infosystem</module>
 		<module>../core/eu.celar.infosystem.mockup</module>
+		<module>../core/eu.celar.infosystem.model</module>
+		<module>../core/eu.celar.infosystem.ui</module>
 		<module>../app-description/eu.celar.tosca</module>
 		<module>../app-description/eu.celar.tosca.editor</module>
-		<module>../app-submission/eu.celar.connectors.openstack</module>
-		<module>../app-submission/eu.celar.connectors.openstack.ui</module>
-		
-		
-		<module>../core/eu.celar.connectors.aws.ui</module>
-		<module>../eu.celar.tycho.target</module>
 		<module>../eu.celar.tycho.feature</module>
 		<module>../eu.celar.tycho.p2.updatesite</module>
-		
-		
-		<module>../core/eu.celar.infosystem</module>
-		<module>../core/eu.celar.infosystem.ui</module>
-		<module>../app-submission/eu.celar.connectors.aws</module>
+		<module>../eu.celar.tycho.target</module>
+		<module>../core/eu.celar.ui</module>
 	</modules>
 </project> 

@@ -2,24 +2,24 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="eu.celar.ui.newCloudProviderWizards">
+         point="org.eclipse.camf.ui.newCloudProviderWizards">
       <wizard
-            class="eu.celar.connectors.aws.ui.wizards.AWSCloudProviderWizard"
-            id="eu.celar.connectors.aws.ui.wizards.awsCloudProviderWizard"
+            class="org.eclipse.camf.connectors.aws.ui.wizards.AWSCloudProviderWizard"
+            id="org.eclipse.camf.connectors.aws.ui.wizards.awsCloudProviderWizard"
             name="AWS Cloud Provider">
       </wizard>
    </extension>
 <extension
-         point="eu.celar.ui.authTokenUI">
+         point="org.eclipse.camf.ui.authTokenUI">
       <wizard
-            class="eu.celar.connectors.aws.ui.wizards.AWSAuthTokenWizard"
+            class="org.eclipse.camf.connectors.aws.ui.wizards.AWSAuthTokenWizard"
             icon="icons/obj16/proxy.gif"
-            id="eu.celar.connectors.aws.ui.wizards.awsAuthTokenWizard"
+            id="org.eclipse.camf.connectors.aws.ui.wizards.awsAuthTokenWizard"
             name="AWS Auth Token">
       </wizard>
       <factory
-            class="eu.celar.connectors.aws.ui.dialogs.AWSAuthTokenUIFactory"
-            id="eu.celar.connectors.aws.ui.awsAuthTokenUIFactory"
+            class="org.eclipse.camf.connectors.aws.ui.dialogs.AWSAuthTokenUIFactory"
+            id="org.eclipse.camf.connectors.aws.ui.awsAuthTokenUIFactory"
             name="AWS Auth Token UI Factory">
       </factory>
    </extension>

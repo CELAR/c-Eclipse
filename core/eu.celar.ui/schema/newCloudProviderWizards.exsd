@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.ui">
+<schema targetNamespace="org.eclipse.camf.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="eu.celar.ui" id="newCloudProviderWizards" name="eu.celar.ui.newCloudProviderWizards"/>
+         <meta.schema plugin="org.eclipse.camf.ui" id="newCloudProviderWizards" name="org.eclipse.camf.ui.newCloudProviderWizards"/>
       </appInfo>
       <documentation>
          This extension point is used to defined wizards for creating new middleware specific virtual organizations.
@@ -60,7 +60,7 @@
                   Class implementing the &lt;code&gt;eu.geclipse.ui.wizards.INewWizard&lt;/code&gt; interface.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="eu.celar.ui.wizards.INewWizard"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.camf.ui.wizards.INewWizard"/>
                </appInfo>
             </annotation>
          </attribute>

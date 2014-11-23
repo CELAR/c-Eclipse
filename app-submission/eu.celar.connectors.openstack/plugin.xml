@@ -3,27 +3,27 @@
 <plugin>
 <extension
          name="OpenStack Element Creators"
-         point="eu.celar.core.cloudElementCreator">
+         point="org.eclipse.camf.core.cloudElementCreator">
       <creator
-            class="eu.celar.connectors.openstack.OpenStackCloudProviderCreator"
-            id="eu.celar.connectors.openstack.openstackCloudProviderCreator"
+            class="org.eclipse.camf.connectors.openstack.OpenStackCloudProviderCreator"
+            id="org.eclipse.camf.connectors.openstack.openstackCloudProviderCreator"
             name="OpenStack Cloud Provider"
-            wizard="eu.celar.connectors.openstack.ui.wizards.openstackCloudProviderWizard">
+            wizard="org.eclipse.camf.connectors.openstack.ui.wizards.openstackCloudProviderWizard">
          <source
                class="org.eclipse.core.filesystem.IFileStore"
-               matcher="eu.celar.connectors.openstack.OpenStackCloudProviderCreator">
+               matcher="org.eclipse.camf.connectors.openstack.OpenStackCloudProviderCreator">
          </source>
          <target
-               class="eu.celar.connectors.openstack.OpenStackCloudProvider"
+               class="org.eclipse.camf.connectors.openstack.OpenStackCloudProvider"
                name="OpenStack">
          </target>
       </creator>
       <creator
-            class="eu.celar.connectors.openstack.OpenStackDeploymentServiceCreator"
-            id="eu.celar.connectors.openstack.OpenStackDeploymentServiceCreator"
+            class="org.eclipse.camf.connectors.openstack.OpenStackDeploymentServiceCreator"
+            id="org.eclipse.camf.connectors.openstack.OpenStackDeploymentServiceCreator"
             name="OpenStack Application Deployment Service">
          <target
-               class="eu.celar.connectors.openstack.OpenStackApplicationDeploymentService"
+               class="org.eclipse.camf.connectors.openstack.OpenStackApplicationDeploymentService"
                name="OpenStack Deployment Service">
          </target>
          <source
@@ -35,12 +35,12 @@
       </creator>
    </extension>
    <extension
-         point="eu.celar.core.authTokens">
+         point="org.eclipse.camf.core.authTokens">
       <token
-            description="eu.celar.connectors.openstack.auth.OpenStackAuthTokenDescription"
-            id="eu.celar.connectors.openstack.authToken"
+            description="org.eclipse.camf.connectors.openstack.auth.OpenStackAuthTokenDescription"
+            id="org.eclipse.camf.connectors.openstack.authToken"
             name="OpenStack Credentials"
-            wizard="eu.celar.connectors.openstack.ui.wizards.openstackAuthTokenWizard">
+            wizard="org.eclipse.camf.connectors.openstack.ui.wizards.openstackAuthTokenWizard">
       </token>
    </extension>
 </plugin>

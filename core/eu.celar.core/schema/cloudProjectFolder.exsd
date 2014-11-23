@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.core" id="cloudProjectFolder" name="Cloud Project Folder"/>
+         <meta.schema plugin="org.eclipse.camf.core" id="cloudProjectFolder" name="Cloud Project Folder"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -74,7 +74,7 @@
                   Type of elements that should reside in this project folder.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":eu.celar.core.model.ICloudElement"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.camf.core.model.ICloudElement"/>
                </appInfo>
             </annotation>
          </attribute>

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.core" id="authTokens" name="Authentication Tokens"/>
+         <meta.schema plugin="org.eclipse.camf.core" id="authTokens" name="Authentication Tokens"/>
       </appinfo>
       <documentation>
          This extension point is used to define new types of authentication tokens.
@@ -72,7 +72,7 @@
                   Implementation of the &lt;code&gt;eu.geclipse.core.auth.IAuthenticationTokenDescription&lt;/code&gt; interface that is used as an entry point to an authentication token implementation.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":eu.celar.core.auth.IAuthenticationTokenDescription"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.camf.core.auth.IAuthenticationTokenDescription"/>
                </appinfo>
             </annotation>
          </attribute>

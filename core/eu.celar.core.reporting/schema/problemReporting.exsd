@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="eu.celar.core.reporting" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.camf.core.reporting" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="eu.celar.core.reporting" id="problemReporting" name="Problem Reporting"/>
+         <meta.schema plugin="org.eclipse.camf.core.reporting" id="problemReporting" name="Problem Reporting"/>
       </appinfo>
       <documentation>
          This extension point is used to define problems, solutions and their interconnections within the problem reporting mechanism. It is the base of the declarative part of the problem reporting.
@@ -61,7 +61,7 @@
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  The unique ID of the problem. This should normally consist of the plug-in ID followed by the word &lt;code&gt;problem&lt;/code&gt;, followed by the domain of the problem, followed by a name for the problem. An example would be &lt;code&gt;eu.celar.core.problem.net.connectionFailed&lt;/code&gt; or &lt;code&gt;eu.celar.core.problem.auth.authenticationFailed&lt;/code&gt;. This ID is also used in the reference tags of a solution for back-referencing problems.
+                  The unique ID of the problem. This should normally consist of the plug-in ID followed by the word &lt;code&gt;problem&lt;/code&gt;, followed by the domain of the problem, followed by a name for the problem. An example would be &lt;code&gt;org.eclipse.camf.core.problem.net.connectionFailed&lt;/code&gt; or &lt;code&gt;org.eclipse.camf.core.problem.auth.authenticationFailed&lt;/code&gt;. This ID is also used in the reference tags of a solution for back-referencing problems.
                </documentation>
             </annotation>
          </attribute>
@@ -106,7 +106,7 @@
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  The unique ID of the solution. This should normally consist of the plug-in ID followed by the word &lt;code&gt;solution&lt;/code&gt;, followed by the domain of the solution, followed by a name for the solution. An example would be &lt;code&gt;eu.celar.core.solution.net.checkProxySettings&lt;/code&gt; or &lt;code&gt;eu.celar.core.solution.auth.checkCertificateLifetime&lt;/code&gt;. This ID is also used in the reference tags of a problem for referencing solutions.
+                  The unique ID of the solution. This should normally consist of the plug-in ID followed by the word &lt;code&gt;solution&lt;/code&gt;, followed by the domain of the solution, followed by a name for the solution. An example would be &lt;code&gt;org.eclipse.camf.core.solution.net.checkProxySettings&lt;/code&gt; or &lt;code&gt;org.eclipse.camf.core.solution.auth.checkCertificateLifetime&lt;/code&gt;. This ID is also used in the reference tags of a problem for referencing solutions.
                </documentation>
             </annotation>
          </attribute>
@@ -126,7 +126,7 @@
                   An optional field that allows the specification of a &lt;code&gt;ISolver&lt;/code&gt; in order to provide dedicated problem solving strategies. If a solver is specified any existing solving tag will be ignored.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":eu.celar.core.reporting.ISolver"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.camf.core.reporting.ISolver"/>
                </appinfo>
             </annotation>
          </attribute>
