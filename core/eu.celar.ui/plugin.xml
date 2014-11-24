@@ -9,7 +9,7 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="CELAR"
+            name="Cloud Application Management Framework"
             id="org.eclipse.camf.ui">
       </category>
       <view
@@ -106,7 +106,7 @@
                hasPages="true"
                icon="icons/etool16/newcelarprj_wiz.gif"
                id="org.eclipse.camf.ui.wizards.cloudProjectWizard"
-               name="CELAR Project"
+               name="Cloud Project"
                project="true">
             <description>
                Create a new CELAR Cloud project
@@ -114,7 +114,7 @@
          </wizard>
          <category
                id="org.eclipse.camf.ui.newResourceCategory"
-               name="CELAR">
+               name="Cloud Application Management Framework">
          </category>
          <wizard
                canFinishEarly="false"
@@ -238,7 +238,7 @@
          <page
                class="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"
                id="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"
-               name="c-Eclipse">
+               name="Cloud Application Management Framework">
          </page>
          <page
                category="org.eclipse.camf.ui.internal.preference.CEclipsePreferencePage"

@@ -85,7 +85,6 @@ Contributors:
       <import plugin="org.eclipse.help" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.jface"/>
-      <import plugin="docker"/>
    </requires>
 
    <plugin
