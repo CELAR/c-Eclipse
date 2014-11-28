@@ -90,7 +90,7 @@ public class ElasticityStrategyDialog extends Dialog {
     this.cmbMetric.setEditable( false );
     GridData gdMetric = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbMetric.setLayoutData( gdMetric );
-    this.cmbMetric.add( "Latency" );
+    this.cmbMetric.add( "Cost" );
     return composite;
   }
 

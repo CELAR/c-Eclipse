@@ -58,6 +58,7 @@ import org.eclipse.ui.PlatformUI;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProject;
 import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.impl.GenericCloudProvider;
@@ -628,7 +629,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // Create a dummy SSH public key-pair file
     addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$   
     
-    IProject activeProject = ToscaDiagramEditor.getActiveProject();
+    IProject activeProject = null;
+    Object submissionFile = this.selection.getFirstElement();
+    if (submissionFile instanceof TOSCAResource){
+      ICloudProject cloudProject = ((TOSCAResource) submissionFile).getProject();
+      activeProject = ( IProject )cloudProject.getResource();
+    }
+    
+    //IProject activeProject = ToscaDiagramEditor.getActiveProject();
     IFolder scriptsFolder = activeProject.getFolder( new Path(System.getProperty( "file.separator" ) + "Artifacts" + System.getProperty( "file.separator" ) +"Deployment Scripts" )); //$NON-NLS-1$ //$NON-NLS-2$
     IResource[] scriptFiles = scriptsFolder.members();
     for (IResource resource : scriptFiles){
@@ -659,7 +667,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
     }   
     
-    addToCSARFile("TUW", "CompositionRules", getFileFromGit("https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml", "pom.xml"), zos);
+    //addToCSARFile("TUW", "CompositionRules", getFileFromGit("https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml", "pom.xml"), zos);
     
     zos.close();
     fos.close();
