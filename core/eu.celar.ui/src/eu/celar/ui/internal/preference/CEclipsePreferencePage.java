@@ -1,5 +1,6 @@
 package eu.celar.ui.internal.preference;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
@@ -39,6 +40,7 @@ public class CEclipsePreferencePage extends PreferencePage implements IWorkbench
    */
   public CEclipsePreferencePage() {
     super();
+    IPreferenceStore ps = Activator.getDefault().getPreferenceStore();
     setPreferenceStore( Activator.getDefault().getPreferenceStore() );
     // setDescription("A demonstration of a preference page implementation");
   }

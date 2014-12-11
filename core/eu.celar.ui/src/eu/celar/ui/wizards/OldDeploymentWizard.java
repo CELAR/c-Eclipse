@@ -33,7 +33,7 @@ import eu.celar.ui.wizards.wizardselection.IInitializableWizard;
 public abstract class OldDeploymentWizard extends Wizard implements IInitializableWizard, IExecutableExtension{
 
   private IStructuredSelection selection;
-  private NewSubmissionWizardSecondPage secondPage;
+  private NewDeploymentWizardPage secondPage;
   
   private ICloudDeploymentCreator creator;
   private TOSCAResource deploymentFile;
@@ -59,7 +59,7 @@ public abstract class OldDeploymentWizard extends Wizard implements IInitializab
   @Override
   public void addPages() {
     
-    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" )); //$NON-NLS-1$
+    this.secondPage = new NewDeploymentWizardPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" )); //$NON-NLS-1$
     this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
     this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
     addPage( this.secondPage );

@@ -87,7 +87,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
   private TOSCAResource deploymentFile = null;
   private IStructuredSelection selection = null;
-  private NewSubmissionWizardSecondPage secondPage = null;
+  private NewDeploymentWizardPage deploymentWizardPage = null;
   private TOSCAModel toscaModel;
   private File csar;
   private IFile deploymentIFile;
@@ -556,10 +556,10 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
   @Override
   public void addPages() {
-    this.secondPage = new NewSubmissionWizardSecondPage( Messages.getString( "NewSubmissionWizardSecondPage.pageName" ) ); //$NON-NLS-1$
-    this.secondPage.setTitle( Messages.getString( "NewSubmissionWizardSecondPage.pageTitle" ) ); //$NON-NLS-1$
-    this.secondPage.setDescription( Messages.getString( "NewSubmissionWizardSecondPage.pageDescription" ) ); //$NON-NLS-1$
-    addPage( this.secondPage );
+    this.deploymentWizardPage = new NewDeploymentWizardPage( Messages.getString( "NewDeploymentWizardPage.pageName" ) ); //$NON-NLS-1$
+    this.deploymentWizardPage.setTitle( Messages.getString( "NewDeploymentWizardPage.pageTitle" ) ); //$NON-NLS-1$
+    this.deploymentWizardPage.setDescription( Messages.getString( "NewDeploymentWizardPage.pageDescription" ) ); //$NON-NLS-1$
+    addPage( this.deploymentWizardPage );
   }
 
   @Override
@@ -892,7 +892,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    * @return
    */
   public ICloudDeploymentService getDeploymentService() {
-    return this.secondPage.getCloudDeploymentService();
+    return this.deploymentWizardPage.getCloudDeploymentService();
   }
 
   private MessageConsole findConsole( String name ) {

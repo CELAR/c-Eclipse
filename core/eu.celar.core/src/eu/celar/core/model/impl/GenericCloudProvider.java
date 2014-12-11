@@ -121,6 +121,18 @@ public class GenericCloudProvider
     return this.port;
   }
   
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  public void setUri(String uri) {
+    this.uri = uri;
+  }
+  
+  public void setPort(String port) {
+    this.port = port;
+  }
+  
   @Override
   public void serialize() throws ProblemException {
     ICloudElement[] children = getChildren( null );

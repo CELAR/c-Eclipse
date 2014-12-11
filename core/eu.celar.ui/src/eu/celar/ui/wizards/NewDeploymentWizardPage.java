@@ -21,13 +21,13 @@ import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.reporting.ProblemException;
 
 
-public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyListener {
+public class NewDeploymentWizardPage extends WizardPage implements ModifyListener {
   
   private CCombo cmbCloudProvider;
   Composite container;
   private List<ICloudDeploymentService> deploymentServices;
 
-  protected NewSubmissionWizardSecondPage( String pageName ) {
+  protected NewDeploymentWizardPage( String pageName ) {
     super( pageName );
     //setPageComplete(false);
     setPageComplete(true);
@@ -46,7 +46,7 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     Label lblOptimizationPolicy = new Label( this.container,
                                              GridData.HORIZONTAL_ALIGN_BEGINNING
                                                  | GridData.VERTICAL_ALIGN_CENTER );
-    lblOptimizationPolicy.setText( Messages.getString( "NewSubmissionWizardSecondPage.cloudProviderLabel" ) ); //$NON-NLS-1$
+    lblOptimizationPolicy.setText( Messages.getString( "NewDeploymentWizardPage.cloudProviderLabel" ) ); //$NON-NLS-1$
     GridData layout = new GridData();
     layout.horizontalAlignment = GridData.FILL;
     lblOptimizationPolicy.setLayoutData( layout );
@@ -74,13 +74,7 @@ public class NewSubmissionWizardSecondPage extends WizardPage implements ModifyL
     } catch( ProblemException e ) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
-    
-//    
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbAmazonEC2" ), 0 ); //$NON-NLS-1$
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbFlexiant" ), 1 ); //$NON-NLS-1$
-//    this.cmbCloudProvider.add( Messages.getString( "NewSubmissionWizardSecondPage.cmbOkeanos" ), 2 ); //$NON-NLS-1$
-    
+    }  
     
     this.cmbCloudProvider.setEditable( false );
     

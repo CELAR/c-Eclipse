@@ -90,6 +90,8 @@ public class GenericCloudProviderWizard
     
     try {
       if ( this.initialVo != null ) {
+        this.initialVo.setUri( creator.getVoURI() );
+        this.initialVo.setPort( creator.getVoPort() );
         creator.apply( this.initialVo );
       } else {
         vo = ( GenericCloudProvider ) manager.create( creator );

@@ -25,4 +25,16 @@ public class PreferenceConstants {
    */
   public static final String DEFAULT_CLOUD_PROVIDER_ID
     = "def_cp"; //$NON-NLS-1$
+  
+  /**
+   * The id for the name of the default Cloud Provider.
+   */
+  public static final String DEFAULT_CLOUD_PROVIDER_URI
+    = "def_cp_uri"; //$NON-NLS-1$
+  
+  /**
+   * The id for the name of the default Cloud Provider.
+   */
+  public static final String DEFAULT_CLOUD_PROVIDER_PORT
+    = "def_cp_port"; //$NON-NLS-1$
 }

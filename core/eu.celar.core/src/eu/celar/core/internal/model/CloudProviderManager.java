@@ -30,6 +30,7 @@ import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.IElementCreatorRegistry;
 import eu.celar.core.model.ISerializableElement;
+import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -165,6 +166,8 @@ public class CloudProviderManager extends AbstractDefaultCloudElementManager
       = ( ICloudProvider ) getDefault();
     if ( defaultCloudProvider != null ) {
       Preferences.setDefaultCloudProviderName( defaultCloudProvider.getName() );
+      Preferences.setDefaultCloudProviderUri( ((GenericCloudProvider)defaultCloudProvider).getUri() );
+      Preferences.setDefaultCloudProviderPort( ((GenericCloudProvider)defaultCloudProvider).getPort() );
       Preferences.save();
     }
     

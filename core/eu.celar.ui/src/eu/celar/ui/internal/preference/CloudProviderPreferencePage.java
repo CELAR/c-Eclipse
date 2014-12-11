@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -42,6 +43,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import eu.celar.core.Preferences;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudModelEvent;
@@ -49,6 +51,8 @@ import eu.celar.core.model.ICloudModelListener;
 import eu.celar.core.model.ICloudProject;
 import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudProviderManager;
+import eu.celar.core.model.impl.GenericCloudProvider;
+import eu.celar.core.model.impl.GenericCloudProviderCreator;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.ui.comparators.TableColumnComparator;
 import eu.celar.ui.dialogs.ProblemDialog;
@@ -56,6 +60,12 @@ import eu.celar.ui.internal.Activator;
 import eu.celar.ui.listeners.TableColumnListener;
 import eu.celar.ui.wizards.wizardselection.ExtPointWizardSelectionListPage;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.osgi.service.prefs.BackingStoreException;
 
 
 /**
@@ -83,8 +93,21 @@ public class CloudProviderPreferencePage
       ICloudElement[] result = null;
       if ( inputElement instanceof ICloudProviderManager ) {
         ICloudProviderManager manager = ( ICloudProviderManager ) inputElement;
+
         try {
           result = manager.getChildren( null );
+          
+          if (result.length == 0){
+            //Get Cloud providers from Preference Store
+            GenericCloudProviderCreator creator = new GenericCloudProviderCreator();
+            creator.setVoName( Preferences.getDefaultVoName());
+            creator.setVoURI( Preferences.getDefaultVoUri());
+            creator.setVoPort( Preferences.getDefaultVoPort());
+            GenericCloudProvider cp = createVo( creator );
+            manager.addElement( cp );
+            result = manager.getChildren( null );
+          }
+          
           Arrays.sort( result, new Comparator< ICloudElement >() {
             public int compare( final ICloudElement vo1,
                                 final ICloudElement vo2 ) {
@@ -103,6 +126,34 @@ public class CloudProviderPreferencePage
         }
       }
       return result;
+    }
+    
+    // Method from class GenericCloudProviderWizard
+    private GenericCloudProvider createVo( final GenericCloudProviderCreator creator ) {
+      
+      IStatus result = Status.OK_STATUS;
+      
+      GenericCloudProvider vo = null;
+      ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+      
+      try {
+        
+          vo = ( GenericCloudProvider ) manager.create( creator );
+        
+      } catch ( ProblemException pExc ) {
+        result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, pExc.getLocalizedMessage(), pExc );
+      }
+      
+      if ( ! result.isOK() && ( vo != null ) ) {
+        try {
+          manager.delete( vo );
+        } catch ( ProblemException pExc ) {
+          Activator.logException( pExc );
+        }
+      }
+      
+      return vo;
+      
     }
 
     /* (non-Javadoc)
@@ -171,11 +222,6 @@ public class CloudProviderPreferencePage
    * The button that triggers the creation of a new VO.
    */
   private Button addButton;
-  
-  /**
-   * The button that triggers the opening of the VO import wizard. 
-   */
-  private Button importButton;
   
   /**
    * The button that triggers the deletion of an existing VO.
@@ -330,10 +376,6 @@ public class CloudProviderPreferencePage
     this.addButton.setText( Messages.getString("CloudProviderPreferencePage.add_button") ); //$NON-NLS-1$
     gData = new GridData( GridData.FILL_HORIZONTAL );
     this.addButton.setLayoutData( gData );
-    this.importButton = new Button( buttons, SWT.PUSH );
-    this.importButton.setText( Messages.getString("CloudProviderPreferencePage.import_button") ); //$NON-NLS-1$
-    gData = new GridData( GridData.FILL_HORIZONTAL );
-    this.importButton.setLayoutData( gData );
     this.editButton = new Button( buttons, SWT.PUSH );
     this.editButton.setText( Messages.getString("CloudProviderPreferencePage.edit_button") ); //$NON-NLS-1$
     gData = new GridData( GridData.FILL_HORIZONTAL );
@@ -354,12 +396,6 @@ public class CloudProviderPreferencePage
       @Override
       public void widgetSelected( final SelectionEvent e ) {
         editVO( null );
-      }
-    } );
-    this.importButton.addSelectionListener( new SelectionAdapter() {
-      @Override
-      public void widgetSelected( final SelectionEvent e ) {
-//        importVOs();
       }
     } );
     this.editButton.addSelectionListener( new SelectionAdapter() {
@@ -463,27 +499,6 @@ public class CloudProviderPreferencePage
   
   }
   
-//  protected void importVOs() {
-//    VoImportWizard wizard;
-//    try {
-//      wizard = new VoImportWizard();
-//      WizardDialog dialog = new WizardDialog( getShell(), wizard );
-//      dialog.open();
-//      
-//      /*
-//       * If no VOs were present before importing, the VoManager will have set
-//       * the first new one as default. Thus we have to update the viewer's
-//       * checked element.
-//       */
-//      checkDefaultVo();
-//    } catch( ProblemException problemException ) {
-//      ProblemDialog.openProblem( getShell(),
-//                                 Messages.getString("CloudProviderPreferencePage.couldNotOpenImportVoWizard"), //$NON-NLS-1$
-//                                 Messages.getString("CloudProviderPreferencePage.couldNotOpenImportVoWizard"), //$NON-NLS-1$
-//                                 problemException );
-//    }
-//  }
-  
   /**
    * Remove all VOs that are currently selected in the table control.
    */
@@ -577,7 +592,6 @@ public class CloudProviderPreferencePage
     boolean selectionAvailable = !selection.isEmpty();
     
     this.addButton.setEnabled( true );
-    this.importButton.setEnabled( true );
     this.removeButton.setEnabled( selectionAvailable );
     this.editButton.setEnabled( selectionAvailable );
     

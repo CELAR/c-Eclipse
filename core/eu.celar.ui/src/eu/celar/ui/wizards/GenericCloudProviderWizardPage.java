@@ -67,10 +67,6 @@ public class GenericCloudProviderWizardPage
     gData.grabExcessHorizontalSpace = true;
     this.nameText.setLayoutData( gData );
     
-    if ( this.initialCloudProvider != null ) {
-      initVo( this.initialCloudProvider );
-    }
-    
     Label uriLabel = new Label( mainComp, SWT.NULL );
     uriLabel.setText( "&Cloud Provider URI:" );
     gData = new GridData();
@@ -90,6 +86,10 @@ public class GenericCloudProviderWizardPage
     gData = new GridData( GridData.FILL_HORIZONTAL );
     gData.grabExcessHorizontalSpace = true;
     this.portText.setLayoutData( gData );
+    
+    if ( this.initialCloudProvider != null ) {
+      initVo( this.initialCloudProvider );
+    }
     
     setControl( mainComp );
     
@@ -126,6 +126,10 @@ public class GenericCloudProviderWizardPage
   protected void initVo( final GenericCloudProvider cp ) {
     this.nameText.setText( cp != null ? cp.getName() : "" ); //$NON-NLS-1$
     this.nameText.setEnabled( cp == null );
+    this.uriText.setText( cp != null ? cp.getUri() : "" ); //$NON-NLS-1$
+    this.uriText.setEnabled( true );
+    this.portText.setText( cp != null ? cp.getPort() : "" ); //$NON-NLS-1$
+    this.portText.setEnabled( true );
   }
   
   /**
