@@ -19,6 +19,9 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import eu.celar.core.ICoreProblems;
 import eu.celar.core.Preferences;
@@ -35,7 +38,7 @@ import eu.celar.core.reporting.ProblemException;
 
 
 /**
- * @author Nicholas Loulloudes
+ * @authors Nicholas Loulloudes, Stalo Sofokleous
  *
  */
 public class CloudProviderManager extends AbstractDefaultCloudElementManager
@@ -138,14 +141,19 @@ public class CloudProviderManager extends AbstractDefaultCloudElementManager
       }
     }
     
-    String defaultVoName = Preferences.getDefaultVoName();
-    if ( defaultVoName != null ) {
-      ICloudElement defaultVo = findChild( defaultVoName );
-      setDefault( defaultVo );
+    JSONArray providersArray;
+    JSONObject provider;
+    String defaultVoName = Preferences.getDefinedCloudProviders();
+    if (defaultVoName.equals( "" )){
+      return;
     }
-    
-    if ( hasChildren() ) {
-      updateDefault();
+    try {
+      providersArray = new JSONArray(Preferences.getDefinedCloudProviders());
+      provider = providersArray.getJSONObject( 0 );
+      defaultVoName = provider.getString( "name" );
+    } catch( JSONException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     
   }
@@ -163,11 +171,9 @@ public class CloudProviderManager extends AbstractDefaultCloudElementManager
     }
     
     ICloudProvider defaultCloudProvider
-      = ( ICloudProvider ) getDefault();
+    = ( ICloudProvider ) getDefault();
     if ( defaultCloudProvider != null ) {
-      Preferences.setDefaultCloudProviderName( defaultCloudProvider.getName() );
-      Preferences.setDefaultCloudProviderUri( ((GenericCloudProvider)defaultCloudProvider).getUri() );
-      Preferences.setDefaultCloudProviderPort( ((GenericCloudProvider)defaultCloudProvider).getPort() );
+      //Preferences.setDefaultCloudProviderName(defaultCloudProvider);
       Preferences.save();
     }
     

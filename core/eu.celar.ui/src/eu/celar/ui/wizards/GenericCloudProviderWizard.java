@@ -22,6 +22,8 @@ public class GenericCloudProviderWizard
   
   private GenericCloudProvider initialVo;
   
+  private static GenericCloudProvider newGenericCloudProvider;
+  
   private GenericCloudProviderWizardPage cpPage;
 
   
@@ -93,8 +95,10 @@ public class GenericCloudProviderWizard
         this.initialVo.setUri( creator.getVoURI() );
         this.initialVo.setPort( creator.getVoPort() );
         creator.apply( this.initialVo );
+        GenericCloudProviderWizard.newGenericCloudProvider = this.initialVo;
       } else {
         vo = ( GenericCloudProvider ) manager.create( creator );
+        GenericCloudProviderWizard.newGenericCloudProvider = vo;
       }
     } catch ( ProblemException pExc ) {
       result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, pExc.getLocalizedMessage(), pExc );
@@ -106,10 +110,13 @@ public class GenericCloudProviderWizard
       } catch ( ProblemException pExc ) {
         Activator.logException( pExc );
       }
-    }
-    
+    }   
     return result;
     
+  }
+  
+  public static GenericCloudProvider getNewCloudProvider(){
+    return GenericCloudProviderWizard.newGenericCloudProvider;
   }
   
 }

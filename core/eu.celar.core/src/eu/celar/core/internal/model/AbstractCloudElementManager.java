@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import eu.celar.core.ICoreProblems;
+import eu.celar.core.Preferences;
 import eu.celar.core.internal.Activator;
 import eu.celar.core.internal.model.notify.CloudModelEvent;
 import eu.celar.core.model.CloudModel;
@@ -42,7 +43,9 @@ import eu.celar.core.model.ICloudElementManager;
 import eu.celar.core.model.ICloudModelEvent;
 import eu.celar.core.model.ICloudModelListener;
 import eu.celar.core.model.ICloudProject;
+import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.impl.AbstractCloudElement;
+import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.reporting.ProblemException;
 
 

@@ -7,12 +7,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -58,14 +55,14 @@ import eu.celar.ui.comparators.TableColumnComparator;
 import eu.celar.ui.dialogs.ProblemDialog;
 import eu.celar.ui.internal.Activator;
 import eu.celar.ui.listeners.TableColumnListener;
+import eu.celar.ui.wizards.GenericCloudProviderWizard;
 import eu.celar.ui.wizards.wizardselection.ExtPointWizardSelectionListPage;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.osgi.service.prefs.BackingStoreException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -98,13 +95,36 @@ public class CloudProviderPreferencePage
           result = manager.getChildren( null );
           
           if (result.length == 0){
-            //Get Cloud providers from Preference Store
-            GenericCloudProviderCreator creator = new GenericCloudProviderCreator();
-            creator.setVoName( Preferences.getDefaultVoName());
-            creator.setVoURI( Preferences.getDefaultVoUri());
-            creator.setVoPort( Preferences.getDefaultVoPort());
-            GenericCloudProvider cp = createVo( creator );
-            manager.addElement( cp );
+            
+            String providerName = Preferences.getDefinedCloudProviders();
+            if (providerName.equals( "" )){
+              return result;
+            }
+            
+            JSONArray providersArray = null;
+            JSONObject provider = null;
+            GenericCloudProviderCreator creator = null;
+            try {
+              //Get Cloud providers from Preference Store
+              providersArray = new JSONArray(Preferences.getDefinedCloudProviders());
+              for (int i=0; i<providersArray.length();i++){
+                provider = providersArray.getJSONObject( i );
+                //provider = new JSONObject(Preferences.getDefaultVoName());
+                creator = new GenericCloudProviderCreator();
+                creator.setVoName( provider.getString( "name" ));
+                creator.setVoURI( provider.getString( "uri" ));
+                creator.setVoPort( provider.getString( "port" ));
+                
+                GenericCloudProvider cp = createVo( creator );
+                manager.addElement( cp );
+              }
+
+            } catch( JSONException e ) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+            
+
             result = manager.getChildren( null );
           }
           
@@ -336,32 +356,6 @@ public class CloudProviderPreferencePage
       }
     } );
     manager.addCloudModelListener( this );
-    ICloudProvider defaultVo
-      = ( ICloudProvider ) manager.getDefault();
-    if ( defaultVo != null ) {
-      this.cpViewer.setCheckedElements( new Object[] { defaultVo } );
-    }
-    this.cpViewer.addCheckStateListener( new ICheckStateListener() {
-      public void checkStateChanged( final CheckStateChangedEvent event ) {
-        Object element = event.getElement();
-        if ( element instanceof ICloudProvider ) {
-          ICloudProvider vo = ( ICloudProvider ) element;
-          try {
-            if ( !event.getChecked() ) {
-              manager.setDefault( null );
-            } else {
-              // We want a radio-button behavior, as there is only one default VO
-              CloudProviderPreferencePage.this.cpViewer.setCheckedElements( new Object[] { vo } );
-              CloudProviderPreferencePage.this.cpViewer.refresh();
-              manager.setDefault( vo );
-            }
-          } catch ( ProblemException pExc ) {
-            // TODO mathias
-            Activator.logException( pExc );
-          }
-        }
-      }
-    } );
     
     Composite buttons = new Composite( parent, SWT.NULL );
     gData = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
@@ -491,11 +485,17 @@ public class CloudProviderPreferencePage
     WizardDialog dialog = new WizardDialog( this.getShell(), wizard );
     dialog.open();
     
+   
+    GenericCloudProvider newGenericCloudProvider = GenericCloudProviderWizard.getNewCloudProvider();
+    if (newGenericCloudProvider != null){
+      Preferences.addCloudProvider( newGenericCloudProvider );
+    }
+    
     /*
      * If no VOs were present before calling the wizard, there is now a default
      * VO to mark as checked.
      */
-    checkDefaultVo();
+    //checkDefaultVo();
   
   }
   
@@ -561,27 +561,11 @@ public class CloudProviderPreferencePage
           }
         }
         
-        /*
-         * If the default VO was removed, another one was selected arbitrarily
-         * by the VoManager. So we have to update the viewer's checked element.
-         */
-        checkDefaultVo();
-        
         updateButtons();
       }
     }
   }
   
-  /**
-   * Mark the default VO checked in the voViewer table.
-   */
-  private void checkDefaultVo() {
-    ICloudProviderManager manager = CloudModel.getCloudProviderManager();
-    if ( ( manager.getChildCount() > 0 ) && ! this.cpViewer.getControl().isDisposed() ) {
-      Object[] checked = new Object[] { manager.getDefault() };
-      CloudProviderPreferencePage.this.cpViewer.setCheckedElements( checked );
-    }
-  }
   
   /**
    * Update the enabled state of the button controls.
@@ -602,11 +586,6 @@ public class CloudProviderPreferencePage
    */
   public void modelChanged( final ICloudModelEvent source ) {
     this.cpViewer.refresh();
-    ICloudProviderManager manager = CloudModel.getCloudProviderManager();
-    ICloudElement defaultVo = manager.getDefault();
-    if ( defaultVo != null ) {
-      this.cpViewer.setCheckedElements( new Object[] { defaultVo } );
-    }
     updateButtons();
   }
 

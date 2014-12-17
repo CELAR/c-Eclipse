@@ -21,3 +21,4 @@ Export-Package: eu.celar.core,
  eu.celar.core.project,
  eu.celar.core.security,
  eu.celar.core.util
+Import-Package: org.json

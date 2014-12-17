@@ -15,8 +15,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.model.impl.GenericCloudProviderCreator;
+import eu.celar.core.reporting.ProblemException;
 import eu.celar.ui.internal.Activator;
 
 

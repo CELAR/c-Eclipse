@@ -41,7 +41,8 @@ Import-Package: eu.celar.tosca.core,
  org.eclipse.jdt.core.dom,
  org.eclipse.jdt.ui.actions,
  org.eclipse.ui.actions,
- org.eclipse.ui.console
+ org.eclipse.ui.console,
+ org.json
 Export-Package: eu.celar.ui,
  eu.celar.ui.dialogs,
  eu.celar.ui.wizards,

@@ -7,7 +7,13 @@
  ************************************************************/
 package eu.celar.core;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import eu.celar.core.internal.Activator;
+import eu.celar.core.model.ICloudProvider;
+import eu.celar.core.model.impl.GenericCloudProvider;
 
 
 /**
@@ -18,33 +24,59 @@ import eu.celar.core.internal.Activator;
 public class Preferences {
   
   /**
-   * Set the name of the current default Cloud Provider.
+   * Add a new Cloud Provider.
    * 
-   * @param defaultCloudProviderName The name of the default Cloud Provider.
+   * @param newCloudProvider The new Cloud Provider.
    */
-  static public void setDefaultCloudProviderName( final String defaultCloudProviderName ) {
+  static public void addCloudProvider(final ICloudProvider newCloudProvider){
+    JSONObject provider = null;
+    try {
+      provider =  new JSONObject();
+      provider.put("name", ((GenericCloudProvider)newCloudProvider).getName() );
+      provider.put( "uri", ((GenericCloudProvider)newCloudProvider).getUri() );
+      provider.put( "port",((GenericCloudProvider)newCloudProvider).getPort() );
+    } catch( JSONException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
     org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    preferenceStore.setValue( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_ID, defaultCloudProviderName );
-  }
-  
-  /**
-   * Set the uri of the current default Cloud Provider.
-   * 
-   * @param defaultCloudProviderName The name of the default Cloud Provider.
-   */
-  static public void setDefaultCloudProviderUri( final String defaultCloudProviderUri ) {
-    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    preferenceStore.setValue( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_URI, defaultCloudProviderUri );
-  }
-  
-  /**
-   * Set the port of the current default Cloud Provider.
-   * 
-   * @param defaultCloudProviderName The name of the default Cloud Provider.
-   */
-  static public void setDefaultCloudProviderPort( final String defaultCloudProviderPort ) {
-    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    preferenceStore.setValue( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_PORT, defaultCloudProviderPort );
+
+    JSONArray providersArray = null;
+    String providerString = preferenceStore.getString( PreferenceConstants.DEFINED_CPS_ID );
+    if (providerString.equals( "" )){
+      providersArray = new JSONArray();
+    }
+    else{
+      try {
+        providersArray = new JSONArray( providerString );
+      } catch( JSONException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+        
+    
+    JSONObject tempProvider;
+    for (int i=0; i<providersArray.length(); i++){
+      try {
+        tempProvider = providersArray.getJSONObject( i );
+        if (tempProvider.getString( "name" ).compareTo( newCloudProvider.getName() )==0){
+          tempProvider.put( "uri", ((GenericCloudProvider) newCloudProvider).getUri() );
+          tempProvider.put( "port", ((GenericCloudProvider) newCloudProvider).getPort() );
+          preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providersArray.toString() );
+          return;
+        }
+      } catch( JSONException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+    }
+
+    providersArray.put( provider );
+    preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providersArray.toString() );
+    
   }
   
   /**
@@ -52,32 +84,10 @@ public class Preferences {
    * 
    * @return The name of the default Cloud Provider.
    */
-  static public String getDefaultVoName() {
+  static public String getDefinedCloudProviders() {
     org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    String defaultVoName = preferenceStore.getString( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_ID );
-    return defaultVoName;
-  }
-  
-  /**
-   * Get the name of the current default Cloud Provider.
-   * 
-   * @return The name of the default Cloud Provider.
-   */
-  static public String getDefaultVoUri() {
-    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    String defaultVoUri = preferenceStore.getString( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_URI );
-    return defaultVoUri;
-  }
-  
-  /**
-   * Get the name of the current default Cloud Provider.
-   * 
-   * @return The name of the default Cloud Provider.
-   */
-  static public String getDefaultVoPort() {
-    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
-    String defaultVoPort = preferenceStore.getString( PreferenceConstants.DEFAULT_CLOUD_PROVIDER_PORT );
-    return defaultVoPort;
+    String cloudProviders = preferenceStore.getString( PreferenceConstants.DEFINED_CPS_ID );
+    return cloudProviders;
   }
   
   /**
