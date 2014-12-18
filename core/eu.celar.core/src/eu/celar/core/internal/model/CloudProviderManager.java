@@ -140,22 +140,7 @@ public class CloudProviderManager extends AbstractDefaultCloudElementManager
         Activator.logException( pExc );
       }
     }
-    
-    JSONArray providersArray;
-    JSONObject provider;
-    String defaultVoName = Preferences.getDefinedCloudProviders();
-    if (defaultVoName.equals( "" )){
-      return;
-    }
-    try {
-      providersArray = new JSONArray(Preferences.getDefinedCloudProviders());
-      provider = providersArray.getJSONObject( 0 );
-      defaultVoName = provider.getString( "name" );
-    } catch( JSONException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
+        
   }
 
   /* (non-Javadoc)

@@ -524,41 +524,54 @@ public class CloudProviderPreferencePage
         ICloudProject igp = null;
         
         for ( ICloudProvider vo : vos ) {
-          // Check if the given VO is used by some CloudProject on the WS
-          boolean used = false;
-          for ( ICloudElement element : projectElements ) {
-            igp = ( ICloudProject ) element;
-            
-            // Projects have a ProjectVO wrapper, not the real VO
-            ICloudProvider realCp = null;
-            ICloudProvider projectCp = igp.getCloudProvider();
-            // HiddenProject doesn't have a VO
-            if ( projectCp != null ) {
-              realCp = ( ICloudProvider ) projectCp.getAdapter( ICloudProvider.class );
-              if ( ( realCp != null ) && ( vo == realCp ) ) {
-                used = true;
-                break;
-              }
-            }
-          }
           
-          if ( used ) {
-            MessageDialog.openError( this.getShell(),
+          Preferences.removeCloudProvider( vo );
+          
+          try {
+          manager.delete( vo );
+        } catch ( ProblemException pExc ) {
+          ProblemDialog.openProblem( this.getShell(),
                                      Messages.getString("CloudProviderPreferencePage.error"), //$NON-NLS-1$
-                                     String.format( Messages.getString("CloudProviderPreferencePage.vo_in_use"), //$NON-NLS-1$
-                                                    vo.getName(),
-                                                    igp.getName() ) );
-          } else {
-            try {
-              manager.delete( vo );
-            } catch ( ProblemException pExc ) {
-              ProblemDialog.openProblem( this.getShell(),
-                                         Messages.getString("CloudProviderPreferencePage.error"), //$NON-NLS-1$
-                                         Messages.getString("CloudProviderPreferencePage.delete_vo_failed") //$NON-NLS-1$
-                                           + " " + vo.getName(), //$NON-NLS-1$
-                                         pExc );
-            }
-          }
+                                     Messages.getString("CloudProviderPreferencePage.delete_vo_failed") //$NON-NLS-1$
+                                       + " " + vo.getName(), //$NON-NLS-1$
+                                     pExc );
+        }
+          
+//          // Check if the given VO is used by some CloudProject on the WS
+//          boolean used = false;
+//          for ( ICloudElement element : projectElements ) {
+//            igp = ( ICloudProject ) element;
+//            
+//            // Projects have a ProjectVO wrapper, not the real VO
+//            ICloudProvider realCp = null;
+//            ICloudProvider projectCp = igp.getCloudProvider();
+//            // HiddenProject doesn't have a VO
+//            if ( projectCp != null ) {
+//              realCp = ( ICloudProvider ) projectCp.getAdapter( ICloudProvider.class );
+//              if ( ( realCp != null ) && ( vo == realCp ) ) {
+//                used = true;
+//                break;
+//              }
+//            }
+//          }
+//          
+//          if ( used ) {
+//            MessageDialog.openError( this.getShell(),
+//                                     Messages.getString("CloudProviderPreferencePage.error"), //$NON-NLS-1$
+//                                     String.format( Messages.getString("CloudProviderPreferencePage.vo_in_use"), //$NON-NLS-1$
+//                                                    vo.getName(),
+//                                                    igp.getName() ) );
+//          } else {
+//            try {
+//              manager.delete( vo );
+//            } catch ( ProblemException pExc ) {
+//              ProblemDialog.openProblem( this.getShell(),
+//                                         Messages.getString("CloudProviderPreferencePage.error"), //$NON-NLS-1$
+//                                         Messages.getString("CloudProviderPreferencePage.delete_vo_failed") //$NON-NLS-1$
+//                                           + " " + vo.getName(), //$NON-NLS-1$
+//                                         pExc );
+//            }
+//          }
         }
         
         updateButtons();
