@@ -67,6 +67,7 @@ import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
 import eu.celar.tosca.editor.ToscaDiagramEditor;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -91,44 +92,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   private TOSCAModel toscaModel;
   private File csar;
   private IFile deploymentIFile;
-  private String deploymentURI;
   private GenericCloudProvider genericSelectedProvider = null;
   private ArrayList<String> zipEntries = new ArrayList<String>();
+  private ArrayList<String> selectedProvidersNames = new ArrayList<String>();
+  private ArrayList<ICloudProvider> selectedProviders = new ArrayList<ICloudProvider>();
 
   public NewDeploymentWizard() {
     setNeedsProgressMonitor( true );
     setForcePreviousAndNextButtons( true );
-    
-    this.deploymentURI = null;
-    
-    final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
-    ICloudProvider selectedProvider = ( ICloudProvider ) manager.getDefault();
-    
-    if (selectedProvider != null){
-      
-      this.genericSelectedProvider = (GenericCloudProvider) selectedProvider;
-      
-      String uri = this.genericSelectedProvider.getUri();
-      if (uri!=null){
-        if (uri.endsWith( "/" )){
-          uri = uri.substring( 0, uri.length()-1 );
-        }
-        this.deploymentURI = uri;
-      }
-      else{
-        return;
-      }
-      
-      String port = this.genericSelectedProvider.getPort();
-      if ( port!=null){
-        if (port.endsWith( "/" )){
-          port = port.substring( 0, port.length()-1 );
-        }
-        this.deploymentURI = this.deploymentURI + ":" + port;
-      }
-
-    }
-
   }
 
   /*
@@ -158,23 +129,47 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       MessageConsoleStream out = myConsole.newMessageStream();
       out.println("Starting deployment procedure...");
     
-      String applicationId = describeApplication();
-      
-      String deploymentId = null;
-      if (applicationId!=null){
-        deploymentId = deployApplication(applicationId);
+      for (ICloudProvider selectedProvider : this.selectedProviders){
+
+        GenericCloudProvider provider = (GenericCloudProvider) selectedProvider;
+        
+        String uri = provider.getUri();
+        if (uri!=null){
+          if (uri.endsWith( "/" )){
+            uri = uri.substring( 0, uri.length()-1 );
+          }
+        }
+        else{
+          continue;
+        }
+        
+        String port = provider.getPort();
+        if ( port!=null){
+          if (port.endsWith( "/" )){
+            port = port.substring( 0, port.length()-1 );
+          }
+          uri = uri + ":" + port;
+        }
+ 
+        String applicationId = describeApplication(uri);
+        
+        String deploymentId = null;
+        if (applicationId!=null){
+          deploymentId = deployApplication(uri, applicationId);
+        }
+        
+        if (deploymentId!=null){
+          getDeploymentState(uri, deploymentId);
+          //terminateDeployment(deploymentId);
+        }
+
       }
-      
-      if (deploymentId!=null){
-        getDeploymentState(deploymentId);
-        //terminateDeployment(deploymentId);
-      }
-      
+     
     return true;
   }
   
   // Call CELAR Manager to submit application description
-  private String describeApplication(){
+  private String describeApplication(String uri){
 
     URL url = null;
     HttpURLConnection connection = null;
@@ -185,7 +180,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       //url = new URL ("http://83.212.107.38:8080/application/describe/");
       
-      url = new URL (this.deploymentURI + "/application/describe/");
+      url = new URL (uri + "/application/describe/");
       
       connection = (HttpURLConnection) url.openConnection();
       
@@ -272,7 +267,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   }
   
   // Call CELAR Manager to deploy described application
-  private String deployApplication(String applicationId){
+  private String deployApplication(String uri, String applicationId){
 
     URL url = null;
     HttpURLConnection connection = null;
@@ -281,7 +276,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       //url = new URL ("http://83.212.107.38:8080/application/" + applicationId +"/deploy/");
       
-      url = new URL (this.deploymentURI + "/application/" + applicationId +"/deploy/");
+      url = new URL (uri + "/application/" + applicationId +"/deploy/");
       
       connection = (HttpURLConnection) url.openConnection();
       
@@ -366,7 +361,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   }
   
   // Get deployment state
-  private boolean getDeploymentState(String deploymentId){
+  private boolean getDeploymentState(String uri, String deploymentId){
     URL url = null;
     HttpURLConnection connection = null;
 
@@ -374,7 +369,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId);
       
-      url = new URL (this.deploymentURI + "/deployment/" + deploymentId);
+      url = new URL (uri + "/deployment/" + deploymentId);
       
       connection = (HttpURLConnection) url.openConnection();
       
@@ -450,7 +445,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
   }
   
   // Terminate deployment
-  private boolean terminateDeployment(String deploymentId){
+  private boolean terminateDeployment(String uri, String deploymentId){
     URL url = null;
     HttpURLConnection connection = null;
 
@@ -458,7 +453,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId + "/terminate");
       
-      url = new URL (this.deploymentURI + "/deployment/" + deploymentId + "/terminate");
+      url = new URL (uri + "/deployment/" + deploymentId + "/terminate");
       
       connection = (HttpURLConnection) url.openConnection();
       
@@ -597,6 +592,29 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
      }
      }
      
+     ServicePropertiesType serviceProperties = (ServicePropertiesType) this.toscaModel.getDocumentRoot().getDefinitions().getServiceTemplate().get( 0 ).getBoundaryDefinitions().getProperties().getAny().get( 0 ).getValue();
+     for (String providerName : serviceProperties.getHostingEnvironment()){
+       this.selectedProvidersNames.add(providerName);
+     }    
+     
+         
+     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+     
+     ICloudElement[] providers = null;
+     try {
+       providers = manager.getChildren( null );
+     } catch( ProblemException e ) {
+       // TODO Auto-generated catch block
+       e.printStackTrace();
+     }
+     for (String providerName : this.selectedProvidersNames){
+       for (ICloudElement provider : providers){
+         if (providerName.compareTo( ((ICloudProvider) provider).getName() ) == 0){
+           this.selectedProviders.add( (ICloudProvider) provider);
+         }
+       }
+  
+     }
   }
 
   public void exportCSAR() throws IOException, CoreException {
@@ -888,12 +906,12 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return sb.toString();
   }
 
-  /**
-   * @return
-   */
-  public ICloudDeploymentService getDeploymentService() {
-    return this.deploymentWizardPage.getCloudDeploymentService();
-  }
+//  /**
+//   * @return
+//   */
+//  public ICloudDeploymentService getDeploymentService() {
+//    return this.deploymentWizardPage.getCloudDeploymentService();
+//  }
 
   private MessageConsole findConsole( String name ) {
     ConsolePlugin plugin = ConsolePlugin.getDefault();

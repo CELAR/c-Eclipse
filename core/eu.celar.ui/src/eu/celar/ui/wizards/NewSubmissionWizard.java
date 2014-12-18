@@ -9,6 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Dictionary;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -19,15 +23,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.osgi.framework.adaptor.FilePath;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.reporting.ProblemException;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.core.TOSCAModel;
 import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 
 
 public class NewSubmissionWizard extends Wizard implements INewWizard{
@@ -36,6 +43,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
   private NewSubmissionWizardFirstPage firstPage;
   private CloudProviderSelectionWizardPage secondPage;
   private IFile toscaFile;
+  private CloudProviderSelectionWizardPage providersWizard;
 
   @Override
   public void init( final IWorkbench workbench, final IStructuredSelection selection ) {
@@ -50,7 +58,7 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     this.firstPage.setTitle( Messages.getString( "NewSubmissionWizardFirstPage.pageTitle" ) ); //$NON-NLS-1$
     this.firstPage.setDescription( Messages.getString( "NewSubmissionWizardFirstPage.pageDescription" ) ); //$NON-NLS-1$
     
-    this.secondPage = new CloudProviderSelectionWizardPage( true );
+    providersWizard = this.secondPage = new CloudProviderSelectionWizardPage( true );
     this.secondPage.setTitle( "Cloud Provider Selection" ); //$NON-NLS-1$
     this.secondPage.setDescription( "Select the target Cloud Provider for the Application" );
     addPage( this.firstPage );
@@ -135,7 +143,14 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     this.toscaFile = (IFile) resourceName;
     
     DocumentRoot model = TOSCAModel.loadModelFromFile( this.toscaFile );
-              
+       
+    //Add providers' selection to tosca submission file
+    ICloudProvider[] providers = providersWizard.getSelectedCloudProviders();
+    ServicePropertiesType serviceProperties = (ServicePropertiesType) model.getDefinitions().getServiceTemplate().get( 0 ).getBoundaryDefinitions().getProperties().getAny().get( 0 ).getValue();
+    for (ICloudProvider provider : providers){
+      serviceProperties.getHostingEnvironment().add( provider.getName() );
+    }
+    
     TOSCAModel.saveModelToFile( file, model );  
   } catch( Exception e ) {
     e.printStackTrace();
@@ -146,9 +161,9 @@ public class NewSubmissionWizard extends Wizard implements INewWizard{
     CloudModel.getRoot().refresh( monitor );
   } catch( ProblemException e ) {
     e.printStackTrace();
-  }
+  }  
   return fileCreated;
-
+  
   }
     
 //  // Validates TOSCA file before passing it to CELAR Server

@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.help;bundle-version="3.6.0",
  org.eclipse.swt,
  org.eclipse.jface
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: eu.celar.tosca.core,
  org.apache.http;version="4.1.4",

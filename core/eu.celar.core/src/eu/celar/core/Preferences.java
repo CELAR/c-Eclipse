@@ -19,7 +19,7 @@ import eu.celar.core.model.impl.GenericCloudProvider;
 /**
  * This class gives easy access to the core preferences of c-Eclipse.
  * 
- * @author Nicholas Loulloudes
+ * @authors Nicholas Loulloudes, Stalo Sofokleous
  */
 public class Preferences {
   
@@ -76,8 +76,46 @@ public class Preferences {
 
     providersArray.put( provider );
     preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providersArray.toString() );
+    save();
     
   }
+  
+  
+  /**
+   * Remove Cloud Provider.
+   * 
+   * @param removedCloudProvider The Cloud Provider to be removed.
+   */
+  static public void removeCloudProvider(final ICloudProvider removedCloudProvider){
+    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
+
+    JSONArray providersArray = null;
+    String providerString = preferenceStore.getString( PreferenceConstants.DEFINED_CPS_ID );
+    try {
+      providersArray = new JSONArray( providerString );
+    } catch( JSONException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    JSONObject tempProvider;
+    for (int i=0; i<providersArray.length(); i++){
+      try {
+        tempProvider = providersArray.getJSONObject( i );
+        if (tempProvider.getString( "name" ).compareTo( removedCloudProvider.getName() )==0){
+          providersArray.remove( i );
+          break;
+        }
+      } catch( JSONException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+    }
+    preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providersArray.toString() );
+    save();
+  }
+  
   
   /**
    * Get the name of the current default Cloud Provider.

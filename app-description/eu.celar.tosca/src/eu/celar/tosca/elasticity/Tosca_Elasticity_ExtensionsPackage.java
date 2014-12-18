@@ -439,13 +439,22 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   int SERVICE_PROPERTIES_TYPE__VERSION = 0;
 
   /**
+   * The feature id for the '<em><b>Hosting Environment</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SERVICE_PROPERTIES_TYPE__HOSTING_ENVIRONMENT = 1;
+
+  /**
    * The number of structural features of the '<em>Service Properties Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SERVICE_PROPERTIES_TYPE_FEATURE_COUNT = 1;
+  int SERVICE_PROPERTIES_TYPE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl <em>TBoundary Definitions Extension</em>}' class.
@@ -1133,6 +1142,17 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
   EAttribute getServicePropertiesType_Version();
 
   /**
+   * Returns the meta object for the attribute list '{@link eu.celar.tosca.elasticity.ServicePropertiesType#getHostingEnvironment <em>Hosting Environment</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Hosting Environment</em>'.
+   * @see eu.celar.tosca.elasticity.ServicePropertiesType#getHostingEnvironment()
+   * @see #getServicePropertiesType()
+   * @generated
+   */
+  EAttribute getServicePropertiesType_HostingEnvironment();
+
+  /**
    * Returns the meta object for class '{@link eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension <em>TBoundary Definitions Extension</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1479,6 +1499,14 @@ public interface Tosca_Elasticity_ExtensionsPackage extends EPackage
      * @generated
      */
     EAttribute SERVICE_PROPERTIES_TYPE__VERSION = eINSTANCE.getServicePropertiesType_Version();
+
+    /**
+     * The meta object literal for the '<em><b>Hosting Environment</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SERVICE_PROPERTIES_TYPE__HOSTING_ENVIRONMENT = eINSTANCE.getServicePropertiesType_HostingEnvironment();
 
     /**
      * The meta object literal for the '{@link eu.celar.tosca.elasticity.impl.TBoundaryDefinitionsExtensionImpl <em>TBoundary Definitions Extension</em>}' class.

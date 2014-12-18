@@ -375,6 +375,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getServicePropertiesType_HostingEnvironment()
+  {
+    return (EAttribute)servicePropertiesTypeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getTBoundaryDefinitionsExtension()
   {
     return tBoundaryDefinitionsExtensionEClass;
@@ -574,6 +584,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     servicePropertiesTypeEClass = createEClass(SERVICE_PROPERTIES_TYPE);
     createEAttribute(servicePropertiesTypeEClass, SERVICE_PROPERTIES_TYPE__VERSION);
+    createEAttribute(servicePropertiesTypeEClass, SERVICE_PROPERTIES_TYPE__HOSTING_ENVIRONMENT);
 
     tBoundaryDefinitionsExtensionEClass = createEClass(TBOUNDARY_DEFINITIONS_EXTENSION);
     createEReference(tBoundaryDefinitionsExtensionEClass, TBOUNDARY_DEFINITIONS_EXTENSION__MONITORING_PROBES);
@@ -658,6 +669,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
 
     initEClass(servicePropertiesTypeEClass, ServicePropertiesType.class, "ServicePropertiesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getServicePropertiesType_Version(), theXMLTypePackage.getString(), "version", null, 1, 1, ServicePropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getServicePropertiesType_HostingEnvironment(), theXMLTypePackage.getString(), "hostingEnvironment", null, 1, -1, ServicePropertiesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tBoundaryDefinitionsExtensionEClass, TBoundaryDefinitionsExtension.class, "TBoundaryDefinitionsExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTBoundaryDefinitionsExtension_MonitoringProbes(), this.getMonitoringProbesType1(), null, "monitoringProbes", null, 0, 1, TBoundaryDefinitionsExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -694,7 +706,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -702,7 +714,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -710,7 +722,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -718,7 +730,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -726,7 +738,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_ImageArtifactProperties(), 
        source, 
@@ -735,7 +747,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "ImageArtifactProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_NodeProperties(), 
        source, 
@@ -744,7 +756,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "NodeProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_ScriptArtifactProperties(), 
        source, 
@@ -753,7 +765,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "ScriptArtifactProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_ServiceProperties(), 
        source, 
@@ -762,7 +774,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "ServiceProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (imageArtifactPropertiesTypeEClass, 
        source, 
@@ -770,7 +782,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "ImageArtifactPropertiesType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getImageArtifactPropertiesType_Description(), 
        source, 
@@ -779,7 +791,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getImageArtifactPropertiesType_Id(), 
        source, 
@@ -788,7 +800,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "Id",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (monitoringProbesType1EClass, 
        source, 
@@ -796,7 +808,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "MonitoringProbesType1",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbesType1_MonitoringProbes(), 
        source, 
@@ -805,7 +817,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "monitoringProbes",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (nodePropertiesTypeEClass, 
        source, 
@@ -813,7 +825,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "NodePropertiesType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getNodePropertiesType_Flavor(), 
        source, 
@@ -822,7 +834,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "Flavor",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (scriptArtifactPropertiesTypeEClass, 
        source, 
@@ -830,7 +842,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "ScriptArtifactPropertiesType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getScriptArtifactPropertiesType_Language(), 
        source, 
@@ -839,7 +851,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "Language",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (servicePropertiesTypeEClass, 
        source, 
@@ -847,7 +859,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "ServicePropertiesType",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getServicePropertiesType_Version(), 
        source, 
@@ -856,7 +868,16 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "Version",
        "namespace", "##targetNamespace"
-       });		
+       });	
+    addAnnotation
+      (getServicePropertiesType_HostingEnvironment(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "HostingEnvironment",
+       "namespace", "##targetNamespace"
+       });	
     addAnnotation
       (tBoundaryDefinitionsExtensionEClass, 
        source, 
@@ -864,7 +885,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TBoundaryDefinitionsExtension",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getTBoundaryDefinitionsExtension_MonitoringProbes(), 
        source, 
@@ -873,7 +894,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        "kind", "element",
        "name", "monitoringProbes",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (tMonitoringProbeEClass, 
        source, 
@@ -881,7 +902,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TMonitoringProbe",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getTMonitoringProbe_Name(), 
        source, 
@@ -889,7 +910,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "Name"
-       });		
+       });	
     addAnnotation
       (tNodeTemplateExtensionEClass, 
        source, 
@@ -897,7 +918,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TNodeTemplateExtension",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getTNodeTemplateExtension_Height(), 
        source, 
@@ -905,7 +926,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "height"
-       });		
+       });	
     addAnnotation
       (getTNodeTemplateExtension_InitInstances(), 
        source, 
@@ -913,7 +934,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "initInstances"
-       });		
+       });	
     addAnnotation
       (getTNodeTemplateExtension_Width(), 
        source, 
@@ -921,7 +942,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "width"
-       });		
+       });	
     addAnnotation
       (getTNodeTemplateExtension_X(), 
        source, 
@@ -929,7 +950,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "x"
-       });		
+       });	
     addAnnotation
       (getTNodeTemplateExtension_Y(), 
        source, 
@@ -937,7 +958,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "y"
-       });		
+       });	
     addAnnotation
       (tServiceTemplateExtensionEClass, 
        source, 
@@ -945,7 +966,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "name", "TServiceTemplateExtension",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getTServiceTemplateExtension_Height(), 
        source, 
@@ -953,7 +974,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "height"
-       });		
+       });	
     addAnnotation
       (getTServiceTemplateExtension_Width(), 
        source, 
@@ -961,7 +982,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "width"
-       });		
+       });	
     addAnnotation
       (getTServiceTemplateExtension_X(), 
        source, 
@@ -969,7 +990,7 @@ public class Tosca_Elasticity_ExtensionsPackageImpl extends EPackageImpl impleme
        {
        "kind", "attribute",
        "name", "x"
-       });		
+       });	
     addAnnotation
       (getTServiceTemplateExtension_Y(), 
        source, 

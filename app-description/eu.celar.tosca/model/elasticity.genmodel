@@ -100,6 +100,7 @@
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//ServicePropertiesType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ServicePropertiesType/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extension.ecore#//ServicePropertiesType/hostingEnvironment"/>
     </genClasses>
     <genClasses ecoreClass="extension.ecore#//TBoundaryDefinitionsExtension">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extension.ecore#//TBoundaryDefinitionsExtension/monitoringProbes"/>

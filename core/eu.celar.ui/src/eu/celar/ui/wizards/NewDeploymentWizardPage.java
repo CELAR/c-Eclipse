@@ -50,75 +50,81 @@ public class NewDeploymentWizardPage extends WizardPage implements ModifyListene
     GridData layout = new GridData();
     layout.horizontalAlignment = GridData.FILL;
     lblOptimizationPolicy.setLayoutData( layout );
-    // Combo - Policy
-    this.cmbCloudProvider = new CCombo( this.container, SWT.BORDER );
-    this.cmbCloudProvider.setEnabled( true );
-    layout = new GridData();
-    layout.horizontalAlignment = GridData.FILL;
-    layout.horizontalSpan = 2;
-    this.cmbCloudProvider.setLayoutData( layout );
-    
-    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
-    ICloudElement[] children;
-    
-    int i=0;
-    try {
-      children = cpManager.getChildren( new NullProgressMonitor() );
-      for( ICloudElement CloudElement : children ) {
-        if( CloudElement instanceof GenericCloudProvider ) {
-          GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
-          this.cmbCloudProvider.add( gCp.getName(), i++);
-        }
-      }
-
-    } catch( ProblemException e ) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }  
-    
-    this.cmbCloudProvider.setEditable( false );
-    
-    this.cmbCloudProvider.addModifyListener( this );
+//    // Combo - Policy
+//    this.cmbCloudProvider = new CCombo( this.container, SWT.BORDER );
+//    this.cmbCloudProvider.setEnabled( true );
+//    layout = new GridData();
+//    layout.horizontalAlignment = GridData.FILL;
+//    layout.horizontalSpan = 2;
+//    this.cmbCloudProvider.setLayoutData( layout );
+//    
+//    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
+//    ICloudElement[] children;
+//    
+//    int i=0;
+//    try {
+//      children = cpManager.getChildren( new NullProgressMonitor() );
+//      for( ICloudElement CloudElement : children ) {
+//        if( CloudElement instanceof GenericCloudProvider ) {
+//          GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
+//          this.cmbCloudProvider.add( gCp.getName(), i++);
+//        }
+//      }
+//
+//    } catch( ProblemException e ) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }  
+//    
+//    this.cmbCloudProvider.setEditable( false );
+//    
+//    this.cmbCloudProvider.addModifyListener( this );
     
     setControl( this.container );
   }
-  
-  protected boolean validatePage() {
-    boolean result = !( this.cmbCloudProvider.getText().equals( "" ) );
-    if( result ) {
-      setPageComplete( true );
-      getContainer().updateButtons();
-    }
-    //return result;
-  return true;
-  }
-  
+
   @Override
   public void modifyText( ModifyEvent e ) {
-    if( e.widget == this.cmbCloudProvider )
-      validatePage();
-  }
-  
-  public void setServices (final List<ICloudDeploymentService> deploymentServices){    
-    setMessage( null );
-    this.deploymentServices = deploymentServices;
-    
-    for (ICloudDeploymentService service : this.deploymentServices) {
-      this.cmbCloudProvider.add( service.getName() );
-    }
-
+    // TODO Auto-generated method stub
     
   }
   
-  /**
-   * @return the Cloud Provider
-   */
-  public ICloudDeploymentService getCloudDeploymentService() {
-    ICloudDeploymentService service = null;
-    int index = this.cmbCloudProvider.getSelectionIndex();
-    if( index != -1 ) {
-      service = this.deploymentServices.get( index );
-    }
-    return service;
-  }
+//  protected boolean validatePage() {
+//    boolean result = !( this.cmbCloudProvider.getText().equals( "" ) );
+//    if( result ) {
+//      setPageComplete( true );
+//      getContainer().updateButtons();
+//    }
+//    //return result;
+//  return true;
+//  }
+//  
+//  @Override
+//  public void modifyText( ModifyEvent e ) {
+//    if( e.widget == this.cmbCloudProvider )
+//      validatePage();
+//  }
+  
+//  public void setServices (final List<ICloudDeploymentService> deploymentServices){    
+//    setMessage( null );
+//    this.deploymentServices = deploymentServices;
+//    
+//    for (ICloudDeploymentService service : this.deploymentServices) {
+//      this.cmbCloudProvider.add( service.getName() );
+//    }
+//
+//    
+//  }
+  
+//  /**
+//   * @return the Cloud Provider
+//   */
+//  public ICloudDeploymentService getCloudDeploymentService() {
+//    ICloudDeploymentService service = null;
+//    int index = this.cmbCloudProvider.getSelectionIndex();
+//    if( index != -1 ) {
+//      service = this.deploymentServices.get( index );
+//    }
+//    return service;
+//  }
 }

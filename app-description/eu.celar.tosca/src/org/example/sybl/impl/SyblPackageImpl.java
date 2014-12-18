@@ -945,7 +945,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (binaryRestrictionEClass, 
        source, 
@@ -953,7 +953,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "BinaryRestriction",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getBinaryRestriction_LeftHandSide(), 
        source, 
@@ -961,7 +961,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "LeftHandSide"
-       });		
+       });	
     addAnnotation
       (getBinaryRestriction_RightHandSide(), 
        source, 
@@ -969,7 +969,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "RightHandSide"
-       });		
+       });	
     addAnnotation
       (getBinaryRestriction_Type(), 
        source, 
@@ -977,7 +977,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Type"
-       });		
+       });	
     addAnnotation
       (conditionTypeEClass, 
        source, 
@@ -985,7 +985,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "Condition_._1_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getConditionType_BinaryRestrictionsConjunction(), 
        source, 
@@ -993,7 +993,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "BinaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (getConditionType_UnaryRestrictionsConjunction(), 
        source, 
@@ -1001,7 +1001,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "UnaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (conditionType1EClass, 
        source, 
@@ -1009,7 +1009,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "Condition_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getConditionType1_BinaryRestrictionsConjunction(), 
        source, 
@@ -1017,7 +1017,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "BinaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (getConditionType1_UnaryRestrictionsConjunction(), 
        source, 
@@ -1025,7 +1025,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "UnaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (constraintEClass, 
        source, 
@@ -1033,7 +1033,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "Constraint",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getConstraint_ToEnforce(), 
        source, 
@@ -1041,7 +1041,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "ToEnforce"
-       });		
+       });	
     addAnnotation
       (getConstraint_Condition(), 
        source, 
@@ -1049,7 +1049,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Condition"
-       });		
+       });	
     addAnnotation
       (getConstraint_Id(), 
        source, 
@@ -1057,7 +1057,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Id"
-       });		
+       });	
     addAnnotation
       (documentRootEClass, 
        source, 
@@ -1065,7 +1065,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "",
        "kind", "mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_Mixed(), 
        source, 
@@ -1073,7 +1073,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "elementWildcard",
        "name", ":mixed"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XMLNSPrefixMap(), 
        source, 
@@ -1081,7 +1081,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "xmlns:prefix"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_XSISchemaLocation(), 
        source, 
@@ -1089,7 +1089,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "xsi:schemaLocation"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_ConstraintProperties(), 
        source, 
@@ -1098,7 +1098,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        "kind", "element",
        "name", "ConstraintProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_StrategyProperties(), 
        source, 
@@ -1107,7 +1107,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        "kind", "element",
        "name", "StrategyProperties",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getDocumentRoot_SYBLElasticityRequirementsDescription(), 
        source, 
@@ -1116,7 +1116,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        "kind", "element",
        "name", "SYBLElasticityRequirementsDescription",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (leftHandSideTypeEClass, 
        source, 
@@ -1124,7 +1124,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "LeftHandSide_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getLeftHandSideType_Metric(), 
        source, 
@@ -1132,7 +1132,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Metric"
-       });		
+       });	
     addAnnotation
       (getLeftHandSideType_Number(), 
        source, 
@@ -1140,7 +1140,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Number"
-       });		
+       });	
     addAnnotation
       (referenceToTypeEClass, 
        source, 
@@ -1148,7 +1148,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "ReferenceTo_._type",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (getReferenceToType_Value(), 
        source, 
@@ -1156,7 +1156,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", ":0",
        "kind", "simple"
-       });		
+       });	
     addAnnotation
       (getReferenceToType_Function(), 
        source, 
@@ -1164,7 +1164,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Function"
-       });		
+       });	
     addAnnotation
       (getReferenceToType_Name(), 
        source, 
@@ -1172,7 +1172,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Name"
-       });		
+       });	
     addAnnotation
       (rightHandSideTypeEClass, 
        source, 
@@ -1180,7 +1180,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "RightHandSide_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getRightHandSideType_Metric(), 
        source, 
@@ -1188,7 +1188,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Metric"
-       });		
+       });	
     addAnnotation
       (getRightHandSideType_Number(), 
        source, 
@@ -1196,7 +1196,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Number"
-       });		
+       });	
     addAnnotation
       (strategyEClass, 
        source, 
@@ -1204,7 +1204,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "Strategy",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getStrategy_Condition(), 
        source, 
@@ -1212,7 +1212,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Condition"
-       });		
+       });	
     addAnnotation
       (getStrategy_ToEnforce(), 
        source, 
@@ -1220,7 +1220,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "ToEnforce"
-       });		
+       });	
     addAnnotation
       (getStrategy_Id(), 
        source, 
@@ -1228,7 +1228,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Id"
-       });		
+       });	
     addAnnotation
       (syblElasticityRequirementsDescriptionEClass, 
        source, 
@@ -1236,7 +1236,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "syblElasticityRequirementsDescription",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getSyblElasticityRequirementsDescription_SYBLSpecification(), 
        source, 
@@ -1244,7 +1244,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "SYBLSpecification"
-       });		
+       });	
     addAnnotation
       (syblSpecificationTypeEClass, 
        source, 
@@ -1252,7 +1252,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "SYBLSpecification_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getSYBLSpecificationType_Constraint(), 
        source, 
@@ -1260,7 +1260,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Constraint"
-       });		
+       });	
     addAnnotation
       (getSYBLSpecificationType_Strategy(), 
        source, 
@@ -1268,7 +1268,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Strategy"
-       });		
+       });	
     addAnnotation
       (getSYBLSpecificationType_Id(), 
        source, 
@@ -1276,7 +1276,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "id"
-       });		
+       });	
     addAnnotation
       (getSYBLSpecificationType_Type(), 
        source, 
@@ -1284,7 +1284,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "type"
-       });		
+       });	
     addAnnotation
       (toEnforceTypeEClass, 
        source, 
@@ -1292,7 +1292,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "ToEnforce_._1_._type",
        "kind", "empty"
-       });		
+       });	
     addAnnotation
       (getToEnforceType_ActionName(), 
        source, 
@@ -1300,7 +1300,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "ActionName"
-       });		
+       });	
     addAnnotation
       (getToEnforceType_Parameter(), 
        source, 
@@ -1308,7 +1308,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "attribute",
        "name", "Parameter"
-       });		
+       });	
     addAnnotation
       (toEnforceType1EClass, 
        source, 
@@ -1316,7 +1316,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "ToEnforce_._type",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getToEnforceType1_BinaryRestrictionsConjunction(), 
        source, 
@@ -1324,7 +1324,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "BinaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (getToEnforceType1_UnaryRestrictionsConjunction(), 
        source, 
@@ -1332,7 +1332,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "UnaryRestrictionsConjunction"
-       });		
+       });	
     addAnnotation
       (unaryRestrictionEClass, 
        source, 
@@ -1340,7 +1340,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "name", "UnaryRestriction",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getUnaryRestriction_Metric(), 
        source, 
@@ -1348,7 +1348,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "Metric"
-       });		
+       });	
     addAnnotation
       (getUnaryRestriction_ReferenceTo(), 
        source, 
@@ -1356,7 +1356,7 @@ public class SyblPackageImpl extends EPackageImpl implements SyblPackage
        {
        "kind", "element",
        "name", "ReferenceTo"
-       });		
+       });	
     addAnnotation
       (getUnaryRestriction_Type(), 
        source, 

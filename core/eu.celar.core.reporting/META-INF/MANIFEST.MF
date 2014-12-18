@@ -7,5 +7,5 @@ Bundle-Vendor: Eclipse.org
 Bundle-Activator: eu.celar.core.reporting.ReportingPlugin
 Require-Bundle: org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: eu.celar.core.reporting

@@ -2,6 +2,7 @@
  */
 package eu.celar.tosca.elasticity;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -13,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link eu.celar.tosca.elasticity.ServicePropertiesType#getVersion <em>Version</em>}</li>
+ *   <li>{@link eu.celar.tosca.elasticity.ServicePropertiesType#getHostingEnvironment <em>Hosting Environment</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,5 +50,22 @@ public interface ServicePropertiesType extends EObject
    * @generated
    */
   void setVersion(String value);
+
+  /**
+   * Returns the value of the '<em><b>Hosting Environment</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Hosting Environment</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Hosting Environment</em>' attribute list.
+   * @see eu.celar.tosca.elasticity.Tosca_Elasticity_ExtensionsPackage#getServicePropertiesType_HostingEnvironment()
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='HostingEnvironment' namespace='##targetNamespace'"
+   * @generated
+   */
+  EList<String> getHostingEnvironment();
 
 } // ServicePropertiesType

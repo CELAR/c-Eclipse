@@ -58,7 +58,6 @@ public class CloudProviderSelectionWizardPage extends WizardPage
   
   private final String PREFERENCE_PAGE_ID = "eu.celar.ui.internal.preference.CloudProviderPreferencePage"; //$NON-NLS-1$
   
-  
   public CloudProviderSelectionWizardPage( final boolean allowMultiSelection ) {
     this( allowMultiSelection, null );
   }
