@@ -9,7 +9,6 @@ import java.util.List;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -17,6 +16,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -87,95 +87,10 @@ public class CloudProviderPreferencePage
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     public Object[] getElements( final Object inputElement ) {
-      ICloudElement[] result = null;
-      if ( inputElement instanceof ICloudProviderManager ) {
-        ICloudProviderManager manager = ( ICloudProviderManager ) inputElement;
-
-        try {
-          result = manager.getChildren( null );
-          
-          if (result.length == 0){
-            
-            String providerName = Preferences.getDefinedCloudProviders();
-            if (providerName.equals( "" )){
-              return result;
-            }
-            
-            JSONArray providersArray = null;
-            JSONObject provider = null;
-            GenericCloudProviderCreator creator = null;
-            try {
-              //Get Cloud providers from Preference Store
-              providersArray = new JSONArray(Preferences.getDefinedCloudProviders());
-              for (int i=0; i<providersArray.length();i++){
-                provider = providersArray.getJSONObject( i );
-                //provider = new JSONObject(Preferences.getDefaultVoName());
-                creator = new GenericCloudProviderCreator();
-                creator.setVoName( provider.getString( "name" ));
-                creator.setVoURI( provider.getString( "uri" ));
-                creator.setVoPort( provider.getString( "port" ));
-                
-                GenericCloudProvider cp = createVo( creator );
-                manager.addElement( cp );
-              }
-
-            } catch( JSONException e ) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
-            }
-            
-
-            result = manager.getChildren( null );
-          }
-          
-          Arrays.sort( result, new Comparator< ICloudElement >() {
-            public int compare( final ICloudElement vo1,
-                                final ICloudElement vo2 ) {
-              return vo1.getName().compareTo( vo2.getName() );
-            }
-          } );
-        } catch ( ProblemException pExc ) {
-          if ( this.shell != null ) {
-            ProblemDialog.openProblem( this.shell,
-                                       Messages.getString("CloudProviderPreferencePage.content_provider_problem"), //$NON-NLS-1$
-                                       Messages.getString("CloudProviderPreferencePage.query_vo_failed"), //$NON-NLS-1$
-                                       pExc );
-          } else {
-            Activator.logException( pExc );
-          }
-        }
-      }
-      return result;
+      
+      return Preferences.getDefinedCloudProviders();
     }
     
-    // Method from class GenericCloudProviderWizard
-    private GenericCloudProvider createVo( final GenericCloudProviderCreator creator ) {
-      
-      IStatus result = Status.OK_STATUS;
-      
-      GenericCloudProvider vo = null;
-      ICloudProviderManager manager = CloudModel.getCloudProviderManager();
-      
-      try {
-        
-          vo = ( GenericCloudProvider ) manager.create( creator );
-        
-      } catch ( ProblemException pExc ) {
-        result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, pExc.getLocalizedMessage(), pExc );
-      }
-      
-      if ( ! result.isOK() && ( vo != null ) ) {
-        try {
-          manager.delete( vo );
-        } catch ( ProblemException pExc ) {
-          Activator.logException( pExc );
-        }
-      }
-      
-      return vo;
-      
-    }
-
     /* (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
@@ -236,7 +151,7 @@ public class CloudProviderPreferencePage
    *   Package visibility to avoid warning about synthetic accessor
    *   performance issue.
    */
-  CheckboxTableViewer cpViewer;
+  TableViewer cpViewer;
   
   /**
    * The button that triggers the creation of a new VO.
@@ -300,7 +215,7 @@ public class CloudProviderPreferencePage
     gData.grabExcessHorizontalSpace = true;
     voLabel.setLayoutData( gData );
     
-    Table voTable = new Table( parent, SWT.CHECK | SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION );
+    Table voTable = new Table( parent, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION );
     voTable.setHeaderVisible( true );
     voTable.setLinesVisible( true );
     gData = new GridData( GridData.FILL_BOTH );
@@ -336,7 +251,7 @@ public class CloudProviderPreferencePage
     typeColumn.setWidth( 100 );
     
     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
-    this.cpViewer = new CheckboxTableViewer( voTable );
+    this.cpViewer = new TableViewer( voTable );
     this.cpViewer.setLabelProvider( new VoLabelProvider() );
     this.cpViewer.setContentProvider( new VoContentProvider() );
     

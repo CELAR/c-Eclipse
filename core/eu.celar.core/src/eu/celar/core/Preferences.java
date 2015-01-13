@@ -7,14 +7,23 @@
  ************************************************************/
 package eu.celar.core;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import eu.celar.core.internal.Activator;
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudProvider;
+import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.impl.GenericCloudProvider;
-
+import eu.celar.core.model.impl.GenericCloudProviderCreator;
+import eu.celar.core.reporting.ProblemException;
 
 /**
  * This class gives easy access to the core preferences of c-Eclipse.
@@ -122,7 +131,7 @@ public class Preferences {
    * 
    * @return The name of the default Cloud Provider.
    */
-  static public String getDefinedCloudProviders() {
+  static public String getDefinedCloudProvidersString() {
     org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
     String cloudProviders = preferenceStore.getString( PreferenceConstants.DEFINED_CPS_ID );
     return cloudProviders;
@@ -148,6 +157,93 @@ public class Preferences {
       preferenceStore = activator.getPluginPreferences();
     }
     return preferenceStore;
+  }
+  
+  /**
+   * Creates the Cloud Provider objects from the json string and adds them to the CloudProviderManager
+   * 
+   * @return The array with the defined Cloud Providers 
+   */
+  static public ICloudElement[] getDefinedCloudProviders() {
+    ICloudElement[] result = null;
+
+      ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+
+      try {
+        result = manager.getChildren( null );
+        
+        if (result.length == 0){
+          
+          String providerName = getDefinedCloudProvidersString();
+          if (providerName.equals( "" )){
+            return result;
+          }
+          
+          JSONArray providersArray = null;
+          JSONObject provider = null;
+          GenericCloudProviderCreator creator = null;
+          try {
+            //Get Cloud providers from Preference Store
+            providersArray = new JSONArray(Preferences.getDefinedCloudProvidersString());
+            for (int i=0; i<providersArray.length();i++){
+              provider = providersArray.getJSONObject( i );
+              creator = new GenericCloudProviderCreator();
+              creator.setVoName( provider.getString( "name" ));
+              creator.setVoURI( provider.getString( "uri" ));
+              creator.setVoPort( provider.getString( "port" ));
+              
+              GenericCloudProvider cp = createVo( creator );
+              manager.addElement( cp );
+            }
+
+          } catch( JSONException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+          
+
+          result = manager.getChildren( null );
+        }
+        
+        Arrays.sort( result, new Comparator< ICloudElement >() {
+          public int compare( final ICloudElement vo1,
+                              final ICloudElement vo2 ) {
+            return vo1.getName().compareTo( vo2.getName() );
+          }
+        } );
+      } catch ( ProblemException pExc ) {
+        pExc.printStackTrace();
+      }
+    
+    return result;
+  }
+  
+  // Method from class GenericCloudProviderWizard
+  private static GenericCloudProvider createVo( final GenericCloudProviderCreator creator ) {
+    
+    IStatus result = Status.OK_STATUS;
+    
+    GenericCloudProvider vo = null;
+    ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+    
+    try {
+      
+        vo = ( GenericCloudProvider ) manager.create( creator );
+      
+    } catch ( ProblemException pExc ) {
+      result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, pExc.getLocalizedMessage(), pExc );
+    }
+    
+    if ( ! result.isOK() && ( vo != null ) ) {
+      try {
+        manager.delete( vo );
+      } catch ( ProblemException pExc ) {
+        Activator.logException( pExc );
+      }
+    }
+    
+    return vo;
+    
   }
   
 }

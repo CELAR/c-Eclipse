@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
+import eu.celar.core.Preferences;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudElement;
 import eu.celar.core.model.ICloudModelEvent;
@@ -361,6 +362,9 @@ public class CloudProviderSelectionWizardPage extends WizardPage
     this.cpList.clear();
     try {
       ICloudElement[] vos = CloudModel.getCloudProviderManager().getChildren( null );
+      if (vos.length == 0){
+        vos = Preferences.getDefinedCloudProviders();
+      }
       for ( ICloudElement cp : vos ) {
         this.cpList.add( ( ICloudProvider ) cp );
       }
