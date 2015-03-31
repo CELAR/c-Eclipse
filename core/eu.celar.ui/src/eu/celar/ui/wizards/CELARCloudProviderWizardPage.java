@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -37,6 +38,9 @@ public class CELARCloudProviderWizardPage
     
   /** A pattern for matching the VO name */
   private Pattern cpNamePattern = Pattern.compile( "^[\\w.-]+$" ); //$NON-NLS-1$
+  
+  /** The name of the CloudProvider. */
+  private CCombo cpNameCombo;
   
   /** The name of the CloudProvider. */
   private Text cpNameText;
@@ -78,31 +82,43 @@ public class CELARCloudProviderWizardPage
     // general cloud provider information
     Group settingsGroup = new Group( mainComp, SWT.NONE );
     settingsGroup.setLayout( new GridLayout( 2, false ) );
-    settingsGroup.setText( Messages.getString( "CELARCloudProviderWizardPage.label_cp_settings" ) ); //$NON-NLS-1$
+    settingsGroup.setText( Messages.getString( "CELARCloudProviderWizardPage.label_cp_settings" )); //$NON-NLS-1$
     gData = new GridData( GridData.FILL_HORIZONTAL );
     gData.grabExcessHorizontalSpace = true;
     settingsGroup.setLayoutData( gData );
 
     Label nameLabel = new Label( settingsGroup, SWT.LEFT );
-    nameLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_cp_name" ) ); //$NON-NLS-1$
+    nameLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_cp_name" ) + "            "  ); //$NON-NLS-1$
     nameLabel.setLayoutData( new GridData() );
 
-    this.cpNameText = new Text( settingsGroup, SWT.LEFT
-                                               | SWT.SINGLE
-                                               | SWT.BORDER );
+    this.cpNameCombo = new CCombo( settingsGroup, SWT.LEFT
+                                     | SWT.SINGLE
+                                     | SWT.BORDER  );
+    this.cpNameCombo.setEnabled( true );
+    this.cpNameCombo.add( "Flexiant" );
+    this.cpNameCombo.add( "Okeanos" );
     gData = new GridData( GridData.FILL_HORIZONTAL );
     gData.grabExcessHorizontalSpace = true;
-    this.cpNameText.setLayoutData( gData );
-    this.cpNameText.addModifyListener( new ModifyListener() {
+    this.cpNameCombo.setLayoutData( gData );
 
-      public void modifyText( final ModifyEvent e ) {
-        validateInput();
-      }
-
-    } );
+    
+//    this.cpNameText = new Text( settingsGroup, SWT.LEFT
+//                                               | SWT.SINGLE
+//                                               | SWT.BORDER );
+//    gData = new GridData( GridData.FILL_HORIZONTAL );
+//    gData.grabExcessHorizontalSpace = true;
+//    this.cpNameText.setLayoutData( gData );
+//    this.cpNameText.addModifyListener( new ModifyListener() {
+//
+//      public void modifyText( final ModifyEvent e ) {
+//        validateInput();
+//      }
+//
+//    } );
 
     Label osAccessIdLabel = new Label( settingsGroup, SWT.LEFT );
-    osAccessIdLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_os_access_id" ) ); //$NON-NLS-1$
+    //osAccessIdLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_os_access_id" ) ); //$NON-NLS-1$
+    osAccessIdLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_username" ) ); 
     osAccessIdLabel.setLayoutData( new GridData() );
 
     this.cpAccessIdText = new Text( settingsGroup, SWT.LEFT
@@ -120,7 +136,8 @@ public class CELARCloudProviderWizardPage
     } );
     
     Label cpAccessEndPointLabel = new Label( settingsGroup, SWT.LEFT );
-    cpAccessEndPointLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_os_endpoint" ) ); //$NON-NLS-1$
+    //cpAccessEndPointLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_os_endpoint" ) ); //$NON-NLS-1$
+    cpAccessEndPointLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_password" ) ); //$NON-NLS-1$
     cpAccessEndPointLabel.setLayoutData( new GridData() );
 
     this.cpEndPointText = new Text( settingsGroup, SWT.LEFT
@@ -137,67 +154,67 @@ public class CELARCloudProviderWizardPage
 
     } );
 
-    // general monitoring system information
-    Group monitoringGroup = new Group( mainComp, SWT.NONE );
-    monitoringGroup.setLayout( new GridLayout( 2, false ) );
-    monitoringGroup.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_settings" ) ); //$NON-NLS-1$
-    gData = new GridData( GridData.FILL_HORIZONTAL );
-    gData.grabExcessHorizontalSpace = true;
-    monitoringGroup.setLayoutData( gData );
-
-    Label monitoringNameLabel = new Label( monitoringGroup, SWT.LEFT );
-    monitoringNameLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_name" ) ); //$NON-NLS-1$
-    monitoringNameLabel.setLayoutData( new GridData() );
-
-    this.monitoringNameText = new Text( monitoringGroup, SWT.LEFT
-                                               | SWT.SINGLE
-                                               | SWT.BORDER );
-    gData = new GridData( GridData.FILL_HORIZONTAL );
-    gData.grabExcessHorizontalSpace = true;
-    this.monitoringNameText.setLayoutData( gData );
-    this.monitoringNameText.addModifyListener( new ModifyListener() {
-
-      public void modifyText( final ModifyEvent e ) {
-        validateInput();
-      }
-
-    } );
-
-    Label msAccessIdLabel = new Label( monitoringGroup, SWT.LEFT );
-    msAccessIdLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_access_id" ) ); //$NON-NLS-1$
-    msAccessIdLabel.setLayoutData( new GridData() );
-
-    this.monitoringAccessIdText = new Text( monitoringGroup, SWT.LEFT
-                                                    | SWT.SINGLE
-                                                    | SWT.BORDER );
-    gData = new GridData( GridData.FILL_HORIZONTAL );
-    gData.grabExcessHorizontalSpace = true;
-    this.monitoringAccessIdText.setLayoutData( gData );
-    this.monitoringAccessIdText.addModifyListener( new ModifyListener() {
-
-      public void modifyText( final ModifyEvent e ) {
-        validateInput();
-      }
-
-    } );
-    
-    Label msAccessEndPointLabel = new Label( monitoringGroup, SWT.LEFT );
-    msAccessEndPointLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_endpoint" ) ); //$NON-NLS-1$
-    msAccessEndPointLabel.setLayoutData( new GridData() );
-
-    this.monitoringEndPointText = new Text( monitoringGroup, SWT.LEFT
-                                                    | SWT.SINGLE
-                                                    | SWT.BORDER );
-    gData = new GridData( GridData.FILL_HORIZONTAL );
-    gData.grabExcessHorizontalSpace = true;
-    this.monitoringEndPointText.setLayoutData( gData );
-    this.monitoringEndPointText.addModifyListener( new ModifyListener() {
-
-      public void modifyText( final ModifyEvent e ) {
-        validateInput();
-      }
-
-    } );
+//    // general monitoring system information
+//    Group monitoringGroup = new Group( mainComp, SWT.NONE );
+//    monitoringGroup.setLayout( new GridLayout( 2, false ) );
+//    monitoringGroup.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_settings" ) ); //$NON-NLS-1$
+//    gData = new GridData( GridData.FILL_HORIZONTAL );
+//    gData.grabExcessHorizontalSpace = true;
+//    monitoringGroup.setLayoutData( gData );
+//
+//    Label monitoringNameLabel = new Label( monitoringGroup, SWT.LEFT );
+//    monitoringNameLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_name" ) ); //$NON-NLS-1$
+//    monitoringNameLabel.setLayoutData( new GridData() );
+//
+//    this.monitoringNameText = new Text( monitoringGroup, SWT.LEFT
+//                                               | SWT.SINGLE
+//                                               | SWT.BORDER );
+//    gData = new GridData( GridData.FILL_HORIZONTAL );
+//    gData.grabExcessHorizontalSpace = true;
+//    this.monitoringNameText.setLayoutData( gData );
+//    this.monitoringNameText.addModifyListener( new ModifyListener() {
+//
+//      public void modifyText( final ModifyEvent e ) {
+//        validateInput();
+//      }
+//
+//    } );
+//
+//    Label msAccessIdLabel = new Label( monitoringGroup, SWT.LEFT );
+//    msAccessIdLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_access_id" ) ); //$NON-NLS-1$
+//    msAccessIdLabel.setLayoutData( new GridData() );
+//
+//    this.monitoringAccessIdText = new Text( monitoringGroup, SWT.LEFT
+//                                                    | SWT.SINGLE
+//                                                    | SWT.BORDER );
+//    gData = new GridData( GridData.FILL_HORIZONTAL );
+//    gData.grabExcessHorizontalSpace = true;
+//    this.monitoringAccessIdText.setLayoutData( gData );
+//    this.monitoringAccessIdText.addModifyListener( new ModifyListener() {
+//
+//      public void modifyText( final ModifyEvent e ) {
+//        validateInput();
+//      }
+//
+//    } );
+//    
+//    Label msAccessEndPointLabel = new Label( monitoringGroup, SWT.LEFT );
+//    msAccessEndPointLabel.setText( Messages.getString( "CELARCloudProviderWizardPage.label_ms_endpoint" ) ); //$NON-NLS-1$
+//    msAccessEndPointLabel.setLayoutData( new GridData() );
+//
+//    this.monitoringEndPointText = new Text( monitoringGroup, SWT.LEFT
+//                                                    | SWT.SINGLE
+//                                                    | SWT.BORDER );
+//    gData = new GridData( GridData.FILL_HORIZONTAL );
+//    gData.grabExcessHorizontalSpace = true;
+//    this.monitoringEndPointText.setLayoutData( gData );
+//    this.monitoringEndPointText.addModifyListener( new ModifyListener() {
+//
+//      public void modifyText( final ModifyEvent e ) {
+//        validateInput();
+//      }
+//
+//    } );
 
     setControl( mainComp );
     
@@ -207,7 +224,8 @@ public class CELARCloudProviderWizardPage
     
     IStatus result = Status.OK_STATUS;
     
-    String name = this.cpNameText.getText();
+    //String name = this.cpNameText.getText();
+    String name = this.cpNameCombo.getText();
     if ( ! validateVoName( name ) ) {
       result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "You have to specify a valid Cloud Provider name" );
     } else if ( ( this.initialCloudProvider == null )
@@ -257,7 +275,8 @@ public class CELARCloudProviderWizardPage
    * Check if the input of the form is valid.
    */
   protected void validateInput() {
-    String name = this.cpNameText.getText().trim();
+    //String name = this.cpNameText.getText().trim();
+    String name = this.cpNameCombo.getText().trim();
     if( name.length() == 0 ) {
       setErrorMessage( Messages.getString( "CELARWizardPage.error_cp_name_required" ) ); //$NON-NLS-1$
       setPageComplete( false );

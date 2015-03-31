@@ -205,7 +205,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getMonitoringProbe_URL()
+  public EAttribute getMonitoringProbe_Metrics()
   {
     return (EAttribute)monitoringProbeEClass.getEStructuralFeatures().get(3);
   }
@@ -574,7 +574,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     createEAttribute(monitoringProbeEClass, MONITORING_PROBE__UID);
     createEAttribute(monitoringProbeEClass, MONITORING_PROBE__NAME);
     createEAttribute(monitoringProbeEClass, MONITORING_PROBE__DESCRIPTION);
-    createEAttribute(monitoringProbeEClass, MONITORING_PROBE__URL);
+    createEAttribute(monitoringProbeEClass, MONITORING_PROBE__METRICS);
 
     resizingActionEClass = createEClass(RESIZING_ACTION);
     createEAttribute(resizingActionEClass, RESIZING_ACTION__UID);
@@ -658,7 +658,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
     initEAttribute(getMonitoringProbe_UID(), theXMLTypePackage.getString(), "uID", null, 1, 1, MonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMonitoringProbe_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, MonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMonitoringProbe_Description(), theXMLTypePackage.getString(), "description", null, 1, 1, MonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMonitoringProbe_URL(), theXMLTypePackage.getString(), "uRL", null, 1, 1, MonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMonitoringProbe_Metrics(), theXMLTypePackage.getString(), "metrics", null, 1, 1, MonitoringProbe.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(resizingActionEClass, ResizingAction.class, "ResizingAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResizingAction_UID(), theXMLTypePackage.getString(), "uID", null, 1, 1, ResizingAction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -721,7 +721,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
     addAnnotation
       (monitoringProbeEClass, 
        source, 
@@ -729,7 +729,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "MonitoringProbe",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_UID(), 
        source, 
@@ -738,7 +738,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_Name(), 
        source, 
@@ -747,7 +747,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getMonitoringProbe_Description(), 
        source, 
@@ -756,16 +756,16 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
-      (getMonitoringProbe_URL(), 
+      (getMonitoringProbe_Metrics(), 
        source, 
        new String[] 
        {
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (resizingActionEClass, 
        source, 
@@ -773,7 +773,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "ResizingAction",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getResizingAction_UID(), 
        source, 
@@ -782,7 +782,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_Name(), 
        source, 
@@ -791,7 +791,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_Description(), 
        source, 
@@ -800,7 +800,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getResizingAction_URL(), 
        source, 
@@ -809,7 +809,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (softwareDependencyEClass, 
        source, 
@@ -817,7 +817,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "SoftwareDependency",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_UID(), 
        source, 
@@ -826,7 +826,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Name(), 
        source, 
@@ -835,7 +835,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Description(), 
        source, 
@@ -844,7 +844,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_URL(), 
        source, 
@@ -853,7 +853,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getSoftwareDependency_Type(), 
        source, 
@@ -862,7 +862,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageEClass, 
        source, 
@@ -870,7 +870,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "VirtualMachineImage",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_UID(), 
        source, 
@@ -879,7 +879,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Name(), 
        source, 
@@ -888,7 +888,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Description(), 
        source, 
@@ -897,7 +897,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_Type(), 
        source, 
@@ -906,7 +906,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getVirtualMachineImage_URL(), 
        source, 
@@ -915,14 +915,14 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageTypeEEnum, 
        source, 
        new String[] 
        {
        "name", "VirtualMachineImageType"
-       });		
+       });	
     addAnnotation
       (virtualMachineImageTypeObjectEDataType, 
        source, 
@@ -930,7 +930,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "VirtualMachineImageType:Object",
        "baseType", "VirtualMachineImageType"
-       });		
+       });	
     addAnnotation
       (userApplicationEClass, 
        source, 
@@ -938,7 +938,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "SoftwareDependency",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getUserApplication_UID(), 
        source, 
@@ -947,7 +947,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Name(), 
        source, 
@@ -956,7 +956,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Description(), 
        source, 
@@ -965,7 +965,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_URL(), 
        source, 
@@ -974,7 +974,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "URL",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getUserApplication_Type(), 
        source, 
@@ -983,7 +983,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Type",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (keyPairEClass, 
        source, 
@@ -991,7 +991,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        {
        "name", "KeyPair",
        "kind", "elementOnly"
-       });		
+       });	
     addAnnotation
       (getKeyPair_UID(), 
        source, 
@@ -1000,7 +1000,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "UID",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_Name(), 
        source, 
@@ -1009,7 +1009,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Name",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_Description(), 
        source, 
@@ -1018,7 +1018,7 @@ public class InfoSystemPackageImpl extends EPackageImpl implements InfoSystemPac
        "kind", "element",
        "name", "Description",
        "namespace", "##targetNamespace"
-       });		
+       });	
     addAnnotation
       (getKeyPair_URL(), 
        source, 

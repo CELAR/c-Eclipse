@@ -66,7 +66,7 @@ import org.json.JSONObject;
 
 
 /**
- * The VO preferences page which allows add, remove and edit the available VOs.
+ * The Cloud providers preferences page which allows add, remove and edit the available Cloud providers.
  */
 public class CloudProviderPreferencePage
     extends PreferencePage

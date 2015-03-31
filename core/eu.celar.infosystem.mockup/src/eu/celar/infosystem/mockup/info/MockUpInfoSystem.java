@@ -16,6 +16,7 @@ import eu.celar.infosystem.model.base.ResizingAction;
 import eu.celar.infosystem.model.base.SoftwareDependency;
 import eu.celar.infosystem.model.base.UserApplication;
 import eu.celar.infosystem.model.base.VirtualMachineImage;
+import eu.celar.infosystem.model.base.VirtualMachineImageFlavor;
 
 
 
@@ -85,9 +86,9 @@ public class MockUpInfoSystem  {
   }
   
   
-//  // TODO - nickl Reflect this to the infosystem model
-//  public ArrayList<String> getInstanceTypes () {
-//    return this.resourceFetcher.getInstanceTypes();
-//  }
+  // TODO - nickl Reflect this to the infosystem model
+  public ArrayList<VirtualMachineImageFlavor> getInstanceTypes () {
+    return this.resourceFetcher.getInstanceTypes();
+  }
   
 }

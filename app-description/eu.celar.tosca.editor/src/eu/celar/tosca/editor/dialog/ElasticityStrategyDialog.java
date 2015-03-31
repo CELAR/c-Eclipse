@@ -91,6 +91,8 @@ public class ElasticityStrategyDialog extends Dialog {
     GridData gdMetric = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbMetric.setLayoutData( gdMetric );
     this.cmbMetric.add( "Cost" );
+    this.cmbMetric.add( "Throughput" );
+    this.cmbMetric.add( "Response Time" );
     return composite;
   }
 

@@ -38,6 +38,25 @@ public class Preferences {
    * @param newCloudProvider The new Cloud Provider.
    */
   static public void addCloudProvider(final ICloudProvider newCloudProvider){
+    
+    ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+    GenericCloudProviderCreator creator = null;
+    
+    creator = new GenericCloudProviderCreator();
+    creator.setVoName( ((GenericCloudProvider)newCloudProvider).getName());
+    creator.setVoURI( ((GenericCloudProvider)newCloudProvider).getUri());
+    creator.setVoPort( ((GenericCloudProvider)newCloudProvider).getPort());
+    
+    GenericCloudProvider cp = createVo( creator );
+    try {
+      manager.addElement( cp );
+    } catch( ProblemException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    
+    
+    
     JSONObject provider = null;
     try {
       provider =  new JSONObject();
@@ -96,6 +115,10 @@ public class Preferences {
    * @param removedCloudProvider The Cloud Provider to be removed.
    */
   static public void removeCloudProvider(final ICloudProvider removedCloudProvider){
+    
+    ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+    manager.removeElement( removedCloudProvider );
+    
     org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
 
     JSONArray providersArray = null;

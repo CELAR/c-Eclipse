@@ -90,6 +90,7 @@ public class ElasticityConstraintDialog extends Dialog {
       }
     }
     this.cmbGlobalElasticityReq.add( "CostPerHour ($)" );
+    this.cmbGlobalElasticityReq.add( "Response Time" );
     Composite valueComposite = new Composite( composite, SWT.NONE );
     gLayout = new GridLayout( 3, false );
     valueComposite.setLayout( gLayout );
@@ -134,7 +135,6 @@ public class ElasticityConstraintDialog extends Dialog {
           mp.setUID( tempResource.getName().replaceFirst( ".java", "" ) );
           mp.setName( tempResource.getName().replaceFirst( ".java", "" ) );
           mp.setDescription( "" );
-          mp.setURL( "" );
           // add new probe to monitoring list
           mpsCopy.add( 0, mp );
         }

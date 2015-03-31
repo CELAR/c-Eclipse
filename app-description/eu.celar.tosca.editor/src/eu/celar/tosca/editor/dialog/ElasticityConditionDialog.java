@@ -177,6 +177,7 @@ public class ElasticityConditionDialog extends Dialog {
         this.cmbGlobalElasticityReq.add(mp.getName());
       }
     }
+    this.cmbGlobalElasticityReq.add("Cost");
 
     Composite valueComposite = new Composite( newConstraintComposite, SWT.NONE );
     gLayout = new GridLayout( 3, false );
@@ -332,7 +333,6 @@ public class ElasticityConditionDialog extends Dialog {
           mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
           mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
           mp.setDescription( "" );
-          mp.setURL( "" );
           // add new probe to monitoring list
           mpsCopy.add( 0, mp );
         }

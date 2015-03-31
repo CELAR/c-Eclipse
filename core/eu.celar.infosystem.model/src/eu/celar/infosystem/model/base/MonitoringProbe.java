@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link eu.celar.infosystem.model.base.MonitoringProbe#getUID <em>UID</em>}</li>
  *   <li>{@link eu.celar.infosystem.model.base.MonitoringProbe#getName <em>Name</em>}</li>
  *   <li>{@link eu.celar.infosystem.model.base.MonitoringProbe#getDescription <em>Description</em>}</li>
- *   <li>{@link eu.celar.infosystem.model.base.MonitoringProbe#getURL <em>URL</em>}</li>
+ *   <li>{@link eu.celar.infosystem.model.base.MonitoringProbe#getMetrics <em>Metrics</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,30 +107,30 @@ public interface MonitoringProbe extends EObject
   void setDescription(String value);
 
   /**
-   * Returns the value of the '<em><b>URL</b></em>' attribute.
+   * Returns the value of the '<em><b>Metrics</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>URL</em>' attribute isn't clear,
+   * If the meaning of the '<em>Metrics</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>URL</em>' attribute.
-   * @see #setURL(String)
-   * @see eu.celar.infosystem.model.base.InfoSystemPackage#getMonitoringProbe_URL()
+   * @return the value of the '<em>Metrics</em>' attribute.
+   * @see #setMetrics(String)
+   * @see eu.celar.infosystem.model.base.InfoSystemPackage#getMonitoringProbe_Metrics()
    * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='URL' namespace='##targetNamespace'"
    * @generated
    */
-  String getURL();
+  String getMetrics();
 
   /**
-   * Sets the value of the '{@link eu.celar.infosystem.model.base.MonitoringProbe#getURL <em>URL</em>}' attribute.
+   * Sets the value of the '{@link eu.celar.infosystem.model.base.MonitoringProbe#getMetrics <em>Metrics</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>URL</em>' attribute.
-   * @see #getURL()
+   * @param value the new value of the '<em>Metrics</em>' attribute.
+   * @see #getMetrics()
    * @generated
    */
-  void setURL(String value);
+  void setMetrics(String value);
 
 } // MonitoringProbe

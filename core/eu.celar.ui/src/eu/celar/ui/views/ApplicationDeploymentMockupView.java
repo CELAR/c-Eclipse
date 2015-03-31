@@ -15,7 +15,13 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import eu.celar.core.Preferences;
+import eu.celar.core.model.impl.GenericCloudProvider;
+import eu.celar.core.model.impl.GenericCloudProviderCreator;
 import eu.celar.ui.internal.Activator;
 
 public class ApplicationDeploymentMockupView extends ViewPart {
@@ -165,14 +171,36 @@ class MyTreeContentProvider extends ArrayContentProvider
 
 class DataProvider {
 
-  public static Deployment[] getInputData() {
-    return new Deployment[]{
-      new Deployment( "3-Tier Video Streaming Service", Deployment.AWS, new Deployment[]{ //$NON-NLS-1$
-                        new Deployment( "Load Balancer", "109.231.122.181", "i-13461e53" ), new Deployment( "Application Server", "109.231.122.187", "i-aa441cea" ), new Deployment( "NoSQL Database", "109.231.122.155", "i-ab441ceb" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                      } ),
-      new Deployment( "3-Tier Video Streaming Service", Deployment.OPENSTACK, new Deployment[]{ //$NON-NLS-1$
-                        new Deployment( "Load Balancer", "10.16.5.3", "8e3c4cb6" ), new Deployment( "Application Server", "10.16.5.4", "fd9f7af2a3c2" ), new Deployment( "NoSQL Database", "10.16.5.5", "21d9f7af2a4c1" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                      } )
-    };
+//  public static Deployment[] getInputData() {
+//    return new Deployment[]{
+//      new Deployment( "3-Tier Video Streaming Service", Deployment.AWS, new Deployment[]{ //$NON-NLS-1$
+//                        new Deployment( "Load Balancer", "109.231.122.181", "i-13461e53" ), new Deployment( "Application Server", "109.231.122.187", "i-aa441cea" ), new Deployment( "NoSQL Database", "109.231.122.155", "i-ab441ceb" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+//                      } ),
+//      new Deployment( "3-Tier Video Streaming Service", Deployment.OPENSTACK, new Deployment[]{ //$NON-NLS-1$
+//                        new Deployment( "Load Balancer", "10.16.5.3", "8e3c4cb6" ), new Deployment( "Application Server", "10.16.5.4", "fd9f7af2a3c2" ), new Deployment( "NoSQL Database", "10.16.5.5", "21d9f7af2a4c1" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+//                      } )
+//    };
+//  }
+  
+  public static Deployment[] getInputData(){
+    
+    String deploymentsString = Preferences.getDefinedCloudProvidersString();
+    JSONArray deploymentsArray = null;
+    JSONObject deployment = null;
+    Deployment[] deployments = null;
+    try {
+      //Get Cloud providers from Preference Store
+      deploymentsArray = new JSONArray(deploymentsString);
+      deployments = new Deployment[deploymentsArray.length()];
+      for (int i=0; i<deploymentsArray.length();i++){
+        deployment = deploymentsArray.getJSONObject( i );
+        deployments[i] = new Deployment(deployment.getString( "name" ), deployment.getString( "uri" ), deployment.getString( "port" ));
+      }
+
+    } catch( JSONException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return deployments;
   }
 }

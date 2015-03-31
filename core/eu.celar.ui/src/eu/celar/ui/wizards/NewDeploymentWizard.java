@@ -1,6 +1,7 @@
 package eu.celar.ui.wizards;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,9 +11,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +30,12 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,6 +69,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import eu.celar.core.Preferences;
 import eu.celar.core.model.CloudModel;
 import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
@@ -108,10 +123,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    */
   @Override
   public boolean performFinish() {
-    
-    if (this.genericSelectedProvider == null)
-      return true;
-    
+        
     // Export CSAR file
     try {
       exportCSAR();
@@ -151,11 +163,13 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
           uri = uri + ":" + port;
         }
  
-        String applicationId = describeApplication(uri);
+        //String applicationId = describeApplication(uri);
+        String applicationId = describeApplicationHttps(uri);
         
         String deploymentId = null;
         if (applicationId!=null){
-          deploymentId = deployApplication(uri, applicationId);
+          //deploymentId = deployApplication(uri, applicationId);
+          deploymentId = deployApplicationHttps(uri, applicationId);
         }
         
         if (deploymentId!=null){
@@ -177,8 +191,6 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     String applicationId = null;
     
     try {
-      
-      //url = new URL ("http://83.212.107.38:8080/application/describe/");
       
       url = new URL (uri + "/application/describe/");
       
@@ -266,6 +278,87 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return applicationId;
   }
   
+  // Call CELAR Manager to submit application description
+  private String describeApplicationHttps(String uri){
+
+    String applicationId = "";
+    
+    URL url = null;
+    try {
+      url = new URL(uri + "/application/describe/");
+    } catch( MalformedURLException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    URLConnection connection = getHttpsConnection( url );    
+
+    Writer writer = null;
+
+    try {
+      connection.setDoOutput( true );
+      connection.setDoInput( true );
+      connection.setRequestProperty("Content-type", "application/octet-stream");
+      
+      FileInputStream fis = new FileInputStream( this.csar );
+      
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      byte[] buf = new byte[1024];
+      try {
+          for (int readNum; (readNum = fis.read(buf)) != -1;) {
+              bos.write(buf, 0, readNum);
+          }
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+      
+      fis.close();
+      
+      writer = new OutputStreamWriter( connection.getOutputStream());
+      writer.write( bos.toString() );
+       
+      // Get HTTP Response
+
+      InputStream inputStream = connection.getInputStream();
+
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = null;
+      try {
+        db = dbf.newDocumentBuilder();
+      } catch( ParserConfigurationException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+  
+      try {
+        Document doc = db.parse(inputStream);
+        NodeList nList = doc.getElementsByTagName( "application" );
+        for (int i=0; i< nList.getLength(); i++){
+          Node nNode = nList.item(i);
+   
+          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+   
+              Element eElement = (Element) nNode;
+   
+              applicationId = eElement.getElementsByTagName("id").item(0).getTextContent();
+              
+              break;
+          }
+        }
+        System.out.println(applicationId);
+      } catch( SAXException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return applicationId;
+  }
+  
   // Call CELAR Manager to deploy described application
   private String deployApplication(String uri, String applicationId){
 
@@ -273,8 +366,6 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     HttpURLConnection connection = null;
     String deploymentId = null;
     try {
-      
-      //url = new URL ("http://83.212.107.38:8080/application/" + applicationId +"/deploy/");
       
       url = new URL (uri + "/application/" + applicationId +"/deploy/");
       
@@ -360,15 +451,93 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return deploymentId;
   }
   
+  // Call CELAR Manager to deploy described application
+  private String deployApplicationHttps(String uri, String applicationId){
+
+    String deploymentId = null;
+    
+    URL url = null;
+    try {
+      url = new URL(uri + "/application/" + applicationId +"/deploy/");
+    } catch( MalformedURLException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    URLConnection connection = getHttpsConnection( url );    
+
+    Writer writer = null;
+
+    try {
+      connection.setDoOutput( true );
+      connection.setDoInput( true );
+      connection.setRequestProperty("Content-type", "application/octet-stream");
+      
+      FileInputStream fis = new FileInputStream( this.csar );
+      
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      byte[] buf = new byte[1024];
+      try {
+          for (int readNum; (readNum = fis.read(buf)) != -1;) {
+              bos.write(buf, 0, readNum);
+          }
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+      
+      fis.close();
+      
+      writer = new OutputStreamWriter( connection.getOutputStream());
+      writer.write( bos.toString() );
+       
+      // Get HTTP Response
+      
+      InputStream inputStream = connection.getInputStream();
+      
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = null;
+      try {
+        db = dbf.newDocumentBuilder();
+      } catch( ParserConfigurationException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+      try {
+        Document doc = db.parse(inputStream);
+        NodeList nList = doc.getElementsByTagName( "deployment" );
+        for (int i=0; i< nList.getLength(); i++){
+          Node nNode = nList.item(i);
+   
+          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+   
+              Element eElement = (Element) nNode;
+   
+              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+              
+              break;
+          }
+        }
+      } catch( SAXException e ) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      System.out.println("Deployment Id is: "+deploymentId);
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+    
+    return deploymentId;
+  }
+  
   // Get deployment state
   private boolean getDeploymentState(String uri, String deploymentId){
     URL url = null;
     HttpURLConnection connection = null;
 
     try {
-      
-      //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId);
-      
+            
       url = new URL (uri + "/deployment/" + deploymentId);
       
       connection = (HttpURLConnection) url.openConnection();
@@ -444,14 +613,89 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     return true;
   }
   
+  // Get deployment state
+  private boolean getDeploymentStateHttps(String uri, String deploymentId){
+    
+    URL url = null;
+    try {
+      url = new URL(uri + "/deployment/" + deploymentId);
+    } catch( MalformedURLException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    URLConnection connection = getHttpsConnection( url );  
+
+    try {
+      
+      connection.setDoOutput( false );
+      connection.setDoInput( true );
+      
+      MessageConsole myConsole = findConsole("MyConsole");
+      MessageConsoleStream out = myConsole.newMessageStream();
+      out.println("Getting deployment status: HTTP Response is ");
+      
+      InputStream inputStream = connection.getInputStream();
+      
+//      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+//      String inputLine;
+//      while ((inputLine = in.readLine()) != null) {
+//          System.out.println(inputLine);
+//      }
+//      in.close();
+      
+
+      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          out.println(inputLine);
+      }
+      in.close();
+      
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = null;
+//      try {
+//        db = dbf.newDocumentBuilder();
+//      } catch( ParserConfigurationException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//
+//      try {
+//        Document doc = db.parse(inputStream);
+//        NodeList nList = doc.getElementsByTagName( "deployment" );
+//        for (int i=0; i< nList.getLength(); i++){
+//          Node nNode = nList.item(i);
+//   
+//          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//   
+//              Element eElement = (Element) nNode;
+//   
+//              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+//              
+//              break;
+//          }
+//        }
+//      } catch( SAXException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//      
+//      System.out.println("Deployment Id is: "+deploymentId);
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+    
+    return true;
+  }
+  
+  
   // Terminate deployment
   private boolean terminateDeployment(String uri, String deploymentId){
     URL url = null;
     HttpURLConnection connection = null;
 
     try {
-      
-      //url = new URL ("http://83.212.107.38:8080/deployment/" + deploymentId + "/terminate");
       
       url = new URL (uri + "/deployment/" + deploymentId + "/terminate");
       
@@ -508,6 +752,70 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
       
       connection.disconnect();
+
+  } catch (IOException ex) {
+    ex.printStackTrace();
+  }
+    
+    return true;
+  }
+  
+  // Terminate deployment
+  private boolean terminateDeploymentHttps(String uri, String deploymentId){
+    
+    URL url = null;
+    try {
+      url = new URL(uri + "/deployment/" + deploymentId + "/terminate");
+    } catch( MalformedURLException e1 ) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    URLConnection connection = getHttpsConnection( url );  
+
+    try {
+      
+      connection.setDoOutput( false );
+      connection.setDoInput( true );
+      
+      InputStream inputStream = connection.getInputStream();
+      
+      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+          System.out.println(inputLine);
+      }
+      in.close();
+      
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = null;
+//      try {
+//        db = dbf.newDocumentBuilder();
+//      } catch( ParserConfigurationException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//
+//      try {
+//        Document doc = db.parse(inputStream);
+//        NodeList nList = doc.getElementsByTagName( "deployment" );
+//        for (int i=0; i< nList.getLength(); i++){
+//          Node nNode = nList.item(i);
+//   
+//          if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//   
+//              Element eElement = (Element) nNode;
+//   
+//              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+//              
+//              break;
+//          }
+//        }
+//      } catch( SAXException e ) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//      
+//      System.out.println("Deployment Id is: "+deploymentId);
 
   } catch (IOException ex) {
     ex.printStackTrace();
@@ -598,15 +906,17 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
      }    
      
          
-     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
+//     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
      
      ICloudElement[] providers = null;
-     try {
-       providers = manager.getChildren( null );
-     } catch( ProblemException e ) {
-       // TODO Auto-generated catch block
-       e.printStackTrace();
-     }
+     
+     providers = Preferences.getDefinedCloudProviders();
+//     try {
+//       providers = manager.getChildren( null );
+//     } catch( ProblemException e ) {
+//       // TODO Auto-generated catch block
+//       e.printStackTrace();
+//     }
      for (String providerName : this.selectedProvidersNames){
        for (ICloudElement provider : providers){
          if (providerName.compareTo( ((ICloudProvider) provider).getName() ) == 0){
@@ -685,7 +995,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
     }   
     
-    //addToCSARFile("TUW", "CompositionRules", getFileFromGit("https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml", "pom.xml"), zos);
+    addToCSARFile("TUW", "CompositionRules", getFileFromGit("https://raw.githubusercontent.com/CELAR/c-Eclipse/master/pom.xml", "pom.xml"), zos);
     
     zos.close();
     fos.close();
@@ -926,5 +1236,53 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       myConsole
     } );
     return myConsole;
+  }
+  
+  private URLConnection getHttpsConnection(URL url){
+    // Create a trust manager that does not validate certificate chains
+    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
+    } };
+    // Install the all-trusting trust manager
+    SSLContext sc = null;
+    try {
+      sc = SSLContext.getInstance("SSL");
+    } catch( NoSuchAlgorithmException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    try {
+      sc.init(null, trustAllCerts, new java.security.SecureRandom());
+    } catch( KeyManagementException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    // Create all-trusting host name verifier
+    HostnameVerifier allHostsValid = new HostnameVerifier() {
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    };
+
+    // Install the all-trusting host verifier
+    HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+ 
+    URLConnection connection = null;
+    try {
+      connection = url.openConnection();
+    } catch( IOException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    return connection;
+    
   }
 }

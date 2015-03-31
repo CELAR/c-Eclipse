@@ -20,7 +20,7 @@ import eu.celar.infosystem.model.base.MonitoringProbe;
  *   <li>{@link eu.celar.infosystem.model.base.impl.MonitoringProbeImpl#getUID <em>UID</em>}</li>
  *   <li>{@link eu.celar.infosystem.model.base.impl.MonitoringProbeImpl#getName <em>Name</em>}</li>
  *   <li>{@link eu.celar.infosystem.model.base.impl.MonitoringProbeImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link eu.celar.infosystem.model.base.impl.MonitoringProbeImpl#getURL <em>URL</em>}</li>
+ *   <li>{@link eu.celar.infosystem.model.base.impl.MonitoringProbeImpl#getMetrics <em>Metrics</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,24 +89,24 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
   protected String description = DESCRIPTION_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getURL() <em>URL</em>}' attribute.
+   * The default value of the '{@link #getMetrics() <em>Metrics</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getURL()
+   * @see #getMetrics()
    * @generated
    * @ordered
    */
-  protected static final String URL_EDEFAULT = null;
+  protected static final String METRICS_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getURL() <em>URL</em>}' attribute.
+   * The cached value of the '{@link #getMetrics() <em>Metrics</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getURL()
+   * @see #getMetrics()
    * @generated
    * @ordered
    */
-  protected String uRL = URL_EDEFAULT;
+  protected String metrics = METRICS_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -203,9 +203,9 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getURL()
+  public String getMetrics()
   {
-    return uRL;
+    return metrics;
   }
 
   /**
@@ -213,12 +213,12 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setURL(String newURL)
+  public void setMetrics(String newMetrics)
   {
-    String oldURL = uRL;
-    uRL = newURL;
+    String oldMetrics = metrics;
+    metrics = newMetrics;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, InfoSystemPackage.MONITORING_PROBE__URL, oldURL, uRL));
+      eNotify(new ENotificationImpl(this, Notification.SET, InfoSystemPackage.MONITORING_PROBE__METRICS, oldMetrics, metrics));
   }
 
   /**
@@ -237,8 +237,8 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
         return getName();
       case InfoSystemPackage.MONITORING_PROBE__DESCRIPTION:
         return getDescription();
-      case InfoSystemPackage.MONITORING_PROBE__URL:
-        return getURL();
+      case InfoSystemPackage.MONITORING_PROBE__METRICS:
+        return getMetrics();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -262,8 +262,8 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
       case InfoSystemPackage.MONITORING_PROBE__DESCRIPTION:
         setDescription((String)newValue);
         return;
-      case InfoSystemPackage.MONITORING_PROBE__URL:
-        setURL((String)newValue);
+      case InfoSystemPackage.MONITORING_PROBE__METRICS:
+        setMetrics((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -288,8 +288,8 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
       case InfoSystemPackage.MONITORING_PROBE__DESCRIPTION:
         setDescription(DESCRIPTION_EDEFAULT);
         return;
-      case InfoSystemPackage.MONITORING_PROBE__URL:
-        setURL(URL_EDEFAULT);
+      case InfoSystemPackage.MONITORING_PROBE__METRICS:
+        setMetrics(METRICS_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -311,8 +311,8 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case InfoSystemPackage.MONITORING_PROBE__DESCRIPTION:
         return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-      case InfoSystemPackage.MONITORING_PROBE__URL:
-        return URL_EDEFAULT == null ? uRL != null : !URL_EDEFAULT.equals(uRL);
+      case InfoSystemPackage.MONITORING_PROBE__METRICS:
+        return METRICS_EDEFAULT == null ? metrics != null : !METRICS_EDEFAULT.equals(metrics);
     }
     return super.eIsSet(featureID);
   }
@@ -334,8 +334,8 @@ public class MonitoringProbeImpl extends EObjectImpl implements MonitoringProbe
     result.append(name);
     result.append(", description: ");
     result.append(description);
-    result.append(", uRL: ");
-    result.append(uRL);
+    result.append(", metrics: ");
+    result.append(metrics);
     result.append(')');
     return result.toString();
   }

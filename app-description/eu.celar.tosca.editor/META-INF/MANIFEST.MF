@@ -34,7 +34,8 @@ Import-Package: eu.celar.core.reporting,
  eu.celar.infosystem.mockup.info,
  org.eclipse.core.filesystem,
  org.eclipse.core.internal.filesystem.local,
- org.eclipse.ui.part
+ org.eclipse.ui.part,
+ org.json
 Export-Package: eu.celar.tosca.editor,
  eu.celar.tosca.editor.diagram,
  eu.celar.tosca.editor.dialog,
