@@ -99,7 +99,7 @@ public class FetchJob extends Job {
         fetchBaseMachineImages( localMonitor );
         //fetchMonitorProbes( localMonitor );
         fetchJCatascopiaMonitorProbes( localMonitor );
-        fetchResizingActions (localMonitor );
+        //fetchResizingActions (localMonitor );
         fetchFlavors ( localMonitor );
       } catch( JSONException e ) {
         // TODO Auto-generated catch block
