@@ -12,6 +12,7 @@ import java.util.Comparator;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,5 +269,14 @@ public class Preferences {
     return vo;
     
   }
-  
+
+
+//  @Override
+//  public void initializeDefaultPreferences() {
+//    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
+//    String providerString = "[{\"port\"\\:\"8443\",\"name\"\\:\"Flexiant\",\"uri\"\\:\"https\\://83.212.122.157\"},{\"port\"\\:\"8443\",\"name\"\\:\"Okeanos\",\"uri\"\\:\"https\\://83.212.122.157\"}]";
+//    preferenceStore.setDefault( PreferenceConstants.DEFINED_CPS_ID, providerString);
+//    
+//  }
+//  
 }

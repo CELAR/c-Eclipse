@@ -28,5 +28,8 @@ Export-Package: eu.celar.infosystem.mockup.info;
 Bundle-ClassPath: lib/mysql-connector-java-5.1.22-bin.jar,
  .
 Import-Package: 
+ eu.celar.tosca,
+ eu.celar.tosca.core,
+ eu.celar.tosca.elasticity,
  org.apache.commons.logging,
  org.apache.http;version="4.1.4"

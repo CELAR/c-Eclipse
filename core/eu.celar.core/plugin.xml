@@ -29,6 +29,9 @@
            class="eu.celar.core.project.CloudProjectScope"
            name="eu.celar.core.projectScope">
      </scope>
+     <initializer
+           class="eu.celar.core.PreferencesInitializer">
+     </initializer>
    </extension>
    <extension
          point="eu.celar.core.reporting.problemReporting">
