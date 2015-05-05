@@ -20,4 +20,10 @@ public class PreferenceConstants {
   public static final String DEFINED_CPS_ID
     = "cps"; //$NON-NLS-1$
   
+  /**
+   * The id for the deployments .
+   */
+  public static final String DEPLOYMENTS
+    = "deps"; //$NON-NLS-1$
+  
 }

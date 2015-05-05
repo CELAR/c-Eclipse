@@ -162,6 +162,18 @@ public class Preferences {
   }
   
   /**
+   * Get the name of the current default Cloud Provider.
+   * 
+   * @return The name of the default Cloud Provider.
+   */
+  static public String getDeploymentsStatus() {
+    org.eclipse.core.runtime.Preferences preferenceStore = getPreferenceStore();
+    String deployments = preferenceStore.getString( PreferenceConstants.DEPLOYMENTS );
+    return deployments;
+  }
+  
+  
+  /**
    * Save these preferences to the preference store. This method just calls
    * <code>Activator.getDefault().savePluginPreferences();</code>.
    */

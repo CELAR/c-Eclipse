@@ -35,6 +35,16 @@ public class Activator extends AbstractUIPlugin {
    */
   public static final String openstack = "openstack"; //$NON-NLS-1$
   
+  /**
+   * Image for action Okeanos
+   */
+  public static final String okeanos = "okeanos"; //$NON-NLS-1$
+  
+  /**
+   * Image for action Flexiant
+   */
+  public static final String flexiscale = "flexiscale"; //$NON-NLS-1$
+  
   // The shared instance
   private static Activator plugin;
 
@@ -133,6 +143,10 @@ public class Activator extends AbstractUIPlugin {
       { aws, "icons/aws.gif" },  //$NON-NLS-1$
       
       { openstack, "icons/openstack.gif" },  //$NON-NLS-1$
+      
+      { okeanos, "icons/okeanos.gif" },  //$NON-NLS-1$
+      
+      { flexiscale, "icons/flexiscale.gif" },  //$NON-NLS-1$
 
 
       

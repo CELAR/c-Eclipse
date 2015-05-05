@@ -362,7 +362,7 @@ public class FetchJob extends Job {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    System.out.println(probes);
+    //System.out.println(probes);
     return probes;
   }
 

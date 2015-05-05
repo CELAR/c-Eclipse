@@ -11,27 +11,47 @@ class Deployment {
   
   public static final String AWS = "Amazon Elastic Cloud"; //$NON-NLS-1$
   public static final String OPENSTACK = "OpenStack"; //$NON-NLS-1$
+  public static final String OKEANOS = "Okeanos"; //$NON-NLS-1$
+  public static final String FLEXISCALE = "Flexiant Cloud"; //$NON-NLS-1$
+  
   String name;
   String cp;
   String ip;
   String id;
+  
+  String status;
+  String imageId;
+  String flavorId;
+  String keyPair;
+  
   Deployment parent;
   Deployment[] children = new Deployment[ 0 ];
 
   // constructors
-  public Deployment( String name, String cp, String ip,  String id) {
+  
+  //Deployment
+  public Deployment( String name, String cp, String status, String id) {
     this.name = name;
     this.cp = cp;
-    this.ip = ip;
+    this.status = status;
     this.id = id;
 
   }
   
-  public Deployment (String name, String ip, String id ) {
+  //Module
+  public Deployment (String name, String status, String id ) {
     this.name = name;
-    this.cp = null;
-    this.ip = ip;
+    this.status = status;
     this.id = id;
+  }
+  
+  //Instance
+  public Deployment (String name, String id, String imageId, String flavorId, String keyPair ) {
+    this.name = name;
+    this.id = id;
+    this.imageId = imageId;
+    this.flavorId = flavorId;
+    this.keyPair = keyPair;
   }
 
   public String getName() {
@@ -49,7 +69,10 @@ class Deployment {
   public String getStatus(){
     String status;
     if (this.cp == null){
-      status = "RUNNING"; //$NON-NLS-1$
+      if (this.imageId != null)
+        status = "RUNNING"; //$NON-NLS-1$
+      else
+        status = null;
     } else {
       status = "DEPLOYED"; //$NON-NLS-1$
     }
@@ -64,6 +87,18 @@ class Deployment {
     return this.cp;
   }
   
+  public String getImageId(){
+    return this.imageId;
+  }
+  
+  public String getFlavorId(){
+    return this.flavorId;
+  }
+  
+  public String getKeyPair(){
+    return this.keyPair;
+  }
+    
   public void setCloudProvider( String cp) {
     this.cp = cp;
   }
@@ -84,9 +119,10 @@ class Deployment {
     this.children = children;
   }
 
-  public Deployment( String name, String cp, Deployment[] children ) {
+  public Deployment( String name, String cp, String status, String id, Deployment[] children ) {
     this.name = name;
     this.cp = cp;
+    this.status = status;
     this.children = children;
     for( Deployment child : children ) {
       child.setParent( this );

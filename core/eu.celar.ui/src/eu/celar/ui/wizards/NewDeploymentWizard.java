@@ -163,18 +163,18 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
           uri = uri + ":" + port;
         }
  
-        //String applicationId = describeApplication(uri);
-        String applicationId = describeApplicationHttps(uri);
+        String applicationId = describeApplication(uri);
+        //String applicationId = describeApplicationHttps(uri);
         
         String deploymentId = null;
         if (applicationId!=null){
-          //deploymentId = deployApplication(uri, applicationId);
-          deploymentId = deployApplicationHttps(uri, applicationId);
+          deploymentId = deployApplication(uri, applicationId);
+          //deploymentId = deployApplicationHttps(uri, applicationId);
         }
         
         if (deploymentId!=null){
           getDeploymentState(uri, deploymentId);
-          //terminateDeployment(deploymentId);
+          //terminateDeployment(uri, deploymentId);
         }
 
       }
@@ -229,7 +229,6 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       InputStream inputStream = connection.getInputStream();
 
-      
 //      BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 //      String inputLine;
 //      while ((inputLine = in.readLine()) != null) {
@@ -248,7 +247,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
       try {
         Document doc = db.parse(inputStream);
-        NodeList nList = doc.getElementsByTagName( "application" );
+        //NodeList nList = doc.getElementsByTagName( "applicationInfo" );
+        NodeList nList = doc.getElementsByTagName( "modules" );
         for (int i=0; i< nList.getLength(); i++){
           Node nNode = nList.item(i);
    
@@ -256,7 +256,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    
               Element eElement = (Element) nNode;
    
-              applicationId = eElement.getElementsByTagName("id").item(0).getTextContent();
+              //applicationId = eElement.getElementsByTagName("unique_Id").item(0).getTextContent();
+              applicationId = eElement.getElementsByTagName("application_Id").item(0).getTextContent();
               
               break;
           }
@@ -315,9 +316,9 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       
       writer = new OutputStreamWriter( connection.getOutputStream());
       writer.write( bos.toString() );
+      writer.close();
        
       // Get HTTP Response
-
       InputStream inputStream = connection.getInputStream();
 
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -421,7 +422,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 
       try {
         Document doc = db.parse(inputStream);
-        NodeList nList = doc.getElementsByTagName( "deployment" );
+        NodeList nList = doc.getElementsByTagName( "modules" );
         for (int i=0; i< nList.getLength(); i++){
           Node nNode = nList.item(i);
    
@@ -429,7 +430,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    
               Element eElement = (Element) nNode;
    
-              deploymentId = eElement.getElementsByTagName("deploymentID").item(0).getTextContent();
+              deploymentId = eElement.getElementsByTagName("deployment_Id").item(0).getTextContent();
               
               break;
           }
@@ -704,7 +705,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       connection.setDoOutput( false );
       connection.setDoInput( true );
       
-      connection.setRequestMethod( "POST" );
+      connection.setRequestMethod( "GET" );
             
       
       int responseCode = connection.getResponseCode();
@@ -953,7 +954,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     // Create Valid TOSCA
 //    DocumentRoot toscaDescription = toscaModel.getDocumentRoot();
 //    addToCSARFile( "Definitions", defFileName, convertToXml( toscaDescription ), zos ); //$NON-NLS-1$
-    addToCSARFile("Definitions", defFileName, getFileContents(this.deploymentIFile), zos);
+    addToCSARFile("Definitions", defFileName, getFileContents(this.deploymentIFile), zos); //$NON-NLS-1$
     // Create a dummy SSH public key-pair file
     addToCSARFile( "Keys", keyFileName, getKeyPair(), zos ); //$NON-NLS-1$   
     
@@ -1191,7 +1192,8 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     fos.flush();
     fos.close();
     FileInputStream fis = new FileInputStream( file );
-    ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );    
+    //ZipEntry zipEntry = new ZipEntry( dir + "/" + fileName );    
+    ZipEntry zipEntry = new ZipEntry( dir + System.getProperty( "file.separator" ) + fileName );  
     zos.putNextEntry( zipEntry );
     byte[] bytes = new byte[ 1024 ];
     int length;

@@ -56,13 +56,27 @@ public class DeploymentLabelProvider extends LabelProvider implements ITableLabe
           break;
         }
         case 3: {
-          String ip = deployment.getIP();
-          if( ip != null ) {
-            text = ip;
+          String image = deployment.getImageId();
+          if( image != null ) {
+            text = image;
           }
           break;
         }
-        case 4:
+        case 4: {
+          String flavor = deployment.getFlavorId();
+          if( flavor != null ) {
+            text = flavor;
+          }
+          break;
+        }
+        case 5: {
+          String keyPair = deployment.getKeyPair();
+          if( keyPair != null ) {
+            text = keyPair;
+          }
+          break;
+        }
+        case 6:
           text = "test";            
           break;
       }
