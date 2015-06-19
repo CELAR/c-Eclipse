@@ -79,16 +79,10 @@
          label="Network">
    </propertyTab>
    <propertyTab
-         afterTab="graphiti.application.advanced.tab"
-         category="CELAR"
-         id="graphiti.data.load.tab"
-         label="Data/Load">
-   </propertyTab>
-   <propertyTab
          afterTab="graphiti.component.elasticity.tab"
          category="CELAR"
          id="graphiti.component.data.load.tab"
-         label="Data/Load">
+         label="Smart">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.component.data.load.tab"
@@ -105,7 +99,7 @@
          afterTab="graphiti.composite.elasticity"
          category="CELAR"
          id="graphiti.composite.data.load"
-         label="Data/Load">
+         label="Smart">
    </propertyTab>
    <propertyTab
          afterTab="graphiti.composite.data.load"
@@ -177,12 +171,6 @@
            filter="eu.celar.tosca.editor.property.RelationshipFilter"
            id="graphiti.connection.tab.Section1"
            tab="graphiti.connection.tab">
-     </propertySection>
-     <propertySection
-           class="eu.celar.tosca.editor.property.ApplicationDataHintsSection"
-           filter="eu.celar.tosca.editor.property.ApplicationFilter"
-           id="graphiti.application.advanced.tab.DataHints"
-           tab="graphiti.data.load.tab">
      </propertySection>
      <propertySection
            class="eu.celar.tosca.editor.property.ApplicationGlobalElasticityReqSection"
