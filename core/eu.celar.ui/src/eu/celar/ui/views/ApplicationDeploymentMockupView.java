@@ -1,15 +1,32 @@
+/************************************************************
+ * Copyright (C), 2013 CELAR Consortium 
+ * http://www.celarcloud.eu
+ * 
+ * Contributors:
+ *      Nicholas Loulloudes - initial API and implementation
+ *      Stalo Sofokleous - implementation extension
+ ************************************************************/
 package eu.celar.ui.views;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.ISharedImages;
@@ -38,6 +55,37 @@ public class ApplicationDeploymentMockupView extends ViewPart {
     this.viewer.setLabelProvider( new MyTreeLabelProvider() );
     this.viewer.setInput( DataProvider.getInputData() );
 
+    
+    MenuManager menuMgr = new MenuManager();
+    menuMgr.setRemoveAllWhenShown(true);
+
+    Menu menu = menuMgr.createContextMenu(this.viewer.getControl());
+    
+    getSite().registerContextMenu(menuMgr, this.viewer);
+    getSite().setSelectionProvider(this.viewer);
+    
+    menuMgr.addMenuListener(new IMenuListener() {
+        @Override
+        public void menuAboutToShow(IMenuManager manager) {
+
+            if (viewer.getSelection() instanceof IStructuredSelection == false) {
+                return;
+            }
+
+            IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+            if (selection!=null && selection instanceof IStructuredSelection) {
+              if (selection.getFirstElement() instanceof Deployment){
+                Deployment deployment = (Deployment) selection.getFirstElement();
+                String deploymentId = deployment.getID();
+                System.out.println(deploymentId);
+              }
+
+            }
+            manager.add( new TerminateDeployment() );
+        }
+    });
+    menuMgr.setRemoveAllWhenShown(true);
+    this.viewer.getControl().setMenu(menu);
 
   }
 
@@ -50,7 +98,7 @@ public class ApplicationDeploymentMockupView extends ViewPart {
     deplName.setText( "Name" ); //$NON-NLS-1$
     deplName.setAlignment( SWT.LEFT );
     deplName.setWidth( 300 );
-        
+    
     TreeColumn deplStatus = new TreeColumn( tree, SWT.NONE );
     deplStatus.setText( "Status" ); //$NON-NLS-1$
     deplStatus.setAlignment( SWT.CENTER );
@@ -82,6 +130,14 @@ public class ApplicationDeploymentMockupView extends ViewPart {
   }
 }
 
+class TerminateDeployment extends Action {
+  public TerminateDeployment() {
+      super("Terminate");
+  }
+  public void run() {
+    System.out.println("Terminating deployment with id: unknown");
+  }
+}
 class MyTreeLabelProvider extends DecoratingLabelProvider implements ITableLabelProvider {
   
   ITableLabelProvider tableLabelProvider;
