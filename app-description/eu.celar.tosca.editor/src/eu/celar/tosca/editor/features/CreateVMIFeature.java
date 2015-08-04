@@ -115,7 +115,7 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
     
     //deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+","")) );
-    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getName().replaceAll("\\s+","")) );
+    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getName().replaceAll("\\s+","").toString()) ); //$NON-NLS-1$ //$NON-NLS-2$
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );
