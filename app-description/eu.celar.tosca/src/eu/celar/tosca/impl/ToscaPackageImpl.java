@@ -5260,7 +5260,7 @@ public class ToscaPackageImpl extends EPackageImpl implements ToscaPackage
     initEAttribute(getTDefinitions_TargetNamespace(), theXMLTypePackage.getAnyURI(), "targetNamespace", null, 1, 1, TDefinitions.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     initEClass(tDeploymentArtifactEClass, TDeploymentArtifact.class, "TDeploymentArtifact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-    initEAttribute(getTDeploymentArtifact_ArtifactRef(), theXMLTypePackage.getQName(), "artifactRef", null, 0, 1, TDeploymentArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getTDeploymentArtifact_ArtifactRef(), theXMLTypePackage.getString(), "artifactRef", null, 0, 1, TDeploymentArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getTDeploymentArtifact_ArtifactType(), theXMLTypePackage.getQName(), "artifactType", null, 1, 1, TDeploymentArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getTDeploymentArtifact_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, TDeploymentArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 

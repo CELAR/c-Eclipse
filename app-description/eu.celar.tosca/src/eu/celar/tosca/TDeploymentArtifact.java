@@ -33,13 +33,13 @@ public interface TDeploymentArtifact extends TExtensibleElements
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Artifact Ref</em>' attribute.
-   * @see #setArtifactRef(QName)
+   * @see #setArtifactRef(String)
    * @see eu.celar.tosca.ToscaPackage#getTDeploymentArtifact_ArtifactRef()
-   * @model dataType="org.eclipse.emf.ecore.xml.type.QName"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='attribute' name='artifactRef'"
    * @generated
    */
-  QName getArtifactRef();
+  String getArtifactRef();
 
   /**
    * Sets the value of the '{@link eu.celar.tosca.TDeploymentArtifact#getArtifactRef <em>Artifact Ref</em>}' attribute.
@@ -49,7 +49,7 @@ public interface TDeploymentArtifact extends TExtensibleElements
    * @see #getArtifactRef()
    * @generated
    */
-  void setArtifactRef(QName value);
+  void setArtifactRef(String value);
 
   /**
    * Returns the value of the '<em><b>Artifact Type</b></em>' attribute.

@@ -185,7 +185,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public RequirementsType getRequirements()
   {
-    return this.requirements;
+    return requirements;
   }
 
   /**
@@ -195,8 +195,8 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public NotificationChain basicSetRequirements(RequirementsType newRequirements, NotificationChain msgs)
   {
-    RequirementsType oldRequirements = this.requirements;
-    this.requirements = newRequirements;
+    RequirementsType oldRequirements = requirements;
+    requirements = newRequirements;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__REQUIREMENTS, oldRequirements, newRequirements);
@@ -212,11 +212,11 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setRequirements(RequirementsType newRequirements)
   {
-    if (newRequirements != this.requirements)
+    if (newRequirements != requirements)
     {
       NotificationChain msgs = null;
-      if (this.requirements != null)
-        msgs = ((InternalEObject)this.requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__REQUIREMENTS, null, msgs);
+      if (requirements != null)
+        msgs = ((InternalEObject)requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__REQUIREMENTS, null, msgs);
       if (newRequirements != null)
         msgs = ((InternalEObject)newRequirements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__REQUIREMENTS, null, msgs);
       msgs = basicSetRequirements(newRequirements, msgs);
@@ -233,7 +233,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public CapabilitiesType getCapabilities()
   {
-    return this.capabilities;
+    return capabilities;
   }
 
   /**
@@ -243,8 +243,8 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public NotificationChain basicSetCapabilities(CapabilitiesType newCapabilities, NotificationChain msgs)
   {
-    CapabilitiesType oldCapabilities = this.capabilities;
-    this.capabilities = newCapabilities;
+    CapabilitiesType oldCapabilities = capabilities;
+    capabilities = newCapabilities;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__CAPABILITIES, oldCapabilities, newCapabilities);
@@ -260,11 +260,11 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setCapabilities(CapabilitiesType newCapabilities)
   {
-    if (newCapabilities != this.capabilities)
+    if (newCapabilities != capabilities)
     {
       NotificationChain msgs = null;
-      if (this.capabilities != null)
-        msgs = ((InternalEObject)this.capabilities).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__CAPABILITIES, null, msgs);
+      if (capabilities != null)
+        msgs = ((InternalEObject)capabilities).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__CAPABILITIES, null, msgs);
       if (newCapabilities != null)
         msgs = ((InternalEObject)newCapabilities).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__CAPABILITIES, null, msgs);
       msgs = basicSetCapabilities(newCapabilities, msgs);
@@ -281,7 +281,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public PoliciesType getPolicies()
   {
-    return this.policies;
+    return policies;
   }
 
   /**
@@ -291,8 +291,8 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public NotificationChain basicSetPolicies(PoliciesType newPolicies, NotificationChain msgs)
   {
-    PoliciesType oldPolicies = this.policies;
-    this.policies = newPolicies;
+    PoliciesType oldPolicies = policies;
+    policies = newPolicies;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__POLICIES, oldPolicies, newPolicies);
@@ -308,11 +308,11 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setPolicies(PoliciesType newPolicies)
   {
-    if (newPolicies != this.policies)
+    if (newPolicies != policies)
     {
       NotificationChain msgs = null;
-      if (this.policies != null)
-        msgs = ((InternalEObject)this.policies).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__POLICIES, null, msgs);
+      if (policies != null)
+        msgs = ((InternalEObject)policies).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__POLICIES, null, msgs);
       if (newPolicies != null)
         msgs = ((InternalEObject)newPolicies).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__POLICIES, null, msgs);
       msgs = basicSetPolicies(newPolicies, msgs);
@@ -329,7 +329,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public TDeploymentArtifacts getDeploymentArtifacts()
   {
-    return this.deploymentArtifacts;
+    return deploymentArtifacts;
   }
 
   /**
@@ -339,8 +339,8 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public NotificationChain basicSetDeploymentArtifacts(TDeploymentArtifacts newDeploymentArtifacts, NotificationChain msgs)
   {
-    TDeploymentArtifacts oldDeploymentArtifacts = this.deploymentArtifacts;
-    this.deploymentArtifacts = newDeploymentArtifacts;
+    TDeploymentArtifacts oldDeploymentArtifacts = deploymentArtifacts;
+    deploymentArtifacts = newDeploymentArtifacts;
     if (eNotificationRequired())
     {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__DEPLOYMENT_ARTIFACTS, oldDeploymentArtifacts, newDeploymentArtifacts);
@@ -356,11 +356,11 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setDeploymentArtifacts(TDeploymentArtifacts newDeploymentArtifacts)
   {
-    if (newDeploymentArtifacts != this.deploymentArtifacts)
+    if (newDeploymentArtifacts != deploymentArtifacts)
     {
       NotificationChain msgs = null;
-      if (this.deploymentArtifacts != null)
-        msgs = ((InternalEObject)this.deploymentArtifacts).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__DEPLOYMENT_ARTIFACTS, null, msgs);
+      if (deploymentArtifacts != null)
+        msgs = ((InternalEObject)deploymentArtifacts).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__DEPLOYMENT_ARTIFACTS, null, msgs);
       if (newDeploymentArtifacts != null)
         msgs = ((InternalEObject)newDeploymentArtifacts).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ToscaPackage.TNODE_TEMPLATE__DEPLOYMENT_ARTIFACTS, null, msgs);
       msgs = basicSetDeploymentArtifacts(newDeploymentArtifacts, msgs);
@@ -377,7 +377,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public Object getMaxInstances()
   {
-    return this.maxInstances;
+    return maxInstances;
   }
 
   /**
@@ -387,12 +387,12 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setMaxInstances(Object newMaxInstances)
   {
-    Object oldMaxInstances = this.maxInstances;
-    this.maxInstances = newMaxInstances;
-    boolean oldMaxInstancesESet = this.maxInstancesESet;
-    this.maxInstancesESet = true;
+    Object oldMaxInstances = maxInstances;
+    maxInstances = newMaxInstances;
+    boolean oldMaxInstancesESet = maxInstancesESet;
+    maxInstancesESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__MAX_INSTANCES, oldMaxInstances, this.maxInstances, !oldMaxInstancesESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__MAX_INSTANCES, oldMaxInstances, maxInstances, !oldMaxInstancesESet));
   }
 
   /**
@@ -402,10 +402,10 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void unsetMaxInstances()
   {
-    Object oldMaxInstances = this.maxInstances;
-    boolean oldMaxInstancesESet = this.maxInstancesESet;
-    this.maxInstances = MAX_INSTANCES_EDEFAULT;
-    this.maxInstancesESet = false;
+    Object oldMaxInstances = maxInstances;
+    boolean oldMaxInstancesESet = maxInstancesESet;
+    maxInstances = MAX_INSTANCES_EDEFAULT;
+    maxInstancesESet = false;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, ToscaPackage.TNODE_TEMPLATE__MAX_INSTANCES, oldMaxInstances, MAX_INSTANCES_EDEFAULT, oldMaxInstancesESet));
   }
@@ -417,7 +417,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public boolean isSetMaxInstances()
   {
-    return this.maxInstancesESet;
+    return maxInstancesESet;
   }
 
   /**
@@ -427,7 +427,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public int getMinInstances()
   {
-    return this.minInstances;
+    return minInstances;
   }
 
   /**
@@ -437,17 +437,12 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setMinInstances(int newMinInstances)
   {
-    int oldMinInstances = this.minInstances;
-    this.minInstances = newMinInstances;
-    boolean oldMinInstancesESet = this.minInstancesESet;
-    this.minInstancesESet = true;
-    if( eNotificationRequired() )
-      eNotify( new ENotificationImpl( this,
-                                      Notification.SET,
-                                      ToscaPackage.TNODE_TEMPLATE__MIN_INSTANCES,
-                                      oldMinInstances,
-                                      this.minInstances,
-                                      !oldMinInstancesESet ) );
+    int oldMinInstances = minInstances;
+    minInstances = newMinInstances;
+    boolean oldMinInstancesESet = minInstancesESet;
+    minInstancesESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__MIN_INSTANCES, oldMinInstances, minInstances, !oldMinInstancesESet));
   }
 
   /**
@@ -457,10 +452,10 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void unsetMinInstances()
   {
-    int oldMinInstances = this.minInstances;
-    boolean oldMinInstancesESet = this.minInstancesESet;
-    this.minInstances = MIN_INSTANCES_EDEFAULT;
-    this.minInstancesESet = false;
+    int oldMinInstances = minInstances;
+    boolean oldMinInstancesESet = minInstancesESet;
+    minInstances = MIN_INSTANCES_EDEFAULT;
+    minInstancesESet = false;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, ToscaPackage.TNODE_TEMPLATE__MIN_INSTANCES, oldMinInstances, MIN_INSTANCES_EDEFAULT, oldMinInstancesESet));
   }
@@ -472,7 +467,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public boolean isSetMinInstances()
   {
-    return this.minInstancesESet;
+    return minInstancesESet;
   }
 
   /**
@@ -482,7 +477,7 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public String getName()
   {
-    return this.name;
+    return name;
   }
 
   /**
@@ -492,10 +487,10 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
    */
   public void setName(String newName)
   {
-    String oldName = this.name;
-    this.name = newName;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__NAME, oldName, this.name));
+      eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TNODE_TEMPLATE__NAME, oldName, name));
   }
 
   /**
@@ -629,19 +624,19 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
     switch (featureID)
     {
       case ToscaPackage.TNODE_TEMPLATE__REQUIREMENTS:
-        return this.requirements != null;
+        return requirements != null;
       case ToscaPackage.TNODE_TEMPLATE__CAPABILITIES:
-        return this.capabilities != null;
+        return capabilities != null;
       case ToscaPackage.TNODE_TEMPLATE__POLICIES:
-        return this.policies != null;
+        return policies != null;
       case ToscaPackage.TNODE_TEMPLATE__DEPLOYMENT_ARTIFACTS:
-        return this.deploymentArtifacts != null;
+        return deploymentArtifacts != null;
       case ToscaPackage.TNODE_TEMPLATE__MAX_INSTANCES:
         return isSetMaxInstances();
       case ToscaPackage.TNODE_TEMPLATE__MIN_INSTANCES:
         return isSetMinInstances();
       case ToscaPackage.TNODE_TEMPLATE__NAME:
-        return NAME_EDEFAULT == null ? this.name != null : !NAME_EDEFAULT.equals(this.name);
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return super.eIsSet(featureID);
   }
@@ -658,11 +653,11 @@ public class TNodeTemplateImpl extends TEntityTemplateImpl implements TNodeTempl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (maxInstances: "); //$NON-NLS-1$
-    if (this.maxInstancesESet) result.append(this.maxInstances); else result.append("<unset>"); //$NON-NLS-1$
+    if (maxInstancesESet) result.append(maxInstances); else result.append("<unset>"); //$NON-NLS-1$
     result.append(", minInstances: "); //$NON-NLS-1$
-    if (this.minInstancesESet) result.append(this.minInstances); else result.append("<unset>"); //$NON-NLS-1$
+    if (minInstancesESet) result.append(minInstances); else result.append("<unset>"); //$NON-NLS-1$
     result.append(", name: "); //$NON-NLS-1$
-    result.append(this.name);
+    result.append(name);
     result.append(')');
     return result.toString();
   }

@@ -5,8 +5,8 @@
 package eu.celar.tosca.editor.features;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -115,7 +115,11 @@ public class CreateVMIFeature extends AbstractCreateFeature {
     deploymentArtifact.setArtifactType( tempDeploymentArtifact.getArtifactType() );
     
     //deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getArtifactRef().toString().replaceAll("\\s+","")) );
-    deploymentArtifact.setArtifactRef( new QName(tempDeploymentArtifact.getName().replaceAll("\\s+","").toString()) ); //$NON-NLS-1$ //$NON-NLS-2$
+    
+    //FIXME - nickl: Temporary fix, changing 'artifactRef' from QName to String to accommodate Okeanos VM UUID
+    deploymentArtifact.setArtifactRef( tempDeploymentArtifact.getName()
+      .replaceAll( "\\s+", "" ).toString() ); //$NON-NLS-1$ //$NON-NLS-2$
+
         
     final TDeploymentArtifact tempArtifact = deploymentArtifact;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( parentObject );

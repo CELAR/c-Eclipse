@@ -228,8 +228,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
           CreateVMIFeature createImageFeature = new CreateVMIFeature( new ToscaFeatureProvider( getDiagramTypeProvider() ) );
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( dialog.getFileName());
-          deploymentArtifact.setArtifactRef( new QName (imageId) );
-          deploymentArtifact.setArtifactType( new QName( typesNamespace, imageType, typesPrefix ) ); //$NON-NLS-1$
+          //FIXME - nickl: Temporary comment below. Changing 'artifactRef' from QName to String to accommodate Okeanos VM UUID
+          deploymentArtifact.setArtifactRef( imageId );
+          deploymentArtifact.setArtifactType( new QName( typesNamespace, imageType, typesPrefix ) ); 
           createImageFeature.setContextObject( deploymentArtifact );
           CreateContext createContext = new CreateContext();
           createContext.setTargetContainer( ( ContainerShape )getSelectedPictogramElement() );

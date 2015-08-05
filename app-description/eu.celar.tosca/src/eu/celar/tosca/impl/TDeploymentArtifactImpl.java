@@ -38,7 +38,7 @@ public class TDeploymentArtifactImpl extends TExtensibleElementsImpl implements 
    * @generated
    * @ordered
    */
-  protected static final QName ARTIFACT_REF_EDEFAULT = null;
+  protected static final String ARTIFACT_REF_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getArtifactRef() <em>Artifact Ref</em>}' attribute.
@@ -48,7 +48,7 @@ public class TDeploymentArtifactImpl extends TExtensibleElementsImpl implements 
    * @generated
    * @ordered
    */
-  protected QName artifactRef = ARTIFACT_REF_EDEFAULT;
+  protected String artifactRef = ARTIFACT_REF_EDEFAULT;
 
   /**
    * The default value of the '{@link #getArtifactType() <em>Artifact Type</em>}' attribute.
@@ -116,7 +116,7 @@ public class TDeploymentArtifactImpl extends TExtensibleElementsImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public QName getArtifactRef()
+  public String getArtifactRef()
   {
     return artifactRef;
   }
@@ -126,9 +126,9 @@ public class TDeploymentArtifactImpl extends TExtensibleElementsImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setArtifactRef(QName newArtifactRef)
+  public void setArtifactRef(String newArtifactRef)
   {
-    QName oldArtifactRef = artifactRef;
+    String oldArtifactRef = artifactRef;
     artifactRef = newArtifactRef;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ToscaPackage.TDEPLOYMENT_ARTIFACT__ARTIFACT_REF, oldArtifactRef, artifactRef));
@@ -211,7 +211,7 @@ public class TDeploymentArtifactImpl extends TExtensibleElementsImpl implements 
     switch (featureID)
     {
       case ToscaPackage.TDEPLOYMENT_ARTIFACT__ARTIFACT_REF:
-        setArtifactRef((QName)newValue);
+        setArtifactRef((String)newValue);
         return;
       case ToscaPackage.TDEPLOYMENT_ARTIFACT__ARTIFACT_TYPE:
         setArtifactType((QName)newValue);

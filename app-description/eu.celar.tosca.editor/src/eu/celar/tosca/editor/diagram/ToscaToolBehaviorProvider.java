@@ -567,6 +567,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
         }
       }
     }
+    
     // add new compartment at the end of the existing compartments
     PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry( "Images", null ); //$NON-NLS-1$
     compartmentEntry.setInitiallyOpen( false );
@@ -585,7 +586,7 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
           TDeploymentArtifact deploymentArtifact = ToscaFactory.eINSTANCE.createTDeploymentArtifact();
           deploymentArtifact.setName( vmi.getUID() );
-          deploymentArtifact.setArtifactRef( new QName(vmi.getUID()) );
+          deploymentArtifact.setArtifactRef( vmi.getUID() );
           //deploymentArtifact.setArtifactType( new QName( "VMI" ) );
           deploymentArtifact.setArtifactType( new QName( typesNamespace, imageType, typesPrefix ));
           vmiCF.setContextObject( deploymentArtifact );
