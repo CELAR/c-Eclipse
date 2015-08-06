@@ -67,6 +67,9 @@ public class ElasticityStrategyDialog extends Dialog {
 //    this.cmbElasticityAction.add( "RemoveVM" );
     this.cmbElasticityAction.add( "scaleIn" );
     this.cmbElasticityAction.add( "scaleOut" );
+    this.cmbElasticityAction.add( "attachDisk" );
+    this.cmbElasticityAction.add( "detachDisk" );
+    this.cmbElasticityAction.add( "vmResize" );
     this.cmbElasticityAction.setText( this.cmbElasticityAction.getItem( 0 ) );
     this.cmbElasticityAction.setEditable( false );
     // Create New Strategy Group

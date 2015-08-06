@@ -297,7 +297,7 @@ public class ApplicationComponentMonitoringSectionNoDeploymentArtifact extends G
     }
   }
 
-  public void addMonitoringProbe( String probeName ){
+  public void addMonitoringProbe( final String probeName ){
     
     //Find the Cloud project to which the probe will be added
     IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -310,7 +310,7 @@ public class ApplicationComponentMonitoringSectionNoDeploymentArtifact extends G
               
     IProject project = file.getProject();
     
-    MonitoringProbe mp = new MonitoringProbe( probeName );
+    MonitoringProbe mp = new MonitoringProbe( probeName, false );
     try {
       mp.createProbeProject();
     } catch( PartInitException e ) {

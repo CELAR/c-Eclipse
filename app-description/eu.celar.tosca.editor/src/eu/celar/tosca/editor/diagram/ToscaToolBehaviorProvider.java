@@ -621,11 +621,12 @@ public class ToscaToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
   if( monitoringProbesProject.exists() ) {
     IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
-    IResource[] artifactsResource = null;
+    IResource[] artifactsResource = null;    
     try {
-      artifactsResource = srcFolder.members();
+      if (srcFolder.members() != null){      
+        artifactsResource = srcFolder.members();
+      }
     } catch( CoreException e ) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     if ( artifactsResource != null ){

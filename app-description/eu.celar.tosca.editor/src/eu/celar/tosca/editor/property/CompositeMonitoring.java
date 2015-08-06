@@ -310,7 +310,7 @@ public class CompositeMonitoring extends GFPropertySection
               
     IProject project = file.getProject();
     
-    MonitoringProbe mp = new MonitoringProbe( probeName );
+    MonitoringProbe mp = new MonitoringProbe( probeName, false );
     try {
       mp.createProbeProject();
     } catch( PartInitException e ) {

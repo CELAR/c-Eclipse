@@ -4,12 +4,12 @@
  ************************************************************/
 package eu.celar.tosca.editor.property;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -59,6 +59,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
   private Table tableMonitoringProbes;
   private Button removeButton;
   private Button createButton;
+  private Button importButton;
   TableViewer tableMonitoringProbesViewer;
   List<String> appComponentMonitoringProbes = new ArrayList<String>();
 
@@ -121,7 +122,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     this.removeButton.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
+      public void widgetSelected( final SelectionEvent e ) {
         removeApplicationComponentMonitoringProbe( getSelectedMonitoringProbe() );
       }
 
@@ -141,7 +142,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     this.createButton.addSelectionListener( new SelectionListener() {
 
       @Override
-      public void widgetSelected( SelectionEvent e ) {
+      public void widgetSelected( final SelectionEvent e ) {
   
         // Get probe name
         String probeName = null;
@@ -154,12 +155,45 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
           probeName = dialog.getFileName();
         }
 
-        addMonitoringProbe(probeName);
+        addMonitoringProbe( probeName, false );
 
       }
 
       @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gd = new GridData();
+    gd.widthHint = 60;
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.createButton.setLayoutData( gd );
+    
+    // Monitoring Probe Create Button
+    this.importButton = new Button( client2, SWT.PUSH );
+    this.importButton.setText( "Import" ); //$NON-NLS-1$
+    this.importButton.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+  
+        // Get probe name
+        String probeName = null;
+        FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN );
+        dialog.setText( "Import Monitoring Probe" ); //$NON-NLS-1$
+        dialog.setFilterExtensions(new String [] {"*.java"}); //$NON-NLS-1$
+        String result = dialog.open();
+        if( result != null ) {
+//          probeName = dialog.getFileName();
+          probeName = new File (dialog.getFilterPath(), dialog.getFileName()).getAbsolutePath();
+        }
+
+        addMonitoringProbe( probeName, true );
+
+      }
+
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
         // TODO Auto-generated method stub
       }
     } );
@@ -172,6 +206,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     toolkit.adapt( this.tableMonitoringProbes, true, true );
     toolkit.adapt( this.removeButton, true, true );
     toolkit.adapt( this.createButton, true, true );
+    toolkit.adapt( this.importButton, true, true );
     this.section.setClient( client );
   }
 
@@ -297,7 +332,7 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     }
   }
 
-  public void addMonitoringProbe( String probeName ){
+  public void addMonitoringProbe( final String probeName, final boolean importProbe ){
     
     //Find the Cloud project to which the probe will be added
     IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -308,19 +343,16 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
       file = ((ToscaDiagramEditorInput) input).getToscaFile();
     }
               
-    IProject project = file.getProject();
+//    IProject project = file.getProject();
     
-    MonitoringProbe mp = new MonitoringProbe( probeName );
+    MonitoringProbe mp = new MonitoringProbe( probeName, importProbe );
     try {
       mp.createProbeProject();
     } catch( PartInitException e ) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch( JavaModelException e ) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch( IOException e ) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
