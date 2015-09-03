@@ -12,14 +12,14 @@ public class PreferencesInitializer extends AbstractPreferenceInitializer {
    */
   @Override
   public void initializeDefaultPreferences() {
-    org.eclipse.core.runtime.Preferences preferenceStore = null;
-    Activator activator = Activator.getDefault();
-    if ( activator != null ) {
-      preferenceStore = activator.getPluginPreferences();
-    }
-    
-    String providerString = "[{\"port\":\"8080\",\"name\":\"Okeanos\",\"uri\":\"http://83.212.122.157\"} ]";
-    preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providerString);
+//    org.eclipse.core.runtime.Preferences preferenceStore = null;
+//    Activator activator = Activator.getDefault();
+//    if ( activator != null ) {
+//      preferenceStore = activator.getPluginPreferences();
+//    }
+//    
+//    String providerString = "[{\"port\":\"8080\",\"name\":\"Okeanos\",\"uri\":\"http://83.212.122.157\"} ]";
+//    preferenceStore.setValue( PreferenceConstants.DEFINED_CPS_ID, providerString);
     //preferenceStore.setDefault( PreferenceConstants.DEFINED_CPS_ID, providerString);
   }
 }

@@ -176,5 +176,22 @@
             name="Cloud Application Deployment Services">
       </category>
    </extension>
+   <extension
+         point="eu.celar.core.cloudElementCreator">
+      <creator
+            class="eu.celar.core.model.impl.GenericCloudProviderCreator"
+            id="eu.celar.core.genericCPCreator"
+            name="Generic Cloud Provider Creator"
+            wizard="eu.celar.ui.wizards.GenericCloudProviderWizard">
+         <source
+               class="org.eclipse.core.filesystem.IFileStore"
+               matcher="eu.celar.core.model.impl.GenericCloudProviderCreator">
+         </source>
+         <target
+               class="eu.celar.core.model.impl.GenericCloudProvider"
+               name="Generic Cloud Provider">
+         </target>
+      </creator>
+   </extension>
    
 </plugin>

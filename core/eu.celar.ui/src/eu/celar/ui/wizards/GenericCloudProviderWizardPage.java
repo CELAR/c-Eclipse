@@ -15,15 +15,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import eu.celar.core.model.CloudModel;
-import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.model.impl.GenericCloudProviderCreator;
-import eu.celar.core.reporting.ProblemException;
 import eu.celar.ui.internal.Activator;
 
 
 /**
- * Wizard page for the {@link GenericVirtualOrganization}.
+ * Wizard page for the {@link GenericCloudProvider}.
  */
 public class GenericCloudProviderWizardPage
     extends WizardPage {
@@ -103,10 +101,10 @@ public class GenericCloudProviderWizardPage
     
     String name = this.nameText.getText();
     if ( ! validateVoName( name ) ) {
-      result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "You have to specify a valid VO name" );
+      result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "You have to specify a valid Cloud Provider name" );
     } else if ( ( this.initialCloudProvider == null )
         && ( CloudModel.getCloudProviderManager().findChild( name ) != null ) ) {
-      result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "A VO with the same name already exists" );
+      result = new Status( IStatus.ERROR, Activator.PLUGIN_ID, "A Cloud Provider with the same name already exists" );
     } else {
       String uri = this.uriText.getText();
       String port = this.portText.getText();

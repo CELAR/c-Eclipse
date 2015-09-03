@@ -1,18 +1,17 @@
 package eu.celar.core.model.impl;
 
 import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.IProgressMonitor;
 
 import eu.celar.core.internal.Activator;
-import eu.celar.core.model.ICloudDeploymentService;
 import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ISerializableElement;
 import eu.celar.core.reporting.ProblemException;
 
 
 /**
  * This is the g-Eclipse default implementation for the
- * {@link IVirtualOrganization} interface. It is used whenever
+ * {@link ICloudProvider} interface. It is used whenever
  * no middleware dependent VO is available. This be
  * the case if the user has not installed a middleware feature that
  * comes with an own VO implementation. 
@@ -23,7 +22,7 @@ public class GenericCloudProvider
   /**
    * The type name of this VO implementation
    */
-  private static final String VO_TYPE_NAME = "Generic Cloud Provider"; //$NON-NLS-1$
+  private static final String CP_TYPE_NAME = "Generic Cloud Provider"; //$NON-NLS-1$
   
   private String name;
   private String uri;
@@ -102,7 +101,7 @@ public class GenericCloudProvider
   }*/
   
   public String getTypeName() {
-    return VO_TYPE_NAME;
+    return CP_TYPE_NAME;
   }
 
   public boolean isLazy() {
@@ -121,15 +120,15 @@ public class GenericCloudProvider
     return this.port;
   }
   
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
   
-  public void setUri(String uri) {
+  public void setUri(final String uri) {
     this.uri = uri;
   }
   
-  public void setPort(String port) {
+  public void setPort(final String port) {
     this.port = port;
   }
   
@@ -187,7 +186,7 @@ public class GenericCloudProvider
   }
 
   /* (non-Javadoc)
-   * @see eu.geclipse.core.model.IVirtualOrganization#getWizardId()
+   * @see eu.celar.ui.wizards.GenericCloudProviderWizard#getWizardId()
    */
   public String getWizardId() {
     return "eu.celar.ui.wizards.GenericCloudProviderWizard"; //$NON-NLS-1$

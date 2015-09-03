@@ -23,11 +23,11 @@ public class GenericCloudProviderCreator
   /**
    * The creators extension ID.
    */
-  private static final String EXTENSION_ID = "eu.geclipse.core.genericVoCreator"; //$NON-NLS-1$
+  private static final String EXTENSION_ID = "eu.celar.core.genericCPCreator"; //$NON-NLS-1$
   
-  private String voName;
-  private String voUri;
-  private String voPort;
+  private String cpName;
+  private String cpURI;
+  private String cpPort;
   
   private List< ICloudElementCreator > serviceCreators
     = new ArrayList< ICloudElementCreator >();
@@ -50,7 +50,7 @@ public class GenericCloudProviderCreator
   /**
    * Apply this creators settings to the specified VO.
    * 
-   * @param cp The {@link GenericVirtualOrganization} to which to
+   * @param cp The {@link GenericCloudProvider} to which to
    * apply this creators settings.
    * @throws ProblemException 
    */
@@ -96,6 +96,9 @@ public class GenericCloudProviderCreator
     return cp;
   }
   
+  /**
+   * @return
+   */
   public String getExtensionID() {
     return EXTENSION_ID;
   }
@@ -106,15 +109,21 @@ public class GenericCloudProviderCreator
    * @return The unique name of the VO.
    */
   public String getVoName() {
-    return this.voName;
+    return this.cpName;
   }
   
+  /**
+   * @return The Cloud Provider URI
+   */
   public String getVoURI() {
-    return this.voUri;
+    return this.cpURI;
   }
   
+  /**
+   * @return The Cloud Provider listening Port
+   */
   public String getVoPort() {
-    return this.voPort;
+    return this.cpPort;
   }
   
   /**
@@ -123,15 +132,21 @@ public class GenericCloudProviderCreator
    * @param name The unique name of the VO.
    */
   public void setVoName( final String name ) {
-    this.voName = name;
+    this.cpName = name;
   }
   
+  /**
+   * @param uri
+   */
   public void setVoURI( final String uri ) {
-    this.voUri = uri;
+    this.cpURI = uri;
   }
   
+  /**
+   * @param port
+   */
   public void setVoPort( final String port ) {
-    this.voPort = port;
+    this.cpPort = port;
   }
 
 }

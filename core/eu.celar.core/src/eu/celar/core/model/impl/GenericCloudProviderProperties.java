@@ -124,8 +124,8 @@ public class GenericCloudProviderProperties
       OutputStream oStream = fileStore.openOutputStream( EFS.NONE, null );
       OutputStreamWriter osWriter = new OutputStreamWriter( oStream );
       BufferedWriter bWriter = new BufferedWriter( osWriter );
-      bWriter.write( this.cp.getName() );
-      bWriter.write( this.cp.getUri() );
+      bWriter.write( this.cp.getName() + FIELD_SEPARATOR );
+      bWriter.write( this.cp.getUri() + FIELD_SEPARATOR );
       bWriter.write( this.cp.getPort() );
       
       for ( ICloudElement child : children ) {

@@ -19,9 +19,6 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import eu.celar.core.ICoreProblems;
 import eu.celar.core.Preferences;
@@ -33,7 +30,6 @@ import eu.celar.core.model.ICloudProvider;
 import eu.celar.core.model.ICloudProviderManager;
 import eu.celar.core.model.IElementCreatorRegistry;
 import eu.celar.core.model.ISerializableElement;
-import eu.celar.core.model.impl.GenericCloudProvider;
 import eu.celar.core.reporting.ProblemException;
 
 
@@ -68,7 +64,7 @@ public class CloudProviderManager extends AbstractDefaultCloudElementManager
   }
   
   /**
-   * Get the singleton instance of the <code>VoManager</code>.
+   * Get the singleton instance of the <code>CloudProviderManager</code>.
    * 
    * @return The singleton.
    */
