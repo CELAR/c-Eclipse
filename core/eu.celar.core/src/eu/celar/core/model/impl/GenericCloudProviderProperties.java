@@ -96,6 +96,10 @@ public class GenericCloudProviderProperties
           if ( creator != null ) {
             this.cp.create( creator );
           }
+        } else if ( parts.length == 3 ){
+          this.cp.setName( parts[0] );
+          this.cp.setUri( parts[1] );
+          this.cp.setPort( parts[2] );
         }
       }
     } catch ( CoreException cExc ) {
