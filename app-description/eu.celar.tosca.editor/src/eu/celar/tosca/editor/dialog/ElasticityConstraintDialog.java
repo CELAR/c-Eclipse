@@ -129,17 +129,33 @@ public class ElasticityConstraintDialog extends Dialog {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
-      for( IResource tempResource : artifactsResource ) {
-        if( tempResource instanceof IFile ) {
-          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ) );
-          mp.setName( tempResource.getName().replaceFirst( ".java", "" ) );
-          mp.setDescription( "" );
-          // add new probe to monitoring list
-          mpsCopy.add( 0, mp );
-        }
+      
+      
       }
-    }
+      String[] properties = {"queueLength", "avgCpuUsage", "avgMemoryUsage", "workerUtilisation", "rewardLostToQueueing",
+      "rewardLostToSmallWorkers", "totalReward"};
+      
+      for (int i=0; i<properties.length; i++) {
+        String s = properties[i];
+        MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+        mp.setUID( s );
+        mp.setName( s );
+        mp.setDescription( "" );
+        mpsCopy.add( mp );
+      }
+      
+      
+//      for( IResource tempResource : artifactsResource ) {
+//        if( tempResource instanceof IFile ) {
+//          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+//          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ) );
+//          mp.setName( tempResource.getName().replaceFirst( ".java", "" ) );
+//          mp.setDescription( "" );
+//          // add new probe to monitoring list
+//          mpsCopy.add( 0, mp );
+//        }
+//      }
+//    }
     return mpsCopy;
   }
 
