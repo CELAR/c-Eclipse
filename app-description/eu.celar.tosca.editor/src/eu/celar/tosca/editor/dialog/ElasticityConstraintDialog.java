@@ -9,7 +9,6 @@ package eu.celar.tosca.editor.dialog;
  */
 import java.util.ArrayList;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -31,6 +30,10 @@ import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
 import eu.celar.infosystem.model.base.MonitoringProbe;
 
+/**
+ * @author Nicholas Loulloudes
+ *
+ */
 public class ElasticityConstraintDialog extends Dialog {
 
   protected Text typeText;

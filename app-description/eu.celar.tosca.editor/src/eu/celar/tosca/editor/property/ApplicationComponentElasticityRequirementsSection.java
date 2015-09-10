@@ -39,6 +39,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -47,6 +48,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -109,6 +111,10 @@ public class ApplicationComponentElasticityRequirementsSection
   public void createControls( final Composite parent,
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
+    Image imageAdd = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD);
+    Image imageRemove = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE);
+    Image imageExecutable = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+    Image imageCondition = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEC_FIELD_WARNING);
     super.createControls( parent, tabbedPropertySheetPage );
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Elasticity Requirements Section
@@ -158,10 +164,11 @@ public class ApplicationComponentElasticityRequirementsSection
     this.tableViewer.setContentProvider( contentProvider );
     this.tableViewer.setLabelProvider( ERProvider.ERContentLabelProvider );
     this.tableViewer.setInput( this.appComponentElasticityRequirements );
-    this.addButton = new Button( client2, SWT.PUSH );
+    this.addButton = new Button( client2, SWT.PUSH | SWT.TOP );
     this.addButton.setText( "Add" ); //$NON-NLS-1$
+    this.addButton.setImage( imageAdd );
     gd = new GridData();
-    gd.widthHint = 60;
+    gd.widthHint = 120;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButton.setLayoutData( gd );
     // Listener for Add button
@@ -179,8 +186,9 @@ public class ApplicationComponentElasticityRequirementsSection
     } );
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
+    this.removeButton.setImage( imageRemove );
     gd = new GridData();
-    gd.widthHint = 60;
+    gd.widthHint = 120;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButton.setLayoutData( gd );
     // Listener for Remove button
@@ -251,6 +259,8 @@ public class ApplicationComponentElasticityRequirementsSection
     // Add Elasticity Strategy button
     this.addButtonRA = new Button( clientRA2, SWT.PUSH );
     this.addButtonRA.setText( "Add" ); //$NON-NLS-1$
+    this.addButtonRA.setImage( imageAdd );
+    
     // Listener for Adding Elasticity Strategy button
     this.addButtonRA.addSelectionListener( new SelectionListener() {
 
@@ -265,13 +275,14 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 80;
+    gdRA.widthHint = 120;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addButtonRA.setLayoutData( gdRA );
     // //////////////////////////////////////////////////////////////////
     // Add Elasticity Strategy Executable button
     this.addExecutableButton = new Button( clientRA2, SWT.PUSH );
     this.addExecutableButton.setText( "Exectutable" ); //$NON-NLS-1$
+    this.addExecutableButton.setImage( imageExecutable );
     // Listener for Adding Elasticity Strategy button
     this.addExecutableButton.addSelectionListener( new SelectionListener() {
 
@@ -286,12 +297,13 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 80;
+    gdRA.widthHint = 120;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.addExecutableButton.setLayoutData( gdRA );
     // /////////////////////////////////////////////////////////////////
     this.removeButtonRA = new Button( clientRA2, SWT.PUSH );
     this.removeButtonRA.setText( "Remove" ); //$NON-NLS-1$
+    this.removeButtonRA.setImage( imageRemove );
     // Listener for Remove Elasticity Strategy button
     this.removeButtonRA.addSelectionListener( new SelectionListener() {
 
@@ -306,11 +318,12 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 80;
+    gdRA.widthHint = 120;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButtonRA.setLayoutData( gdRA );
     this.conditionButtonRA = new Button( clientRA2, SWT.PUSH );
     this.conditionButtonRA.setText( "Condition" ); //$NON-NLS-1$
+    this.conditionButtonRA.setImage( imageCondition );
     // Listener for Remove Elasticity Strategy button
     this.conditionButtonRA.addSelectionListener( new SelectionListener() {
 
@@ -325,7 +338,7 @@ public class ApplicationComponentElasticityRequirementsSection
       }
     } );
     gdRA = new GridData();
-    gdRA.widthHint = 80;
+    gdRA.widthHint = 120;
     gdRA.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.conditionButtonRA.setLayoutData( gdRA );
     // Add section components to the toolkit
@@ -471,6 +484,8 @@ public class ApplicationComponentElasticityRequirementsSection
           QName qnamePolicyTemplate = new QName( id );
           newPolicy.setPolicyRef( qnamePolicyTemplate );
           
+
+          
           TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
           editingDomain.getCommandStack()
             .execute( new RecordingCommand( editingDomain ) {
@@ -480,6 +495,29 @@ public class ApplicationComponentElasticityRequirementsSection
                 policy.add( newPolicy );
               }
             } );
+          
+          
+          if( ( dialog.getPreScaleAction() != null )
+              || ( dialog.getPostScaleAction() != null ) ) {
+           
+            String preAction = dialog.getPreScaleAction();
+            String postAction = dialog.getPostScaleAction();
+            
+            
+            CreateArtifactTemplate artTempl = null;
+            
+            if (preAction != null ) {
+              createImplementationArtifact( newPolicy.getName(), preAction, "PreScale", new QName( nodeTemplate.getName() ), new QName( preAction ) );
+              artTempl = new CreateArtifactTemplate(preAction, new QName("RA"), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+            }
+            
+            if (postAction != null ) {
+              createImplementationArtifact( newPolicy.getName(), postAction, "PostScale", new QName( nodeTemplate.getName() ), new QName( postAction ) );
+              artTempl = new CreateArtifactTemplate(postAction, new QName("RA"), ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) ));
+            }
+            
+          }
+          
           this.appComponentResizingActions.add( newPolicy );
           this.tableResizingActionsViewer.refresh();
         } else {
@@ -700,6 +738,7 @@ public class ApplicationComponentElasticityRequirementsSection
   {
     if( selectedObject == null )
       return;
+    
     FileDialog dialog = new FileDialog( parent.getShell(), SWT.OPEN );
     dialog.setText( "Select Executable File" ); //$NON-NLS-1$
     String result = dialog.open();
@@ -710,6 +749,7 @@ public class ApplicationComponentElasticityRequirementsSection
         bo = Graphiti.getLinkService()
           .getBusinessObjectForLinkedPictogramElement( pe );
       }
+      
       final TNodeTemplateExtension appComponent;
       if( bo instanceof TDeploymentArtifact ) {
         PictogramElement parentPE = Graphiti.getPeService()
@@ -728,6 +768,7 @@ public class ApplicationComponentElasticityRequirementsSection
       // String operationName = "";
       createImplementationArtifact( operationName,
                                     dialog.getFileName(),
+                                    "Lifecycle",
                                     new QName( appComponent.getName() ),
                                     new QName( dialog.getFileName() ) );
       
@@ -846,6 +887,7 @@ public class ApplicationComponentElasticityRequirementsSection
   // Creates the install implementation artifact
   private ImplementationArtifactType createImplementationArtifact( String resizingActionName,
                                                                    String artifactName,
+                                                                   String intefaceName,
                                                                    QName nodeType,
                                                                    QName artifactID )
   {
@@ -887,7 +929,7 @@ public class ApplicationComponentElasticityRequirementsSection
     final ImplementationArtifactType installArtifactType = ToscaFactory.eINSTANCE.createImplementationArtifactType();
     installArtifactType.setArtifactType( new QName( "ScriptArtifact" ) );
     installArtifactType.setArtifactRef( artifactID );
-    installArtifactType.setInterfaceName( "Lifecycle" );
+    installArtifactType.setInterfaceName( intefaceName );
     installArtifactType.setOperationName( resizingActionName );
     final TNodeTypeImplementation nodeImplementation = nodeTypeImplementation;
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( nodeTypeImplementation );

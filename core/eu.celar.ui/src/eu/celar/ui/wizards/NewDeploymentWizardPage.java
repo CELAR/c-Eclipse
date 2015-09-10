@@ -51,34 +51,34 @@ public class NewDeploymentWizardPage extends WizardPage implements ModifyListene
     layout.horizontalAlignment = GridData.FILL;
     lblOptimizationPolicy.setLayoutData( layout );
 //    // Combo - Policy
-//    this.cmbCloudProvider = new CCombo( this.container, SWT.BORDER );
-//    this.cmbCloudProvider.setEnabled( true );
-//    layout = new GridData();
-//    layout.horizontalAlignment = GridData.FILL;
-//    layout.horizontalSpan = 2;
-//    this.cmbCloudProvider.setLayoutData( layout );
-//    
-//    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
-//    ICloudElement[] children;
-//    
-//    int i=0;
-//    try {
-//      children = cpManager.getChildren( new NullProgressMonitor() );
-//      for( ICloudElement CloudElement : children ) {
-//        if( CloudElement instanceof GenericCloudProvider ) {
-//          GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
-//          this.cmbCloudProvider.add( gCp.getName(), i++);
-//        }
-//      }
-//
-//    } catch( ProblemException e ) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }  
-//    
-//    this.cmbCloudProvider.setEditable( false );
-//    
-//    this.cmbCloudProvider.addModifyListener( this );
+    this.cmbCloudProvider = new CCombo( this.container, SWT.BORDER );
+    this.cmbCloudProvider.setEnabled( true );
+    layout = new GridData();
+    layout.horizontalAlignment = GridData.FILL;
+    layout.horizontalSpan = 2;
+    this.cmbCloudProvider.setLayoutData( layout );
+    
+    ICloudProviderManager cpManager = CloudModel.getCloudProviderManager();
+    ICloudElement[] children;
+    
+    int i=0;
+    try {
+      children = cpManager.getChildren( new NullProgressMonitor() );
+      for( ICloudElement CloudElement : children ) {
+        if( CloudElement instanceof GenericCloudProvider ) {
+          GenericCloudProvider gCp = ( GenericCloudProvider )CloudElement;
+          this.cmbCloudProvider.add( gCp.getName(), i++);
+        }
+      }
+
+    } catch( ProblemException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }  
+    
+    this.cmbCloudProvider.setEditable( false );
+    
+    this.cmbCloudProvider.addModifyListener( this );
     
     setControl( this.container );
   }

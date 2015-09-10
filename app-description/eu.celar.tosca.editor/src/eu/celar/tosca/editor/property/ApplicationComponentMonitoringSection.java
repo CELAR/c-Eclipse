@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -68,6 +70,9 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
+    Image imageAdd = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD);
+    Image imageRemove = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE);
+    Image imageImport = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_UP);
     // TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
@@ -116,29 +121,11 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
     this.tableMonitoringProbesViewer.setContentProvider( contentProvider );
     this.tableMonitoringProbesViewer.setLabelProvider( MPProvider.MPContentLabelProvider );
     this.tableMonitoringProbesViewer.setInput( this.appComponentMonitoringProbes );
-    // Monitoring Probe Remove Button
-    this.removeButton = new Button( client2, SWT.PUSH );
-    this.removeButton.setText( "Remove" ); //$NON-NLS-1$
-    this.removeButton.addSelectionListener( new SelectionListener() {
-
-      @Override
-      public void widgetSelected( final SelectionEvent e ) {
-        removeApplicationComponentMonitoringProbe( getSelectedMonitoringProbe() );
-      }
-
-      @Override
-      public void widgetDefaultSelected( SelectionEvent e ) {
-        // TODO Auto-generated method stub
-      }
-    } );
-    gd = new GridData();
-    gd.widthHint = 60;
-    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    this.removeButton.setLayoutData( gd );
     
     // Monitoring Probe Create Button
     this.createButton = new Button( client2, SWT.PUSH );
     this.createButton.setText( "Create" ); //$NON-NLS-1$
+    this.createButton.setImage( imageAdd );
     this.createButton.addSelectionListener( new SelectionListener() {
 
       @Override
@@ -165,13 +152,39 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
       }
     } );
     gd = new GridData();
-    gd.widthHint = 60;
+    gd.widthHint = 100;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.createButton.setLayoutData( gd );
     
-    // Monitoring Probe Create Button
+    
+    
+    // Monitoring Probe Remove Button
+    this.removeButton = new Button( client2, SWT.PUSH );
+    this.removeButton.setText( "Remove" ); //$NON-NLS-1$
+    this.removeButton.setImage( imageRemove );
+    this.removeButton.addSelectionListener( new SelectionListener() {
+
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        removeApplicationComponentMonitoringProbe( getSelectedMonitoringProbe() );
+      }
+
+      @Override
+      public void widgetDefaultSelected( SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    gd = new GridData();
+    gd.widthHint = 100;
+    gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+    this.removeButton.setLayoutData( gd );
+    
+   
+    
+    // Monitoring Probe Import Button
     this.importButton = new Button( client2, SWT.PUSH );
     this.importButton.setText( "Import" ); //$NON-NLS-1$
+    this.importButton.setImage( imageImport );
     this.importButton.addSelectionListener( new SelectionListener() {
 
       @Override
@@ -198,9 +211,9 @@ public class ApplicationComponentMonitoringSection extends GFPropertySection
       }
     } );
     gd = new GridData();
-    gd.widthHint = 60;
+    gd.widthHint = 100;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    this.createButton.setLayoutData( gd );
+    this.importButton.setLayoutData( gd );
     
     // Add section components to the toolkit
     toolkit.adapt( this.tableMonitoringProbes, true, true );

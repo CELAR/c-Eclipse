@@ -22,12 +22,15 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -54,6 +57,8 @@ public class ApplicationMonitoringSection extends GFPropertySection
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
+    
+    Image imageRemove = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE);
     // TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     this.section = toolkit.createSection( parent, Section.TITLE_BAR );
@@ -105,6 +110,7 @@ public class ApplicationMonitoringSection extends GFPropertySection
     // Monitoring Probe Remove Button
     this.removeButton = new Button( client2, SWT.PUSH );
     this.removeButton.setText( "Remove" ); //$NON-NLS-1$
+    this.removeButton.setImage( imageRemove );
     this.removeButton.addSelectionListener( new SelectionListener() {
 
       @Override
@@ -118,13 +124,13 @@ public class ApplicationMonitoringSection extends GFPropertySection
       }
     } );
     gd = new GridData();
-    gd.widthHint = 60;
+    gd.widthHint = 80;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     this.removeButton.setLayoutData( gd );
     // Add section components to the toolkit
     toolkit.adapt( this.tableMonitoringProbes, true, true );
     toolkit.adapt( this.removeButton, true, true );
-    section.setClient( client );
+    this.section.setClient( client );
   }
 
   // Remove the selected Application Monitoring Probes from TOSCA

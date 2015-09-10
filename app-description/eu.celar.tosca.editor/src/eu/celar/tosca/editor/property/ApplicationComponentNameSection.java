@@ -42,13 +42,16 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -84,11 +87,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
   private Text nameText;
   private Text imageText;
   private Text keypairText;
-  private Text minInstancesText;
-  private Text maxInstancesText;
+  private Spinner minInstancesText;
+  private Spinner maxInstancesText;
   private CCombo cmbImageSize;
-  private Button uploadImage;
-  private Button keypairSelect;
+  private Button addImageButton;
+  private Button keypairButton;
 
   private String typesPrefix = Tosca_Elasticity_ExtensionsPackage.eINSTANCE.getNsPrefix();
   
@@ -101,6 +104,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
                               TabbedPropertySheetPage tabbedPropertySheetPage )
   {
     super.createControls( parent, tabbedPropertySheetPage );
+    Image imageAdd = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD);
+    Image imageSelect = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+
     TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     FormToolkit toolkit = new FormToolkit( parent.getDisplay() );
     // Application Component Properties Section\
@@ -116,7 +122,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     layout.marginHeight = 2;
     client.setLayout( layout );
     GridData gd;
-    CLabel valueLabel = factory.createCLabel( client, "Name:" ); //$NON-NLS-1$
+    
+    CLabel valueLabel = factory.createCLabel( client, "Name:"); //$NON-NLS-1$
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -124,11 +131,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     valueLabel.setLayoutData( gd );
     // Application Name text
-    this.nameText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.nameText = factory.createText( client, "", SWT.BORDER ); //$NON-NLS-1$
     this.nameText.setEditable( true );
-    gd = new GridData();
+    gd = new GridData(GridData.FILL_BOTH);
     gd.horizontalSpan = 2;
-    gd.widthHint = 160;
+    gd.widthHint = 250;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.nameText.setLayoutData( gd );
@@ -140,24 +147,25 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.widthHint = 80;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     imageLabel.setLayoutData( gd );
-    this.imageText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.imageText = factory.createText( client, "", SWT.BORDER ); //$NON-NLS-1$
     this.imageText.setEditable( true );
     gd = new GridData();
-    gd.widthHint = 160;
+    gd.widthHint = 220;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     // Application VM text
     this.imageText.setLayoutData( gd );
     this.imageText.addModifyListener( this );
     // VM Upload Image Button
-    this.uploadImage = new Button( client, SWT.PUSH );
-    this.uploadImage.setText( " Add Image... " ); //$NON-NLS-1$
+    this.addImageButton = new Button( client, SWT.PUSH );    
+    this.addImageButton.setToolTipText( "Add Image" ); //$NON-NLS-1$
+    this.addImageButton.setImage( imageAdd );    
     gd = new GridData();
-    gd.widthHint = 80;
+    gd.widthHint = 30;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    this.uploadImage.setLayoutData( gd );
+    this.addImageButton.setLayoutData( gd );
     // Listener for Add button
-    this.uploadImage.addSelectionListener( new SelectionListener() {
+    this.addImageButton.addSelectionListener( new SelectionListener() {
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
@@ -179,7 +187,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           IProject project = file.getProject();
 
           String targetPath = Platform.getLocation()
-                              + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts"+ System.getProperty( "file.separator" ) + "Virtual Machine Images" + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                              + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts"+ System.getProperty( "file.separator" ) + "Virtual Machine Images" + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
           File tmp = new File( targetPath );
           try {
             tmp.createNewFile();
@@ -260,358 +268,16 @@ public class ApplicationComponentNameSection extends GFPropertySection
 
     ArrayList<VirtualMachineImageFlavor> instanceTypes =
     MockUpInfoSystem.getInstance().getInstanceTypes();
+    
     for (VirtualMachineImageFlavor type : instanceTypes )
-     this.cmbImageSize.add(type.getName());
-    ///////////////////////////////////////////////////////
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:512 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:1024 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:2048 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:4096 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:8192 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:1 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:2 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:4 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:5" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:10" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:20" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:40" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:60" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:80" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:100" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    this.cmbImageSize.add( "vcpus:8 ram:6144 disk:diskdump" );
-//    ///////////////////////////////////////////////////////
+      this.cmbImageSize.add( type.getName() );
+    
     this.cmbImageSize.setEditable( false );
     gd = new GridData();
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     gd.horizontalSpan = 2;
-    gd.widthHint = 200;
+    gd.widthHint = 260;
     this.cmbImageSize.setLayoutData( gd );
     // Listener for Flavor
     this.cmbImageSize.addSelectionListener( new SelectionListener() {
@@ -634,23 +300,24 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gd.widthHint = 80;
     keypairLabel.setLayoutData( gd );
     // KeyPair text
-    this.keypairText = factory.createText( client, "" ); //$NON-NLS-1$
+    this.keypairText = factory.createText( client, "", SWT.BORDER ); //$NON-NLS-1$
     this.keypairText.setEditable( true );
     gd = new GridData();
-    gd.widthHint = 160;
+    gd.widthHint = 220;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
     this.keypairText.setLayoutData( gd );
     this.keypairText.addModifyListener( this );
     // Select KeyPair Button
-    this.keypairSelect = new Button( client, SWT.PUSH );
-    this.keypairSelect.setText( " Select... " ); //$NON-NLS-1$
+    this.keypairButton = new Button( client, SWT.PUSH );
+    this.keypairButton.setToolTipText( "Import Public Key" ); //$NON-NLS-1$
+    this.keypairButton.setImage( imageSelect );
     gd = new GridData();
-    gd.widthHint = 80;
+    gd.widthHint = 30;
     gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-    this.keypairSelect.setLayoutData( gd );
+    this.keypairButton.setLayoutData( gd );
     // Listener for Add button
-    this.keypairSelect.addSelectionListener( new SelectionListener() {
+    this.keypairButton.addSelectionListener( new SelectionListener() {
 
       @Override
       public void widgetSelected( final SelectionEvent e ) {
@@ -682,7 +349,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
           }
           IProject project = file.getProject();
           String target = Platform.getLocation()
-                          + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts" +System.getProperty( "file.separator" )+"Deployment Scripts"+System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$
+                          + System.getProperty( "file.separator" ) + project.getName() + System.getProperty( "file.separator" ) + "Artifacts" +System.getProperty( "file.separator" )+"Deployment Scripts"+System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
           String source = dialog.getFilterPath()
                           + System.getProperty( "file.separator" ) + dialog.getFileName(); //$NON-NLS-1$
           File targetFile = new File( target );
@@ -755,8 +422,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     minInstancesLabel.setLayoutData( gdInstances );
-    this.minInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
-    this.minInstancesText.setEditable( true );
+    this.minInstancesText = new Spinner( clientInstances, SWT.BORDER );
+    this.minInstancesText.setMinimum( -1 );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -769,8 +436,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     maxInstancesLabel.setLayoutData( gdInstances );
-    this.maxInstancesText = factory.createText( clientInstances, "" ); //$NON-NLS-1$
-    this.maxInstancesText.setEditable( true );
+    this.maxInstancesText = new Spinner( clientInstances, SWT.BORDER );
+    this.maxInstancesText.setMinimum( -1 );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
@@ -810,14 +477,14 @@ public class ApplicationComponentNameSection extends GFPropertySection
         appComponent = ( TNodeTemplateExtension )bo;
       }
 
-      String minInstances = Integer.toString( appComponent.getMinInstances() );
-      String maxInstances = ( ( BigInteger )appComponent.getMaxInstances() ).toString();
-      if( minInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
-        minInstances = ""; //$NON-NLS-1$
-      if( maxInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
-        maxInstances = ""; //$NON-NLS-1$
-      this.minInstancesText.setText( minInstances );
-      this.maxInstancesText.setText( maxInstances );
+      int minInstances = appComponent.getMinInstances() ;
+      int maxInstances =  (( BigInteger )appComponent.getMaxInstances()).intValue();
+//      if( minInstances == -1.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
+//        minInstances = "0"; //$NON-NLS-1$
+//      if( maxInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
+//        maxInstances = "0"; //$NON-NLS-1$
+      this.minInstancesText.setSelection( minInstances );
+      this.maxInstancesText.setSelection( maxInstances );
     }
   }
 
@@ -865,7 +532,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
                                            ? "" : flavor ); //$NON-NLS-1$
       }
       else{
-        this.cmbImageSize.setText( "" );
+        this.cmbImageSize.setText( "" ); //$NON-NLS-1$
       }
       
       if( !( bo instanceof TDeploymentArtifact ) )

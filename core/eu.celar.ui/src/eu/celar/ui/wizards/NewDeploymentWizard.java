@@ -1,7 +1,6 @@
 package eu.celar.ui.wizards;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -40,21 +38,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -68,22 +55,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-
-import eu.celar.core.Preferences;
-import eu.celar.core.model.CloudModel;
-import eu.celar.core.model.ICloudDeploymentService;
-import eu.celar.core.model.ICloudElement;
-import eu.celar.core.model.ICloudProject;
-import eu.celar.core.model.ICloudProvider;
-import eu.celar.core.model.ICloudProviderManager;
-import eu.celar.core.model.impl.GenericCloudProvider;
-import eu.celar.core.reporting.ProblemException;
-import eu.celar.tosca.DocumentRoot;
-import eu.celar.tosca.core.TOSCAModel;
-import eu.celar.tosca.core.TOSCAResource;
-import eu.celar.tosca.editor.ToscaDiagramEditor;
-import eu.celar.tosca.elasticity.ServicePropertiesType;
-
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
@@ -95,6 +66,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import eu.celar.core.Preferences;
+import eu.celar.core.model.CloudModel;
+import eu.celar.core.model.ICloudElement;
+import eu.celar.core.model.ICloudProject;
+import eu.celar.core.model.ICloudProvider;
+import eu.celar.core.model.impl.GenericCloudProvider;
+import eu.celar.core.reporting.ProblemException;
+import eu.celar.tosca.DocumentRoot;
+import eu.celar.tosca.core.TOSCAModel;
+import eu.celar.tosca.core.TOSCAResource;
+import eu.celar.tosca.editor.ToscaDiagramEditor;
+import eu.celar.tosca.elasticity.ServicePropertiesType;
 
 /**
  * @author Nicholas Loulloudes, Stalo Sofokleous
@@ -123,7 +107,7 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
    */
   @Override
   public boolean performFinish() {
-        
+    
     // Export CSAR file
     try {
       exportCSAR();
@@ -134,51 +118,46 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
       // TODO Auto-generated catch block
       e1.printStackTrace();
     }
-
-      //openISbrowser();
-      
-      MessageConsole myConsole = findConsole("MyConsole");
-      MessageConsoleStream out = myConsole.newMessageStream();
-      out.println("Starting deployment procedure...");
     
-      for (ICloudProvider selectedProvider : this.selectedProviders){
-
-        GenericCloudProvider provider = (GenericCloudProvider) selectedProvider;
-        
-        String uri = provider.getUri();
-        if (uri!=null){
-          if (uri.endsWith( "/" )){
-            uri = uri.substring( 0, uri.length()-1 );
-          }
+    // openISbrowser();
+    MessageConsole myConsole = findConsole( "MyConsole" );
+    MessageConsoleStream out = myConsole.newMessageStream();
+    out.println( "Starting deployment procedure..." );
+    
+    for( ICloudProvider selectedProvider : this.selectedProviders ) {
+      GenericCloudProvider provider = ( GenericCloudProvider )selectedProvider;
+      String uri = provider.getUri();
+      if( uri != null ) {
+        if( uri.endsWith( "/" ) ) {
+          uri = uri.substring( 0, uri.length() - 1 );
         }
-        else{
-          continue;
-        }
-        
-        String port = provider.getPort();
-        if ( port!=null){
-          if (port.endsWith( "/" )){
-            port = port.substring( 0, port.length()-1 );
-          }
-          uri = uri + ":" + port;
-        }
- 
-        String applicationId = describeApplication(uri);
-        //String applicationId = describeApplicationHttps(uri);
-        
-        String deploymentId = null;
-        if (applicationId!=null){
-          deploymentId = deployApplication(uri, applicationId);
-          //deploymentId = deployApplicationHttps(uri, applicationId);
-        }
-        
-        if (deploymentId!=null){
-          getDeploymentState(uri, deploymentId);
-          //terminateDeployment(uri, deploymentId);
-        }
-
+      } else {
+        continue;
       }
-     
+      
+      String port = provider.getPort();
+      
+      if( port != null ) {
+        if( port.endsWith( "/" ) ) {
+          port = port.substring( 0, port.length() - 1 );
+        }
+        uri = uri + ":" + port;
+      }
+      
+      String applicationId = describeApplication( uri );
+      // String applicationId = describeApplicationHttps(uri);
+      String deploymentId = null;
+      
+      if( applicationId != null ) {
+        deploymentId = deployApplication( uri, applicationId );
+        // deploymentId = deployApplicationHttps(uri, applicationId);
+      }
+      
+      if( deploymentId != null ) {
+        getDeploymentState( uri, deploymentId );
+        // terminateDeployment(uri, deploymentId);
+      }
+    }
     return true;
   }
   
@@ -884,27 +863,35 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
     this.selection = selection;
     
     Object obj = this.selection.getFirstElement();
+    
     if( obj instanceof TOSCAResource ) {
       this.deploymentFile = ( TOSCAResource )obj;
       this.toscaModel = this.deploymentFile.getTOSCAModel();
-      
-      IResource resourceName = (( TOSCAResource )obj).getResource();
-      this.deploymentIFile = (IFile) resourceName;
+      IResource resourceName = ( ( TOSCAResource )obj ).getResource();
+      this.deploymentIFile = ( IFile )resourceName;
     }
-     if (obj instanceof IFile){
-     IFile file = (IFile) obj;
-     ICloudElement element = CloudModel.getRoot().findElement( file );
     
-     if( element instanceof TOSCAResource ) {
-     this.deploymentFile = ( TOSCAResource )element;
-     this.toscaModel = this.deploymentFile.getTOSCAModel();
-     }
-     }
+    if( obj instanceof IFile ) {
+      IFile file = ( IFile )obj;
+      ICloudElement element = CloudModel.getRoot().findElement( file );
+      if( element instanceof TOSCAResource ) {
+        this.deploymentFile = ( TOSCAResource )element;
+        this.toscaModel = this.deploymentFile.getTOSCAModel();
+      }
+    }
      
-     ServicePropertiesType serviceProperties = (ServicePropertiesType) this.toscaModel.getDocumentRoot().getDefinitions().getServiceTemplate().get( 0 ).getBoundaryDefinitions().getProperties().getAny().get( 0 ).getValue();
-     for (String providerName : serviceProperties.getHostingEnvironment()){
-       this.selectedProvidersNames.add(providerName);
-     }    
+    ServicePropertiesType serviceProperties = ( ServicePropertiesType )this.toscaModel.getDocumentRoot()
+      .getDefinitions()
+      .getServiceTemplate()
+      .get( 0 )
+      .getBoundaryDefinitions()
+      .getProperties()
+      .getAny()
+      .get( 0 )
+      .getValue();
+    for( String providerName : serviceProperties.getHostingEnvironment() ) {
+      this.selectedProvidersNames.add( providerName );
+    }    
      
          
 //     final ICloudProviderManager manager = CloudModel.getCloudProviderManager();
@@ -918,14 +905,14 @@ public class NewDeploymentWizard extends Wizard implements INewWizard {
 //       // TODO Auto-generated catch block
 //       e.printStackTrace();
 //     }
-     for (String providerName : this.selectedProvidersNames){
-       for (ICloudElement provider : providers){
-         if (providerName.compareTo( ((ICloudProvider) provider).getName() ) == 0){
-           this.selectedProviders.add( (ICloudProvider) provider);
-         }
-       }
-  
-     }
+    for( String providerName : this.selectedProvidersNames ) {
+      for( ICloudElement provider : providers ) {
+        if( providerName.compareTo( ( ( ICloudProvider )provider ).getName() ) == 0 )
+        {
+          this.selectedProviders.add( ( ICloudProvider )provider );
+        }
+      }
+    }
   }
 
   public void exportCSAR() throws IOException, CoreException {
