@@ -197,10 +197,10 @@ public class CELARCloudProviderWizardPage
           setErrorMessage( Messages.getString( "CELARWizardPage.error_cp_already_exists" ) ); //$NON-NLS-1$
           setPageComplete( false );
         } else if( this.uriText.getText().trim().length() == 0 ) {
-          setErrorMessage( Messages.getString( "CELARWizardPage.error_acces_id_required" ) ); //$NON-NLS-1$
+          setErrorMessage( Messages.getString( "CELARCloudProviderWizardPage.error_access_endpoint_required" ) ); //$NON-NLS-1$
           setPageComplete( false );
         } else if( this.portText.getText().trim().length() == 0 ) {
-          setErrorMessage( Messages.getString( "CELARWizardPage.error_access_endpoint_required" ) ); //$NON-NLS-1$
+          setErrorMessage( Messages.getString( "CELARCloudProviderWizardPage.error_access_port_required" ) ); //$NON-NLS-1$
           setPageComplete( false );
         } else {
           setErrorMessage( null );

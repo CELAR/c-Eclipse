@@ -84,11 +84,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
   implements ITabbedPropertyConstants, ModifyListener, SelectionListener
 {
 
+  protected Spinner minInstancesSpin;
+  protected Spinner maxInstancesSpin;
   private Text nameText;
   private Text imageText;
-  private Text keypairText;
-  private Spinner minInstancesText;
-  private Spinner maxInstancesText;
+  private Text keypairText;  
   private CCombo cmbImageSize;
   private Button addImageButton;
   private Button keypairButton;
@@ -422,28 +422,28 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     minInstancesLabel.setLayoutData( gdInstances );
-    this.minInstancesText = new Spinner( clientInstances, SWT.BORDER );
-    this.minInstancesText.setMinimum( -1 );
+    this.minInstancesSpin = new Spinner( clientInstances, SWT.BORDER );
+    this.minInstancesSpin.setMinimum( -1 );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-    this.minInstancesText.setLayoutData( gdInstances );
-    this.minInstancesText.addModifyListener( this );
+    this.minInstancesSpin.setLayoutData( gdInstances );
+    this.minInstancesSpin.addModifyListener( this );
     CLabel maxInstancesLabel = factory.createCLabel( clientInstances, "Max:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     // gd.widthHint=STANDARD_LABEL_WIDTH;
     maxInstancesLabel.setLayoutData( gdInstances );
-    this.maxInstancesText = new Spinner( clientInstances, SWT.BORDER );
-    this.maxInstancesText.setMinimum( -1 );
+    this.maxInstancesSpin = new Spinner( clientInstances, SWT.BORDER );
+    this.maxInstancesSpin.setMinimum( -1 );
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
     gdInstances.verticalAlignment = GridData.VERTICAL_ALIGN_CENTER;
     gdInstances.widthHint = 160;
-    this.maxInstancesText.setLayoutData( gdInstances );
-    this.maxInstancesText.addModifyListener( this );
+    this.maxInstancesSpin.setLayoutData( gdInstances );
+    this.maxInstancesSpin.addModifyListener( this );
     // Add section components to the toolkit
     toolkit.adapt( valueLabel, true, true );
     toolkit.adapt( this.nameText, true, true );
@@ -452,8 +452,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
     section.setClient( client );
     toolkit.adapt( minInstancesLabel, true, true );
     toolkit.adapt( maxInstancesLabel, true, true );
-    toolkit.adapt( this.minInstancesText, true, true );
-    toolkit.adapt( this.maxInstancesText, true, true );
+    toolkit.adapt( this.minInstancesSpin, true, true );
+    toolkit.adapt( this.maxInstancesSpin, true, true );
     sectionInstances.setClient( clientInstances );
   }
 
@@ -483,8 +483,8 @@ public class ApplicationComponentNameSection extends GFPropertySection
 //        minInstances = "0"; //$NON-NLS-1$
 //      if( maxInstances.compareTo( "-1" ) == 0 ) //$NON-NLS-1$
 //        maxInstances = "0"; //$NON-NLS-1$
-      this.minInstancesText.setSelection( minInstances );
-      this.maxInstancesText.setSelection( maxInstances );
+      this.minInstancesSpin.setSelection( minInstances );
+      this.maxInstancesSpin.setSelection( maxInstances );
     }
   }
 
@@ -572,35 +572,39 @@ public class ApplicationComponentNameSection extends GFPropertySection
           } );
       }
       // minInstancesText Listener
-      else if( e.widget == this.minInstancesText ) {
+      else if( e.widget == this.minInstancesSpin ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
         editingDomain.getCommandStack()
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
               if( nodeTemplate != null ) {
-                if( ApplicationComponentNameSection.this.minInstancesText.getText()
-                  .equals( "" ) ) { //$NON-NLS-1$
-                  // nodeTemplate.setMinInstances( -1 );
-                } else
-                  nodeTemplate.setMinInstances( Integer.parseInt( ApplicationComponentNameSection.this.minInstancesText.getText() ) );
+                if( ( nodeTemplate.getMinInstances() == -1 ) && ( ((BigInteger) nodeTemplate.getMaxInstances()).intValue() == -1 ) )
+                {
+                    // Do nothing - Default Starting value
+                } else {
+                  nodeTemplate.setMinInstances( ApplicationComponentNameSection.this.minInstancesSpin.getSelection() );                
+
+                }
               }
             }
           } );
       }
       // maxInstancesText Listener
-      else if( e.widget == this.maxInstancesText ) {
+      else if( e.widget == this.maxInstancesSpin ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
         editingDomain.getCommandStack()
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              if( ApplicationComponentNameSection.this.maxInstancesText.getText()
-                .compareTo( "" ) == 0 ) { //$NON-NLS-1$
-                // nodeTemplate.setMaxInstances( ( BigInteger
-                // )BigInteger.valueOf(-1) );
-              } else
-                nodeTemplate.setMaxInstances( ( BigInteger )BigInteger.valueOf( Integer.parseInt( ApplicationComponentNameSection.this.maxInstancesText.getText() ) ) );
+              if( ( nodeTemplate.getMinInstances() == -1 )
+                  && ( ( ( BigInteger )nodeTemplate.getMaxInstances() ).intValue() == -1 ) )
+              {
+                // Do nothing - Default Starting value
+
+              } else {
+                nodeTemplate.setMaxInstances( BigInteger.valueOf( ApplicationComponentNameSection.this.maxInstancesSpin.getSelection() ) );
+              }
             }
           } );
       }

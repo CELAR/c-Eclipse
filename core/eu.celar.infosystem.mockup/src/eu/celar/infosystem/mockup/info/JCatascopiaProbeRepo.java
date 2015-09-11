@@ -11,8 +11,8 @@ import org.json.JSONObject;
 public class JCatascopiaProbeRepo {
     
     private static final String DEFAULT_REPO_HOST = "https://api.github.com/";
-    private static final String DEFAULT_REPO = "JCatascopia-Probe-Repo";
-    private static final String DEFAULT_OWNER = "dtrihinas";
+    private static final String DEFAULT_REPO = "cloud-ms";
+    private static final String DEFAULT_OWNER = "CELAR";
     
     private String repo;
     private String owner;
