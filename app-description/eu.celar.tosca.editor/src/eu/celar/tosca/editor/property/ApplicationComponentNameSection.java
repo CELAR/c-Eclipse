@@ -430,6 +430,7 @@ public class ApplicationComponentNameSection extends GFPropertySection
     gdInstances.widthHint = 160;
     this.minInstancesSpin.setLayoutData( gdInstances );
     this.minInstancesSpin.addModifyListener( this );
+    
     CLabel maxInstancesLabel = factory.createCLabel( clientInstances, "Max:" ); //$NON-NLS-1$
     gdInstances = new GridData();
     gdInstances.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
@@ -552,14 +553,18 @@ public class ApplicationComponentNameSection extends GFPropertySection
       if( bo == null )
         return;
       final TNodeTemplateExtension nodeTemplate;
+      
       if( bo instanceof TDeploymentArtifact ) {
         PictogramElement parentPE = Graphiti.getPeService()
           .getPictogramElementParent( pe );
         nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
           .getBusinessObjectForLinkedPictogramElement( parentPE );
-      } else { // bo instanceof TNodeTemplate
+      } else if (bo instanceof TNodeTemplateExtension) { // bo instanceof TNodeTemplate
         nodeTemplate = ( TNodeTemplateExtension )bo;
+      } else {
+        nodeTemplate = null;
       }
+      
       // nameText Listener
       if( e.widget == this.nameText ) {
         TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -567,7 +572,9 @@ public class ApplicationComponentNameSection extends GFPropertySection
           .execute( new RecordingCommand( editingDomain ) {
 
             protected void doExecute() {
-              nodeTemplate.setName( ApplicationComponentNameSection.this.nameText.getText() );
+              if( nodeTemplate != null ) {
+                nodeTemplate.setName( ApplicationComponentNameSection.this.nameText.getText() );
+              }
             }
           } );
       }
@@ -577,14 +584,11 @@ public class ApplicationComponentNameSection extends GFPropertySection
         editingDomain.getCommandStack()
           .execute( new RecordingCommand( editingDomain ) {
 
+            @Override
             protected void doExecute() {
               if( nodeTemplate != null ) {
-                if( ( nodeTemplate.getMinInstances() == -1 ) && ( ((BigInteger) nodeTemplate.getMaxInstances()).intValue() == -1 ) )
-                {
-                    // Do nothing - Default Starting value
-                } else {
-                  nodeTemplate.setMinInstances( ApplicationComponentNameSection.this.minInstancesSpin.getSelection() );                
-
+                if (ApplicationComponentNameSection.this.minInstancesSpin.getSelection() != nodeTemplate.getMinInstances()) {
+                  nodeTemplate.setMinInstances( ApplicationComponentNameSection.this.minInstancesSpin.getSelection() );      
                 }
               }
             }
@@ -596,15 +600,14 @@ public class ApplicationComponentNameSection extends GFPropertySection
         editingDomain.getCommandStack()
           .execute( new RecordingCommand( editingDomain ) {
 
+            @Override
             protected void doExecute() {
-              if( ( nodeTemplate.getMinInstances() == -1 )
-                  && ( ( ( BigInteger )nodeTemplate.getMaxInstances() ).intValue() == -1 ) )
-              {
-                // Do nothing - Default Starting value
-
-              } else {
+              if (nodeTemplate != null) {
+                if( ApplicationComponentNameSection.this.maxInstancesSpin.getSelection() != ( ( ( BigInteger )nodeTemplate.getMaxInstances() ).intValue() ) )
+                {
                 nodeTemplate.setMaxInstances( BigInteger.valueOf( ApplicationComponentNameSection.this.maxInstancesSpin.getSelection() ) );
-              }
+                }
+            }
             }
           } );
       }
