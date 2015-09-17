@@ -45,8 +45,9 @@ public class ElasticityStrategyDialog extends Dialog {
   protected String elasticityStrategy;
   protected String preScaleAction;
   protected String postScaleAction;
-  private CCombo cmbStrategy;
-  private CCombo cmbMetric;
+  protected Button chkbtnCustomStrategy;
+  protected CCombo cmbStrategy;
+  protected CCombo cmbMetric;
   private CCombo cmbElasticityAction;
   private String nodeName;
   protected Text preScaleText;
@@ -92,41 +93,15 @@ public class ElasticityStrategyDialog extends Dialog {
     this.cmbElasticityAction.setLayoutData( gData );
 //    this.cmbElasticityAction.add( "AddVM" );
 //    this.cmbElasticityAction.add( "RemoveVM" );
-    this.cmbElasticityAction.add( "scaleIn" ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "scaleOut" ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "attachDisk" ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "detachDisk" ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "vmResize" ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "- Select -",0 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "scaleIn", 1 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "scaleOut", 2 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "attachDisk", 3 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "detachDisk", 4 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "vmResize", 5 ); //$NON-NLS-1$
     this.cmbElasticityAction.setText( this.cmbElasticityAction.getItem( 0 ) );
     this.cmbElasticityAction.setEditable( false );
-    
-    // Create New Strategy Group
-    Group customStrategyGroup = new Group( composite, SWT.NONE );
-    customStrategyGroup.setLayout( new GridLayout( 1, false ) );
-    customStrategyGroup.setText( "&Specify New Strategy" ); //$NON-NLS-1$
-//    gData = new GridData( SWT.FILL, SWT.FILL, true, true );
-    gData = new GridData( GridData.FILL_BOTH );
-    customStrategyGroup.setLayoutData( gData );
-    // Combo - GlobalElasticityReq
-    this.cmbStrategy = new CCombo( customStrategyGroup, SWT.BORDER );
-    this.cmbStrategy.setEnabled( true );
-//    gd = new GridData( GridData.FILL_HORIZONTAL );
-    gData = new GridData( GridData.FILL_BOTH );
-    this.cmbStrategy.setLayoutData( gData );
-    this.cmbStrategy.add( "Maximize" ); //$NON-NLS-1$
-    this.cmbStrategy.add( "Minimize" ); //$NON-NLS-1$
-    this.cmbStrategy.setText( this.cmbStrategy.getItem( 0 ) );
-    this.cmbStrategy.setEditable( false );
-    // Combo - Metric
-    this.cmbMetric = new CCombo( customStrategyGroup, SWT.BORDER );
-    this.cmbMetric.setEnabled( true );
-    this.cmbMetric.setEditable( false );
-    gData = new GridData( GridData.FILL_BOTH );
-    this.cmbMetric.setLayoutData( gData );
-    this.cmbMetric.add( "&Cost" ); //$NON-NLS-1$
-    this.cmbMetric.add( "&Throughput" ); //$NON-NLS-1$
-    this.cmbMetric.add( "&Response Time" ); //$NON-NLS-1$
-    
+            
     Group scaleActionsGroup = new Group( composite, SWT.NONE );
     scaleActionsGroup.setLayout( new GridLayout( 3, false ) );
     scaleActionsGroup.setText( "&Scale Actions" ); //$NON-NLS-1$
@@ -200,6 +175,57 @@ public class ElasticityStrategyDialog extends Dialog {
       }
     } );
     
+ // Create New Strategy Group
+    Group customStrategyGroup = new Group( composite, SWT.NONE );
+    customStrategyGroup.setLayout( new GridLayout( 1, false ) );
+    customStrategyGroup.setText( "&Specify New Strategy" ); //$NON-NLS-1$
+    
+//    gData = new GridData( SWT.FILL, SWT.FILL, true, true );
+    gData = new GridData( GridData.FILL_BOTH );
+    customStrategyGroup.setLayoutData( gData );
+    this.chkbtnCustomStrategy = new Button( customStrategyGroup, SWT.CHECK );
+    this.chkbtnCustomStrategy.setText( "Enable" ); //$NON-NLS-1$    
+    // Combo - GlobalElasticityReq
+    this.cmbStrategy = new CCombo( customStrategyGroup, SWT.BORDER );
+    this.cmbStrategy.setEnabled( true );
+//    gd = new GridData( GridData.FILL_HORIZONTAL );
+    gData = new GridData( GridData.FILL_BOTH );
+    this.cmbStrategy.setLayoutData( gData );
+    this.cmbStrategy.add( "- Not Specified -", 0 ); //$NON-NLS-1$
+    this.cmbStrategy.add( "Maximize", 1 ); //$NON-NLS-1$
+    this.cmbStrategy.add( "Minimize", 2 ); //$NON-NLS-1$
+    this.cmbStrategy.setText( this.cmbStrategy.getItem( 0 ) );
+    this.cmbStrategy.setEditable( false );
+    // Combo - Metric
+    this.cmbMetric = new CCombo( customStrategyGroup, SWT.BORDER );
+    this.cmbMetric.setEnabled( true );
+    this.cmbMetric.setEditable( false );
+    gData = new GridData( GridData.FILL_BOTH );
+    this.cmbMetric.setLayoutData( gData );
+    this.cmbMetric.add( "- Not Specified -", 0 ); //$NON-NLS-1$
+    this.cmbMetric.add( "Cost", 1 ); //$NON-NLS-1$
+    this.cmbMetric.add( "Throughput", 2 ); //$NON-NLS-1$
+    this.cmbMetric.add( "Response Time", 3 ); //$NON-NLS-1$
+    this.cmbMetric.setText( this.cmbStrategy.getItem( 0 ) );
+    
+    this.chkbtnCustomStrategy.addSelectionListener(  new SelectionListener() {
+      
+      @Override
+      public void widgetSelected( final SelectionEvent e ) {
+        boolean enabled = ElasticityStrategyDialog.this.chkbtnCustomStrategy.getSelection();
+          ElasticityStrategyDialog.this.cmbStrategy.setEnabled( enabled );
+          ElasticityStrategyDialog.this.cmbMetric.setEnabled( enabled );
+      }
+      
+      @Override
+      public void widgetDefaultSelected( final SelectionEvent e ) {
+        // TODO Auto-generated method stub
+      }
+    } );
+    this.chkbtnCustomStrategy.setSelection( false );
+    this.cmbStrategy.setEnabled( false );
+    this.cmbMetric.setEnabled( false );
+    
     return composite;
   }
 
@@ -245,18 +271,32 @@ public class ElasticityStrategyDialog extends Dialog {
   
   @Override
   protected void okPressed() {
-    if( !( this.cmbMetric.getText().equals( "" ) ) ) { //$NON-NLS-1$
-      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
-                                                         + " (" //$NON-NLS-1$
-                                                         + this.cmbMetric.getText()
-                                                         + ")"; //$NON-NLS-1$
-    } else {
-      //ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText();
-      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
-          + " (" //$NON-NLS-1$
-          + this.nodeName
-          + ")"; //$NON-NLS-1$
-    }
-    super.okPressed();
+    
+      if( !( this.cmbMetric.getText().equals( "" ) ) ) { //$NON-NLS-1$
+        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
+                                                           + " (" //$NON-NLS-1$
+                                                           + this.cmbMetric.getText()
+                                                           + ")"; //$NON-NLS-1$
+      } else {
+        // ElasticityStrategyDialog.this.elasticityStrategy =
+        // this.cmbElasticityAction.getText();
+        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
+                                                           + " (" //$NON-NLS-1$
+                                                           + this.nodeName
+                                                           + ")"; //$NON-NLS-1$
+      }
+      super.okPressed();
+  }
+
+  /**
+   * @return
+   */
+  private boolean checkFields() {
+    boolean result = false;
+    
+    
+    
+    return result;
+    
   }
 }
