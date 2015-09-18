@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
@@ -82,7 +83,7 @@ public class ElasticityStrategyDialog extends Dialog {
     // Choose from Supported Elasticity Actions Group
     Group elasticityActionsGroup = new Group( composite, SWT.NONE );
     elasticityActionsGroup.setLayout( new GridLayout( 1, false ) );
-    elasticityActionsGroup.setText( "&Select Strategy" ); //$NON-NLS-1$
+    elasticityActionsGroup.setText( "&Pre-defined Strategies" ); //$NON-NLS-1$
     GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true );
     elasticityActionsGroup.setLayoutData( gData );
     
@@ -178,7 +179,7 @@ public class ElasticityStrategyDialog extends Dialog {
  // Create New Strategy Group
     Group customStrategyGroup = new Group( composite, SWT.NONE );
     customStrategyGroup.setLayout( new GridLayout( 1, false ) );
-    customStrategyGroup.setText( "&Specify New Strategy" ); //$NON-NLS-1$
+    customStrategyGroup.setText( "&Specify New Smart Strategy" ); //$NON-NLS-1$
     
 //    gData = new GridData( SWT.FILL, SWT.FILL, true, true );
     gData = new GridData( GridData.FILL_BOTH );
@@ -272,31 +273,46 @@ public class ElasticityStrategyDialog extends Dialog {
   @Override
   protected void okPressed() {
     
-      if( !( this.cmbMetric.getText().equals( "" ) ) ) { //$NON-NLS-1$
-        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
-                                                           + " (" //$NON-NLS-1$
-                                                           + this.cmbMetric.getText()
-                                                           + ")"; //$NON-NLS-1$
+    boolean checked = false;
+    
+    if (this.chkbtnCustomStrategy.getSelection() == true) {
+      if (this.cmbStrategy.getSelectionIndex() == 0) {
+        MessageDialog.openWarning( this.getShell(), "Warning", "Please select a Strategy from the dropdown list." ); //$NON-NLS-1$ //$NON-NLS-2$
+        this.cmbStrategy.setFocus();
+      } else if (this.cmbMetric.getSelectionIndex() == 0) {
+        MessageDialog.openWarning( this.getShell(), "Warning", "Please select a Metric from the dropdown list." ); //$NON-NLS-1$ //$NON-NLS-2$
+        this.cmbMetric.setFocus();
       } else {
-        // ElasticityStrategyDialog.this.elasticityStrategy =
-        // this.cmbElasticityAction.getText();
-        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
-                                                           + " (" //$NON-NLS-1$
-                                                           + this.nodeName
-                                                           + ")"; //$NON-NLS-1$
+        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
+            + " (" //$NON-NLS-1$
+            + this.cmbMetric.getText()
+            + ")"; //$NON-NLS-1$
+        checked = true;
       }
+    } else {
+      ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
+          + " (" //$NON-NLS-1$
+          + this.nodeName
+          + ")"; //$NON-NLS-1$
+      checked = true;
+    }
+    
+//      if( !( this.cmbMetric.getText().equals( "" ) ) ) { //$NON-NLS-1$
+//        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
+//                                                           + " (" //$NON-NLS-1$
+//                                                           + this.cmbMetric.getText()
+//                                                           + ")"; //$NON-NLS-1$
+//      } else {
+//        // ElasticityStrategyDialog.this.elasticityStrategy =
+//        // this.cmbElasticityAction.getText();
+//        ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
+//                                                           + " (" //$NON-NLS-1$
+//                                                           + this.nodeName
+//                                                           + ")"; //$NON-NLS-1$
+//      }
+    if( checked ) {
       super.okPressed();
+    }
   }
 
-  /**
-   * @return
-   */
-  private boolean checkFields() {
-    boolean result = false;
-    
-    
-    
-    return result;
-    
-  }
 }

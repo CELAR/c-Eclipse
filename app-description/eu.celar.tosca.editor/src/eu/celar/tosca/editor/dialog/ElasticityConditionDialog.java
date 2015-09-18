@@ -10,7 +10,6 @@ package eu.celar.tosca.editor.dialog;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -37,10 +36,7 @@ import org.example.sybl.BinaryRestriction;
 import org.example.sybl.ConditionType;
 import org.example.sybl.LeftHandSideType;
 import org.example.sybl.RightHandSideType;
-import org.example.sybl.SYBLSpecificationType;
-import org.example.sybl.Strategy;
 import org.example.sybl.SyblFactory;
-import org.example.sybl.ToEnforceType;
 import org.example.sybl.UnaryRestriction;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
@@ -52,8 +48,11 @@ import eu.celar.tosca.TBoundaryDefinitions;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TServiceTemplate;
 import eu.celar.tosca.editor.ToscaModelLayer;
-import eu.celar.tosca.elasticity.TBoundaryDefinitionsExtension;
 
+/**
+ * @author Nicholas Loulloudes
+ *
+ */
 public class ElasticityConditionDialog extends Dialog {
 
 
