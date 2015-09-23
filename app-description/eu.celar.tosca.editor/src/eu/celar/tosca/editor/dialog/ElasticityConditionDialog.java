@@ -10,6 +10,10 @@ package eu.celar.tosca.editor.dialog;
 
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -19,6 +23,8 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.graphiti.features.ICreateFeature;
+import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -38,6 +44,9 @@ import org.example.sybl.LeftHandSideType;
 import org.example.sybl.RightHandSideType;
 import org.example.sybl.SyblFactory;
 import org.example.sybl.UnaryRestriction;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
@@ -45,9 +54,13 @@ import eu.celar.infosystem.model.base.MonitoringProbe;
 import eu.celar.tosca.DocumentRoot;
 import eu.celar.tosca.PoliciesType1;
 import eu.celar.tosca.TBoundaryDefinitions;
+import eu.celar.tosca.TDeploymentArtifact;
 import eu.celar.tosca.TNodeTemplate;
+import eu.celar.tosca.TPolicy;
 import eu.celar.tosca.TServiceTemplate;
+import eu.celar.tosca.ToscaFactory;
 import eu.celar.tosca.editor.ToscaModelLayer;
+import eu.celar.tosca.editor.features.CreateMonitorProbeFeature;
 
 /**
  * @author Nicholas Loulloudes
@@ -106,7 +119,7 @@ public class ElasticityConditionDialog extends Dialog {
   @Override
   protected void configureShell( final Shell shell ) {
     super.configureShell( shell );
-    shell.setText( "Apply Strategy Under Condition" );
+    shell.setText( "Apply Strategy Under Condition" ); //$NON-NLS-1$
     shell.setSize( 330, 400 );
  
   }
@@ -131,7 +144,7 @@ public class ElasticityConditionDialog extends Dialog {
     
     Group newConstraintGroup = new Group( composite, SWT.NONE );
     newConstraintGroup.setLayout( new GridLayout( 1, false ) );
-    newConstraintGroup.setText( "&Specify New Condition" );
+    newConstraintGroup.setText( "&Specify New Condition" ); //$NON-NLS-1$
     GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true );
     newConstraintGroup.setLayoutData( gData );
     
@@ -161,22 +174,22 @@ public class ElasticityConditionDialog extends Dialog {
     this.cmbGlobalElasticityReq.setEnabled( true );
     gd = new GridData( 212, 20 );
     this.cmbGlobalElasticityReq.setLayoutData( gd );
+    this.cmbGlobalElasticityReq.add(  "- Not Specified -", 0 ); //$NON-NLS-1$
+    int idx = 1;
 
-    ArrayList<MonitoringProbe> mps = getMetrics();
-    for (MonitoringProbe mp : mps){
-      String metricsString = mp.getDescription();
-      if (metricsString.equals( "" )==false){
-        metricsString = metricsString.substring( 2, metricsString.length()-2 );
-        metricsString = metricsString.replace( "\"", "" );
-      String[] metrics = metricsString.split( "," );
-      for (String metric : metrics)
-        this.cmbGlobalElasticityReq.add(metric);
-      }
-      else{
-        this.cmbGlobalElasticityReq.add(mp.getName());
-      }
+    ArrayList<String> mps = getMetrics();
+    
+    if (mps != null) {
+      for( String metric : mps ) {
+        this.cmbGlobalElasticityReq.add( metric, idx );
+        idx++;
+      }  
     }
-    this.cmbGlobalElasticityReq.add("Cost");
+    
+    this.cmbGlobalElasticityReq.add( "CostPerHour ($)", idx++ ); //$NON-NLS-1$
+    this.cmbGlobalElasticityReq.add( "Response Time", idx++ ); //$NON-NLS-1$
+    
+    this.cmbGlobalElasticityReq.setText( this.cmbGlobalElasticityReq.getItem( 0 ) );
 
     Composite valueComposite = new Composite( newConstraintComposite, SWT.NONE );
     gLayout = new GridLayout( 3, false );
@@ -220,7 +233,7 @@ public class ElasticityConditionDialog extends Dialog {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Group constraintGroup = new Group( composite, SWT.NONE );
     constraintGroup.setLayout( new GridLayout( 1, false ) );
-    constraintGroup.setText( "&Select Constraint" );
+    constraintGroup.setText( "&Select Constraint" ); //$NON-NLS-1$
     gData = new GridData( SWT.FILL, SWT.FILL, true, true );
     constraintGroup.setLayoutData( gData );
     
@@ -234,7 +247,7 @@ public class ElasticityConditionDialog extends Dialog {
     
     // Condition label
     this.lblCondition = new Label( constraintComposite, SWT.NONE );
-    this.lblCondition.setText( "When fulfilled Constraint:" );
+    this.lblCondition.setText( "When fulfilled Constraint:" ); //$NON-NLS-1$
     gd = new GridData( GridData.FILL_HORIZONTAL );
     gd.widthHint = 280;
     this.lblCondition.setLayoutData( gd );
@@ -256,13 +269,13 @@ public class ElasticityConditionDialog extends Dialog {
         }
     }  
     
-    this.cmbCondition.setText( "" );
+    this.cmbCondition.setText( "" ); //$NON-NLS-1$
     
     this.cmbCondition.addModifyListener( new ModifyListener() {
 
       @Override
       public void modifyText( ModifyEvent e ) {
-        if (ElasticityConditionDialog.this.cmbCondition.getText() != ""){
+        if (ElasticityConditionDialog.this.cmbCondition.getText() != ""){ //$NON-NLS-1$
           ElasticityConditionDialog.this.conditionSelected = true;
         }
         
@@ -272,7 +285,7 @@ public class ElasticityConditionDialog extends Dialog {
 
     // Condition label
     this.lblCondition2 = new Label( constraintComposite, SWT.NONE );
-    this.lblCondition2.setText( "When violated Constraint:" );
+    this.lblCondition2.setText( "When violated Constraint:" ); //$NON-NLS-1$
     gd = new GridData( GridData.FILL_HORIZONTAL );
     gd.widthHint = 280;
     this.lblCondition2.setLayoutData( gd );
@@ -284,19 +297,19 @@ public class ElasticityConditionDialog extends Dialog {
     gd = new GridData( GridData.FILL_HORIZONTAL );
     this.cmbCondition2.setLayoutData( gd );
     
-    if ( elasticityConstraints.size() > 0 ){
-        for ( String constraint : elasticityConstraints ){
-            this.cmbCondition2.add(constraint);
-        }
-    }  
+    if( elasticityConstraints.size() > 0 ) {
+      for( String constraint : elasticityConstraints ) {
+        this.cmbCondition2.add( constraint );
+      }
+    } 
     
-    this.cmbCondition2.setText( "" );
+    this.cmbCondition2.setText( "" ); //$NON-NLS-1$
     
     this.cmbCondition2.addModifyListener( new ModifyListener() {
 
       @Override
       public void modifyText( ModifyEvent e ) {
-        if (ElasticityConditionDialog.this.cmbCondition2.getText() != ""){
+        if (ElasticityConditionDialog.this.cmbCondition2.getText() != ""){ //$NON-NLS-1$
           ElasticityConditionDialog.this.conditionSelected2 = true;
         }
         
@@ -307,38 +320,66 @@ public class ElasticityConditionDialog extends Dialog {
     return composite;
   }
 
-  public ArrayList<MonitoringProbe> getMetrics(){
-    
+  /**
+   * @return The list of metrics
+   */
+  public ArrayList<String> getMetrics() {
+    ArrayList<String> result = new ArrayList<>();
     ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
-        .getMonitoringProbes();
-        
-        ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
-        
-    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" );
-
-    if( monitoringProbesProject.exists() ) {
-      IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
-      IResource[] artifactsResource = null;
+      .getMonitoringProbes();
+    
+    for( MonitoringProbe mp : mps ) {
+      String metricsString = mp.getMetrics();
+      String metrics = "{\"metrics\":" + metricsString + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+      JSONObject obj = null;
+      JSONArray metrics_array = null;
       try {
-        artifactsResource = srcFolder.members();
-      } catch( CoreException e ) {
-        // TODO Auto-generated catch block
+        obj = new JSONObject( metrics );
+        metrics_array = obj.getJSONArray( "metrics" ); //$NON-NLS-1$
+      } catch( JSONException e ) {
         e.printStackTrace();
       }
-      for( IResource tempResource : artifactsResource ) {
-        if( tempResource instanceof IFile ) {
-          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
-          mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
-          mp.setDescription( "" );
-          // add new probe to monitoring list
-          mpsCopy.add( 0, mp );
+      for( int i = 0; i < metrics_array.length(); i++ ) {
+        String metricLabel = null;
+        String metricDescription = null;
+        try {
+          metricLabel = metrics_array.getJSONObject( i ).getString( "name" ); //$NON-NLS-1$
+          metricDescription = metrics_array.getJSONObject( i )
+            .getString( "desc" ); //$NON-NLS-1$
+        } catch( JSONException e ) {
+          e.printStackTrace();
         }
+        result.add( metricLabel );
       }
     }
     
-    return mpsCopy;
+    // ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe>
+    // )mps.clone();
+    //
+    // IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    // IProject monitoringProbesProject = workspaceRoot.getProject(
+    // "MonitoringProbe" );
+    //
+    // if( monitoringProbesProject.exists() ) {
+    // IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+    // IResource[] artifactsResource = null;
+    // try {
+    // artifactsResource = srcFolder.members();
+    // } catch( CoreException e ) {
+    // e.printStackTrace();
+    // }
+    // for( IResource tempResource : artifactsResource ) {
+    // if( tempResource instanceof IFile ) {
+    // MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+    // mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
+    // mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
+    // mp.setDescription( "" );
+    // // add new probe to monitoring list
+    // mpsCopy.add( 0, mp );
+    // }
+    // }
+    // }
+    return result;
   }
   
   // Returns all global, composite and component level elasticity constraints;
@@ -363,9 +404,10 @@ public class ElasticityConditionDialog extends Dialog {
 			
 				  for ( int k=0; k<globalPolicies.getPolicy().size(); k++){
 						  
-					  if ( globalPolicies.getPolicy().get(k).getPolicyType().toString().contains( "Constraint" ) ){
-						  constraints.add(globalPolicies.getPolicy().get(k).getName());
-					  }
+					  if ( globalPolicies.getPolicy().get(k).getPolicyType().toString().contains( "Constraint" ) ){ //$NON-NLS-1$
+					      TPolicy tPolicy = globalPolicies.getPolicy().get(k);
+						  constraints.add(tPolicy.getName() + " (" + tPolicy.getPolicyRef().toString() + ")" );  //$NON-NLS-1$//$NON-NLS-2$
+					  } 
 				  }
 
 			  }
@@ -380,8 +422,9 @@ public class ElasticityConditionDialog extends Dialog {
 				  if ( tempNodeTemplate.getPolicies() != null && tempNodeTemplate.getPolicies().getPolicy() != null ){
 					  for ( int j=0; j<tempNodeTemplate.getPolicies().getPolicy().size(); j++){
 						  
-						  if (tempNodeTemplate.getPolicies().getPolicy().get(j).getPolicyType().toString().contains( "Constraint" ) ){
-							  constraints.add(tempNodeTemplate.getPolicies().getPolicy().get(j).getName());
+						  if (tempNodeTemplate.getPolicies().getPolicy().get(j).getPolicyType().toString().contains( "Constraint" ) ){ //$NON-NLS-1$
+						      TPolicy tPolicy = tempNodeTemplate.getPolicies().getPolicy().get(j);
+	                          constraints.add(tPolicy.getName() + " (" + tPolicy.getPolicyRef().toString() + ")" );  //$NON-NLS-1$//$NON-NLS-2$
 						  }
 					  }
 				  }
@@ -418,7 +461,7 @@ public class ElasticityConditionDialog extends Dialog {
     conditionRight.setNumber( this.conditionRight );
     br.setRightHandSide( conditionRight );
     UnaryRestriction ur = SyblFactory.eINSTANCE.createUnaryRestriction();
-    ur.setType( "hi4" );
+    ur.setType( "hi4" ); //$NON-NLS-1$
     strategyCondition.getBinaryRestrictionsConjunction().add( br );
     strategyCondition.getUnaryRestrictionsConjunction().add( ur );
     
@@ -433,17 +476,34 @@ public class ElasticityConditionDialog extends Dialog {
     ElasticityConditionDialog.this.conditionLeft = this.cmbGlobalElasticityReq.getText();
     ElasticityConditionDialog.this.conditionRight = this.valueText.getText();
     ElasticityConditionDialog.this.conditionOperator = this.cmbOperator.getText();
+    
+
+//    String conditionID = this.cmbCondition.getText().split("/{([^}]*)/")[1]; //$NON-NLS-1$
     if ( this.conditionSelected ){
-      ElasticityConditionDialog.this.condition = "CASE fulfilled(" + this.cmbCondition.getText().split( ":" )[0] + "):";
+//      ElasticityConditionDialog.this.condition = "CASE fulfilled(" + this.cmbCondition.getText().split( ":" )[0] + "):"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      ElasticityConditionDialog.this.condition = "CASE fulfilled(" + getPolicyRef( this.cmbCondition.getText() ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ 
     }
     else if ( this.conditionSelected2 ){
-    	ElasticityConditionDialog.this.condition = "CASE violated(" + this.cmbCondition2.getText().split( ":" )[0] + "):";
+      ElasticityConditionDialog.this.condition = "CASE violated(" + getPolicyRef( this.cmbCondition2.getText() ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ 
+//    	ElasticityConditionDialog.this.condition = "CASE violated(" + this.cmbCondition2.getText().split( ":" )[0] + "):"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
     else {      
-      ElasticityConditionDialog.this.condition = "CASE " + this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText();
+      ElasticityConditionDialog.this.condition = "CASE " + this.cmbGlobalElasticityReq.getText() + this.cmbOperator.getText() + this.valueText.getText(); //$NON-NLS-1$
     }
                                                                                              
     super.okPressed();
+  }
+
+  private static final String getPolicyRef( final String condition ) {
+    String ref = null;
+    Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(condition); //$NON-NLS-1$
+    while(m.find()) {
+      ref = m.group(1);
+    }
+    if (ref == null){
+      ref = "EMPTY"; //$NON-NLS-1$
+    }
+    return ref;
   }
 }
 

@@ -26,6 +26,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import eu.celar.infosystem.mockup.info.MockUpInfoSystem;
 import eu.celar.infosystem.model.base.InfoSystemFactory;
@@ -84,20 +87,15 @@ public class ElasticityConstraintDialog extends Dialog {
     
     int idx = 1;
     
-    ArrayList<MonitoringProbe> mps = getMetrics();
-    for( MonitoringProbe mp : mps ) {
-      String metricsString = mp.getDescription();
-      if( metricsString.equals( "" ) == false ) { //$NON-NLS-1$
-        metricsString = metricsString.substring( 2, metricsString.length() - 2 );
-        metricsString = metricsString.replace( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-        String[] metrics = metricsString.split( "," ); //$NON-NLS-1$
-        for( String metric : metrics )
-          this.cmbGlobalElasticityReq.add( metric, idx );
-          idx++;
-      } else {
-        this.cmbGlobalElasticityReq.add( mp.getName(), idx );
-      }
-    }    
+    ArrayList<String> metrics = getMetrics();
+    
+    if (metrics != null) {
+      for( String metric : metrics ) {
+        this.cmbGlobalElasticityReq.add( metric, idx );
+        idx++;
+      }  
+    }
+    
     this.cmbGlobalElasticityReq.add( "CostPerHour ($)", idx++ ); //$NON-NLS-1$
     this.cmbGlobalElasticityReq.add( "Response Time", idx++ ); //$NON-NLS-1$
     
@@ -125,52 +123,64 @@ public class ElasticityConstraintDialog extends Dialog {
     return composite;
   }
 
-  public ArrayList<MonitoringProbe> getMetrics() {
+  public ArrayList<String> getMetrics() {
+    ArrayList<String> result = new ArrayList<>();
     ArrayList<MonitoringProbe> mps = MockUpInfoSystem.getInstance()
       .getMonitoringProbes();
-    @SuppressWarnings("unchecked")
-    ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe> )mps.clone();
-    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject monitoringProbesProject = workspaceRoot.getProject( "MonitoringProbe" ); //$NON-NLS-1$
-    if( monitoringProbesProject.exists() ) {
-      IFolder srcFolder = monitoringProbesProject.getFolder( "src" ); //$NON-NLS-1$
-      IResource[] artifactsResource = null;
+    
+    for( MonitoringProbe mp : mps ) {
+      String metricsString = mp.getMetrics();
+      String metrics = "{\"metrics\":" + metricsString + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+      JSONObject obj = null;
+      JSONArray metrics_array = null;
       try {
-        artifactsResource = srcFolder.members();
-      } catch( CoreException e ) {
-        // TODO Auto-generated catch block
+        obj = new JSONObject( metrics );
+        metrics_array = obj.getJSONArray( "metrics" ); //$NON-NLS-1$
+      } catch( JSONException e ) {
         e.printStackTrace();
       }
-      
-      
+      for( int i = 0; i < metrics_array.length(); i++ ) {
+        String metricLabel = null;
+        String metricDescription = null;
+        try {
+          metricLabel = metrics_array.getJSONObject( i ).getString( "name" ); //$NON-NLS-1$
+          metricDescription = metrics_array.getJSONObject( i )
+            .getString( "desc" ); //$NON-NLS-1$
+        } catch( JSONException e ) {
+          e.printStackTrace();
+        }
+        result.add( metricLabel );
       }
-      String[] properties = {"queueLength", "avgCpuUsage", "avgMemoryUsage", "workerUtilisation", "rewardLostToQueueing", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-      "rewardLostToSmallWorkers", "totalReward"}; //$NON-NLS-1$ //$NON-NLS-2$
-      
-      for (int i=0; i<properties.length; i++) {
-        String s = properties[i];
-        MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-        mp.setUID( s );
-        mp.setName( s );
-        mp.setDescription( "" ); //$NON-NLS-1$
-        mpsCopy.add( mp );
-      }
-      
-      
-//      for( IResource tempResource : artifactsResource ) {
-//        if( tempResource instanceof IFile ) {
-//          MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
-//          mp.setUID( tempResource.getName().replaceFirst( ".java", "" ) );
-//          mp.setName( tempResource.getName().replaceFirst( ".java", "" ) );
-//          mp.setDescription( "" );
-//          // add new probe to monitoring list
-//          mpsCopy.add( 0, mp );
-//        }
-//      }
-//    }
-    return mpsCopy;
+    }
+    
+    // ArrayList<MonitoringProbe> mpsCopy = ( ArrayList<MonitoringProbe>
+    // )mps.clone();
+    //
+    // IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    // IProject monitoringProbesProject = workspaceRoot.getProject(
+    // "MonitoringProbe" );
+    //
+    // if( monitoringProbesProject.exists() ) {
+    // IFolder srcFolder = monitoringProbesProject.getFolder( "src" );
+    // IResource[] artifactsResource = null;
+    // try {
+    // artifactsResource = srcFolder.members();
+    // } catch( CoreException e ) {
+    // e.printStackTrace();
+    // }
+    // for( IResource tempResource : artifactsResource ) {
+    // if( tempResource instanceof IFile ) {
+    // MonitoringProbe mp = InfoSystemFactory.eINSTANCE.createMonitoringProbe();
+    // mp.setUID( tempResource.getName().replaceFirst( ".java", "" ));
+    // mp.setName( tempResource.getName().replaceFirst( ".java", "" ));
+    // mp.setDescription( "" );
+    // // add new probe to monitoring list
+    // mpsCopy.add( 0, mp );
+    // }
+    // }
+    // }
+    return result;
   }
-
   /**
    * @return The Elasticity Constraint
    */
