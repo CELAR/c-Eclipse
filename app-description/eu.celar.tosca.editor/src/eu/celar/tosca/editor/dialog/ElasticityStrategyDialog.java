@@ -92,14 +92,13 @@ public class ElasticityStrategyDialog extends Dialog {
     this.cmbElasticityAction.setEnabled( true );
     gData = new GridData( GridData.FILL_BOTH );
     this.cmbElasticityAction.setLayoutData( gData );
-//    this.cmbElasticityAction.add( "AddVM" );
-//    this.cmbElasticityAction.add( "RemoveVM" );
     this.cmbElasticityAction.add( "- Select -",0 ); //$NON-NLS-1$
     this.cmbElasticityAction.add( "scaleIn", 1 ); //$NON-NLS-1$
     this.cmbElasticityAction.add( "scaleOut", 2 ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "attachDisk", 3 ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "detachDisk", 4 ); //$NON-NLS-1$
-    this.cmbElasticityAction.add( "vmResize", 5 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "scaleDiagonal" ,3); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "attachDisk", 4 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "detachDisk", 5 ); //$NON-NLS-1$
+    this.cmbElasticityAction.add( "vmResize", 6 ); //$NON-NLS-1$
     this.cmbElasticityAction.setText( this.cmbElasticityAction.getItem( 0 ) );
     this.cmbElasticityAction.setEditable( false );
             
@@ -284,14 +283,14 @@ public class ElasticityStrategyDialog extends Dialog {
         this.cmbMetric.setFocus();
       } else {
         ElasticityStrategyDialog.this.elasticityStrategy = this.cmbStrategy.getText()
-            + " (" //$NON-NLS-1$
+            + "(" //$NON-NLS-1$
             + this.cmbMetric.getText()
             + ")"; //$NON-NLS-1$
         checked = true;
       }
     } else {
       ElasticityStrategyDialog.this.elasticityStrategy = this.cmbElasticityAction.getText()
-          + " (" //$NON-NLS-1$
+          + "(" //$NON-NLS-1$
           + this.nodeName
           + ")"; //$NON-NLS-1$
       checked = true;

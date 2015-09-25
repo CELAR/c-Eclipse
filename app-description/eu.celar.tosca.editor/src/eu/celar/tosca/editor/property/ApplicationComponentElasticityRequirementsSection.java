@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -66,6 +69,7 @@ import eu.celar.tosca.PropertiesType;
 import eu.celar.tosca.TArtifactReference;
 import eu.celar.tosca.TArtifactTemplate;
 import eu.celar.tosca.TDeploymentArtifact;
+import eu.celar.tosca.TImplementationArtifact;
 import eu.celar.tosca.TImplementationArtifacts;
 import eu.celar.tosca.TNodeTemplate;
 import eu.celar.tosca.TNodeTypeImplementation;
@@ -574,15 +578,17 @@ public class ApplicationComponentElasticityRequirementsSection
   }
 
   // Remove the selected Application Component Elasticity Requirement from TOSCA
-  void removeApplicationComponentElasticityRequirement( final TPolicy selectedObject )
-  {
+  void removeApplicationComponentElasticityRequirement( final TPolicy selectedObject ) {
+    
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
     if( pe != null ) {
       bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement( pe );
     }
+    
     final TNodeTemplateExtension nodeTemplate;
+    
     if( bo instanceof TDeploymentArtifact ) {
       PictogramElement parentPE = Graphiti.getPeService()
         .getPictogramElementParent( pe );
@@ -591,6 +597,7 @@ public class ApplicationComponentElasticityRequirementsSection
     } else { // bo instanceof TNodeTemplate
       nodeTemplate = ( TNodeTemplateExtension )bo;
     }
+    
     PoliciesType nodePolicyList = nodeTemplate.getPolicies();
     final EList<TPolicy> policy = nodePolicyList.getPolicy();
     TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
@@ -692,45 +699,124 @@ public class ApplicationComponentElasticityRequirementsSection
   }
 
   // Remove Application Component Elasticity Action
-  void removeApplicationComponentResizingAction( final TPolicy selectedObject )
-  {
+  void removeApplicationComponentResizingAction( final TPolicy selectedObject )  {
+    
     PictogramElement pe = getSelectedPictogramElement();
     Object bo = null;
+    
     if( pe != null ) {
-      bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( pe );
+      bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement( pe );
     }
+    
     final TNodeTemplateExtension nodeTemplate;
-    if( bo instanceof TDeploymentArtifact ) {
-      PictogramElement parentPE = Graphiti.getPeService()
-        .getPictogramElementParent( pe );
-      nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement( parentPE );
-    } else { // bo instanceof TNodeTemplate
-      nodeTemplate = ( TNodeTemplateExtension )bo;
-    }
-    PoliciesType nodePolicyList = nodeTemplate.getPolicies();
-    final EList<TPolicy> policy = nodePolicyList.getPolicy();
-    TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
-    editingDomain.getCommandStack()
-      .execute( new RecordingCommand( editingDomain ) {
-
+    if( bo != null ) {
+      
+      if( bo instanceof TDeploymentArtifact ) {
+        PictogramElement parentPE = Graphiti.getPeService()
+            .getPictogramElementParent( pe );
+        nodeTemplate = ( TNodeTemplateExtension )Graphiti.getLinkService()
+            .getBusinessObjectForLinkedPictogramElement( parentPE );
+      } else { // bo instanceof TNodeTemplate
+        nodeTemplate = ( TNodeTemplateExtension )bo;
+      }
+      
+      PoliciesType nodePolicyList = nodeTemplate.getPolicies();    
+      
+      final EList<TPolicy> policy = nodePolicyList.getPolicy();
+      final TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain( bo );
+      editingDomain.getCommandStack().execute( new RecordingCommand( editingDomain ) {
+        
         @Override
         protected void doExecute() {
-          for( TPolicy tempPolicy : policy ) {
-            if( tempPolicy.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
-              if( tempPolicy.getName().compareTo( selectedObject.getName() ) == 0 )
-              {
-                policy.remove( tempPolicy );
+          for( TPolicy p : policy ) {
+            if( p.getPolicyType().toString().contains( "Strategy" ) ) //$NON-NLS-1$
+              if( p.getName().compareTo( selectedObject.getName() ) == 0 ) {
+                checkAndRemoveNodeTypeImplementation( editingDomain, p.getName() );
+                policy.remove( p );
                 if( policy.size() == 0 )
                   nodeTemplate.setPolicies( null );
                 break;
               }
           }
         }
+        
+        
       } );
-    this.appComponentResizingActions.remove( selectedObject );
-    this.tableResizingActionsViewer.refresh();
+      this.appComponentResizingActions.remove( selectedObject );
+      this.tableResizingActionsViewer.refresh();
+    }
+  }
+  
+  protected static final String getPolicyType( final String name ) {
+    String ref = null;
+    Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(name); //$NON-NLS-1$
+    while(m.find()) {
+      ref = m.group(1);
+    }
+    if (ref == null){
+      ref = "EMPTY"; //$NON-NLS-1$
+    }
+    return ref;
+  }
+  
+  protected void checkAndRemoveNodeTypeImplementation( final TransactionalEditingDomain editingDomain,
+                                                       final String name )
+  {
+    
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    final DefinitionsType definitions = model.getDocumentRoot()
+      .getDefinitions();
+    // Test if NodeTypeImplementation for nodeType already exists
+    final EList<TNodeTypeImplementation> nodeTypeImplementations = definitions.getNodeTypeImplementation();
+    if( nodeTypeImplementations != null ) {
+      editingDomain.getCommandStack()
+      .execute( new RecordingCommand( editingDomain ) {
+
+        @Override
+        protected void doExecute() {
+          String type = getPolicyType( name );
+          for( TNodeTypeImplementation ntI : nodeTypeImplementations ) {
+            if( ntI.getNodeType().toString().equals( type ) ) {
+              final TImplementationArtifacts tI = ntI.getImplementationArtifacts();
+              
+                    for( TImplementationArtifact artifact : tI.getImplementationArtifact() )
+                    {
+                      String ref = artifact.getArtifactRef().toString();
+                      checkAndRemoveArtifact( editingDomain, ref );
+                    }
+                    // remove Node Type Implementation
+                    nodeTypeImplementations.remove( ntI );
+                  }
+            }
+          
+        }
+        
+      });
+      
+    }
+  }
+
+  /**
+   * @param editingDomain 
+   * @param ref
+   */
+  protected void checkAndRemoveArtifact( final TransactionalEditingDomain editingDomain, final String ref ) {
+    final ToscaModelLayer model = ModelHandler.getModel( EcoreUtil.getURI( getDiagram() ) );
+    final DefinitionsType definitions = model.getDocumentRoot().getDefinitions();
+    final EList<TArtifactTemplate> artifactTemplates = definitions.getArtifactTemplate();
+    
+    editingDomain.getCommandStack().execute( new RecordingCommand(editingDomain) {
+      
+      @Override
+      protected void doExecute() {
+        for( TArtifactTemplate tArtifactTemplate : artifactTemplates ) {
+          if (tArtifactTemplate.getId().equals( ref )){
+            artifactTemplates.remove( tArtifactTemplate );
+          }
+        }
+      }
+    } );    
+    
   }
 
   void addResizingActionExecutable( final Composite parent,
